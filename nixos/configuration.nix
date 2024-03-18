@@ -4,9 +4,12 @@
   nixpkgs.config.allowUnfree = true;
   imports =
     [
-      ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.default
-
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.default
+    ./modules/bootloader-uefi.nix
+    ./modules/nvidia.nix
+    ./modules/services.nix
+    ./modules/zfs.nix
     ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   ##  Networking
@@ -24,7 +27,7 @@
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
-      "winder" = import ./home.nix;
+      "winder" = import ../user/home.nix;
     };
   };
   # Define a user account.

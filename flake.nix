@@ -36,11 +36,7 @@
         winder = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs; };
           modules = [
-            ./hosts/default/configuration.nix
-            ./modules/nixos/bootloader-uefi.nix
-            ./modules/nixos/nvidia.nix
-            ./modules/nixos/services.nix
-            ./modules/nixos/zfs.nix
+            ./nixos/configuration.nix
           ];
         };
       };

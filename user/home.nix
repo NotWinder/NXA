@@ -3,7 +3,7 @@
 {
   imports =
     [
-      ../../modules/home-manager/all.nix
+      ./modules/all.nix
     ];
 
   # Home Manager needs a bit of information about you and the paths it should
