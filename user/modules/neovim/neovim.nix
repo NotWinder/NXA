@@ -4,10 +4,10 @@
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
-    extraLuaConfig = ''
+   extraLuaConfig = ''
 
-    ${builtins.readFile ./non-nix/nvim/init.lua}
+   ${builtins.readFile ./nvim/init.lua}
 
-    '';
+   '';
   };
 }
