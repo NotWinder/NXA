@@ -31,5 +31,5 @@ while ! eww active-windows | grep -q "centerPanel"; do
     sleep 1
 done
 
-ensure_running "/home/winder/.config/eww/scripts/workspaces.sh"
-ensure_running "/home/winder/.config/eww/scripts/volume/volumebuttons.sh"
+ensure_running "/home/winder/nixflake/user/modules/eww/config/scripts/workspaces.sh"
+ensure_running "/home/winder/nixflake/user/modules/eww/config/scripts/volume/volumebuttons.sh"

@@ -7,7 +7,7 @@
   :geometry (geometry
     :x "10px"
     :anchor "left center"
-    :height "1060px"
+    :height "860px"
     :width "52px"
   )
   :namespace "centerPanel"
