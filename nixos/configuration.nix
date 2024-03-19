@@ -129,7 +129,6 @@
     };
     ## Enable WindowManager
     adb.enable = true;
-    hyprland.enable = true;
     ## Thunar settings
     thunar = {
       enable = true;
@@ -161,6 +160,8 @@
   };
 
   ## Polkit configs
+ #xdg.portal.enable = true;
+ #xdg.portal.config= "xdg-desktop-portal-hyprland";
   security.polkit.enable = true;
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
