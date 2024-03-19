@@ -1,0 +1,142 @@
+(defpoll display :interval "0.1s" "/home/nick/dotfiles/home-manager/modules/eww/eww-nick/config/scripts/volume/volumedisplay.sh")
+(defvar volumeUpIcon "/home/nick/dotfiles/home-manager/modules/eww/eww-nick/config/images/plus.png")
+(defvar volumeDownIcon "/home/nick/dotfiles/home-manager/modules/eww/eww-nick/config/images/minus.png")
+(defvar volumeMuteIcon "/home/nick/dotfiles/home-manager/modules/eww/eww-nick/config/images/mute.png")
+
+(defwidget systemMenu []
+	(box
+	  :class "systemMenu"
+	  :space-evenly false
+	  :orientation "v"
+	  (revealer
+		:transition "slideup"
+		:reveal system
+		(box
+		  :orientation "v"
+		  :space-evenly false
+		  (bluetooth)
+		  (volume)
+		)
+	  )
+	  (eventbox
+		:class systemEventboxClass
+		:cursor "pointer"
+		:space-evenly false
+		:onclick "~/dotfiles/home-manager/modules/eww/eww-nick/config/scripts/system.sh"
+		(image
+		  :class "gear"
+		  :image-width 25
+		  :image-height 25
+		  :path "/home/nick/dotfiles/home-manager/modules/eww/eww-nick/config/images/gear.png"
+		)
+	  )
+	)
+  )
+
+(defvar system false)
+(defvar systemEventboxClass "systemEventboxClosed")
+(defvar volumeButtons false)
+(defvar volumeButtonsEventboxClass "volumeButtonsEventboxClosed")
+
+(defwidget volume []
+	(box
+	  :class "volume"
+	  :space-evenly false
+	  :orientation "v"
+	  (revealer
+		:transition "slideup"
+		:reveal volumeButtons
+		(box
+		  :orientation "v"
+
+		  (volumeMute)
+		  (volumeUp)
+		  (volumeDisplay)
+		  (volumeDown)
+		)
+	  )
+	  (eventbox
+		:class volumeButtonsEventboxClass
+		:cursor "pointer"
+		:onclick "~/dotfiles/home-manager/modules/eww/eww-nick/config/scripts/volume/volumemenu.sh"
+		(image
+		  :class "volumeButton"
+		  :image-width 25
+		  :image-height 25
+		  :path "/home/nick/dotfiles/home-manager/modules/eww/eww-nick/config/images/speaker.png"
+		)
+	  )
+	)
+  )
+
+  (defwidget volumeUp []
+	(eventbox
+	  :class "volumeUp"
+	  :cursor "pointer"
+	  :width 25
+	  :onclick "/home/nick/dotfiles/home-manager/modules/eww/eww-nick/config/scripts/volume/volumeup.sh"
+			(image
+		  :class "volumeUpButton"
+		  :image-width 18
+		  :image-height 18
+		  :path {volumeUpIcon}
+		)
+	)
+  )
+
+  (defwidget volumeDisplay []
+	(eventbox
+	  :class "volumeDisplay"
+	  :cursor "pointer"
+	  :width 25
+	  :onclick "/home/nick/dotfiles/home-manager/modules/eww/eww-nick/config/scripts/easyeffects.sh"
+	  (label
+	    :text {display}
+		:justify "center"
+	  )
+	)
+  )
+
+  (defwidget volumeDown []
+	(eventbox
+	  :class "volumeDown"
+	  :cursor "pointer"
+	  :width 25
+	  :onclick "/home/nick/dotfiles/home-manager/modules/eww/eww-nick/config/scripts/volume/volumedown.sh"
+			(image
+		  :class "volumeDownButton"
+		  :image-width 18
+		  :image-height 18
+		  :path {volumeDownIcon}
+		)
+	)
+  )
+
+  (defwidget volumeMute []
+	(eventbox
+	  :class "volumeMute"
+	  :cursor "pointer"
+	  :width 25
+	  :onclick "/home/nick/dotfiles/home-manager/modules/eww/eww-nick/config/scripts/volume/volumemute.sh ; /home/nick/dotfiles/home-manager/modules/eww/eww-nick/config/scripts/volume/volumemuteon.sh"
+			(image
+		  :class "volumeMuteButton"
+		  :image-width 19
+		  :image-height 19
+		  :path {volumeMuteIcon}
+		)
+	)
+  )
+
+  (defwidget bluetooth []
+	(eventbox
+	  :class "bluetooth"
+	  :cursor "pointer"
+	  :onclick "/home/nick/dotfiles/home-manager/modules/eww/eww-nick/config/scripts/bluetooth.sh"
+			(image
+		  :class "bluetoothButton"
+		  :image-width 20
+		  :image-height 20
+		  :path "/home/nick/dotfiles/home-manager/modules/eww/eww-nick/config/images/bluetooth.png"
+		)
+	)
+  )
