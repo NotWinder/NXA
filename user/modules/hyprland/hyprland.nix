@@ -5,7 +5,7 @@
     enable = true;
     settings = {
       "$mainMod" = "SUPER";
-      "$browser" = "appimage-run ~/Downloads/Thorium_Browser_120.0.6099.235_SSE3.AppImage";
+      "$browser" = "chromium";
       monitor = ",preferred,auto,auto";
       animation = import ./config/animation.nix;
       bind = import ./config/bind.nix;
