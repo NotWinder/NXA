@@ -38,8 +38,8 @@
     ventoy-full
     vim
     vlc
-    waybar
     wget
+    wireplumber
     wl-clipboard
     zfs
     zoxide

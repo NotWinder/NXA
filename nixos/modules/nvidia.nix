@@ -9,11 +9,11 @@
     };
     nvidia = {
       modesetting.enable = true;
-      powerManagement.enable = false;
-      powerManagement.finegrained = false;
-      open = false;
-      nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      forceFullCompositionPipeline = true;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      prime.nvidiaBusId = "PCI:1:0:0";
+      prime.intelBusId = "PCI:0:2:0";
+      prime.sync.enable = true;
     };
   };
 }
