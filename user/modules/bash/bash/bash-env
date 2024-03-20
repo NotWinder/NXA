@@ -1,0 +1,31 @@
+#!/bin/bash
+
+export XDG_DATA_HOME=${XDG_DATA_HOME="$HOME/.local/share"}
+export XDG_STATE_HOME=${XDG_STATE_HOME="$HOME/.local/state"}
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME="$HOME/.config"}
+export XDG_CACHE_HOME=${XDG_CACHE_HOME="$HOME/.cache"}
+export XDG_DATA_DIRS=${XDG_DATA_DIRS="/usr/local/share"}
+export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR="/run/user/$UID"}
+export XDG_CONFIG_DIRS=${XDG_CONFIG_DIRS="/etc/xdg"}
+
+####OTHER EXPORTS
+
+##X11
+export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
+export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
+export XCOMPOSECACHE="$XDG_CACHE_HOME"/X11/xcompose
+##npm
+export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
+##Gtk
+export GTK_RC_FILES="$XDG_CONFIG_HOME"/gtk-1.0/gtkrc
+export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
+##Rust
+export CARGO_HOME="$XDG_DATA_HOME"/cargo
+export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
+
+##Other
+export GNUPGHOME="$XDG_DATA_HOME"/gnupg
+export WGETRC="$XDG_CONFIG_HOME/wgetrc"
+export WINEPREFIX="$XDG_DATA_HOME"/wineprefixes/64-bit
+export PATH=$PATH:/usr/local/go/bin
+export XCURSOR_PATH=${XCURSOR_PATH}:~/.local/share/icons

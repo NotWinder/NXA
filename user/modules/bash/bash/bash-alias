@@ -1,0 +1,189 @@
+#!/bin/bash
+# Text Editors
+alias pico='edit'
+alias spico='sedit'
+alias nano='edit'
+alias snano='sedit'
+alias vim='nvim'
+alias svi='sudo -E nvim'
+
+# File Operations
+alias cat='bat'
+alias dir='mkdir'
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='trash -v'
+alias rmd='/bin/rm --recursive --force --verbose '
+
+# Directory Navigation
+alias home='cd ~'
+alias cd..='cd ..'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias bd='cd "$OLDPWD"'
+alias web='cd /var/www/html'
+
+# Process Management
+alias ps='ps auxf'
+#alias ping='ping -c 10'
+alias topcpu='/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10'
+
+# Viewing and Handling Files
+alias less='less -R'
+alias cls='clear'
+alias cle='clear'
+
+# Package Management
+alias apt-get='sudo apt-get'
+alias apt='sudo nala'
+alias freshclam='sudo freshclam'
+
+# Python
+alias python='python3'
+alias py='python3'
+
+# Rust
+alias fempty='cargo run --manifest-path /home/winder/rust/empty/Cargo.toml'
+
+# Visual Studio Code
+alias code='code --extensions-dir "$XDG_DATA_HOME/vscode"'
+
+# List Contents
+alias la='ls -Ah'
+alias ls='ls -Fh --color=always'
+alias lx='ls -lXBh'
+alias lk='ls -lSrh'
+alias lc='ls -lcrh'
+alias lu='ls -lurh'
+alias lr='ls -lRh'
+alias lt='ls -ltrh'
+alias lm='ls -alh | more'
+alias lw='ls -xAh'
+alias ll='ls -aFls'
+alias labc='ls -lap'
+alias lf="ls -l | egrep -v '^d'"
+alias ldir="ls -l | egrep '^d'"
+
+# File Permissions
+alias mx='chmod a+x'
+alias 000='chmod -R 000'
+alias 644='chmod -R 644'
+alias 666='chmod -R 666'
+alias 755='chmod -R 755'
+alias 777='chmod -R 777'
+
+# History and Search
+alias h="history | grep "
+alias p="ps aux | grep "
+alias f="find . | grep "
+
+# Check Command Type
+alias checkcommand="type -t"
+
+# Network
+alias openports='netstat -nape --inet'
+
+# Reboot
+alias reboot="systemctl -i reboot"
+alias rebootsafe='sudo shutdown -r now'
+alias rebootforce='sudo shutdown -r -n now'
+
+# Disk and Space Usage
+alias diskspace="du -S | sort -n -r | more"
+alias folders='du -h --max-depth=1'
+alias folderssort='find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn'
+
+# Directory Trees
+alias tree='tree -CAhF --dirsfirst'
+alias treed='tree -CAFd'
+
+# Mounted File Systems
+alias mountedinfo='df -hT'
+
+# Archive Operations
+alias mktar='tar -cvf'
+alias mkbz2='tar -cvjf'
+alias mkgz='tar -cvzf'
+alias untar='tar -xvf'
+alias unbz2='tar -xvjf'
+alias ungz='tar -xvzf'
+
+# GitHub Additions
+gcom() {
+	git add .
+	git commit -m "$1"
+	}
+lazyg() {
+	git add .
+	git commit -m "$1"
+	git push
+}
+# Zoxide
+
+z() {
+    if [ "$#" -eq 0 ]; then
+        _z_cd ~
+    elif [ "$#" -eq 1 ] && [ "$1" = '-' ]; then
+        if [ -n "$OLDPWD" ]; then
+            _z_cd "$OLDPWD"
+        else
+            echo 'zoxide: $OLDPWD is not set'
+            return 1
+        fi
+    else
+        _zoxide_result="$(zoxide query -- "$@")" && _z_cd "$_zoxide_result"
+    fi
+}
+
+zi() {
+    _zoxide_result="$(zoxide query -i -- "$@")" && _z_cd "$_zoxide_result"
+}
+
+
+alias za='zoxide add'
+
+alias zq='zoxide query'
+alias zqi='zoxide query -i'
+
+alias zr='zoxide remove'
+zri() {
+    _zoxide_result="$(zoxide query -i -- "$@")" && zoxide remove "$_zoxide_result"
+}
+
+
+_zoxide_hook() {
+    if [ -z "${_ZO_PWD}" ]; then
+        _ZO_PWD="${PWD}"
+    elif [ "${_ZO_PWD}" != "${PWD}" ]; then
+        _ZO_PWD="${PWD}"
+        zoxide add "$(pwd -L)"
+    fi
+}
+
+# Log Files
+alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
+
+# SHA1 Hash
+alias sha1='openssl sha1'
+
+# Clipboard Operations
+alias clickpaste='sleep 3; xdotool type "$(xclip -o -selection clipboard)"'
+
+# Miscellaneous
+alias Hyprland='exec env WLR_NO_HARDWARE_CURSORS=1 Hyprland'
+alias nixbuild='sudo nixos-rebuild switch'
+alias poweroff="systemctl -i poweroff"
+alias nvidia0="sudo -E nvidia-settings -a '[fan]/GPUTargetFanSpeed=0'"
+alias nvidia50="sudo -E nvidia-settings -a '[fan]/GPUTargetFanSpeed=50'"
+alias nvidia100="sudo -E nvidia-settings -a '[fan]/GPUTargetFanSpeed=100'"
+alias docreatefra6deb='doctl compute droplet create --region fra1 --size s-1vcpu-1gb --image debian-12-x64 --ssh-keys 40930668,40798689,40998907 --wait'
+alias docreateams6deb='doctl compute droplet create --region ams3 --size s-1vcpu-1gb --image debian-12-x64 --ssh-keys 40930668,40798689,40998907 --wait'
+alias docreatefra4deb='doctl compute droplet create --region fra1 --size s-1vcpu-512mb-10gb --image debian-12-x64 --ssh-keys 40930668,40798689,40998907 --wait'
+alias docreateams4deb='doctl compute droplet create --region ams3 --size s-1vcpu-512mb-10gb --image debian-12-x64 --ssh-keys 40930668,40798689,40998907 --wait'
+alias kssh="kitty +kitten ssh"
+alias wget='wget --hsts-file="$XDG_CACHE_HOME/wget-hsts"'
+alias hug='hugo server -F --bind=10.0.0.210 --baseURL=http://10.0.0.210'
+alias lookingglass='~/looking-glass-B5.0.1/client/build/looking-glass-client -F'
+
