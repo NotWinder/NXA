@@ -6,6 +6,7 @@
     appimage-run
     arandr
     bat
+    chromium
     cmake
     doctl
     fastfetch
@@ -32,7 +33,6 @@
     tldr
     trash-cli
     tree
-    ungoogled-chromium
     unrar
     unzip
     ventoy-full
