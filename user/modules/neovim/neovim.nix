@@ -1,13 +1,15 @@
+{ config, pkgs, inputs, ... }:
+
 {
   programs.neovim = {
     enable = true;
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
-   extraLuaConfig = ''
-
-   ${builtins.readFile ./nvim/init.lua}
-
-   '';
   };
+  home.file."${config.xdg.configHome}/nvim" = {
+    source = ./nvim;
+    recursive = true;
+  };
+
 }
