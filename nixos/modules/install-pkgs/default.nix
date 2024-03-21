@@ -23,6 +23,7 @@
     ntfs3g
     obs-studio
     pavucontrol
+    pulseaudioFull
     qpwgraph
     rofi
     sing-box

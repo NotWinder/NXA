@@ -4,8 +4,9 @@
 #swww init --no-daemon &
 swww query || swww init &
 
-# Waybar
-waybar &
+# Bar
+ags &
+
 
 # startup applications
 /usr/lib/polkit-kde-authentication-agent-1 &
