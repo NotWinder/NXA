@@ -19,6 +19,6 @@
     ## Resolved
     resolved.enable = true;
     ## Flatpak
-   #flatpak.enable = true;
+    flatpak.enable = true;
   };
 }
