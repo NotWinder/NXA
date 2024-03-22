@@ -1,12 +1,12 @@
 {
   imports =
     [
-      ./git.nix
-      ./neovim/neovim.nix
-      ./hyprland/hyprland.nix
+      ./ags.nix
       ./bash/bash.nix
-      ./ags/ags.nix
-      ./terminals/kitty.nix
+      ./git.nix
+      ./hyprland/hyprland.nix
+      ./neovim/neovim.nix
       ./terminals/alacritty.nix
+      ./terminals/kitty.nix
     ];
 }

@@ -5,8 +5,7 @@
 swww query || swww init &
 
 # Bar
-ags &
-
+asztal &
 
 # startup applications
 /usr/lib/polkit-kde-authentication-agent-1 &
