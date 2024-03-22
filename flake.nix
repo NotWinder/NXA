@@ -52,6 +52,13 @@
             ./nixos/pc/configuration.nix
           ];
         };
+
+        winder-laptop = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs asztal; };
+          modules = [
+            ./nixos/laptop/configuration.nix
+          ];
+        };
       };
       packages.${system}.default = asztal;
 
