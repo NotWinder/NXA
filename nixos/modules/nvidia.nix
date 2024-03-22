@@ -14,9 +14,13 @@
       modesetting.enable = true;
       forceFullCompositionPipeline = true;
       package = config.boot.kernelPackages.nvidiaPackages.beta;
-      prime.nvidiaBusId = "PCI:1:0:0";
-      prime.intelBusId = "PCI:0:2:0";
-      prime.sync.enable = true;
+      prime = {
+        reverseSync.enable = true;
+        offload.enable = true;
+        offload.enableOffloadCmd = true;
+        nvidiaBusId = "PCI:1:0:0";
+        intelBusId = "PCI:0:2:0";
+      };
     };
   };
 }
