@@ -4,21 +4,23 @@
   imports =
     [
       ./hardware-configuration.nix
+      ./modules.nix
       inputs.home-manager.nixosModules.default
-      ./modules/all.nix
     ];
+  nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   ##  Set your time zone.
   time.timeZone = "Asia/Tehran";
-  ## Enable sound.
-  sound.enable = true;
+
   ## Home-manager
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
-      "winder" = import ../user/home.nix;
+      "winder" = import ../../user/home.nix;
     };
   };
+
   # Define a user account.
   users.users.winder = {
     isNormalUser = true;

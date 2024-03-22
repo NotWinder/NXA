@@ -9,23 +9,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     hyprland.url = "github:hyprwm/Hyprland";
     hyprland-plugins.url = "github:hyprwm/hyprland-plugins";
 
-    matugen.url = "github:InioX/matugen";
     ags.url = "github:Aylur/ags";
     astal.url = "github:Aylur/astal";
     stm.url = "github:Aylur/stm";
+    matugen.url = "github:InioX/matugen";
 
-    lf-icons = {
-      url = "github:gokcehan/lf";
-      flake = false;
-    };
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
@@ -33,7 +24,6 @@
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
-        config.allowUnfree = true;
       };
       asztal = pkgs.callPackage ./user/modules/ags { inherit inputs; };
     in
@@ -54,11 +44,12 @@
           '';
         };
       };
+
       nixosConfigurations = {
         winder = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs asztal; };
           modules = [
-            ./nixos/configuration.nix
+            ./nixos/pc/configuration.nix
           ];
         };
       };
