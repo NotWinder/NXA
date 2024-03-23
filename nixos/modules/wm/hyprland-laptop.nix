@@ -1,10 +1,12 @@
 { pkgs, inputs, config, username, asztal, ... }: {
 
+
+  inputs.hyprland.packages.${pkgs.system}.hyprland.override = {
+    legacyRenderer = true;
+  };
+
   programs.hyprland = {
     enable = true;
-    inputs.hyprland.packages.${pkgs.system}.hyprland = {
-      legacyRenderer = true; # whether to use the legacy renderer (for old GPUs)
-    };
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
 
