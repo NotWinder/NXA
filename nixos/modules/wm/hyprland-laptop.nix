@@ -1,13 +1,8 @@
 { pkgs, inputs, config, username, asztal, ... }: {
 
-
-  inputs.hyprland.packages.${pkgs.system}.hyprland.override = {
-    legacyRenderer = true;
-  };
-
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    package = (inputs.hyprland.packages.${pkgs.system}.hyprland.override { legacyRenderer = true; });
   };
 
   xdg.portal = {

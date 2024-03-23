@@ -56,6 +56,7 @@
         winder-laptop = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs asztal; };
           modules = [
+            (inputs.hyprland.packages.${pkgs.system}.hyprland.override { legacyRenderer = true; })
             ./nixos/laptop/configuration.nix
           ];
         };
