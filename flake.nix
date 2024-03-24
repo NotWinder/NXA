@@ -2,6 +2,7 @@
   description = "Nixos config flake";
 
   inputs = {
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager = {
@@ -16,15 +17,12 @@
     astal.url = "github:Aylur/astal";
     stm.url = "github:Aylur/stm";
     matugen.url = "github:InioX/matugen";
-
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
     let
       system = "x86_64-linux";
-      pkgs = import nixpkgs {
-        inherit system;
-      };
+      pkgs = import nixpkgs { inherit system; };
       asztal = pkgs.callPackage ./user/modules/ags { inherit inputs; };
     in
     {
@@ -56,7 +54,6 @@
         winder-laptop = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs asztal; };
           modules = [
-            (inputs.hyprland.packages.${pkgs.system}.hyprland.override { legacyRenderer = true; })
             ./nixos/laptop/configuration.nix
           ];
         };

@@ -16,9 +16,7 @@
   ## Home-manager
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
-    users = {
-      "winder" = import ../../user/home.nix;
-    };
+    users = { "winder" = import ../../user/home.nix; };
   };
 
   # Define a user account.

@@ -1,4 +1,4 @@
-{ pkgs, inputs, config, username, asztal, ... }: {
+{ pkgs, inputs, config, ... }: {
 
   nix.settings = {
     substituters = [ "https://hyprland.cachix.org" ];
@@ -39,5 +39,4 @@
     brightnessctl
     swww
   ];
-
 }

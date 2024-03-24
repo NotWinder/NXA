@@ -5,10 +5,10 @@
       enable = true;
       wayland.enable = true;
       settings = {
-        Autologin = {
-          Session = "hyprland";
-          User = "winder";
-        };
+       #Autologin = {
+       #  Session = "hyprland";
+       #  User = "winder";
+       #};
       };
     };
   };
