@@ -36,17 +36,22 @@ if [[ $iatest -gt 0 ]]; then bind "set completion-ignore-case on"; fi
 # Show auto-completion list automatically, without double tab
 if [[ $iatest -gt 0 ]]; then bind "set show-all-if-ambiguous On"; fi
 
-
-source ~/.local/share/python/bin/activate
 source ~/nixflake/user/modules/bash/bash/bash-env
 source ~/nixflake/user/modules/bash/bash/bash-alias
 
 # Disable the bell
 if [[ $iatest -gt 0 ]]; then bind "set bell-style visible"; fi
 
+file_path="$XDG_CONFIG_HOME/bash/bash-history"
+
+if [ ! -e "$file_path" ]; then
+    touch "$file_path"
+fi
+
 # Expand the history size
+export HISTFILE="$XDG_CONFIG_HOME/bash/bash-history"
 export HISTFILESIZE=10000
-export HISTSIZE=500
+export HISTSIZE=10000
 
 # Don't put duplicate lines in the history and do not add lines that start with a space
 export HISTCONTROL=erasedups:ignoredups:ignorespace

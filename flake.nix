@@ -62,6 +62,5 @@
         };
       };
       packages.${system}.default = asztal;
-
     };
 }
