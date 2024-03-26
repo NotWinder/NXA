@@ -36,8 +36,8 @@ if [[ $iatest -gt 0 ]]; then bind "set completion-ignore-case on"; fi
 # Show auto-completion list automatically, without double tab
 if [[ $iatest -gt 0 ]]; then bind "set show-all-if-ambiguous On"; fi
 
-source ~/nixflake/user/modules/bash/bash/bash-env
-source ~/nixflake/user/modules/bash/bash/bash-alias
+source ~/.config/bash/bash-env
+source ~/.config/bash/bash-alias
 
 # Disable the bell
 if [[ $iatest -gt 0 ]]; then bind "set bell-style visible"; fi
