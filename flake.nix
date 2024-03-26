@@ -13,10 +13,6 @@
     hyprland.url = "github:hyprwm/Hyprland";
     hyprland-plugins.url = "github:hyprwm/hyprland-plugins";
 
-    ags.url = "github:Aylur/ags";
-    astal.url = "github:Aylur/astal";
-    stm.url = "github:Aylur/stm";
-    matugen.url = "github:InioX/matugen";
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
@@ -25,9 +21,6 @@
       pkgs = import nixpkgs { inherit system; };
     in
     {
-      packages.x86_64-linux.default =
-        nixpkgs.legacyPackages.x86_64-linux.callPackage ./user/modules/ags { inherit inputs; };
-
       devShells.x86_64-linux = {
         python = pkgs.mkShell {
           nativeBuildInputs = with pkgs.python312Packages;
@@ -49,7 +42,6 @@
         winder = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
-            asztal = self.packages.x86_64-linux.default;
           };
           modules = [
             ./nixos/pc/configuration.nix
@@ -59,7 +51,6 @@
         winder-laptop = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
-            asztal = self.packages.x86_64-linux.default;
           };
           modules = [
             ./nixos/laptop/configuration.nix

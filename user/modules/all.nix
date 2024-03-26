@@ -1,7 +1,6 @@
 {
   imports =
     [
-      ./ags.nix
       ./bash/bash.nix
       ./bash/starship.nix
       ./git.nix
