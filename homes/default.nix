@@ -3,7 +3,7 @@
 {
   imports =
     [
-      ./modules/all.nix
+      ./winder
     ];
 
   # Home Manager needs a bit of information about you and the paths it should
