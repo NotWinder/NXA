@@ -23,9 +23,11 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
-      asztal = pkgs.callPackage ./user/modules/ags { inherit inputs; };
     in
     {
+      packages.x86_64-linux.default =
+        nixpkgs.legacyPackages.x86_64-linux.callPackage ./user/modules/ags { inherit inputs; };
+
       devShells.x86_64-linux = {
         python = pkgs.mkShell {
           nativeBuildInputs = with pkgs.python312Packages;
@@ -45,19 +47,24 @@
 
       nixosConfigurations = {
         winder = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs asztal; };
+          specialArgs = {
+            inherit inputs;
+            asztal = self.packages.x86_64-linux.default;
+          };
           modules = [
             ./nixos/pc/configuration.nix
           ];
         };
 
         winder-laptop = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs asztal; };
+          specialArgs = {
+            inherit inputs;
+            asztal = self.packages.x86_64-linux.default;
+          };
           modules = [
             ./nixos/laptop/configuration.nix
           ];
         };
       };
-      packages.${system}.default = asztal;
     };
 }

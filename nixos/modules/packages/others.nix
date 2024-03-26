@@ -3,7 +3,7 @@
 {
   ## Install Packages
   environment.systemPackages = with pkgs; [
-    anydesk
+   #anydesk
     bat
     doctl
     fastfetch
@@ -16,6 +16,7 @@
     qpwgraph
     sshuttle
     telegram-desktop
+    sing-box
     tldr
     trash-cli
     tree

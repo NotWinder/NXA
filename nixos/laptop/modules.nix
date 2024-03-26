@@ -8,7 +8,7 @@
       ../modules/packages/development.nix
       ../modules/packages/others.nix
       ../modules/services.nix
-      ../modules/wm/display-manager.nix
+      ../modules/wm/sddm.nix
       ../modules/wm/hyprland-laptop.nix
       ../modules/wm/polkit.nix
       ../modules/wm/thunar.nix
