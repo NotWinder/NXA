@@ -182,7 +182,7 @@ alias docreatefra6deb='doctl compute droplet create --region fra1 --size s-1vcpu
 alias docreateams6deb='doctl compute droplet create --region ams3 --size s-1vcpu-1gb --image debian-12-x64 --ssh-keys 40930668,40798689,40998907 --wait'
 alias docreatefra4deb='doctl compute droplet create --region fra1 --size s-1vcpu-512mb-10gb --image debian-12-x64 --ssh-keys 40930668,40798689,40998907 --wait'
 alias docreateams4deb='doctl compute droplet create --region ams3 --size s-1vcpu-512mb-10gb --image debian-12-x64 --ssh-keys 40930668,40798689,40998907 --wait'
-alias kssh="kitty +kitten ssh"
+alias ssh='TERM=xterm-256color ssh'
 alias wget='wget --hsts-file="$XDG_CACHE_HOME/wget-hsts"'
 alias hug='hugo server -F --bind=10.0.0.210 --baseURL=http://10.0.0.210'
 alias lookingglass='~/looking-glass-B5.0.1/client/build/looking-glass-client -F'

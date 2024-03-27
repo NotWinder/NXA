@@ -3,6 +3,7 @@
 {
   imports =
     [
+      ./ags.nix
       ./winder
     ];
 
