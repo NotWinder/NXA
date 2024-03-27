@@ -4,7 +4,7 @@
   imports =
     [
       ./hardware-configuration.nix
-      ./modules.nix
+      ../modules
       inputs.home-manager.nixosModules.default
     ];
   nixpkgs.config.allowUnfree = true;
@@ -17,16 +17,5 @@
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = { "winder" = import ../../user/home.nix; };
-  };
-
-  # Define a user account.
-  users.users.winder = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "adbusers" ];
-  };
-
-  ## System
-  system = {
-    stateVersion = "unstable";
   };
 }

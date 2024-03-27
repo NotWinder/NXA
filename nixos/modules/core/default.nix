@@ -6,6 +6,9 @@
     ./gpu
 
     ./networking.nix
+    ./polkit.nix
     ./services.nix
+    ./system.nix
+    ./user.nix
   ];
 }

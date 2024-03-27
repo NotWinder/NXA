@@ -16,7 +16,6 @@
     tldr
     trash-cli
     tree
-    peazip
     unrar
     unzip
     ventoy
