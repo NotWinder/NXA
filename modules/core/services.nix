@@ -9,9 +9,6 @@
 
     openssh.enable = true;
 
-    ## Sing-box
-    sing-box.enable = true;
-
     ## Resolved
     resolved.enable = true;
 
