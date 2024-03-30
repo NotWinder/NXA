@@ -1,0 +1,6 @@
+{ lib, config, ... }:
+{
+  imports = [
+    ./zfs
+  ];
+}

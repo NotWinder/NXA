@@ -1,64 +1,41 @@
 {
   description = "Nixos config flake";
 
-  outputs = { self, nixpkgs, ... }@inputs:
-    let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
-    in
-    {
+  outputs = { self, nixpkgs, flake-parts, ... }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, ... }: {
+      systems = [ "x86_64-linux" ];
+      imports = [
+        # add self back to inputs to use as `inputs.self`
+        # I depend on inputs.self *at least* once
+        { config._module.args._inputs = inputs // { inherit (inputs) self; }; }
 
-      formatter = {
-        x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+        ## parts of the flake
+        ./flake/modules # nixos and home-manager modules provided by this flake
+        ./flake/pkgs # packages exposed by the flake
+        ./flake/templates # flake templates
+
+        ./flake/args.nix # args that are passed to the flake, moved away from the main file
+        ./flake/deployments.nix # deploy-rs configurations for active hosts
+       #./flake/fmt.nix # various formatter configurations for this flake
+       #./flake/iso-images.nix # local installation media
+       #./flake/pre-commit.nix # pre-commit hooks, performed before each commit inside the devShell
+        ./flake/shell.nix # devShells exposed by the flake
+      ];
+      flake = {
+        # entry-point for nixos configurations
+        nixosConfigurations = import ./hosts { inherit inputs withSystem; };
       };
-      packages.x86_64-linux.default =
-        nixpkgs.legacyPackages.x86_64-linux.callPackage ./ags { inherit inputs; };
-
-      devShells.system = {
-        python = pkgs.mkShell {
-          nativeBuildInputs = with pkgs.python312Packages;
-            [
-              django
-              openpyxl
-              pandas
-              jdatetime
-              pillow
-            ];
-
-          shellHook = ''
-            echo "welcome to the python shell"
-          '';
-        };
-      };
-
-      nixosConfigurations = {
-        winder = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-            asztal = self.packages.x86_64-linux.default;
-          };
-          modules = [
-            ./nixos/pc/configuration.nix
-            inputs.home-manager.nixosModules.default
-          ];
-        };
-
-        winder-laptop = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-            asztal = self.packages.x86_64-linux.default;
-          };
-          modules = [
-            ./nixos/laptop/configuration.nix
-            inputs.home-manager.nixosModules.default
-          ];
-        };
-      };
-    };
+    });
 
   inputs = {
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    # Powered by
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
