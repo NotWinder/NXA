@@ -1,6 +1,9 @@
 { config, pkgs, inputs, ... }:
 
 {
+  home.packages = with pkgs; [
+    ripgrep
+  ];
   programs.neovim = {
     enable = true;
     viAlias = true;

@@ -5,6 +5,7 @@
   imports = [
     ./development.nix
     ./others.nix
+    ./thunar.nix
   ];
 
   programs = {

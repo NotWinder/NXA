@@ -13,9 +13,4 @@
   ##  Set your time zone.
   time.timeZone = "Asia/Tehran";
 
-  ## Home-manager
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    users = { "winder" = import ../../homes; };
-  };
 }
