@@ -2,6 +2,7 @@
 ## Nvidia
 {
   services.xserver.videoDrivers = [ "nvidia" ];
+  boot.blacklistedKernelModules = [ "nouveau" ];
 
   hardware = {
     opengl = {
@@ -10,14 +11,13 @@
       driSupport32Bit = true;
     };
 
+
     nvidia = {
       modesetting.enable = true;
       forceFullCompositionPipeline = true;
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
       prime = {
-        reverseSync.enable = true;
-        offload.enable = true;
-        offload.enableOffloadCmd = true;
+        sync.enable = true;
         nvidiaBusId = "PCI:1:0:0";
         intelBusId = "PCI:0:2:0";
       };
