@@ -14,7 +14,6 @@
     telegram-desktop
     sing-box
     tldr
-    ripgrep
     trash-cli
     tree
     unrar

@@ -6,7 +6,9 @@
   inherit (lib.options) mkOption literalExpression;
   inherit (lib.types) str nullOr enum mkOptionType attrsOf coercedTo;
   inherit (lib.strings) removePrefix hasPrefix isString;
-  inherit (lib) serializeTheme;
+ #inherit (lib) serializeTheme;
+  serializeTheme = inputString: lib.strings.toLower (builtins.replaceStrings [" "] ["-"] inputString);
+
 
   cfg = config.modules.style;
 

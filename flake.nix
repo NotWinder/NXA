@@ -24,12 +24,10 @@
       flake = {
         formatter = {
           x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
-          x86_64-darwin = nixpkgs.legacyPackages.x86_64-darwin.alejandra;
         };
 
         packages.x86_64-linux.default =
-          nixpkgs.legacyPackages.x86_64-linux.callPackage ./ags { inherit inputs; };
-
+          nixpkgs.legacyPackages.x86_64-linux.callPackage ./homes/winder/program/graphical/bar/ags/config { inherit inputs; };
         # entry-point for nixos configurations
         nixosConfigurations = import ./hosts { inherit inputs withSystem self; };
       };

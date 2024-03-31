@@ -16,7 +16,7 @@ in {
     (mkRenamedOptionModule ["modules" "system" "networking" "tailscale" "client" "enable"] ["modules" "system" "networking" "tailscale" "isClient"])
     (mkRenamedOptionModule ["modules" "system" "networking" "tailscale" "server" "enable"] ["modules" "system" "networking" "tailscale" "isServer"])
 
-    (mkRenamedOptionModule ["modules" "system" "services" "atticd" "enable"] ["modules" "system" "services" "bincache" "atticd" "enable"])
+    (mkRenamedOptionModule ["modules" "system" "services" "atticd" "enable"] ["modules" "system" "services" "atticd" "enable"])
     (mkRenamedOptionModule ["modules" "system" "services" "wireguard" "enable"] ["modules" "system" "services" "networking" "wireguard" "enable"])
     (mkRenamedOptionModule ["modules" "system" "services" "headscale" "enable"] ["modules" "system" "services" "networking" "headscale" "enable"])
 

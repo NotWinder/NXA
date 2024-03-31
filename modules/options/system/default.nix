@@ -60,7 +60,7 @@ in {
 
     users = mkOption {
       type = with types; listOf str;
-      default = ["notashelf"];
+      default = ["winder"];
       description = "A list of home-manager users on the system.";
     };
 
