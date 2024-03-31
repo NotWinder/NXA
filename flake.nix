@@ -16,14 +16,22 @@
 
         ./flake/args.nix # args that are passed to the flake, moved away from the main file
         ./flake/deployments.nix # deploy-rs configurations for active hosts
-       #./flake/fmt.nix # various formatter configurations for this flake
-       #./flake/iso-images.nix # local installation media
-       #./flake/pre-commit.nix # pre-commit hooks, performed before each commit inside the devShell
+        #./flake/fmt.nix # various formatter configurations for this flake
+        #./flake/iso-images.nix # local installation media
+        #./flake/pre-commit.nix # pre-commit hooks, performed before each commit inside the devShell
         ./flake/shell.nix # devShells exposed by the flake
       ];
       flake = {
+        formatter = {
+          x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+          x86_64-darwin = nixpkgs.legacyPackages.x86_64-darwin.alejandra;
+        };
+
+        packages.x86_64-linux.default =
+          nixpkgs.legacyPackages.x86_64-linux.callPackage ./ags { inherit inputs; };
+
         # entry-point for nixos configurations
-        nixosConfigurations = import ./hosts { inherit inputs withSystem; };
+        nixosConfigurations = import ./hosts { inherit inputs withSystem self; };
       };
     });
 

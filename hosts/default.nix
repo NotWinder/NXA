@@ -1,4 +1,4 @@
-{ withSystem, inputs, ... }:
+{ withSystem, inputs, self, ... }:
 let
   # self.lib is an extended version of nixpkgs.lib
   # mkNixosIso and mkNixosSystem are my own builders for assembling a nixos system
@@ -35,7 +35,10 @@ in
     inherit withSystem;
     hostname = "winder";
     system = "x86_64-linux";
-    specialArgs = { inherit inputs; };
+    specialArgs = {
+      inherit inputs;
+      asztal = self.packages.x86_64-linux.default;
+    };
     modules = [
       ./pc/configuration.nix
     ]
@@ -46,7 +49,10 @@ in
     inherit withSystem;
     hostname = "winder";
     system = "x86_64-linux";
-    specialArgs = { inherit inputs; };
+    specialArgs = {
+      inherit inputs;
+      asztal = self.packages.x86_64-linux.default;
+    };
     modules = [
       ./laptop/configuration.nix
     ]
