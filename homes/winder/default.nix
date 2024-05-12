@@ -1,6 +1,7 @@
 {
   imports = [
     ./program
+    ./themes
   ];
 
   config = {

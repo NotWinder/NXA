@@ -1,5 +1,5 @@
 {
   imports = [
-    ./uefi.nix
+    ./legacy.nix
   ];
 }

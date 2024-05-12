@@ -1,7 +1,6 @@
 {
   imports = [
-    ./chromium
-    ./obs
-    ./wm
+    ./desktop
+    ./tools
   ];
 }

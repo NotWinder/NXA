@@ -1,7 +1,6 @@
 {
   imports = [
     ./bash
-
-    ./starship.nix
+    ./starship
   ];
 }

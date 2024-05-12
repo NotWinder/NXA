@@ -1,6 +1,6 @@
 {
   users.users.winder = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "adbusers" ];
   };
 }

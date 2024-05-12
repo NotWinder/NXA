@@ -18,10 +18,6 @@ let
   specialArgs = { inherit inputs self inputs' self' defaults; };
 in
 {
-  imports = [
-    ./fonts.nix
-    ./polkit.nix
-  ];
   home-manager = mkIf env.useHomeManager {
     # tell home-manager to be as verbose as possible
     verbose = true;

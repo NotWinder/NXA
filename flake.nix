@@ -2,11 +2,13 @@
   description = "Nixos config flake";
 
   outputs = { self, nixpkgs, flake-parts, ... }@inputs:
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
+    in
     flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, ... }: {
       systems = [ "x86_64-linux" ];
       imports = [
-        # add self back to inputs to use as `inputs.self`
-        # I depend on inputs.self *at least* once
         { config._module.args._inputs = inputs // { inherit (inputs) self; }; }
 
         ## parts of the flake
@@ -27,7 +29,7 @@
         };
 
         packages.x86_64-linux.default =
-          nixpkgs.legacyPackages.x86_64-linux.callPackage ./homes/winder/program/graphical/bar/ags/config { inherit inputs; };
+          nixpkgs.legacyPackages.x86_64-linux.callPackage ./homes/winder/program/graphical/desktop/tools/bar/ags/config { inherit inputs; };
         # entry-point for nixos configurations
         nixosConfigurations = import ./hosts { inherit inputs withSystem self; };
       };
@@ -50,6 +52,7 @@
 
     hyprland.url = "github:hyprwm/Hyprland";
     hyprland-plugins.url = "github:hyprwm/hyprland-plugins";
+    hyprpicker.url = "github:hyprwm/hyprpicker";
 
     matugen.url = "github:InioX/matugen";
     ags.url = "github:Aylur/ags";

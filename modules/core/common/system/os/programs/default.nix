@@ -3,6 +3,7 @@
 , ...
 }: {
   imports = [
+    ./adb.nix
     ./development.nix
     ./others.nix
     ./thunar.nix
