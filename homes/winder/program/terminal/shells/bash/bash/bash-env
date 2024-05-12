@@ -9,6 +9,7 @@ export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR="/run/user/$UID"}
 export XDG_CONFIG_DIRS=${XDG_CONFIG_DIRS="/etc/xdg"}
 
 ####OTHER EXPORTS
+export NW=/home/winder/github/nix-winder/#
 
 ##X11
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
