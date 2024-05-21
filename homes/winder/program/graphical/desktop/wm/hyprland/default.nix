@@ -7,7 +7,7 @@
     settings = {
       "$mainMod" = "SUPER";
       "$browser" = "chromium";
-      monitor = ",preferred,auto,auto";
+      monitor = ",preferred,auto,1";
       #animation = import ./config/animation.nix;
       animations.enabled = false;
       bind = import ./config/bind.nix;
