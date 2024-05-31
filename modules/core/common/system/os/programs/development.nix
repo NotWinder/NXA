@@ -2,7 +2,7 @@
 
 {
   environment.systemPackages = with pkgs; [
-    nodejs_21
+   #nodejs_21
 
     python3
 

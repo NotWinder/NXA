@@ -25,6 +25,7 @@
     vlc
     mpv
     celluloid
+    universal-android-debloater
     wget
   ];
 }
