@@ -65,6 +65,16 @@
             echo "welcome to the java shell"
           '';
         };
+        js = pkgs.mkShell {
+          packages = with pkgs;
+            [
+              nodejs_22
+            ];
+
+          shellHook = ''
+            echo "welcome to the js shell"
+          '';
+        };
       };
     };
 }
