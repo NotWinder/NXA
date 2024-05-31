@@ -65,14 +65,15 @@
             echo "welcome to the java shell"
           '';
         };
-        js = pkgs.mkShell {
+        angular = pkgs.mkShell {
           packages = with pkgs;
             [
               nodejs_22
+              nodePackages."@angular/cli"
             ];
 
           shellHook = ''
-            echo "welcome to the js shell"
+            echo "welcome to the angular shell"
           '';
         };
       };
