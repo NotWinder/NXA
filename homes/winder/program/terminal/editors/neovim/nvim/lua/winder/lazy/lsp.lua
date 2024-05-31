@@ -1,7 +1,7 @@
 return {
     {
         "williamboman/mason.nvim",
-        lazy = false;
+        lazy = false,
         config = function()
             require("mason").setup({
                 ui = {
@@ -18,12 +18,14 @@ return {
         "williamboman/mason-lspconfig.nvim",
         config = function()
             require("mason-lspconfig").setup({
-                ensure_installed = { "lua_ls", "gopls" , "tsserver" },
+                ensure_installed = {},
             })
-            require("mason-lspconfig").setup_handlers ({
-                function (server_name)
-                    require("lspconfig")[server_name].setup ({ capabilities = capabilities })
-                end,
+            require("mason-lspconfig").setup_handlers({
+                require("lspconfig").nil_ls.setup({ capabilities = capabilities }),
+                require("lspconfig").tsserver.setup({ capabilities = capabilities }),
+                require("lspconfig").gopls.setup({ capabilities = capabilities }),
+                require("lspconfig").rust_analyzer.setup({ capabilities = capabilities }),
+                require("lspconfig").lua_ls.setup({ capabilities = capabilities })
             })
         end,
     },
@@ -46,7 +48,7 @@ return {
                         vim.lsp.buf.definition()
                     end, opts)
                     vim.keymap.set("n", "K", function()
-                    vim.lsp.buf.hover()
+                        vim.lsp.buf.hover()
                     end, opts)
                     vim.keymap.set("n", "<leader>vws", function()
                         vim.lsp.buf.workspace_symbol()
