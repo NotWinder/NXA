@@ -1,0 +1,7 @@
+{
+    "diagnostics.globals": [
+        "capabilities",
+        "vim",
+        "cmp_select"
+    ]
+}
