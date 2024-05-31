@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, ... }:
 
 {
   programs.neovim = {
@@ -13,5 +13,9 @@
     source = ./nvim;
     recursive = true;
   };
+
+  home.packages = [
+    pkgs.lua-language-server
+  ];
 
 }

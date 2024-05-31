@@ -1,9 +1,11 @@
-{self, ...}: let
+{ self, ... }:
+let
   mkFlakeModule = path:
     if builtins.isPath path
     then self + path
     else builtins.throw "${path} is not a real path! Are you stupid?";
-in {
+in
+{
   flake = {
     # set of modules exposed by my flake to be consumed by others
     # those can be imported by adding this flake as an input and then importing the nixosModules.<moduleName>

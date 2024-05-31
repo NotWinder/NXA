@@ -6,7 +6,6 @@
     ./adb.nix
     ./development.nix
     ./others.nix
-    ./lsp.nix
     ./thunar.nix
   ];
 

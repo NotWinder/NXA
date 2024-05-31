@@ -10,10 +10,6 @@
           name = "nyx";
           meta.description = "The default development shell for my NixOS configuration";
 
-          #shellHook = ''
-          #  ${config.pre-commit.installationScript}
-          #'';
-
           # tell direnv to shut up
           DIRENV_LOG_FORMAT = "";
 
@@ -36,10 +32,9 @@
               '';
             })
           ];
-          #inputsFrom = [ config.treefmt.build.devShell ];
         };
 
-        python = pkgs.mkShell {
+        django = pkgs.mkShell {
           name = "python";
           meta.description = "The Python development shell for django";
           packages = with pkgs.python312Packages;
@@ -58,6 +53,7 @@
         java = pkgs.mkShell {
           packages = with pkgs;
             [
+              java-language-server
               jdk21
             ];
 
@@ -68,12 +64,36 @@
         angular = pkgs.mkShell {
           packages = with pkgs;
             [
-              nodejs_22
               nodePackages."@angular/cli"
+              nodePackages.typescript-language-server
+              nodejs_22
             ];
 
           shellHook = ''
             echo "welcome to the angular shell"
+          '';
+        };
+        rust = pkgs.mkShell {
+          packages = with pkgs;
+            [
+              cargo
+              rustup
+              rust-analyzer
+            ];
+
+          shellHook = ''
+            echo "welcome to the rust shell"
+          '';
+        };
+        go = pkgs.mkShell {
+          packages = with pkgs;
+            [
+              go
+              gopls
+            ];
+
+          shellHook = ''
+            echo "welcome to the go shell"
           '';
         };
       };
