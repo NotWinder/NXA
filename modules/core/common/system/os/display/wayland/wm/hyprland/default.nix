@@ -1,8 +1,8 @@
 { pkgs, inputs, config, ... }: {
 
   imports = [
-    #./vulkanRenderer.nix
-    ./legacyRenderer.nix
+    ./vulkanRenderer.nix
+    #./legacyRenderer.nix
   ];
   xdg.portal = {
     enable = true;

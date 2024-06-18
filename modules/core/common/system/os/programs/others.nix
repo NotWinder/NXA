@@ -8,10 +8,12 @@
     gh
     gparted
     heroic
+    bottles
     networkmanagerapplet
     ntfs3g
     qpwgraph
     sshuttle
+    android-studio
     telegram-desktop
     sing-box
     tldr

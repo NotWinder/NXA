@@ -1,16 +1,18 @@
-{ config, pkgs, inputs, ... }:
+{ config, ... }:
 
 {
   wayland.windowManager.hyprland = {
     enable = true;
    #package = inputs.hyprland.packages.${pkgs.system}.hyprland.override { legacyRenderer = true; };
-    package = pkgs.hyprland.override { legacyRenderer = true; };
+   #package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     settings = {
       "$mainMod" = "SUPER";
       "$browser" = "chromium";
-      monitor = ",preferred,auto,1";
-      #animation = import ./config/animation.nix;
-      animations.enabled = false;
+      monitor = [
+        ",1440x900,auto,1"
+        "Unknown-1,disable"
+      ];
+      animation = import ./config/animation.nix;
       bind = import ./config/bind.nix;
       bindm = import ./config/bindm.nix;
       decoration = import ./config/decoration.nix;

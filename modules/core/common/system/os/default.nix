@@ -6,8 +6,8 @@
     ./fonts
     ./polkit
     #./environment # system environment e.g. locale, timezone, packages
-    #./hosting
-    #./fs # filesystem support options
+    ./hosting
+    ./fs # filesystem support options
     ./networking # network configuration & tcp optimizations
     ./programs # general programs
     ./services # gemeral services
