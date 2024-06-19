@@ -1,5 +1,5 @@
 ## Bash settings
-{ config, pkgs, inputs, ... }:
+{ config, ... }:
 
 {
   home.file."${config.xdg.configHome}/bash" = {

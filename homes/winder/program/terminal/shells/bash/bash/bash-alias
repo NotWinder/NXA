@@ -171,6 +171,13 @@ alias sha1='openssl sha1'
 # Clipboard Operations
 alias clickpaste='sleep 3; xdotool type "$(xclip -o -selection clipboard)"'
 
+# Nixos aliases 
+alias devng='nix develop /home/winder/github/nix-winder/#angular'
+alias devdjango='nix develop /home/winder/github/nix-winder/#django'
+alias devjava='nix develop /home/winder/github/nix-winder/#java'
+alias devgo='nix develop /home/winder/github/nix-winder/#go'
+alias devrust='nix develop /home/winder/github/nix-winder/#rust'
+
 # Miscellaneous
 alias Hyprland='exec env WLR_NO_HARDWARE_CURSORS=1 Hyprland'
 alias nixbuild='sudo nixos-rebuild switch'
