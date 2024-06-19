@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 
 {
   ## Install Packages
@@ -27,6 +27,7 @@
     vlc
     mpv
     celluloid
+    pcsx2
     universal-android-debloater
     wget
   ];
