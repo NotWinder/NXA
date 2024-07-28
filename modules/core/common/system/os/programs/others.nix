@@ -30,5 +30,8 @@
     pcsx2
     universal-android-debloater
     wget
+    uget
+    mangohud
+    uget-integrator
   ];
 }

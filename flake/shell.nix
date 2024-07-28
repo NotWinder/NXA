@@ -44,6 +44,7 @@
               pandas
               jdatetime
               pillow
+              openai
             ];
 
           shellHook = ''
