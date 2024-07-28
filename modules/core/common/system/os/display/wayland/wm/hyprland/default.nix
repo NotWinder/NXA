@@ -16,14 +16,14 @@
     pam.services.ags = { };
   };
 
-  environment.systemPackages = with pkgs; with gnome; [
-    gnome.adwaita-icon-theme
+  environment.systemPackages = with pkgs; [
+    adwaita-icon-theme
     loupe
     adwaita-icon-theme
     gnome-calendar
-    gnome-boxes
+    gnome.gnome-boxes
     gnome-system-monitor
-    gnome-control-center
+    gnome.gnome-control-center
     wl-gammactl
     wl-clipboard
     wayshot
