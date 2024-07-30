@@ -11,6 +11,7 @@
     bottles
     networkmanagerapplet
     ntfs3g
+    nwg-look
     qpwgraph
     sshuttle
     android-studio
