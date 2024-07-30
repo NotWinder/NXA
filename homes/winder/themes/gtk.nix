@@ -10,7 +10,11 @@
         };
         theme = {
             package = pkgs.tokyonight-gtk-theme;
-            name = "Tokyonight-Storm-BL";
+            name = "Tokyonight-Dark-BL-LB";
+        };
+        cursorTheme = {
+            name = "⚪ Skyrim by ru5tyshark ⚪";
+            size = 33;
         };
     };
 }
