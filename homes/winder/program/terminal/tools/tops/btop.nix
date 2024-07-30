@@ -4,6 +4,7 @@
     settings = {
       color_theme = "Default";
       theme_background = false;
+      update_ms = 100;
     };
   };
 }
