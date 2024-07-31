@@ -11,10 +11,10 @@
   "$mainMod, R, exec, wofi --show drun"
   "$mainMod, P, pseudo, # dwindle"
   "$mainMod, J, togglesplit, # dwindle"
-  "$mainMod, S, exec, scratchpad"
-  "$mainModSHIFT, S, exec, scratchpad -g"
-  "SUPER, escape, exec, bash ~/.config/waybar/scripts/power-menu/powermenu.sh"
-  "SUPER,F1,exec,$w1"
+  "$mainMod, escape, exec, bash ~/.config/waybar/scripts/power-menu/powermenu.sh"
+  "$mainMod, Print, exec, wayshot -c"
+  "$mainMod SHIFT, Print, exec, wayshot -c -s (slurp -d) "
+
   # █▀▀ █▀█ █▀▀ █░█ █▀
   # █▀░ █▄█ █▄▄ █▄█ ▄█
   "$mainMod, left, movefocus, h"

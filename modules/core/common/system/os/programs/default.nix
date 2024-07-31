@@ -2,7 +2,6 @@
   imports = [
     ./adb.nix
     ./development.nix
-    ./lsp.nix
     ./steam.nix
     ./others.nix
     ./thunar.nix
