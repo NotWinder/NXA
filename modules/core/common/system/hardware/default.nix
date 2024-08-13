@@ -2,5 +2,6 @@
   imports = [
     ./audio
     ./gpu
+    ./bluetooth
   ];
 }

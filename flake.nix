@@ -1,11 +1,7 @@
 {
   description = "Nixos config flake";
 
-  outputs = { self, nixpkgs, flake-parts, ... }@inputs:
-    let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
-    in
+  outputs = { self, nixpkgs, flake-parts, nixos-cosmic ,... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, ... }: {
       systems = [ "x86_64-linux" ];
       imports = [
@@ -54,6 +50,11 @@
     hyprpaper.url = "github:hyprwm/hyprpaper";
     hyprland-plugins.url = "github:hyprwm/hyprland-plugins";
     hyprpicker.url = "github:hyprwm/hyprpicker";
+
+    nixos-cosmic = {
+        url = "github:lilyinstarlight/nixos-cosmic";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     matugen.url = "github:InioX/matugen";
     ags.url = "github:Aylur/ags";

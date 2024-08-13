@@ -4,7 +4,7 @@ let
   # mkNixosIso and mkNixosSystem are my own builders for assembling a nixos system
   # provided by my local extended library
   inherit (inputs.self) lib;
-  inherit (lib) concatLists mkNixosIso mkNixosSystem;
+  inherit (lib) concatLists mkNixosSystem;
 
   ## flake inputs ##
   hm = inputs.home-manager.nixosModules.home-manager; # home-manager nixos module
