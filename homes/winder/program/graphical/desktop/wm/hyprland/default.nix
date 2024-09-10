@@ -3,14 +3,11 @@
 {
   wayland.windowManager.hyprland = {
     enable = true;
-   #package = inputs.hyprland.packages.${pkgs.system}.hyprland.override { legacyRenderer = true; };
-   #package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     settings = {
       "$mainMod" = "SUPER";
       "$browser" = "chromium";
       monitor = [
         ",1440x900,auto,1"
-        "Unknown-1,disable"
       ];
       animation = import ./config/animation.nix;
       bind = import ./config/bind.nix;

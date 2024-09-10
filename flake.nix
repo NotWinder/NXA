@@ -1,15 +1,14 @@
 {
   description = "Nixos config flake";
 
-  outputs = { self, nixpkgs, flake-parts, nixos-cosmic ,... }@inputs:
+  outputs = inputs@{ self, nixpkgs, flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, ... }: {
-      systems = [ "x86_64-linux" ];
       imports = [
         { config._module.args._inputs = inputs // { inherit (inputs) self; }; }
 
         ## parts of the flake
-        ./flake/modules # nixos and home-manager modules provided by this flake
-        ./flake/pkgs # packages exposed by the flake
+        #./flake/modules # nixos and home-manager modules provided by this flake
+        #./flake/pkgs # packages exposed by the flake
         ./flake/templates # flake templates
 
         ./flake/args.nix # args that are passed to the flake, moved away from the main file
@@ -20,22 +19,21 @@
         ./flake/shell.nix # devShells exposed by the flake
       ];
       flake = {
+        nixosConfigurations = import ./hosts { inherit inputs withSystem self; };
+
         formatter = {
           x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
         };
 
         packages.x86_64-linux.default =
           nixpkgs.legacyPackages.x86_64-linux.callPackage ./homes/winder/program/graphical/desktop/tools/bar/ags/config { inherit inputs; };
-        # entry-point for nixos configurations
-        nixosConfigurations = import ./hosts { inherit inputs withSystem self; };
       };
+      systems = [ "x86_64-linux" ];
     });
 
   inputs = {
-
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # Powered by
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
@@ -46,20 +44,33 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-   #hyprland.url = "github:hyprwm/Hyprland";
-    hyprpaper.url = "github:hyprwm/hyprpaper";
-    hyprland-plugins.url = "github:hyprwm/hyprland-plugins";
-    hyprpicker.url = "github:hyprwm/hyprpicker";
-
-    nixos-cosmic = {
-        url = "github:lilyinstarlight/nixos-cosmic";
-        inputs.nixpkgs.follows = "nixpkgs";
+    ags = {
+      url = "github:Aylur/ags";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    matugen.url = "github:InioX/matugen";
-    ags.url = "github:Aylur/ags";
-    astal.url = "github:Aylur/astal";
-    stm.url = "github:Aylur/stm";
-
+    astal = {
+      url = "github:Aylur/astal";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    matugen = {
+      url = "github:InioX/matugen";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nil_ls = {
+      url = "github:oxalica/nil";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    stm = {
+      url = "github:Aylur/stm";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprpaper = {
+      url = "github:hyprwm/hyprpaper";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprpicker = {
+      url = "github:hyprwm/hyprpicker";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }

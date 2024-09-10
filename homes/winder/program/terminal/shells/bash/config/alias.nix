@@ -39,7 +39,7 @@
     py="python3";
 
     # Rust
-    fempty="cargo run --manifest-path /home/winder/rust/empty/Cargo.toml";
+    fempty="cargo run --manifest-path /home/winder/rust/fempty/Cargo.toml";
 
     # List Contents
     la="ls -Ah";

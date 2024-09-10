@@ -4,35 +4,35 @@
   ## Install Packages
   environment.systemPackages = with pkgs; [
     anydesk
+    bottles
+    celluloid
     doctl
+    gcc
     gh
     gparted
     heroic
-    bottles
+    mangohud
+    mpv
     networkmanagerapplet
     ntfs3g
     nwg-look
-    qpwgraph
-    sshuttle
-    android-studio
-    telegram-desktop
-    sing-box
-    tldr
+    pcsx2
     picard
     picard-tools
+    qpwgraph
+    sing-box
+    sshuttle
+    telegram-desktop
+    tldr
     trash-cli
     tree
+    uget
+    uget-integrator
+    universal-android-debloater
     unrar
     unzip
     ventoy
     vlc
-    mpv
-    celluloid
-    pcsx2
-    universal-android-debloater
     wget
-    uget
-    mangohud
-    uget-integrator
   ];
 }

@@ -51,18 +51,8 @@
             echo "welcome to the python shell"
           '';
         };
-        java = pkgs.mkShell {
-          packages = with pkgs;
-            [
-              java-language-server
-              jdk21
-            ];
-
-          shellHook = ''
-            echo "welcome to the java shell"
-          '';
-        };
         angular = pkgs.mkShell {
+          meta.description = "The angular development shell";
           packages = with pkgs;
             [
               nodePackages."@angular/cli"
@@ -74,19 +64,8 @@
             echo "welcome to the angular shell"
           '';
         };
-        rust = pkgs.mkShell {
-          packages = with pkgs;
-            [
-              cargo
-              rustup
-              rust-analyzer
-            ];
-
-          shellHook = ''
-            echo "welcome to the rust shell"
-          '';
-        };
         go = pkgs.mkShell {
+          meta.description = "The go development shell";
           packages = with pkgs;
             [
               go

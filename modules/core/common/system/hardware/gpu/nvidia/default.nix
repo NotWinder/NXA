@@ -9,11 +9,9 @@
       enable = true;
     };
 
-
     nvidia = {
       modesetting.enable = true;
-      forceFullCompositionPipeline = true;
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
   };
 }

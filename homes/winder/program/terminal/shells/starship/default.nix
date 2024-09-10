@@ -1,138 +1,255 @@
-{lib, ...}:
+{ lib, ... }:
+let
+  inherit (builtins) map;
+  inherit (lib.strings) concatStrings;
+in
 {
-    programs.starship = {
-        enable = true;
-        settings = {
-            format = lib.concatStrings [
-                    "[](#3B4252)"
-                    "$username"
-                    "[](bg:#434C5E fg:#3B4252)"
-                    "$directory"
-                    "[](fg:#434C5E bg:#4C566A)"
-                    "$git_branch"
-                    "$git_status"
-                    "[](fg:#4C566A bg:#86BBD8)"
-                    "$c"
-                    "$elixir"
-                    "$elm"
-                    "$golang"
-                    "$haskell"
-                    "$java"
-                    "$julia"
-                    "$nodejs"
-                    "$nim"
-                    "$rust"
-                    "[](fg:#86BBD8 bg:#06969A)"
-                    "$docker_context"
-                    "[](fg:#06969A bg:#33658A)"
-                    "$time"
-                    "[ ](fg:#33658A)"
-                    ];
-            command_timeout = 5000;
+  programs.starship =
+    let
+      elemsConcatted = concatStrings (
+        map (s: "\$${s}") [
+          "hostname"
+          "username"
+          "directory"
+          "shell"
+          "nix_shell"
+          "git_branch"
+          "git_commit"
+          "git_state"
+          "git_status"
+          "jobs"
+          "cmd_duration"
+        ]
+      );
+    in
+    {
+      enable = true;
+      settings = {
+        command_timeout = 5000;
 
-            directory.substitutions = {
-                "Downloads" = " ";
-                "Music" = " ";
-                "Pictures" = " ";
-            };
-
-
-            username = {
-                show_always = true;
-                style_user = "bg:#3b4252";
-                style_root = "bg:#3b4252";
-                format = "[$user ]($style)";
-            };
-
-            directory = {
-                style = "bg:#434C5E";
-                format = "[ $path ]($style)";
-                truncation_length = 3;
-                truncation_symbol = "…/";
-            };
-
-            c = {
-                symbol = " ";
-                style = "bg:#86BBD8";
-                format = "[ $symbol ($version) ]($style)";
-            };
-
-            docker_context = {
-                symbol = " ";
-                style = "bg:#06969A";
-                format = "[ $symbol $context ]($style) $path";
-            };
-
-            elixir = {
-                symbol = " ";
-                style = "bg:#86BBD8";
-                format = "[ $symbol ($version) ]($style)";
-            };
-            elm = {
-                symbol = " ";
-                style = "bg:#86BBD8";
-                format = "[ $symbol ($version) ]($style)";
-            };
-
-            git_branch = {
-                symbol = "";
-                style = "bg:#4C566A";
-                format = "[ $symbol $branch ]($style)";
-            };
-
-            git_status = {
-                style = "bg:#4C566A";
-                format = "[$all_status$ahead_behind ]($style)";
-            };
-
-            golang = {
-                symbol = " ";
-                style = "bg:#86BBD8";
-                format = "[ $symbol ($version) ]($style)";
-            };
-
-            haskell = {
-                symbol = " ";
-                style = "bg:#86BBD8";
-                format = "[ $symbol ($version) ]($style)";
-            };
-
-            java = {
-                symbol = " ";
-                style = "bg:#86BBD8";
-                format = "[ $symbol ($version) ]($style)";
-            };
-
-            julia = {
-                symbol = " ";
-                style = "bg:#86BBD8";
-                format = "[ $symbol ($version) ]($style)";
-            };
-
-            nodejs = {
-                symbol = "";
-                style = "bg:#86BBD8";
-                format = "[ $symbol ($version) ]($style)";
-            };
-
-            nim = {
-                symbol = " ";
-                style = "bg:#86BBD8";
-                format = "[ $symbol ($version) ]($style)";
-            };
-
-            rust = {
-                symbol = "";
-                style = "bg:#86BBD8";
-                format = "[ $symbol ($version) ]($style)";
-            };
-
-            time = {
-                disabled = false;
-                time_format = "%R";
-                    style = "bg:#33658A";
-                format = "[ $time ]($style)";
-            };
+        # configure specific elements
+        character = {
+          error_symbol = "[](bold red)";
+          success_symbol = "[](bold green)";
+          vicmd_symbol = "[](bold yellow)";
+          format = "$symbol [|](bold bright-black) ";
         };
+
+        format = "${elemsConcatted}\n$character";
+
+        hostname = {
+          ssh_only = true;
+          disabled = false;
+          format = "@[$hostname](bold blue) "; # the whitespace at the end is actually important
+        };
+        username = {
+          format = "[$user]($style) in ";
+        };
+
+        directory = {
+          truncation_length = 2;
+
+          # removes the read_only symbol from the format, it doesn't play nicely with my folder icon
+          format = "[ ](bold green) [$path]($style) ";
+
+          # the following removes tildes from the path, and substitutes some folders with shorter names
+          substitutions = {
+            "~/Dev" = "Dev";
+            "~/Documents" = "Docs";
+          };
+        };
+
+        directory.substitutions = {
+          "Downloads" = " ";
+          "Music" = " ";
+          "Pictures" = " ";
+        };
+
+        aws = {
+          symbol = "  ";
+        };
+        buf = {
+          symbol = " ";
+        };
+        c = {
+          symbol = " ";
+        };
+        conda = {
+          symbol = " ";
+        };
+        crystal = {
+          symbol = " ";
+        };
+        dart = {
+          symbol = " ";
+        };
+        directory = {
+          read_only = " 󰌾";
+        };
+        docker_context = {
+          symbol = " ";
+        };
+        elixir = {
+          symbol = " ";
+        };
+        elm = {
+          symbol = " ";
+        };
+        fennel = {
+          symbol = " ";
+        };
+        fossil_branch = {
+          symbol = " ";
+        };
+        git_branch = {
+          symbol = " ";
+        };
+        git_status = {
+          ahead = "⇡ ";
+          behind = "⇣ ";
+          conflicted = " ";
+          deleted = "✘ ";
+          diverged = "⇆ ";
+          modified = "!";
+          renamed = "»";
+          staged = "+";
+          stashed = "≡";
+          style = "red";
+          untracked = "?";
+        };
+        golang = {
+          symbol = " ";
+        };
+        guix_shell = {
+          symbol = " ";
+        };
+        haskell = {
+          symbol = " ";
+        };
+        haxe = {
+          symbol = " ";
+        };
+        hg_branch = {
+          symbol = " ";
+        };
+        hostname = {
+          ssh_symbol = " ";
+        };
+        java = {
+          symbol = " ";
+        };
+        julia = {
+          symbol = " ";
+        };
+        kotlin = {
+          symbol = " ";
+        };
+        lua = {
+          symbol = " ";
+        };
+        memory_usage = {
+          symbol = "󰍛 ";
+        };
+        meson = {
+          symbol = "󰔷 ";
+        };
+        nim = {
+          symbol = "󰆥 ";
+        };
+        nix_shell = {
+          symbol = " ";
+        };
+        nodejs = {
+          symbol = " ";
+        };
+        ocaml = {
+          symbol = " ";
+        };
+        os.symbols = {
+          Alpaquita = " ";
+          Alpine = " ";
+          AlmaLinux = " ";
+          Amazon = " ";
+          Android = " ";
+          Arch = " ";
+          Artix = " ";
+          CentOS = " ";
+          Debian = " ";
+          DragonFly = " ";
+          Emscripten = " ";
+          EndeavourOS = " ";
+          Fedora = " ";
+          FreeBSD = " ";
+          Garuda = "󰛓 ";
+          Gentoo = " ";
+          HardenedBSD = "󰞌 ";
+          Illumos = "󰈸 ";
+          Kali = " ";
+          Linux = " ";
+          Mabox = " ";
+          Macos = " ";
+          Manjaro = " ";
+          Mariner = " ";
+          MidnightBSD = " ";
+          Mint = " ";
+          NetBSD = " ";
+          NixOS = " ";
+          OpenBSD = "󰈺 ";
+          openSUSE = " ";
+          OracleLinux = "󰌷 ";
+          Pop = " ";
+          Raspbian = " ";
+          Redhat = " ";
+          RedHatEnterprise = " ";
+          RockyLinux = " ";
+          Redox = "󰀘 ";
+          Solus = "󰠳 ";
+          SUSE = " ";
+          Ubuntu = " ";
+          Unknown = " ";
+          Void = " ";
+          Windows = "󰍲 ";
+        };
+
+        package = {
+          symbol = "󰏗 ";
+        };
+        perl = {
+          symbol = " ";
+        };
+        php = {
+          symbol = " ";
+        };
+        pijul_channel = {
+          symbol = " ";
+        };
+        python = {
+          symbol = " ";
+        };
+        rlang = {
+          symbol = "󰟔 ";
+        };
+        ruby = {
+          symbol = " ";
+        };
+        rust = {
+          symbol = "󱘗 ";
+        };
+        scala = {
+          symbol = " ";
+        };
+        swift = {
+          symbol = " ";
+        };
+        zig = {
+          symbol = " ";
+        };
+        time = {
+          disabled = false;
+          time_format = "%R";
+          style = "bg:#33658A";
+          format = "[ $time ]($style)";
+        };
+      };
     };
 }

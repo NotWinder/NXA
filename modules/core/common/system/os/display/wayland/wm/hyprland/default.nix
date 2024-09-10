@@ -1,4 +1,4 @@
-{ pkgs, inputs, config, ... }: {
+{ pkgs, ... }: {
 
   imports = [
     ./vulkanRenderer.nix

@@ -9,9 +9,14 @@
       ];
       window = {
         opacity = 0.8;
+        padding = {
+          x = 20;
+          y = 0;
+        };
       };
       font = {
         normal.family = "MesloLGL Nerd Font";
+        size = 16;
       };
       colors.primary = {
         background = "#000009";

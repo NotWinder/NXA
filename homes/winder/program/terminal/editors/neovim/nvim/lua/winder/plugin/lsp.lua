@@ -15,7 +15,7 @@ require("mason-lspconfig").setup_handlers({
     require("lspconfig").tsserver.setup({ capabilities = capabilities }),
     require("lspconfig").gopls.setup({ capabilities = capabilities }),
     require("lspconfig").rust_analyzer.setup({ capabilities = capabilities }),
-    require("lspconfig").lua_ls.setup({ capabilities = capabilities })
+    require("lspconfig").lua_ls.setup({ capabilities = capabilities }),
 })
 local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -23,7 +23,7 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local augroup = vim.api.nvim_create_augroup
 local WinderGroup = augroup("winder", {})
 local autocmd = vim.api.nvim_create_autocmd
-local yank_group = augroup('HighlightYank', {})
+local yank_group = augroup("HighlightYank", {})
 
 autocmd("LspAttach", {
     group = WinderGroup,
