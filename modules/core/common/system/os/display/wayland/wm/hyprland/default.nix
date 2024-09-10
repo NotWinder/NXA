@@ -21,9 +21,9 @@
     loupe
     adwaita-icon-theme
     gnome-calendar
-    gnome.gnome-boxes
+    gnome-boxes
     gnome-system-monitor
-    gnome.gnome-control-center
+    gnome-control-center
     wl-gammactl
     wl-clipboard
     wayshot
