@@ -16,7 +16,7 @@
       };
       font = {
         normal.family = "MesloLGL Nerd Font";
-        size = 16;
+        size = 14;
       };
       colors.primary = {
         background = "#000009";
