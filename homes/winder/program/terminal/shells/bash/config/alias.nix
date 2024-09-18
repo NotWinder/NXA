@@ -108,12 +108,15 @@
   # SHA1 Hash
   sha1 = "openssl sha1";
 
-  # Nixos aliases 
+  ## Nixos aliases 
+  # Shells
   devng = "nix develop /home/winder/github/nix-winder/#angular";
   devdjango = "nix develop /home/winder/github/nix-winder/#django";
   devjava = "nix develop /home/winder/github/nix-winder/#java";
   devgo = "nix develop /home/winder/github/nix-winder/#go";
   devrust = "nix develop /home/winder/github/nix-winder/#rust";
+
+  winder-box = "sudo nix run github:notwinder/sing-box-flake";
 
   # Miscellaneous
   Hyprland = "exec env WLR_NO_HARDWARE_CURSORS=1 Hyprland";
