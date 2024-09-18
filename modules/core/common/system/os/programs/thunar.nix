@@ -1,8 +1,4 @@
-{pkgs, ...}: {
-  # the thunar file manager
-  # we enable thunar here and add plugins instead of in systemPackages
-  # it is enabled unconditionally as a relatively lightweight fallback
-  # option for my system file manager. I still use dolphin most of the time
+{ pkgs, ... }: {
   programs.thunar = {
     enable = true;
     plugins = with pkgs.xfce; [
@@ -13,14 +9,12 @@
 
   environment = {
     systemPackages = with pkgs; [
-      # packages necessery for thunar thumbnails
-      xfce.tumbler
-      libgsf # odf files
+      ark
       ffmpegthumbnailer
-      ark # GUI archiver for thunar archive plugin
+      libgsf
+      xfce.tumbler
     ];
   };
 
-  # thumbnail support on thunar
   services.tumbler.enable = true;
 }

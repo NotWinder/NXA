@@ -1,0 +1,108 @@
+body,
+#Title,
+#searchbox,
+#linkblock,
+ul,
+a:link,
+a:visited,
+a:hover,
+a:active,
+a:focus,
+#footer a:link,
+#footer a:visited,
+#footer a:hover,
+#footer a:active,
+#footer a:focus {
+    color: #cdd6f4;
+}
+
+body {
+    background-color: #11111b;
+}
+
+#Title,
+#searchbox,
+#linkblock {
+    font-family: "Malgun Gothic", "Roboto Slab", "Lato", sans-serif;
+}
+
+#Title {
+    text-align: center;
+    margin-top: 75px;
+}
+
+#searchbox {
+    width: 500px;
+    height: 4%;
+    border: none;
+    border-radius: 2px;
+    outline: none;
+    padding-left: 15px;
+    text-align: left;
+    background-color: #1e1e2e;
+    font-size: 15px;
+    display: block;
+    margin: auto;
+    margin-top: 50px;
+}
+
+#stripe {
+    width: 100%;
+    vertical-align: middle;
+}
+
+#mainframe {
+    text-align: center;
+    position: absolute;
+    top: 25%;
+    left: 16%;
+    right: 11%;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    text-align: right;
+    padding: 10px;
+    font-size: 30%;
+}
+
+#linkblock {
+    width: 20%;
+    height: 140px;
+    margin: 30px 30px 40px 25px;
+    padding: 0 1px 5px 67px;
+    background-position: top 0px left 0px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: top;
+    border-left: 3px solid #181825;
+    transition: 0.5s;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active,
+a:focus {
+    text-decoration: none;
+    font-weight: normal;
+}
+
+a:hover {
+    color: #b4befe;
+}
+
+#footer a:link,
+#footer a:visited,
+#footer a:hover,
+#footer a:active,
+#footer a:focus {
+    color: #101010;
+}

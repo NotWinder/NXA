@@ -10,10 +10,8 @@
 
     openssh.enable = true;
 
-    ## Resolved
     resolved.enable = true;
 
-    ## Flatpak
     flatpak.enable = true;
   };
 }

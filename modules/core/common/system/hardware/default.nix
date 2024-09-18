@@ -1,7 +1,7 @@
 {
   imports = [
     ./audio
-    ./gpu
     ./bluetooth
+    ./gpu
   ];
 }

@@ -6,12 +6,17 @@
     anydesk
     bottles
     celluloid
+    davinci-resolve
     doctl
     gcc
     gh
     gparted
+    gpt4all
     heroic
+    jq
+    kget
     mangohud
+    motrix
     mpv
     networkmanagerapplet
     ntfs3g
@@ -27,7 +32,6 @@
     trash-cli
     tree
     uget
-    uget-integrator
     universal-android-debloater
     unrar
     unzip

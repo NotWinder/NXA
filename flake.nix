@@ -1,34 +1,21 @@
 {
   description = "Nixos config flake";
 
-  outputs = inputs@{ self, nixpkgs, flake-parts, ... }:
-    flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, ... }: {
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = import inputs.systems;
+
       imports = [
-        { config._module.args._inputs = inputs // { inherit (inputs) self; }; }
-
-        ## parts of the flake
-        #./flake/modules # nixos and home-manager modules provided by this flake
-        #./flake/pkgs # packages exposed by the flake
-        ./flake/templates # flake templates
-
-        ./flake/args.nix # args that are passed to the flake, moved away from the main file
-        ./flake/deployments.nix # deploy-rs configurations for active hosts
-        #./flake/fmt.nix # various formatter configurations for this flake
-        #./flake/iso-images.nix # local installation media
-        #./flake/pre-commit.nix # pre-commit hooks, performed before each commit inside the devShell
-        ./flake/shell.nix # devShells exposed by the flake
+        ./parts # Parts of the flake that are used to construct the final flake.
+        ./hosts # Entrypoint for host configurations of my systems.
       ];
-      flake = {
-        nixosConfigurations = import ./hosts { inherit inputs withSystem self; };
-
-        packages.x86_64-linux.default =
-          nixpkgs.legacyPackages.x86_64-linux.callPackage ./homes/winder/program/graphical/desktop/tools/bar/ags/config { inherit inputs; };
-      };
-      systems = [ "x86_64-linux" ];
-    });
+    };
 
   inputs = {
+    systems.url = "github:nix-systems/default-linux";
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-small.url = "github:NixOS/nixpkgs/nixos-unstable-small"; # moves faster, has less packages
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";

@@ -6,7 +6,6 @@
       device = "nodev";
       useOSProber = true;
       efiSupport = true;
-      gfxmodeEfi= "1440x900";
     };
     efi.canTouchEfiVariables = true;
   };

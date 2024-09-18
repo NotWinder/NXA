@@ -5,6 +5,7 @@
     ./steam.nix
     ./others.nix
     ./thunar.nix
+    ./wine.nix
   ];
 
   programs = {
