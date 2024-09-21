@@ -17,13 +17,11 @@
       modulePath = ../modules;
 
       coreModules = modulePath + /core; # the path where common modules reside
-      extraModules = modulePath + /extra; # the path where extra modules reside
       options = modulePath + /options; # the module that provides the options for my system configuration
 
       # common modules
       # to be shared across all systems without exception
       common = coreModules + /common; # the self-proclaimed sane defaults for all my systems
-      sharedModules = extraModules + /shared; # the path where shared modules reside
 
       # home-manager #
       homesDir = ../homes; # home-manager configurations for hosts that need home-manager
@@ -32,7 +30,6 @@
       # a list of shared modules that ALL systems need
       shared = [
         common # the "sane" default shared across systems
-        sharedModules # consume my flake's own nixosModules
         options # provide options for defined modules across the system
       ];
     in
