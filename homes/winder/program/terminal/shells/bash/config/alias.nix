@@ -116,7 +116,7 @@
   devgo = "nix develop /home/winder/github/nix-winder/#go";
   devrust = "nix develop /home/winder/github/nix-winder/#rust";
 
-  winder-box = "sudo nix run github:notwinder/sing-box-flake";
+  winder-box = "sudo nix run github:notwinder/sbf";
 
   # Miscellaneous
   Hyprland = "exec env WLR_NO_HARDWARE_CURSORS=1 Hyprland";

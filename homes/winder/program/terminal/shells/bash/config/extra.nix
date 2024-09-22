@@ -2,13 +2,6 @@
   [[ -f ~/.profile ]] && . ~/.profile
   iatest=$(expr index "$-" i)
 
-   #XDG_DATA_HOME="$HOME/.local/share";
-   #XDG_STATE_HOME="$HOME/.local/state";
-   #XDG_CONFIG_HOME="$HOME/.config";
-   #XDG_CACHE_HOME="$HOME/.cache";
-   #XDG_DATA_DIRS="/run/current-system/sw/share/";
-   #XDG_RUNTIME_DIR="/run/user/$UID";
-
   # Ignore case on auto-completion
   # Note: bind used instead of sticking these in .inputrc
   if [[ $iatest -gt 0 ]]; then bind "set completion-ignore-case on"; fi
