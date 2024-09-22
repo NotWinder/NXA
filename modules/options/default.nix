@@ -1,7 +1,7 @@
 {
   imports = [
-    ./docs # internal module system documentation and linking
     ./device # device-specific declarations, hardware-specific
+    ./docs # internal module system documentation and linking
     ./meta # internal read-only system manifests for easy access to system details
     ./profiles # profiles allow the system to batch enable programs without hassle
     ./system # system-level declarations, software-specific

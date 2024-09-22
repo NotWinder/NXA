@@ -1,19 +1,38 @@
+let
+  # copy paste done right
+  XDG_BIN_HOME = "$HOME}/.local/bin";
+  XDG_CACHE_HOME = "$HOME/.cache";
+  XDG_CONFIG_HOME = "$HOME/.config";
+  XDG_DATA_DIRS = "/run/current-system/sw/share/";
+  XDG_DATA_HOME = "$HOME/.local/share";
+  XDG_RUNTIME_DIR = "/run/user/$UID";
+  XDG_STATE_HOME = "$HOME/.local/state";
+
+in
 {
+  XDG_BIN_HOME = "${XDG_BIN_HOME}";
+  XDG_CACHE_HOME = "${XDG_CACHE_HOME}";
+  XDG_CONFIG_HOME = "${XDG_CONFIG_HOME}";
+  XDG_DATA_DIRS = "${XDG_DATA_DIRS}";
+  XDG_DATA_HOME = "${XDG_DATA_HOME}";
+  XDG_RUNTIME_DIR = "${XDG_RUNTIME_DIR}";
+  XDG_STATE_HOME = "${XDG_STATE_HOME}";
+
   ##X11
-  XINITRC = "$XDG_CONFIG_HOME/X11/xinitrc";
-  ERRFILE = "$XDG_CACHE_HOME/X11/xsession-errors";
-  XCOMPOSECACHE = "$XDG_CACHE_HOME/X11/xcompose";
+  XINITRC = "${XDG_CONFIG_HOME}/X11/xinitrc";
+  ERRFILE = "${XDG_CACHE_HOME}/X11/xsession-errors";
+  XCOMPOSECACHE = "${XDG_CACHE_HOME}/X11/xcompose";
 
   ##NPM
-  NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/npmrc";
+  NPM_CONFIG_USERCONFIG = "${XDG_CONFIG_HOME}/npm/npmrc";
 
   ##Gtk
-  GTK_RC_FILES = "$XDG_CONFIG_HOME/gtk-1.0/gtkrc";
-  GTK2_RC_FILES = "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
+  GTK_RC_FILES = "${XDG_CONFIG_HOME}/gtk-1.0/gtkrc";
+  GTK2_RC_FILES = "${XDG_CONFIG_HOME}/gtk-2.0/gtkrc";
 
   ##Rust
-  CARGO_HOME = "$XDG_DATA_HOME/cargo";
-  RUSTUP_HOME = "$XDG_DATA_HOME/rustup";
+  CARGO_HOME = "${XDG_DATA_HOME}/cargo";
+  RUSTUP_HOME = "${XDG_DATA_HOME}/rustup";
 
   ##Colors
   CLICOLOR = 1;
@@ -27,8 +46,7 @@
   LESS_TERMCAP_us = "$'\E[01;32m'";
 
   ##Others
-  GNUPGHOME = "$XDG_DATA_HOME/gnupg";
-  WGETRC = "$XDG_CONFIG_HOME/wgetrc";
-  WINEPREFIX = "$XDG_DATA_HOME/wineprefixes/64-bit";
-  PATH = "$PATH:/usr/local/go/bin";
+  GNUPGHOME = "${XDG_DATA_HOME}/gnupg";
+  WGETRC = "${XDG_CONFIG_HOME}/wgetrc";
+  WINEPREFIX = "${XDG_DATA_HOME}/wineprefixes/64-bit";
 }

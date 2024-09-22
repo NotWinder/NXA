@@ -1,4 +1,5 @@
-system: let
+system:
+let
   # copy paste done right
   XDG_CONFIG_HOME = "$HOME/.config";
   XDG_CACHE_HOME = "$HOME/.cache";
@@ -6,11 +7,12 @@ system: let
   XDG_STATE_HOME = "$HOME/.local/state";
   XDG_BIN_HOME = "$HOME}/.local/bin";
   XDG_RUNTIME_DIR = "/run/user/$UID";
-in {
+in
+{
   # global env
   glEnv = {
     inherit XDG_DATA_HOME XDG_CONFIG_HOME XDG_CACHE_HOME XDG_STATE_HOME XDG_RUNTIME_DIR XDG_BIN_HOME;
-    PATH = ["$XDG_BIN_HOME"];
+    PATH = [ "$XDG_BIN_HOME" ];
   };
 
   sysEnv = {
@@ -61,7 +63,7 @@ in {
 
   pythonrc.text =
     /*
-    python
+      python
     */
     ''
       import os

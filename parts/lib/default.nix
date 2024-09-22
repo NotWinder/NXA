@@ -111,7 +111,7 @@ let
         themes = callLibs ./themes.nix;
 
         # XDG user directories and templates.
-        # xdg = callLibs ./xdg.nix;
+        xdg = callLibs ./xdg.nix;
       };
 
       # A shorthand alias for the xdg templates used by nixos and home-manager.

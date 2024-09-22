@@ -24,6 +24,7 @@
     pcsx2
     picard
     picard-tools
+    qbittorrent
     qpwgraph
     sing-box
     sshuttle
