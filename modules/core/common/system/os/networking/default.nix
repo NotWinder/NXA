@@ -1,4 +1,8 @@
 {
+  imports = [
+  #./bind.nix
+  ];
+
   ##  Networking
   networking = {
     hostId = "cad6d24f";

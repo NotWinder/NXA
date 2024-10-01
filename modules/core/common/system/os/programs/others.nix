@@ -6,7 +6,9 @@
     anydesk
     bottles
     celluloid
-    davinci-resolve
+    certbot-full
+    cobra-cli
+    #davinci-resolve
     doctl
     gcc
     gh

@@ -117,6 +117,7 @@
   devrust = "nix develop /home/winder/github/nix-winder/#rust";
 
   winder-box = "sudo nix run github:notwinder/sbf";
+  flake-build = "sudo nixos-rebuild switch --flake .#winder";
 
   # Miscellaneous
   Hyprland = "exec env WLR_NO_HARDWARE_CURSORS=1 Hyprland";

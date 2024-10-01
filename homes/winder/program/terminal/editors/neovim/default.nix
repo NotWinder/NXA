@@ -41,7 +41,7 @@
     #nil # nix lsp
     inputs.nil_ls.packages.${system}.default
     rust-analyzer # rust lsp
-    nodePackages.typescript-language-server # tsserver lsp
+    typescript-language-server # ts_ls
     #formatters and linters
     black
     golines

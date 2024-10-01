@@ -36,7 +36,26 @@
           [
             python3Full
             python312Packages.pip
-            python312Packages.openai
+            python312Packages.pillow
+            python312Packages.pygments
+            python312Packages.certifi
+            python312Packages.charset-normalizer
+            python312Packages.colorama
+            python312Packages.customtkinter
+            python312Packages.customtkinter
+            python312Packages.darkdetect
+            python312Packages.idna
+            python312Packages.markdown-it-py
+            python312Packages.mdurl
+            python312Packages.ordered-set
+            python312Packages.python-dotenv
+            python312Packages.requests
+            python312Packages.rich
+            python312Packages.thefuzz
+            python312Packages.tqdm
+            python312Packages.urllib3
+            python312Packages.wheel
+            python312Packages.zstandard
           ];
 
         shellHook = ''
