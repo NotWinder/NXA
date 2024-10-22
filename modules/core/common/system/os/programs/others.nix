@@ -6,14 +6,12 @@
     anydesk
     bottles
     celluloid
-    certbot-full
     cobra-cli
     #davinci-resolve
     doctl
     gcc
     gh
     gparted
-    gpt4all
     heroic
     jq
     kget

@@ -3,5 +3,6 @@
     ./audio
     ./bluetooth
     ./gpu
+    #./printers
   ];
 }

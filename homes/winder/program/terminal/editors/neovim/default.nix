@@ -3,29 +3,32 @@
 {
   programs.neovim = {
     enable = true;
+    extraLuaConfig = "require('winder')";
     plugins = with pkgs.vimPlugins; [
-      undotree
-      telescope-nvim
-      telescope-ui-select-nvim
-      none-ls-nvim
-      onedark-nvim
-      lualine-nvim
-      harpoon
-      mason-nvim
-      mason-lspconfig-nvim
-      nvim-lspconfig
+      #plugins
       cmp-nvim-lsp
-      luasnip
       cmp_luasnip
       friendly-snippets
+      harpoon
+      lualine-nvim
+      luasnip
+      mason-lspconfig-nvim
+      mason-nvim
+      none-ls-nvim
       nvim-cmp
+      nvim-lspconfig
       nvim-treesitter
+      onedark-nvim
+      telescope-nvim
+      telescope-ui-select-nvim
+      undotree
     ];
-    extraLuaConfig = "require('winder')";
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
     withNodeJs = true;
+    withPython3 = true;
+    withRuby = true;
   };
   programs.ripgrep.enable = true;
 

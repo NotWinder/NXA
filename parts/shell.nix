@@ -76,6 +76,20 @@
           echo "welcome to the angular shell"
         '';
       };
+
+      java = pkgs.mkShell {
+        name = "java";
+        meta.description = "The java development shell";
+        packages = with pkgs;
+          [
+            jdk22
+            java-language-server
+          ];
+
+        shellHook = ''
+          echo "welcome to the java shell"
+        '';
+      };
       go = pkgs.mkShell {
         name = "go";
         meta.description = "The go development shell";

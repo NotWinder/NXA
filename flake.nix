@@ -1,15 +1,22 @@
 {
   description = "Nixos config flake";
 
-  outputs = inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = import inputs.systems;
+  outputs = { self, nixpkgs, flake-parts, ... }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; }
+      ({ withSystem, ... }: {
 
-      imports = [
-        ./parts # Parts of the flake that are used to construct the final flake.
-        ./hosts # Entrypoint for host configurations of my systems.
-      ];
-    };
+        systems = import inputs.systems;
+
+        imports = [
+          ./parts # Parts of the flake that are used to construct the final flake.
+          ./hosts # Entrypoint for host configurations of my systems.
+        ];
+
+        flake = {
+          packages.x86_64-linux.default =
+            nixpkgs.legacyPackages.x86_64-linux.callPackage ./homes/winder/program/graphical/tools/bar/ags/config { inherit inputs; };
+        };
+      });
 
   inputs = {
     systems.url = "github:nix-systems/default-linux";
@@ -27,18 +34,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    ags = {
-      url = "github:Aylur/ags";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    astal = {
-      url = "github:Aylur/astal";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    matugen = {
-      url = "github:InioX/matugen";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    matugen.url = "github:InioX/matugen?ref=v2.2.0";
+    ags.url = "github:Aylur/ags";
+    astal.url = "github:Aylur/astal";
+
     nil_ls = {
       url = "github:oxalica/nil";
       inputs.nixpkgs.follows = "nixpkgs";

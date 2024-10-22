@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # initializing the wallpaper daemon
-hyprpaper &
+#hyprpaper &
 
 # Bar
 asztal &
