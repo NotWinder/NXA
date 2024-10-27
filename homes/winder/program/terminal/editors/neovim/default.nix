@@ -1,10 +1,8 @@
-{ inputs, ... }:
-let
+{inputs, ...}: let
   system = "x86_64-linux";
-in
-
-{
-  programs.neovim = inputs.nvw.lib.mkHomeManager { inherit system; };
+in {
+  programs.neovim = inputs.nvw.lib.mkHomeManager {inherit system;};
+  programs.ripgrep.enable = true;
   #programs.neovim = {
   #  enable = true;
   #  extraLuaConfig = "require('winder')";
@@ -61,5 +59,4 @@ in
   #  revive
   #  stylua
   #];
-
 }
