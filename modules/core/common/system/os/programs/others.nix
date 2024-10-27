@@ -3,17 +3,20 @@
 {
   ## Install Packages
   environment.systemPackages = with pkgs; [
+    #davinci-resolve
     anydesk
     bottles
     celluloid
     cobra-cli
-    #davinci-resolve
+    discord
     doctl
     gcc
     gh
     gparted
     heroic
     jq
+    kdePackages.dolphin
+    kdePackages.dolphin-plugins
     kget
     mangohud
     motrix

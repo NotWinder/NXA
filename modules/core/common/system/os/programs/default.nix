@@ -2,8 +2,9 @@
   imports = [
     ./adb.nix
     ./development.nix
-    ./steam.nix
     ./others.nix
+    ./steam.nix
+    #./sunshine.nix
     ./thunar.nix
     ./wine.nix
   ];

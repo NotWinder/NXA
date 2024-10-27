@@ -38,10 +38,6 @@
     ags.url = "github:Aylur/ags";
     astal.url = "github:Aylur/astal";
 
-    nil_ls = {
-      url = "github:oxalica/nil";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     stm = {
       url = "github:Aylur/stm";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -54,5 +50,6 @@
       url = "github:hyprwm/hyprpicker";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nvw.url = "github:notwinder/nvw";
   };
 }

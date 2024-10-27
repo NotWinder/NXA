@@ -1,58 +1,65 @@
-{ config, pkgs, inputs, ... }:
+{ inputs, ... }:
+let
+  system = "x86_64-linux";
+in
 
 {
-  programs.neovim = {
-    enable = true;
-    extraLuaConfig = "require('winder')";
-    plugins = with pkgs.vimPlugins; [
-      #plugins
-      cmp-nvim-lsp
-      cmp_luasnip
-      friendly-snippets
-      harpoon
-      lualine-nvim
-      luasnip
-      mason-lspconfig-nvim
-      mason-nvim
-      none-ls-nvim
-      nvim-cmp
-      nvim-lspconfig
-      nvim-treesitter
-      onedark-nvim
-      telescope-nvim
-      telescope-ui-select-nvim
-      undotree
-    ];
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-    withNodeJs = true;
-    withPython3 = true;
-    withRuby = true;
-  };
-  programs.ripgrep.enable = true;
+  programs.neovim = inputs.nvw.lib.mkHomeManager { inherit system; };
+  #programs.neovim = {
+  #  enable = true;
+  #  extraLuaConfig = "require('winder')";
+  #  plugins = with pkgs.vimPlugins; [
+  #    #LSP
+  #    mason-nvim
+  #    mason-lspconfig-nvim
+  #    nvim-lspconfig
 
-  home.file."${config.xdg.configHome}/nvim" = {
-    source = ./nvim;
-    recursive = true;
-  };
+  #    #CMP
+  #    nvim-cmp
+  #    luasnip
+  #    cmp_luasnip
+  #    friendly-snippets
+  #    cmp-nvim-lsp
 
-  home.packages = with pkgs;[
-    #lsps
-    lua-language-server # lua lsp
-    gopls # go lsp
-    #nil # nix lsp
-    inputs.nil_ls.packages.${system}.default
-    rust-analyzer # rust lsp
-    typescript-language-server # ts_ls
-    #formatters and linters
-    black
-    golines
-    isort
-    nixpkgs-fmt
-    nodePackages.prettier
-    revive
-    stylua
-  ];
+  #    harpoon
+  #    lualine-nvim
+  #    none-ls-nvim
+  #    nvim-treesitter
+  #    onedark-nvim
+  #    telescope-nvim
+  #    telescope-ui-select-nvim
+  #    undotree
+  #  ];
+  #  viAlias = true;
+  #  vimAlias = true;
+  #  vimdiffAlias = true;
+  #  withNodeJs = true;
+  #  withPython3 = true;
+  #  withRuby = true;
+  #};
+  #programs.ripgrep.enable = true;
+
+  #home.file."${config.xdg.configHome}/nvim" = {
+  #  source = ./nvim;
+  #  recursive = true;
+  #};
+
+  #home.packages = with pkgs;[
+  #  #lsps
+  #  lua-language-server # lua lsp
+  #  gopls # go lsp
+  #  #nixd # nix lsp
+  #  nixd
+  #  rust-analyzer # rust lsp
+  #  typescript-language-server # ts_ls
+  #  #formatters and linters
+  #  black
+  #  golines
+  #  isort
+  #  nixpkgs-fmt
+  #  nodePackages.prettier
+  #  revive
+  #  stylua
+  #];
 
 }
