@@ -1,5 +1,5 @@
 {
-  perSystem = { inputs', config, pkgs, ... }: {
+  perSystem = {pkgs, ...}: {
     devShells = {
       default = pkgs.mkShell {
         name = "nyx";
@@ -32,31 +32,30 @@
       django = pkgs.mkShell {
         name = "python";
         meta.description = "The Python development shell for django";
-        packages = with pkgs;
-          [
-            python3Full
-            python312Packages.pip
-            python312Packages.pillow
-            python312Packages.pygments
-            python312Packages.certifi
-            python312Packages.charset-normalizer
-            python312Packages.colorama
-            python312Packages.customtkinter
-            python312Packages.customtkinter
-            python312Packages.darkdetect
-            python312Packages.idna
-            python312Packages.markdown-it-py
-            python312Packages.mdurl
-            python312Packages.ordered-set
-            python312Packages.python-dotenv
-            python312Packages.requests
-            python312Packages.rich
-            python312Packages.thefuzz
-            python312Packages.tqdm
-            python312Packages.urllib3
-            python312Packages.wheel
-            python312Packages.zstandard
-          ];
+        packages = with pkgs; [
+          python3Full
+          python312Packages.pip
+          python312Packages.pillow
+          python312Packages.pygments
+          python312Packages.certifi
+          python312Packages.charset-normalizer
+          python312Packages.colorama
+          python312Packages.customtkinter
+          python312Packages.customtkinter
+          python312Packages.darkdetect
+          python312Packages.idna
+          python312Packages.markdown-it-py
+          python312Packages.mdurl
+          python312Packages.ordered-set
+          python312Packages.python-dotenv
+          python312Packages.requests
+          python312Packages.rich
+          python312Packages.thefuzz
+          python312Packages.tqdm
+          python312Packages.urllib3
+          python312Packages.wheel
+          python312Packages.zstandard
+        ];
 
         shellHook = ''
           echo "welcome to the python shell"
@@ -65,12 +64,11 @@
       angular = pkgs.mkShell {
         name = "angular";
         meta.description = "The angular development shell";
-        packages = with pkgs;
-          [
-            nodePackages."@angular/cli"
-            nodePackages.typescript-language-server
-            nodejs_22
-          ];
+        packages = with pkgs; [
+          nodePackages."@angular/cli"
+          nodePackages.typescript-language-server
+          nodejs_22
+        ];
 
         shellHook = ''
           echo "welcome to the angular shell"
@@ -80,11 +78,9 @@
       java = pkgs.mkShell {
         name = "java";
         meta.description = "The java development shell";
-        packages = with pkgs;
-          [
-            jdk22
-            java-language-server
-          ];
+        packages = with pkgs; [
+          jdk22
+        ];
 
         shellHook = ''
           echo "welcome to the java shell"
@@ -93,11 +89,10 @@
       go = pkgs.mkShell {
         name = "go";
         meta.description = "The go development shell";
-        packages = with pkgs;
-          [
-            go
-            gopls
-          ];
+        packages = with pkgs; [
+          go
+          gopls
+        ];
 
         shellHook = ''
           echo "welcome to the go shell"
