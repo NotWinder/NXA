@@ -1,12 +1,12 @@
 ##  Bootloader UEFI
-{
+{lib, ...}: {
   boot.loader = {
     grub = {
-      enable = true;
-      device = "nodev";
-      useOSProber = true;
-      efiSupport = true;
+      enable = lib.mkForce true;
+      device = lib.mkForce "nodev";
+      useOSProber = lib.mkForce true;
+      efiSupport = lib.mkForce true;
     };
-    efi.canTouchEfiVariables = true;
+    efi.canTouchEfiVariables = lib.mkForce true;
   };
 }
