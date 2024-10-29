@@ -31,7 +31,6 @@
   mkNixosSystem = {
     withSystem,
     system,
-    hostname,
     ...
   } @ args:
     withSystem system ({
@@ -68,12 +67,7 @@
   # mkIso is should be a set that extends mkSystem with necessary modules
   # to create an Iso image
   # we do not use mkNixosSystem because it overcomplicates things, an ISO does not require what we get in return for those complications
-  mkNixosIso = {
-    modules,
-    system,
-    hostname,
-    ...
-  } @ args:
+  mkNixosIso = {...} @ args:
     mkSystem {
       specialArgs = {inherit inputs lib self;} // args.specialArgs or {};
       modules = concatLists [
@@ -101,11 +95,7 @@
       ];
     };
 
-  mkRaspi4Image = {
-    modules,
-    system,
-    ...
-  } @ args:
+  mkRaspi4Image = {...} @ args:
     mkSystem {
       specialArgs = {inherit inputs lib self;} // args.specialArgs or {};
       modules = concatLists [

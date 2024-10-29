@@ -404,11 +404,11 @@
         "nixpkgs": "nixpkgs_5"
       },
       "locked": {
-        "lastModified": 1730039015,
-        "narHash": "sha256-zQs1RpzMtFOF6n3AlDd3wLhMBAHBFI/jcksbCYnTBP4=",
+        "lastModified": 1730188215,
+        "narHash": "sha256-2RUNNSRwQZgdryKa6lU81gpx97yUz1BmVtGQglRKeRc=",
         "owner": "notwinder",
         "repo": "nvw",
-        "rev": "92d1ae846377abcc12868c0c341a2b2a7ed5758c",
+        "rev": "92723fb75d4080327339eb211e20ea3ae18ab07c",
         "type": "github"
       },
       "original": {

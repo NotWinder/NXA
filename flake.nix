@@ -1,22 +1,25 @@
 {
   description = "Nixos config flake";
 
-  outputs = { self, nixpkgs, flake-parts, ... }@inputs:
-    flake-parts.lib.mkFlake { inherit inputs; }
-      ({ withSystem, ... }: {
+  outputs = {
+    nixpkgs,
+    flake-parts,
+    ...
+  } @ inputs:
+    flake-parts.lib.mkFlake {inherit inputs;}
+    ({...}: {
+      systems = import inputs.systems;
 
-        systems = import inputs.systems;
+      imports = [
+        ./parts # Parts of the flake that are used to construct the final flake.
+        ./hosts # Entrypoint for host configurations of my systems.
+      ];
 
-        imports = [
-          ./parts # Parts of the flake that are used to construct the final flake.
-          ./hosts # Entrypoint for host configurations of my systems.
-        ];
-
-        flake = {
-          packages.x86_64-linux.default =
-            nixpkgs.legacyPackages.x86_64-linux.callPackage ./homes/winder/program/graphical/tools/bar/ags/config { inherit inputs; };
-        };
-      });
+      flake = {
+        packages.x86_64-linux.default =
+          nixpkgs.legacyPackages.x86_64-linux.callPackage ./homes/winder/program/graphical/tools/bar/ags/config {inherit inputs;};
+      };
+    });
 
   inputs = {
     systems.url = "github:nix-systems/default-linux";

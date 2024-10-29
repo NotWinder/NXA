@@ -1,11 +1,11 @@
-{ inputs'
-, self'
-, self
-, config
-, lib
-, ...
-}:
-let
+{
+  inputs',
+  self',
+  self,
+  config,
+  lib,
+  ...
+}: let
   inherit (self) inputs;
   inherit (lib.modules) mkIf mkForce;
   inherit (lib.attrsets) genAttrs;
@@ -15,9 +15,8 @@ let
   sys = modules.system;
   defaults = sys.programs.default;
 
-  specialArgs = { inherit inputs self inputs' self' defaults; };
-in
-{
+  specialArgs = {inherit inputs self inputs' self' defaults;};
+in {
   home-manager = mkIf env.useHomeManager {
     # tell home-manager to be as verbose as possible
     verbose = true;
