@@ -2,7 +2,7 @@
   programs.alacritty = {
     enable = true;
     settings = {
-      import = [
+      general.import = [
         "~/.config/alacritty/themes/themes/marine_dark.toml"
       ];
       window = {
@@ -21,8 +21,8 @@
       };
     };
   };
- #home.file."${config.xdg.configHome}/alacritty" = {
- #  source = ./alacritty;
- #  recursive = true;
- #};
+  #home.file."${config.xdg.configHome}/alacritty" = {
+  #  source = ./alacritty;
+  #  recursive = true;
+  #};
 }

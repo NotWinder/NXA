@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   ## Install Packages
   environment.systemPackages = with pkgs; [
     #davinci-resolve
@@ -33,6 +31,7 @@
     sshuttle
     telegram-desktop
     tldr
+    tokei
     trash-cli
     tree
     uget
