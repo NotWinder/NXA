@@ -1,9 +1,14 @@
-{lib, ...}: let
-  inherit (lib) mkOption mkEnableOption types;
+{
+  config,
+  lib,
+  ...
+}: let
+  inherit (lib.options) mkOption mkEnableOption;
+  inherit (lib.types) nullOr listOf enum str;
 in {
   options.modules.device = {
     type = mkOption {
-      type = types.enum ["laptop" "desktop" "server" "hybrid" "lite" "vm"];
+      type = enum ["laptop" "desktop" "server" "hybrid" "lite" "vm"];
       default = "";
       description = ''
         The type/purpose of the device that will be used within the rest of the configuration.
@@ -21,12 +26,16 @@ in {
     # TODO: make this a list - apparently more than one cpu on a device is still doable
     cpu = {
       type = mkOption {
-        type = with types; nullOr (enum ["pi" "intel" "vm-intel" "amd" "vm-amd"]);
+        type = nullOr (enum ["pi" "intel" "vm-intel" "amd" "vm-amd"]);
         default = null;
         description = ''
           The manifaturer/type of the primary system CPU.
 
-          Determines which ucode services will be enabled and provides additional kernel packages
+          Determines which ucode services will be enabled
+          and provides additional kernel packages based on
+          the type passed. In case of some vendors, this
+          option may also enable additional daemons to
+          assist with device health or safety.
         '';
       };
 
@@ -35,7 +44,7 @@ in {
         zenpower = {
           enable = mkEnableOption "AMD Zenpower Driver";
           args = mkOption {
-            type = types.str;
+            type = str;
             default = "-p 0 -v 3C -f A0"; # Pstate 0, 1.175 voltage, 4000 clock speed
             description = ''
               The percentage of the maximum clock speed that the CPU will be limited to.
@@ -50,7 +59,7 @@ in {
 
     gpu = {
       type = mkOption {
-        type = with types; nullOr (enum ["pi" "amd" "intel" "nvidia" "hybrid-nv" "hybrid-amd"]);
+        type = nullOr (enum ["pi" "amd" "intel" "nvidia" "hybrid-nv" "hybrid-amd"]);
         default = null;
         description = ''
           The manifaturer/type of the primary system GPU. Allows the correct GPU
@@ -60,7 +69,7 @@ in {
     };
 
     monitors = mkOption {
-      type = with types; listOf str;
+      type = listOf str;
       default = [];
       description = ''
         A list of monitors connected to the system.
@@ -79,4 +88,14 @@ in {
       '';
     };
   };
+
+  config.assertions = [
+    {
+      assertion = config.modules.device.type != null;
+      message = ''
+        ${config.meta.hostname} is missing a device type. Please define it
+        in the appropriate host configuration!
+      '';
+    }
+  ];
 }
