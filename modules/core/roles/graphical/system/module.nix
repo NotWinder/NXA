@@ -1,6 +1,6 @@
 {
   imports = [
-    #./security
+    ./security
     ./services
 
     #./environment.nix

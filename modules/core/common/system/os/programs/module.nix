@@ -1,19 +1,21 @@
 {
   imports = [
     ./adb.nix
+    ./bash.nix
     ./development.nix
+    ./direnv.nix
+    ./git.nix
+    ./nano.nix
     ./others.nix
-    ./steam.nix
-    #./sunshine.nix
     ./thunar.nix
-    ./wine.nix
+    ./zsh.nix
   ];
 
   programs = {
     # less pager
     less.enable = true;
 
-    # type "fuck" to fix the last command that made you go "fuck"
-    thefuck.enable = true;
+    # run commands without installing the programs
+    comma.enable = true;
   };
 }
