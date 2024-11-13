@@ -4,7 +4,7 @@
     cpu.type = "intel";
     gpu.type = "nvidia";
     monitors = ["HDMI-A-1"];
-    #hasBluetooth = true;
+    hasBluetooth = true;
     hasSound = true;
     #hasTPM = true;
   };

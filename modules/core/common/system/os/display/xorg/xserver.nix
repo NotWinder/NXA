@@ -1,5 +1,5 @@
-{
-  services.xserver = {
-    enable = true;
-  };
+{pkgs, ...}: {
+  services.xserver.excludePackages = [
+    pkgs.xterm
+  ];
 }

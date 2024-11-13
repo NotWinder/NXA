@@ -1,15 +1,15 @@
 {
   config.modules.system = {
     mainUser = "winder";
-    fs.enabledFilesystems = ["btrfs" "vfat" "ntfs" "exfat" "zfs"];
+    fs.enabledFilesystems = ["btrfs" "vfat" "ntfs" "exfat"];
     autoLogin = true;
 
     boot = {
       loader = "systemd-boot";
       secureBoot = false;
-      #enableKernelTweaks = true;
-      #initrd.enableTweaks = true;
-      #loadRecommendedModules = true;
+      enableKernelTweaks = true;
+      initrd.enableTweaks = true;
+      loadRecommendedModules = true;
       #tmpOnTmpfs = false;
       #plymouth = {
       #  enable = true;

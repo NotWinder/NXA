@@ -1,7 +1,7 @@
 {
   imports = [
     #./security
-    #./services
+    ./services
 
     #./environment.nix
   ];
