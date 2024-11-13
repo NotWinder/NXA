@@ -64,6 +64,11 @@
       flake = false;
     };
 
+    # Impermanence
+    # doesn't offer much above properly used symlinks
+    # but it *is* convenient
+    impermanence.url = "github:nix-community/impermanence";
+
     # Secure-boot support on nixos
     # the interface iss still shaky and I would recommend
     # avoiding on production systems for now
