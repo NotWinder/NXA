@@ -5,7 +5,7 @@
     gpu.type = "nvidia";
     monitors = ["HDMI-A-1"];
     #hasBluetooth = true;
-    #hasSound = true;
+    hasSound = true;
     #hasTPM = true;
   };
 }

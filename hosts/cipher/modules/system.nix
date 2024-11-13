@@ -5,21 +5,17 @@
     autoLogin = true;
 
     boot = {
-      loader = "grub";
-      #secureBoot = false;
+      loader = "systemd-boot";
+      secureBoot = false;
       #enableKernelTweaks = true;
       #initrd.enableTweaks = true;
       #loadRecommendedModules = true;
       #tmpOnTmpfs = false;
+      #plymouth = {
+      #  enable = true;
+      #  withThemes = false;
+      #};
     };
-    #boot = {
-    #  secureBoot = false;
-    #  loader = "systemd-boot";
-    #  enableKernelTweaks = true;
-    #  initrd.enableTweaks = true;
-    #  loadRecommendedModules = true;
-    #  tmpOnTmpfs = true;
-    #};
 
     #containers = {
     #  enabledContainers = ["alpha"];
