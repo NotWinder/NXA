@@ -4,7 +4,7 @@
 #hyprpaper &
 
 # Bar
-asztal &
+#asztal &
 
 # startup applications
 /usr/lib/polkit-kde-authentication-agent-1 &

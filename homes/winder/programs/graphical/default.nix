@@ -5,7 +5,7 @@
     ./launchers
     ./misc
     ./screenlock
-    ./tools
+    #./tools
     ./wms
   ];
 }
