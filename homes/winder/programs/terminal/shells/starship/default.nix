@@ -1,255 +1,104 @@
-{ lib, ... }:
-let
+{
+  config,
+  lib,
+  ...
+}: let
   inherit (builtins) map;
   inherit (lib.strings) concatStrings;
-in
-{
-  programs.starship =
-    let
-      elemsConcatted = concatStrings (
-        map (s: "\$${s}") [
-          "hostname"
-          "username"
-          "directory"
-          "shell"
-          "nix_shell"
-          "git_branch"
-          "git_commit"
-          "git_state"
-          "git_status"
-          "jobs"
-          "cmd_duration"
-        ]
-      );
-    in
-    {
-      enable = true;
-      settings = {
-        command_timeout = 5000;
+in {
+  home = {
+    sessionVariables = {
+      STARSHIP_CACHE = "${config.xdg.cacheHome}/starship";
+    };
+  };
 
-        # configure specific elements
-        character = {
-          error_symbol = "[](bold red)";
-          success_symbol = "[](bold green)";
-          vicmd_symbol = "[](bold yellow)";
-          format = "$symbol [|](bold bright-black) ";
-        };
+  programs.starship = let
+    elemsConcatted = concatStrings (
+      map (s: "\$${s}") [
+        "hostname"
+        "username"
+        "directory"
+        "shell"
+        "nix_shell"
+        "git_branch"
+        "git_commit"
+        "git_state"
+        "git_status"
+        "jobs"
+        "cmd_duration"
+      ]
+    );
+  in {
+    enable = true;
 
-        format = "${elemsConcatted}\n$character";
+    settings = {
+      scan_timeout = 2;
+      command_timeout = 2000; # nixpkgs makes starship implode with lower values
+      add_newline = false;
+      line_break.disabled = false;
 
-        hostname = {
-          ssh_only = true;
-          disabled = false;
-          format = "@[$hostname](bold blue) "; # the whitespace at the end is actually important
-        };
-        username = {
-          format = "[$user]($style) in ";
-        };
+      format = "${elemsConcatted}\n$character";
 
-        directory = {
-          truncation_length = 2;
+      hostname = {
+        ssh_only = true;
+        disabled = false;
+        format = "@[$hostname](bold blue) "; # the whitespace at the end is actually important
+      };
 
-          # removes the read_only symbol from the format, it doesn't play nicely with my folder icon
-          format = "[ ](bold green) [$path]($style) ";
+      # configure specific elements
+      character = {
+        error_symbol = "[](bold red)";
+        success_symbol = "[](bold green)";
+        vicmd_symbol = "[](bold yellow)";
+        format = "$symbol [|](bold bright-black) ";
+      };
 
-          # the following removes tildes from the path, and substitutes some folders with shorter names
-          substitutions = {
-            "~/Dev" = "Dev";
-            "~/Documents" = "Docs";
-          };
-        };
+      username = {
+        format = "[$user]($style) in ";
+      };
 
-        directory.substitutions = {
-          "Downloads" = " ";
-          "Music" = " ";
-          "Pictures" = " ";
-        };
+      directory = {
+        truncation_length = 2;
 
-        aws = {
-          symbol = "  ";
-        };
-        buf = {
-          symbol = " ";
-        };
-        c = {
-          symbol = " ";
-        };
-        conda = {
-          symbol = " ";
-        };
-        crystal = {
-          symbol = " ";
-        };
-        dart = {
-          symbol = " ";
-        };
-        directory = {
-          read_only = " 󰌾";
-        };
-        docker_context = {
-          symbol = " ";
-        };
-        elixir = {
-          symbol = " ";
-        };
-        elm = {
-          symbol = " ";
-        };
-        fennel = {
-          symbol = " ";
-        };
-        fossil_branch = {
-          symbol = " ";
-        };
-        git_branch = {
-          symbol = " ";
-        };
-        git_status = {
-          ahead = "⇡ ";
-          behind = "⇣ ";
-          conflicted = " ";
-          deleted = "✘ ";
-          diverged = "⇆ ";
-          modified = "!";
-          renamed = "»";
-          staged = "+";
-          stashed = "≡";
-          style = "red";
-          untracked = "?";
-        };
-        golang = {
-          symbol = " ";
-        };
-        guix_shell = {
-          symbol = " ";
-        };
-        haskell = {
-          symbol = " ";
-        };
-        haxe = {
-          symbol = " ";
-        };
-        hg_branch = {
-          symbol = " ";
-        };
-        hostname = {
-          ssh_symbol = " ";
-        };
-        java = {
-          symbol = " ";
-        };
-        julia = {
-          symbol = " ";
-        };
-        kotlin = {
-          symbol = " ";
-        };
-        lua = {
-          symbol = " ";
-        };
-        memory_usage = {
-          symbol = "󰍛 ";
-        };
-        meson = {
-          symbol = "󰔷 ";
-        };
-        nim = {
-          symbol = "󰆥 ";
-        };
-        nix_shell = {
-          symbol = " ";
-        };
-        nodejs = {
-          symbol = " ";
-        };
-        ocaml = {
-          symbol = " ";
-        };
-        os.symbols = {
-          Alpaquita = " ";
-          Alpine = " ";
-          AlmaLinux = " ";
-          Amazon = " ";
-          Android = " ";
-          Arch = " ";
-          Artix = " ";
-          CentOS = " ";
-          Debian = " ";
-          DragonFly = " ";
-          Emscripten = " ";
-          EndeavourOS = " ";
-          Fedora = " ";
-          FreeBSD = " ";
-          Garuda = "󰛓 ";
-          Gentoo = " ";
-          HardenedBSD = "󰞌 ";
-          Illumos = "󰈸 ";
-          Kali = " ";
-          Linux = " ";
-          Mabox = " ";
-          Macos = " ";
-          Manjaro = " ";
-          Mariner = " ";
-          MidnightBSD = " ";
-          Mint = " ";
-          NetBSD = " ";
-          NixOS = " ";
-          OpenBSD = "󰈺 ";
-          openSUSE = " ";
-          OracleLinux = "󰌷 ";
-          Pop = " ";
-          Raspbian = " ";
-          Redhat = " ";
-          RedHatEnterprise = " ";
-          RockyLinux = " ";
-          Redox = "󰀘 ";
-          Solus = "󰠳 ";
-          SUSE = " ";
-          Ubuntu = " ";
-          Unknown = " ";
-          Void = " ";
-          Windows = "󰍲 ";
-        };
+        # removes the read_only symbol from the format, it doesn't play nicely with my folder icon
+        format = "[ ](bold green) [$path]($style) ";
 
-        package = {
-          symbol = "󰏗 ";
-        };
-        perl = {
-          symbol = " ";
-        };
-        php = {
-          symbol = " ";
-        };
-        pijul_channel = {
-          symbol = " ";
-        };
-        python = {
-          symbol = " ";
-        };
-        rlang = {
-          symbol = "󰟔 ";
-        };
-        ruby = {
-          symbol = " ";
-        };
-        rust = {
-          symbol = "󱘗 ";
-        };
-        scala = {
-          symbol = " ";
-        };
-        swift = {
-          symbol = " ";
-        };
-        zig = {
-          symbol = " ";
-        };
-        time = {
-          disabled = false;
-          time_format = "%R";
-          style = "bg:#33658A";
-          format = "[ $time ]($style)";
+        # the following removes tildes from the path, and substitutes some folders with shorter names
+        substitutions = {
+          "~/Dev" = "Dev";
+          "~/Documents" = "Docs";
         };
       };
+
+      # git
+      git_commit.commit_hash_length = 7;
+      git_branch.style = "bold purple";
+      git_status = {
+        style = "red";
+        ahead = "⇡ ";
+        behind = "⇣ ";
+        conflicted = " ";
+        renamed = "»";
+        deleted = "✘ ";
+        diverged = "⇆ ";
+        modified = "!";
+        stashed = "≡";
+        staged = "+";
+        untracked = "?";
+      };
+
+      # language configurations
+      # the whitespaces at the end *are* necessary for proper formatting
+      lua.symbol = "[ ](blue) ";
+      python.symbol = "[ ](blue) ";
+      rust.symbol = "[ ](red) ";
+      nix_shell.symbol = "[󱄅 ](blue) ";
+      golang.symbol = "[󰟓 ](blue)";
+      c.symbol = "[ ](black)";
+      nodejs.symbol = "[󰎙 ](yellow)";
+
+      package.symbol = "📦 ";
     };
+  };
 }
+

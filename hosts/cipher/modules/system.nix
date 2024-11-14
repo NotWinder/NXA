@@ -17,11 +17,11 @@
       #};
     };
 
-    #containers = {
-    #  enabledContainers = ["alpha"];
-    #};
+    containers = {
+      enabledContainers = ["alpha"];
+    };
 
-    #yubikeySupport.enable = true;
+    yubikeySupport.enable = true;
 
     video.enable = true;
     sound.enable = true;
@@ -45,20 +45,21 @@
       };
     };
 
-    #security = {
-    #  tor.enable = true;
-    #  fixWebcam = false;
-    #  lockModules = true;
-    #  auditd.enable = true;
-    #};
+    security = {
+      tor.enable = true;
+      fixWebcam = false;
+      lockModules = true;
+      auditd.enable = true;
+    };
 
     programs = {
       cli.enable = true;
       gui.enable = true;
 
       #spotify.enable = true;
+      chromium.enable = true;
 
-      #git.signingKey = "0xAF26552424E53993 ";
+      git.signingKey = "0xAF26552424E53993 ";
 
       gaming = {
         enable = true;
@@ -68,7 +69,7 @@
         terminal = "alacritty";
       };
 
-      #libreoffice.enable = true;
+      libreoffice.enable = true;
     };
   };
 }

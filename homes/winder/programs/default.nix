@@ -1,7 +1,7 @@
 {
-  imports =
-    [
-      ./graphical
-      ./terminal
-    ];
+  imports = [
+    ./graphical
+    #./media
+    ./terminal
+  ];
 }

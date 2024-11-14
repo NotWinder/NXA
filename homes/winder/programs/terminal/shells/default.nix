@@ -2,5 +2,6 @@
   imports = [
     ./bash
     ./starship
+    ./zsh
   ];
 }

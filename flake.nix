@@ -58,6 +58,15 @@
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     xdg-portal-hyprland.url = "github:hyprwm/xdg-desktop-portal-hyprland";
 
+    # anyrun program launcher
+    anyrun.url = "github:anyrun-org/anyrun";
+    anyrun-nixos-options = {
+      url = "github:n3oney/anyrun-nixos-options";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+      };
+    };
+
     # This exists, I guess
     flake-compat = {
       url = "github:edolstra/flake-compat";

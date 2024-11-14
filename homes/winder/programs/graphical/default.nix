@@ -1,6 +1,11 @@
 {
   imports = [
-    ./desktop
+    ./apps
+    ./gaming
+    ./launchers
+    ./misc
+    ./screenlock
     ./tools
+    ./wms
   ];
 }
