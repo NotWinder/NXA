@@ -28,7 +28,7 @@ in {
       }
 
       # xorg settings
-      (mkIf (!env.isWayland) {
+      (mkIf (!config.meta.isWayland) {
         # disable DPMS
         monitorSection = ''
           Option "DPMS" "false"
@@ -54,13 +54,13 @@ in {
       sessionVariables = mkMerge [
         {LIBVA_DRIVER_NAME = "nvidia";}
 
-        (mkIf env.isWayland {
+        (mkIf config.meta.isWayland {
           WLR_NO_HARDWARE_CURSORS = "1";
           #__GLX_VENDOR_LIBRARY_NAME = "nvidia";
           #GBM_BACKEND = "nvidia-drm"; # breaks firefox apparently
         })
 
-        (mkIf (env.isWayland && (dev.gpu == "hybrid-nv")) {
+        (mkIf (config.meta.isWayland && (dev.gpu == "hybrid-nv")) {
           #__NV_PRIME_RENDER_OFFLOAD = "1";
           #WLR_DRM_DEVICES = mkDefault "/dev/dri/card1:/dev/dri/card0";
         })

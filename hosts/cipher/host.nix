@@ -4,7 +4,7 @@
     #./kernel
     ./modules
 
-    #./btrfs.nix
+    ./btrfs.nix
     #./networking.nix
   ];
 
@@ -16,10 +16,10 @@
     # See:
     #  <https://wiki.archlinux.org/title/Security#Mount_options>
     fileSystems = let
-      #defaults = ["nodev" "nosuid" "noexec"];
+      defaults = ["nodev" "nosuid" "noexec"];
     in {
       #"/var/log".options = defaults;
-      #"/boot".options = defaults;
+      "/boot".options = defaults;
     };
 
     system.stateVersion = "24.05";

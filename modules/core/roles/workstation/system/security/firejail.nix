@@ -15,10 +15,10 @@ in {
         profile = "${profiles}/thunderbird.profile";
       };
 
-      spotify = {
-        executable = getExe spotify;
-        profile = "${profiles}/spotify.profile";
-      };
+      #spotify = {
+      #  executable = getExe spotify;
+      #  profile = "${profiles}/spotify.profile";
+      #};
 
       mpv = {
         executable = getExe mpv;

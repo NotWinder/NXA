@@ -7,7 +7,7 @@
   inherit (lib) mkIf getExe;
 
   cfg = config.modules.system.video;
-  env = config.modules.usrEnv;
+  env = config.meta;
 in {
   config = mkIf (cfg.enable && env.isWayland) {
     systemd.services = {

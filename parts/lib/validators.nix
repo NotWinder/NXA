@@ -10,10 +10,10 @@
   # `isAcceptedDevice osConfig ["foo" "bar"];`
   isAcceptedDevice = conf: list: builtins.elem conf.modules.device.type list;
 
-  # assert if the device is wayland-ready by checking sys.video and env.isWayland options
+  # assert if the device is wayland-ready by checking sys.video and config.meta.isWayland options
   # `(lib.isWayland config)` where config is in scope
   # `isWayland osConfig` -> true
-  isWayland = conf: conf.modules.system.video.enable && conf.modules.usrEnv.isWayland;
+  isWayland = conf: conf.modules.system.video.enable && conf.meta.isWayland;
 
   # ifOneEnabled takes a parent option and 3 child options and checks if at least one of them is enabled
   # `ifOneEnabled config.modules.services "service1" "service2" "service3"`

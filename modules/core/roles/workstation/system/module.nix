@@ -1,11 +1,11 @@
 {
   imports = [
-    #./programs
+    ./programs
     ./services
-    #./security
+    ./security
 
     ./fonts.nix
-    #./misc.nix
+    ./misc.nix
   ];
 
   system.nixos.tags = ["workstation"];

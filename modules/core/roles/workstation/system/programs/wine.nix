@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: let
-  env = config.modules.usrEnv;
+  env = config.meta;
 in {
   # determine which version of wine to be used
   # then add it to systemPackages
