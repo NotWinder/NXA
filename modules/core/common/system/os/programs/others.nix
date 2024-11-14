@@ -15,7 +15,7 @@
     jq
     kdePackages.dolphin
     kdePackages.dolphin-plugins
-    kget
+    kdePackages.kget
     mangohud
     motrix
     mpv

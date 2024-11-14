@@ -19,7 +19,7 @@ in {
       # As we strip those libraries, we gain space and lose compatibility - which
       # unfortunately means that it is up to *us* to identify necessary libraries
       # and stick them here.
-      package = pkgs.steam-small.override {
+      package = pkgs.steam.override {
         extraEnv = {
           MANGOHUD = true;
           SDL_VIDEODRIVER = "x11";

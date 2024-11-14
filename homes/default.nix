@@ -38,13 +38,14 @@ in {
     # in home-manager through osConfig without us passing it
     extraSpecialArgs = specialArgs;
 
-    # per-user Home Manager configuration
-    # the genAttrs function generates an attribute set of users
-    # as `user = ./user` where user is picked from a list of
-    # users in modules.system.users
-    # the system expects user directories to be found in the present
+    # Per-user Home Manager configurations.
+    # The function below generates an attribute sett of users
+    # where users come from a list in my module system. Each
+    # user in this list is mapped to an attribute set to generate
+    # the format Home-Manager expects, i.e., { "username" = path;}
+    # The system expects user directories to be found in the present
     # directory, or will exit with directory not found errors
-    users = genAttrs config.modules.system.users (name: ./${name});
+    users = genAttrs config.modules.system.users (name: ./${name} + /home.nix);
 
     # Additional configuration that should be set for any existing and future users
     # declared in this module. Any "shared" configuration between users may be passed

@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   programs.thunar = {
     enable = true;
     plugins = with pkgs.xfce; [
@@ -9,7 +9,7 @@
 
   environment = {
     systemPackages = with pkgs; [
-      ark
+      kdePackages.ark
       ffmpegthumbnailer
       libgsf
       xfce.tumbler

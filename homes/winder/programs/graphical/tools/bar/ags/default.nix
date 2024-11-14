@@ -1,4 +1,8 @@
-{ inputs, pkgs, ... }: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.ags.homeManagerModules.default
   ];
@@ -9,9 +13,9 @@
     dart-sass
     fd
     gtk3
-    inputs.hyprpaper.packages.${system}.default
-    inputs.hyprpicker.packages.${system}.default
-    inputs.matugen.packages.${system}.default
+    inputs.hyprpaper.packages.${pkgs.stdenv.system}.default
+    inputs.hyprpicker.packages.${pkgs.stdenv.system}.default
+    inputs.matugen.packages.${pkgs.stdenv.system}.default
     networkmanager
     pavucontrol
     slurp
