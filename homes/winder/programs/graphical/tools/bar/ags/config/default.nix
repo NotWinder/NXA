@@ -4,7 +4,6 @@
   system,
   stdenv,
   cage,
-  swww,
   esbuild,
   dart-sass,
   fd,
@@ -34,7 +33,6 @@
     fd
     fzf
     brightnessctl
-    swww
     inputs.matugen.packages.${system}.default
     slurp
     wf-recorder

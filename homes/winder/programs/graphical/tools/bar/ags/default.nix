@@ -20,7 +20,6 @@
     pavucontrol
     slurp
     swappy
-    swww
     wayshot
     wf-recorder
     wl-clipboard
