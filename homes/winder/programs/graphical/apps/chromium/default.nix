@@ -22,7 +22,7 @@ in {
         {id = "iaiomicjabeggjcfkbimgmglanimpnae";} # tab manager
       ];
 
-      package = pkgs.ungoogled-chromium.override {
+      package = pkgs.chromium.override {
         commandLineArgs =
           [
             # Ungoogled features

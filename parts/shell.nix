@@ -79,7 +79,8 @@
         name = "java";
         meta.description = "The java development shell";
         packages = with pkgs; [
-          jdk22
+          jdk21
+          gradle
         ];
 
         shellHook = ''

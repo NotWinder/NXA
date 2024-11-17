@@ -5,7 +5,7 @@
     ./gammastep
     ./hyprpaper
     ./swaybg
-    ./swayidle
+   #./swayidle
     ./waybar
   ];
 }

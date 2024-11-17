@@ -20,7 +20,7 @@ in {
 
       style = {
         # Sets QT_STYLE_OVERRIDE, takes "gtk2, "adwaita" (and variants), "breeze", "kvantum" and a few others."
-        name = mkIf cfg.useKvantum "kvantum";
+        name = mkIf cfg.useKvantum "breeze";
         package = []; # same as above
       };
     };
@@ -33,7 +33,6 @@ in {
             # that QT applications load without issues, e.g. missing libs.
             libsForQt5.qt5.qtwayland # qt5
             kdePackages.qtwayland # qt6
-            qt6.qtwayland
             kdePackages.qqc2-desktop-style
 
             # qt5ct/qt6ct for configuring QT apps imperatively
@@ -42,9 +41,9 @@ in {
 
             # Some KDE applications such as Dolphin try to fall back to Breeze
             # theme icons. Lets make sure they're also found.
-            libsForQt5.breeze-qt5
+            kdePackages.breeze
             kdePackages.breeze-icons
-            qt6.qtsvg # needed to load breeze icons
+            kdePackages.qtsvg # needed to load breeze icons
           ]
 
           (mkIf cfg.forceGtk [
@@ -52,7 +51,7 @@ in {
             # as intended after the following PR:
             # <https://github.com/nix-community/home-manager/pull/5156>
             libsForQt5.qtstyleplugins
-            qt6Packages.qt6gtk2
+            kdePackages.qt6gtk2
           ])
 
           (mkIf cfg.useKvantum [
@@ -62,7 +61,7 @@ in {
             # we still write the config files for Kvantum below
             # but again, it is a no-op until the env var is set
             libsForQt5.qtstyleplugin-kvantum
-            qt6Packages.qtstyleplugin-kvantum
+            kdePackages.qtstyleplugin-kvantum
           ])
         ];
 
