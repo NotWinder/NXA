@@ -1,4 +1,6 @@
-{
+{osConfig, ...}: let
+  sys = osConfig.modules.system;
+in {
   imports = [
     # home package sets
     ./packages
@@ -16,8 +18,8 @@
 
   config = {
     home = {
-      username = "winder";
-      homeDirectory = "/home/winder";
+      username = "${sys.mainUser}";
+      homeDirectory = "/home/${sys.mainUser}";
       extraOutputsToInstall = ["doc" "devdoc"];
 
       # This is, and should remain, the version on which you have initiated

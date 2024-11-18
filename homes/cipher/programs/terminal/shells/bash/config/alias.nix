@@ -39,7 +39,7 @@
   py = "python3";
 
   # Rust
-  fempty = "cargo run --manifest-path /home/winder/rust/fempty/Cargo.toml";
+  fempty = "cargo run --manifest-path ~/rust/fempty/Cargo.toml";
 
   # List Contents
   la = "ls -Ah";
@@ -93,7 +93,6 @@
   # Mounted File Systems
   mountedinfo = "df -hT";
 
-
   # Archive Operations
   mktar = "tar -cvf";
   mkbz2 = "tar -cvjf";
@@ -108,13 +107,13 @@
   # SHA1 Hash
   sha1 = "openssl sha1";
 
-  ## Nixos aliases 
+  ## Nixos aliases
   # Shells
-  devng = "nix develop /home/winder/github/nix-winder/#angular";
-  devdjango = "nix develop /home/winder/github/nix-winder/#django";
-  devjava = "nix develop /home/winder/github/nix-winder/#java";
-  devgo = "nix develop /home/winder/github/nix-winder/#go";
-  devrust = "nix develop /home/winder/github/nix-winder/#rust";
+  devng = "nix develop ~/github/nix-winder/#angular";
+  devdjango = "nix develop ~/github/nix-winder/#django";
+  devjava = "nix develop ~/github/nix-winder/#java";
+  devgo = "nix develop ~/github/nix-winder/#go";
+  devrust = "nix develop ~/github/nix-winder/#rust";
 
   flake-build = "sudo nixos-rebuild switch --flake .#cipher";
 

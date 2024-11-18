@@ -5,7 +5,7 @@
   # In short:users that are not in users/<username>.nix don't get to
   # be a real user
   imports = [
-    ./winder.nix
+    ./user.nix
     ./builder.nix
     ./root.nix
   ];

@@ -5,13 +5,15 @@
 }: let
   inherit (lib.attrsets) recursiveUpdate;
   inherit (lib.lists) filter;
+
+  sys = config.modules.system;
   # a generic builder configuration
   builder = {
     systems = ["x86_64-linux"];
     speedFactor = 4;
     maxJobs = 4;
     supportedFeatures = ["benchmark" "nixos-test"];
-    sshKey = "/home/winder/.ssh/builder";
+    sshKey = "/home/${sys.mainUser}/.ssh/builder";
     protocol = "ssh-ng";
   };
 

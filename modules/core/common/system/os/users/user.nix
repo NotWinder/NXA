@@ -1,14 +1,17 @@
 {
   #keys,
+  config,
   pkgs,
   ...
-}: {
-  users.users.winder = {
+}: let
+  sys = config.modules.system;
+in {
+  users.users.${sys.mainUser} = {
     isNormalUser = true;
 
     # Home directory
     createHome = true;
-    home = "/home/winder";
+    home = "/home/${sys.mainUser}";
 
     shell = pkgs.bash;
 

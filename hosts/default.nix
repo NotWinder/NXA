@@ -1,7 +1,6 @@
 {
   withSystem,
   inputs,
-  self,
   ...
 }: {
   flake.nixosConfigurations = let
@@ -89,36 +88,6 @@
         roles = [graphical workstation];
         extraModules = [shared homes];
       };
-    };
-
-    winder-iso = mkNixosIso {
-      inherit withSystem;
-      hostname = "winder";
-      system = "x86_64-linux";
-      specialArgs = {
-        inherit inputs;
-        asztal = self.packages.x86_64-linux.default;
-      };
-      modules =
-        [
-          ./pc/configuration.nix
-        ]
-        ++ concatLists [shared homes];
-    };
-
-    winder-laptop = mkNixosSystem {
-      inherit withSystem;
-      hostname = "winder";
-      system = "x86_64-linux";
-      specialArgs = {
-        inherit inputs;
-        asztal = self.packages.x86_64-linux.default;
-      };
-      modules =
-        [
-          ./laptop/configuration.nix
-        ]
-        ++ concatLists [shared homes];
     };
   };
 }

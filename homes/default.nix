@@ -45,7 +45,7 @@ in {
     # the format Home-Manager expects, i.e., { "username" = path;}
     # The system expects user directories to be found in the present
     # directory, or will exit with directory not found errors
-    users = genAttrs config.modules.system.users (name: ./${name} + /home.nix);
+    users = genAttrs config.modules.system.users (name: ./cipher/home.nix);
 
     # Additional configuration that should be set for any existing and future users
     # declared in this module. Any "shared" configuration between users may be passed

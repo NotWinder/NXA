@@ -5,6 +5,7 @@
   ...
 }: let
   inherit (lib.modules) mkIf;
+  sys = config.modules.system;
 in {
   system.activationScripts = {
     # if system declares that it wants closure diffs, then run the diff script on activation
@@ -24,7 +25,7 @@ in {
     # symlink root's ssh config to ours
     # to fix nix-daemon's ability to remote build since it sshs from the root account
     root_ssh_config = let
-      sshDir = "/home/winder/.ssh";
+      sshDir = "/home/${sys.mainUser}/.ssh";
     in {
       supportsDryActivation = true;
       text = ''
