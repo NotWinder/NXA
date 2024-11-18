@@ -11,7 +11,7 @@ in {
 
     # Home directory
     createHome = true;
-    home = "/home/${sys.mainUser}";
+    home = "${sys.homePath}";
 
     shell = pkgs.bash;
 

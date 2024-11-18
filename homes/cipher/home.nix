@@ -19,7 +19,7 @@ in {
   config = {
     home = {
       username = "${sys.mainUser}";
-      homeDirectory = "/home/${sys.mainUser}";
+      homeDirectory = "${sys.homePath}";
       extraOutputsToInstall = ["doc" "devdoc"];
 
       # This is, and should remain, the version on which you have initiated

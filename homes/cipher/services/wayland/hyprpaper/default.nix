@@ -30,7 +30,7 @@ in {
     };
     xdg.configFile."hypr/hyprpaper.conf" = {
       text = let
-        wallpaper = "/home/${sys.mainUser}/.config/hypr/.wallpapers/IRRATIONAL-TREASURE-2-THE-TREMBLEY-SUPREMACY.png";
+        wallpaper = "${sys.homePath}/.config/hypr/.wallpapers/IRRATIONAL-TREASURE-2-THE-TREMBLEY-SUPREMACY.png";
       in ''
         preload=${wallpaper}
         ${concatStringsSep "\n" (map (monitor: ''wallpaper=${monitor},${wallpaper}'') monitors)}

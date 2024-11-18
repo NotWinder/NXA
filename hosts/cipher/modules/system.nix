@@ -2,6 +2,7 @@
   config.modules.system = {
     mainUser = "winder";
     users = ["winder"];
+    homePath = "/home/winder";
     fs.enabledFilesystems = ["btrfs" "vfat" "ntfs" "exfat"];
     autoLogin = true;
 

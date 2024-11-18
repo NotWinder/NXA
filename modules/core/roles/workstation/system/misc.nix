@@ -2,7 +2,7 @@
   sys = config.modules.system;
 in {
   # Firefox cache on tmpfs
-  fileSystems."/home/${sys.mainUser}/.cache/mozilla/firefox" = {
+  fileSystems."${sys.homePath}/.cache/mozilla/firefox" = {
     device = "tmpfs";
     fsType = "tmpfs";
     noCheck = true;

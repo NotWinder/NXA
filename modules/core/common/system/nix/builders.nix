@@ -13,7 +13,7 @@
     speedFactor = 4;
     maxJobs = 4;
     supportedFeatures = ["benchmark" "nixos-test"];
-    sshKey = "/home/${sys.mainUser}/.ssh/builder";
+    sshKey = "${sys.homePath}/.ssh/builder";
     protocol = "ssh-ng";
   };
 

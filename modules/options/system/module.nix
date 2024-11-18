@@ -65,6 +65,12 @@ in {
       description = "A list of home-manager users on the system.";
     };
 
+    homePath = mkOption {
+      type = str;
+      default = "/home/winder";
+      description = "Path to home directory of the mainUser.";
+    };
+
     autoLogin = mkOption {
       type = bool;
       default = false;
