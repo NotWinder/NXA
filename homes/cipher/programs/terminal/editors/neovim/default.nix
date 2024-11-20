@@ -1,6 +1,9 @@
 {inputs, ...}: let
   system = "x86_64-linux";
 in {
-  programs.neovim = inputs.nvw.lib.mkHomeManager {inherit system;};
+  home.packages = [
+    inputs.nvw.packages.${system}.default
+  ];
+
   programs.ripgrep.enable = true;
 }
