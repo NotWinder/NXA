@@ -1301,11 +1301,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1732060859,
-        "narHash": "sha256-YPKhrz0ZE7/8mkKB0s9c/YDnOByYIbv0rXNBe+HnU+8=",
+        "lastModified": 1732156268,
+        "narHash": "sha256-al9KI2VYFqDdm5O3zFDqwIkP+/FxijOaFFi2yF3/41M=",
         "owner": "notwinder",
         "repo": "nvw",
-        "rev": "70385ab5eb25fa6cbc3f429d6ea9e942a7493624",
+        "rev": "1448885a32825a8ebaaaf3368ba5d6575453d9b5",
         "type": "github"
       },
       "original": {
