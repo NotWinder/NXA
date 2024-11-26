@@ -17,7 +17,7 @@
   monitors = modules.device.monitors;
 
   hyprpaper = inputs.hyprpaper.packages.${pkgs.stdenv.system}.default;
-  #wallpkgs = inputs.wallpkgs.packages.${pkgs.stdenv.system};
+  winderpaper = inputs.winpaper.packages.${pkgs.stdenv.system};
 in {
   config = mkIf ((sys.video.enable) && (osConfig.meta.isWayland && (env.desktop == "Hyprland"))) {
     systemd.user.services.hyprpaper = lib.mkHyprlandService {
@@ -30,7 +30,8 @@ in {
     };
     xdg.configFile."hypr/hyprpaper.conf" = {
       text = let
-        wallpaper = "${sys.homePath}/.config/hypr/.wallpapers/IRRATIONAL-TREASURE-2-THE-TREMBLEY-SUPREMACY.png";
+        #wallpaper = "${sys.homePath}/.config/hypr/.wallpapers/IRRATIONAL-TREASURE-2-THE-TREMBLEY-SUPREMACY.png";
+        wallpaper = "${winderpaper.shows}/share/wallpapers/shows/Jinx.jpg";
       in ''
         preload=${wallpaper}
         ${concatStringsSep "\n" (map (monitor: ''wallpaper=${monitor},${wallpaper}'') monitors)}

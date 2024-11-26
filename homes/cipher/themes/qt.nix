@@ -18,11 +18,11 @@ in {
         package = []; # libraries associated with the platformtheme, we add those manually
       };
 
-      style = {
-        # Sets QT_STYLE_OVERRIDE, takes "gtk2, "adwaita" (and variants), "breeze", "kvantum" and a few others."
-        name = mkIf cfg.useKvantum "breeze";
-        package = []; # same as above
-      };
+      #style = {
+      #  # Sets QT_STYLE_OVERRIDE, takes "gtk2, "adwaita" (and variants), "breeze", "kvantum" and a few others."
+      #  name = mkIf cfg.useKvantum "breeze";
+      #  package = []; # same as above
+      #};
     };
 
     home = {
@@ -41,8 +41,8 @@ in {
 
             # Some KDE applications such as Dolphin try to fall back to Breeze
             # theme icons. Lets make sure they're also found.
-            kdePackages.breeze
-            kdePackages.breeze-icons
+            #kdePackages.breeze
+            #kdePackages.breeze-icons
             kdePackages.qtsvg # needed to load breeze icons
           ]
 

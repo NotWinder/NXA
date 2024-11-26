@@ -32,17 +32,17 @@ in {
         colors = "${cfg.theme.package}/share/color-schemes/CatppuccinMochaGreen.colors";
       };
     };
+
     gtk = {
       enable = true;
       usePortal = true;
       theme = {
-        name = "catppuccin-mocha-green-standard+normal";
-        package = pkgs.catppuccin-gtk.override {
-          variant = "mocha";
-          size = "standard";
-          accents = ["green"];
-          tweaks = ["normal"];
-        };
+        name = "Tokyonight-Dark";
+        package = pkgs.tokyonight-gtk-theme;
+      };
+      iconTheme = {
+        name = "Papirus";
+        package = pkgs.papirus-icon-theme;
       };
     };
   };

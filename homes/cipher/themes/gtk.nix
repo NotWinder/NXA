@@ -1,7 +1,3 @@
-#    cursorTheme = {
-#      name = "⚪ Skyrim by ru5tyshark ⚪";
-#      size = 33;
-#    };
 {
   osConfig,
   config,
@@ -20,6 +16,10 @@ in {
 
     home = {
       packages = [pkgs.glib]; # gsettings
+      file = {
+        "${config.xdg.dataHome}/themes/${cfg.gtk.theme.name}".source = "${cfg.gtk.theme.package}/share/themes/${cfg.gtk.theme.name}";
+        "${config.xdg.dataHome}/icons/${cfg.gtk.iconTheme.name}".source = "${cfg.gtk.iconTheme.package}/share/icons/${cfg.gtk.iconTheme.name}";
+      };
 
       sessionVariables = {
         # Set GTK_THEME variable to the name of the theme package

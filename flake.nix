@@ -55,8 +55,19 @@
     };
 
     hyprpicker.url = "github:hyprwm/hyprpicker";
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-    xdg-portal-hyprland.url = "github:hyprwm/xdg-desktop-portal-hyprland";
+    hyprutils.url = "github:hyprwm/hyprutils";
+    hyprland = {
+      url = "github:/hyprwm/Hyprland?ref=0.45.1-b";
+      inputs = {
+        hyprutils.follows = "hyprutils";
+      };
+    };
+    xdg-portal-hyprland = {
+      url = "github:hyprwm/xdg-desktop-portal-hyprland";
+      inputs = {
+        hyprutils.follows = "hyprutils";
+      };
+    };
 
     # anyrun program launcher
     anyrun.url = "github:anyrun-org/anyrun";
@@ -90,5 +101,12 @@
     };
 
     nvw.url = "github:notwinder/nvw";
+    winpaper = {
+      url = "github:notwinder/winpaper";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems"; # if using nix-systems
+      };
+    };
   };
 }

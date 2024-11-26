@@ -21,7 +21,6 @@
     mpv
     networkmanagerapplet
     ntfs3g
-    nwg-look
     pcsx2
     picard
     picard-tools

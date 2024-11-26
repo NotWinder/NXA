@@ -1,11 +1,14 @@
 {
   config,
   pkgs,
+  inputs,
   lib,
   ...
 }: let
   inherit (lib.modules) mkIf mkForce;
   inherit (config) modules;
+
+  #system = "x86_64-linux";
 
   sys = modules.system;
   env = modules.usrEnv;
@@ -16,6 +19,7 @@ in {
 
       extraPortals = [
         pkgs.xdg-desktop-portal-gtk
+        #inputs.xdg-portal-hyprland.${system}.default
       ];
 
       config = {
