@@ -20,6 +20,7 @@
     motrix
     mpv
     networkmanagerapplet
+    nwg-displays
     ntfs3g
     pcsx2
     picard

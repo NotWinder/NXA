@@ -1,5 +1,4 @@
 {
-  config,
   inputs,
   pkgs,
   ...
@@ -10,8 +9,9 @@
     settings = {
       "$mainMod" = "SUPER";
       "$browser" = "zen";
-      monitor = [
-        ",1440x900,auto,1"
+      source = [
+        "~/.config/hypr/monitors.conf"
+        "~/.config/hypr/workspaces.conf"
       ];
       animation = import ./config/animation.nix;
       bind = import ./config/bind.nix;
@@ -26,9 +26,5 @@
       master = import ./config/layouts/master.nix;
       windowrule = import ./config/windowrule.nix;
     };
-  };
-  home.file."${config.xdg.configHome}/hypr" = {
-    source = ./hypr;
-    recursive = true;
   };
 }

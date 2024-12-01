@@ -1,7 +1,7 @@
 # █▀▀ ▀▄▀ █▀▀ █▀▀
 # ██▄ █░█ ██▄ █▄▄
-
 [
- #"swaylock -i ~/.config/hypr/.wallpapers/hutao.jpg "
-  "bash ~/.config/hypr/scripts/exec.sh"
+  #"swaylock -i ~/.config/hypr/.wallpapers/hutao.jpg "
+  "asztal"
+  "nm-applet"
 ]
