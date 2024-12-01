@@ -1,5 +1,3 @@
-# █▄▀ █▀▀ █▄█ █▄▄ █ █▄░█ █▀▄
-# █░█ ██▄ ░█░ █▄█ █ █░▀█ █▄▀
 [
   "$mainMod, Q, exec, alacritty"
   "$mainMod, C, killactive,"
@@ -18,14 +16,11 @@
   "$mainMod, Print, exec, wayshot -c"
   "$mainMod SHIFT, Print, exec, wayshot -c -s (slurp -d) "
 
-  # █▀▀ █▀█ █▀▀ █░█ █▀
-  # █▀░ █▄█ █▄▄ █▄█ ▄█
   "$mainMod, left, movefocus, h"
   "$mainMod, right, movefocus, l"
   "$mainMod, up, movefocus, k"
   "$mainMod, down, movefocus, j"
-  # █░█░█ █ █▄░█ █▀▄ █▀█ █░█░█   █▀▄▀█ ▄▀█ █▄░█ ▄▀█ █▀▀ █▀▄▀█ █▀▀ █▄░█ ▀█▀
-  # ▀▄▀▄▀ █ █░▀█ █▄▀ █▄█ ▀▄▀▄▀   █░▀░█ █▀█ █░▀█ █▀█ █▄█ █░▀░█ ██▄ █░▀█ ░█░
+
   "$mainMod, F, fullscreen,"
   "$mainMod, 1, workspace, 1"
   "$mainMod, 2, workspace, 2"

@@ -5,7 +5,7 @@
 }: let
   inherit (lib.options) mkOption mkEnableOption;
   inherit (lib.lists) optionals;
-  inherit (lib.types) listOf str enum;
+  inherit (lib.types) listOf str enum bool;
 
   # Filesystems supported by my module system. To make sure no
   # additional filesystems sneak into the supportedFilesystems lists
@@ -61,6 +61,14 @@ in {
             root subvolume will be scrubbed.
           '';
         };
+      };
+    };
+    # ZFS
+    zfs = {
+      enable = mkOption {
+        type = bool;
+        default = false;
+        description = "to Enable ZFS or Not";
       };
     };
   };

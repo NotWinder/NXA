@@ -14,6 +14,12 @@ in {
           enable = mkDefault true;
           configurationLimit = null; # unlimited
           consoleMode = mkDefault "max"; # the default is "keep", can be overriden per host if need be
+          extraEntries = {
+            "windows11.conf" = ''
+              title   Windows
+              options -nointerrupt -nomap -noversion HD3b:EFI\Microsoft\Boot\Bootmgfw.efi
+            '';
+          };
 
           # Fix a security hole in place for backwards compatibility. See desc in
           # nixpkgs/nixos/modules/system/boot/loader/systemd-boot/systemd-boot.nix

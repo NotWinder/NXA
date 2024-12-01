@@ -1575,11 +1575,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1732585177,
-        "narHash": "sha256-pM8r9fXWQarYyMB1brr+NCi7Ht1bwGYLkNkoeMAx0rU=",
+        "lastModified": 1732921263,
+        "narHash": "sha256-U5GeBEqMGkapQQrHN1TpgCM4b1LIiVbh6ZhyS8SC7CE=",
         "owner": "notwinder",
         "repo": "winpaper",
-        "rev": "22599f558128408a8896e531f3c9815bbd000ef3",
+        "rev": "798f85eb7861b9f96dc09f0dc339e3a425ee825a",
         "type": "github"
       },
       "original": {

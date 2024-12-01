@@ -3,20 +3,23 @@
     mainUser = "winder";
     users = ["winder"];
     homePath = "/home/winder";
-    fs.enabledFilesystems = ["btrfs" "vfat" "ntfs" "exfat"];
     autoLogin = true;
 
+    fs = {
+      enabledFilesystems = ["btrfs" "vfat" "ntfs" "exfat"];
+      zfs.enable = true;
+    };
     boot = {
-      loader = "systemd-boot";
+      loader = "grub";
       secureBoot = false;
       enableKernelTweaks = true;
       initrd.enableTweaks = true;
       loadRecommendedModules = true;
-      #tmpOnTmpfs = false;
-      #plymouth = {
-      #  enable = true;
-      #  withThemes = false;
-      #};
+      tmpOnTmpfs = false;
+      plymouth = {
+        enable = true;
+        withThemes = false;
+      };
     };
 
     containers = {
@@ -27,7 +30,7 @@
 
     video.enable = true;
     sound.enable = true;
-    bluetooth.enable = false;
+    bluetooth.enable = true;
     printing.enable = false;
     emulation.enable = true;
 
