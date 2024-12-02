@@ -12,10 +12,10 @@
 in {
   config = mkIf prg.gaming.chess.enable {
     home.packages = with pkgs; [
-      kdePackages.knights
-      fairymax
-      stockfish
-      fishnet
+      kdePackages.knights # Chess board program.
+      fairymax # Small chess engine supporting fairy pieces
+      stockfish # Strong open source chess engine
+      fishnet # Distributed Stockfish analysis for lichess.org
     ];
   };
 }

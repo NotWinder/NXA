@@ -27,11 +27,6 @@ in {
       # now available in home-manager
       # xplr = mkService /modules/extra/shared/home-manager/xplr;
 
-      # a home-baked module for gtklock
-      # allows definning extra modules and the stylesheet
-      # FIXME: gtklock is currently broken thanks to the deprecation of the necessary wayland protocol
-      gtklock = mkFlakeModule /modules/extra/shared/home-manager/gtklock;
-
       vifm = mkFlakeModule /modules/extra/shared/home-manager/vifm;
 
       transience = mkFlakeModule /modules/extra/shared/home-manager/transience;

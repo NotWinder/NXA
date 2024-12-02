@@ -14,6 +14,7 @@ in {
     discord.enable = mkEnableOption "Discord messenger";
     element.enable = mkEnableOption "Element Matrix client";
     obs.enable = mkEnableOption "OBS Studio";
+    librewolf.enable = mkEnableOption "LibreWolf";
     spotify.enable = mkEnableOption "Spotify music player";
     thunderbird.enable = mkEnableOption "Thunderbird mail client";
     vscode.enable = mkEnableOption "Visual Studio Code";

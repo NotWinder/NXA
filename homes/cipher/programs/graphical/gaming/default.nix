@@ -11,7 +11,7 @@
   prg = env.programs;
 in {
   imports = [
-    #./minecraft.nix
+    ./minecraft.nix
     ./mangohud.nix
     ./chess.nix
   ];

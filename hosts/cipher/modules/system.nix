@@ -62,6 +62,7 @@
       gui.enable = true;
 
       #spotify.enable = true;
+      obs.enable = true;
       chromium.enable = true;
 
       git.signingKey = "0xAF26552424E53993 ";
@@ -74,7 +75,7 @@
         terminal = "alacritty";
       };
 
-      libreoffice.enable = true;
+      #libreoffice.enable = true;
     };
   };
 }

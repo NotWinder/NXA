@@ -13,12 +13,11 @@ in {
   config = mkIf ((builtins.elem dev.type acceptedTypes) && env.isWayland) {
     home.packages = with pkgs; [
       # CLI
-      grim
-      slurp
-      grim
-      wl-clipboard
-      pngquant
-      wf-recorder
+      grim # Grab images from a Wayland compositor
+      slurp # Select a region in a Wayland compositor
+      wl-clipboard # Command-line copy/paste utilities for Wayland
+      pngquant # Tool to convert 24/32-bit RGBA PNGs to 8-bit palette with alpha channel preserved
+      wf-recorder # Utility program for screen recording of wlroots-based compositors
       (pkgs.writeShellApplication {
         name = "ocr";
         runtimeInputs = with pkgs; [tesseract grim slurp coreutils];

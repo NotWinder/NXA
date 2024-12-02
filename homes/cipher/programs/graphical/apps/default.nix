@@ -2,15 +2,15 @@
   imports = [
     ./chromium
     ./discord
-    #./element
-    #./librewolf
+    ./element
+    ./librewolf
     ./obs
-    #./office
+    ./office
     #./schizofox
-    #./spotify
-    #./thunderbird
+    ./spotify
+    ./thunderbird
     ./vscode
     ./webcord
-    #./zathura
+    ./zathura
   ];
 }

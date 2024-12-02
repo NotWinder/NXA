@@ -12,15 +12,15 @@
 in {
   config = mkIf (prg.gui.enable && sys.video.enable) {
     home.packages = with pkgs; [
-      nextcloud-client
-      easyeffects
-      qbittorrent
-      helvum
+      nextcloud-client # Desktop sync client for Nextcloud
+      easyeffects # Audio effects for PipeWire applications
+      qbittorrent # Featureful free software BitTorrent client
+      helvum # GTK patchbay for pipewire
 
       # Electron applications
       # zoom-us # may we never return to online education
-      netflix
-      bitwarden-desktop
+      netflix # Open Netflix in Google Chrome app mode
+      bitwarden-desktop # Secure and free password manager for all of your devices
 
       # Obsidian has a pandoc plugin that allows us to render and export
       # alternative image format, but as the name indicates the plugin
@@ -29,34 +29,34 @@ in {
       (symlinkJoin {
         name = "Obsidian";
         paths = with pkgs; [
-          obsidian
-          pandoc
+          obsidian # Powerful knowledge base that works on top of a local folder of plain text Markdown files
+          pandoc # Conversion between documentation formats
         ];
       })
 
       # plasma packages
-      kdePackages.dolphin
-      kdePackages.dolphin-plugins
-      kdePackages.ark
-      kdePackages.kio
-      kdePackages.kio-extras
-      kdePackages.kimageformats
-      kdePackages.kdegraphics-thumbnailers
+      kdePackages.ark # File archiver by KDE
+      kdePackages.dolphin # File manager by KDE
+      kdePackages.dolphin-plugins # Plugins for Dolphin
+      kdePackages.kdegraphics-thumbnailers # Thumbnailers for various graphics file formats
+      kdePackages.kimageformats # KImageFormats
+      kdePackages.kio # KIO
+      kdePackages.kio-extras # Additional components to increase the functionality of KIO
 
       # Okular needs ghostscript to import PostScript files as PDFs
       # so we add ghostscript_headless as a dependency
       (symlinkJoin {
         name = "Okular";
         paths = with pkgs; [
-          kdePackages.okular
-          ghostscript_headless
+          kdePackages.okular # KDE document viewer
+          ghostscript_headless # PostScript interpreter (mainline version)
         ];
       })
 
       # gnome packages
-      gnome-tweaks
-      gnome-calendar
-      komikku
+      gnome-tweaks # Tool to customize advanced GNOME 3 options
+      gnome-calendar # Simple and beautiful calendar application for GNOME
+      komikku # Manga reader for GNOME
     ];
   };
 }

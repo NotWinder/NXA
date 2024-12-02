@@ -13,7 +13,7 @@ in {
     createHome = true;
     home = "${sys.homePath}";
 
-    shell = pkgs.bash;
+    shell = pkgs.zsh;
 
     # Should be generated manually. See option documentation
     # for tips on generating it. For security purposes, it's

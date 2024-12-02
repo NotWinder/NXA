@@ -11,7 +11,7 @@ in {
   config = mkIf (sys.video.enable && config.meta.isWayland) {
     environment.etc."greetd/environments".text = ''
       ${lib.optionalString (env.desktop == "Hyprland") "Hyprland"}
-      bash
+      zsh
     '';
 
     environment = {

@@ -12,11 +12,11 @@
 in {
   config = mkIf prg.libreoffice.enable {
     home.packages = with pkgs; [
-      libreoffice-qt
-      hyphen # text hyphenation library
-      hunspell
-      hunspellDicts.en_US-large
-      hunspellDicts.en_GB-large
+      libreoffice-qt # Comprehensive, professional-quality productivity suite, a variant of openoffice.org
+      hyphen # Text hyphenation library
+      hunspell # Spell checker
+      hunspellDicts.en_US-large # Hunspell dictionary for English (United States) Large from Wordlist
+      hunspellDicts.en_GB-large # Hunspell dictionary for English (United Kingdom) Large from Wordlist
     ];
   };
 }

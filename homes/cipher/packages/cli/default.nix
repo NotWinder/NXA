@@ -1,8 +1,8 @@
 {
   imports = [
-    ./shared.nix
     ./desktop.nix
-    ./wayland.nix
     ./server.nix
+    ./shared.nix
+    ./wayland.nix
   ];
 }

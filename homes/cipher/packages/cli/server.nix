@@ -12,7 +12,7 @@
 in {
   config = mkIf (prg.cli.enable && (builtins.elem dev.type ["server" "hybrid"])) {
     home.packages = with pkgs; [
-      wireguard-tools
+      wireguard-tools # Tools for the WireGuard secure network tunnel
     ];
   };
 }

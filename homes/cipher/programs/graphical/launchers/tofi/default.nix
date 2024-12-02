@@ -13,8 +13,8 @@ in {
     home.packages = with pkgs; [
       # for compatibility sake
       (pkgs.writeScriptBin "dmenu" ''exec ${getExe tofi}'')
-      tofi
-      wtype
+      tofi # Tiny dynamic menu for Wayland
+      wtype # xdotool type for wayland
     ];
 
     xdg.configFile."tofi/config".text = let

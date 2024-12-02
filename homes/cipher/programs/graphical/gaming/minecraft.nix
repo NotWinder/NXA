@@ -18,25 +18,25 @@ in {
       # need in your configuration
       jdks = with pkgs; [
         # Java 8
-        temurin-jre-bin-8
-        zulu8
+        temurin-jre-bin-8 # Eclipse Temurin, prebuilt OpenJDK binary
+        zulu8 # Certified builds of OpenJDK
 
         # Java 11
-        temurin-jre-bin-11
+        temurin-jre-bin-11 # Eclipse Temurin, prebuilt OpenJDK binary
 
         # Java 17
-        temurin-jre-bin-17
+        temurin-jre-bin-17 # Eclipse Temurin, prebuilt OpenJDK binary
 
         # Latest
-        temurin-jre-bin
-        zulu
-        graalvm-ce
+        temurin-jre-bin # Eclipse Temurin, prebuilt OpenJDK binary
+        zulu # Certified builds of OpenJDK
+        graalvm-ce # High-Performance Polyglot VM
       ];
 
       additionalPrograms = with pkgs; [
-        gamemode
-        mangohud
-        jprofiler
+        gamemode # Optimise Linux system performance on demand
+        mangohud # Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more
+        jprofiler # JProfiler's intuitive UI helps you resolve performance bottlenecks
       ];
 
       glfw =
@@ -56,7 +56,7 @@ in {
 
         # wrap Prismlauncher with the nixpkgs glfw, or optionally the wayland patched
         # version of glfw while we're on Wayland.
-        inherit glfw;
+        #inherit glfw;
       })
     ];
   };

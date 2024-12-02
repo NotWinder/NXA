@@ -12,8 +12,8 @@
 in {
   config = mkIf (prg.gui.enable && (sys.video.enable && meta.isWayland)) {
     home.packages = with pkgs; [
-      wlogout
-      swappy
+      wlogout # Wayland based logout menu
+      swappy # Wayland native snapshot editing tool, inspired by Snappy on macOS
     ];
   };
 }

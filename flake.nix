@@ -88,6 +88,32 @@
     # but it *is* convenient
     impermanence.url = "github:nix-community/impermanence";
 
+    # Nix flake for easy Spicetify configuration.
+    # Includes themes, apps and more.
+    spicetify = {
+      url = "github:gerg-l/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs-small";
+    };
+
+    # Sandbox wrappers for programs
+    nixpak = {
+      url = "github:nixpak/nixpak";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-small";
+        flake-parts.follows = "flake-parts";
+      };
+    };
+
+    # Schizophrenic Firefox configuration
+    schizofox = {
+      url = "github:schizofox/schizofox";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-small";
+        flake-parts.follows = "flake-parts";
+        nixpak.follows = "nixpak";
+      };
+    };
+
     # Secure-boot support on nixos
     # the interface iss still shaky and I would recommend
     # avoiding on production systems for now

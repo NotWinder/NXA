@@ -13,7 +13,7 @@
   config = {
     users = {
       # Default user shell package
-      defaultUserShell = pkgs.bash;
+      defaultUserShell = pkgs.zsh;
 
       # And other stuff...
       allowNoPasswordLogin = false;

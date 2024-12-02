@@ -12,8 +12,8 @@
 in {
   config = mkIf (prg.gui.enable && sys.printing."3d".enable) {
     home.packages = with pkgs; [
-      freecad
-      prusa-slicer
+      freecad # General purpose Open Source 3D CAD/MCAD/CAx/CAE/PLM modeler
+      prusa-slicer # G-code generator for 3D printer
     ];
   };
 }

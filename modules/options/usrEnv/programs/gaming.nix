@@ -12,8 +12,8 @@ in {
   options.modules.usrEnv.programs.gaming = {
     enable = mkEnableOption "userspace gaming programs" // {default = prg.gaming.enable;};
     emulation.enable = mkEnableOption "programs required to emulate other platforms" // {default = prg.gaming.enable;};
-    minecraft.enable = mkEnableOption "Minecraft launcher & JDKs" // {default = prg.gaming.enable;};
-    chess.enable = mkEnableOption "Chess programs and engines" // {default = prg.gaming.enable;};
+    minecraft.enable = mkEnableOption "Minecraft launcher & JDKs" // {default = false;};
+    chess.enable = mkEnableOption "Chess programs and engines" // {default = false;};
     mangohud.enable = mkEnableOption "MangoHud overlay" // {default = prg.gaming.enable;};
   };
 }
