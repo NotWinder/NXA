@@ -74,8 +74,6 @@
       default = {
         terminal = "alacritty";
       };
-
-      #libreoffice.enable = true;
     };
   };
 }

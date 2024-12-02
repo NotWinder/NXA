@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  browser = ["Schizofox.desktop"];
+  browser = ["zen.desktop"];
   mailer = ["thunderbird.desktop"];
   zathura = ["zathura.desktop"];
   fileManager = ["org.kde.dolphin.desktop"];

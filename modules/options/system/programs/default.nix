@@ -37,11 +37,6 @@ in {
 
     firefox = {
       enable = mkEnableOption "Firefox browser";
-      schizofox.enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable Schizofox Firefox Tweaks";
-      };
     };
 
     editors = {

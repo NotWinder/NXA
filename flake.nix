@@ -104,16 +104,6 @@
       };
     };
 
-    # Schizophrenic Firefox configuration
-    schizofox = {
-      url = "github:schizofox/schizofox";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-small";
-        flake-parts.follows = "flake-parts";
-        nixpak.follows = "nixpak";
-      };
-    };
-
     # Secure-boot support on nixos
     # the interface iss still shaky and I would recommend
     # avoiding on production systems for now

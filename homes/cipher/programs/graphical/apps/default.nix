@@ -6,7 +6,6 @@
     ./librewolf
     ./obs
     ./office
-    #./schizofox
     ./spotify
     ./thunderbird
     ./vscode
