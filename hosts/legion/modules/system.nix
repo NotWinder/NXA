@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  mainUser = "winder"; # The Main User of the host
+  mainUser = "blackjesus"; # The Main User of the host
 in {
   config.modules.system = {
     mainUser = mainUser;
@@ -10,7 +10,6 @@ in {
 
     fs = {
       enabledFilesystems = ["btrfs" "vfat" "ntfs" "exfat"];
-      zfs.enable = true;
     };
     boot = {
       loader = "grub";
@@ -19,14 +18,10 @@ in {
       initrd.enableTweaks = true;
       loadRecommendedModules = true;
       tmpOnTmpfs = false;
-      plymouth = {
-        enable = true;
-        withThemes = false;
-      };
-    };
-
-    containers = {
-      enabledContainers = ["alpha"];
+      #plymouth = {
+      #  enable = true;
+      #  withThemes = false;
+      #};
     };
 
     video.enable = true;

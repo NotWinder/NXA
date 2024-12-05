@@ -1,3 +1,0 @@
-{
-  "workspace_swipe" = "false";
-}

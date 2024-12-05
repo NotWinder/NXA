@@ -1,5 +1,6 @@
 {
   config,
+  pkgs,
   lib,
   ...
 }: let
@@ -69,6 +70,12 @@ in {
       type = str;
       default = "/home/winder";
       description = "Path to home directory of the mainUser.";
+    };
+
+    defaultUserShell = mkOption {
+      type = package;
+      default = pkgs.bash;
+      description = "The Default Shell for the User.";
     };
 
     autoLogin = mkOption {

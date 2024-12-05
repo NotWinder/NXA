@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   time = {
     timeZone = "Asia/Tehran";
-    hardwareClockInLocalTime = false; # this somehow breaks if Impermanence is enabled
+    hardwareClockInLocalTime = true; # this somehow breaks if Impermanence is enabled
   };
 
   networking.timeServers = [

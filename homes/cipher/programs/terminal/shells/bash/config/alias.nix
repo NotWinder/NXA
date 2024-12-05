@@ -1,4 +1,74 @@
 {
+  pkgs,
+  lib,
+  ...
+}: let
+  inherit (lib.meta) getExe; #getExe';
+  inherit (pkgs) eza bat ripgrep dust procs yt-dlp python3;
+  #dig = getExe' pkgs.dnsutils "dig";
+in {
+  # make sudo use aliases
+  sudo = "sudo ";
+
+  # nix specific aliases
+  cleanup = "sudo nix-collect-garbage --delete-older-than 3d && nix-collect-garbage -d"; # Uses nix-collect-garbage to Cleanup the old generaions
+  bloat = "nix path-info -Sh /run/current-system"; # Shows the current systems size
+  curgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system"; # lists the generaions of the system
+  gc-check = "nix-store --gc --print-roots | egrep -v \"^(/nix/var|/run/\w+-system|\{memory|/proc)\""; # TODO: check what is does
+  repair = "nix-store --verify --check-contents --repair";
+  run = "nix run"; # runs the flake
+  search = "nix search"; # Searchs in the flake
+  shell = "nix shell"; # runs a shell with the flake packages
+  build = "nix build $@ --builders \"\""; ## TODO: check what is does
+  devng = "nix develop ~/github/nix-winder/#angular"; # runs a devshell for angular
+  devdjango = "nix develop ~/github/nix-winder/#django"; # runs a devshell for django
+  devjava = "nix develop ~/github/nix-winder/#java"; # runs a devshell for java
+  devgo = "nix develop ~/github/nix-winder/#go"; # runs a devshell for go
+  devrust = "nix develop ~/github/nix-winder/#rust"; # runs a devshell for rust
+  flake-build = "sudo nixos-rebuild switch --flake .#cipher"; # rebuilds the system with the cipher system
+
+  # quality of life aliases
+  cat = "${getExe bat} --style=plain";
+  grep = "${getExe ripgrep}";
+  du = "${getExe dust}";
+  ps = "${getExe procs}";
+  mp = "mkdir -p";
+  fcd = "cd $(find -type d | fzf)";
+  ls = "${getExe eza} -h --git --icons --color=auto --group-directories-first -s extension";
+  ll = "ls -lF --time-style=long-iso --icons";
+  ytmp3 = ''
+    ${getExe yt-dlp} -x --continue --add-metadata --embed-thumbnail --audio-format mp3 --audio-quality 0 --metadata-from-title="%(artist)s - %(title)s" --prefer-ffmpeg -o "%(title)s.%(ext)s"
+  ''; # TODO: how this aliase works
+
+  # system aliases
+  sc = "sudo systemctl";
+  jc = "sudo journalctl";
+  scu = "systemctl --user ";
+  jcu = "journalctl --user";
+  errors = "journalctl -p err..alert";
+  la = "${getExe eza} -lah --tree";
+  tree = "${getExe eza} --tree --icons=always";
+  http = "${getExe python3} -m http.server";
+  burn = "pkill -9";
+  diff = "diff --color=auto";
+  cpu = ''watch -n.1 "grep \"^[c]pu MHz\" /proc/cpuinfo"'';
+  killall = "pkill";
+
+  # insteaed of querying some weird and random"what is my ip" service
+  # we get our public ip by querying opendns directly.
+  # <https://unix.stackexchange.com/a/81699>
+  #canihazip = "${dig} @resolver4.opendns.com myip.opendns.com +short";
+  #canihazip4 = "${dig} @resolver4.opendns.com myip.opendns.com +short -4";
+  #canihazip6 = "${dig} @resolver1.ipv6-sandbox.opendns.com AAAA myip.opendns.com +short -6";
+  # FIXME: doesn't work for some reasone
+
+  # faster navigation
+  ".." = "cd ..";
+  "..." = "cd ../../";
+  "...." = "cd ../../../";
+  "....." = "cd ../../../../";
+  "......" = "cd ../../../../../";
+
   # Text Editors
   pico = "edit";
   spico = "sedit";
@@ -6,56 +76,17 @@
   snano = "sedit";
   svi = "sudo -E nvim";
   # File Operations
-  cat = "bat";
-  dir = "mkdir";
   cp = "cp -i";
   mv = "mv -i";
   rm = "trash -v";
   rmd = "/bin/rm --recursive --force --verbose ";
   # Directory Navigation
-  home = "cd ~";
   "cd.." = "cd ..";
-  ".." = "cd ..";
-  "..." = "cd ../..";
-  "...." = "cd ../../..";
-  "....." = "cd ../../../..";
-  web = "cd /var/www/html";
-  # Process Management
-  ps = "ps auxf";
-  topcpu = "/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10";
 
   # Viewing and Handling Files
   less = "less -R";
   cls = "clear";
   cle = "clear";
-
-  # Package Management
-  apt-get = "sudo apt-get";
-  apt = "sudo nala";
-  freshclam = "sudo freshclam";
-
-  # Python
-  python = "python3";
-  py = "python3";
-
-  # Rust
-  fempty = "cargo run --manifest-path ~/rust/fempty/Cargo.toml";
-
-  # List Contents
-  la = "ls -Ah";
-  ls = "ls -Fh --color=always";
-  lx = "ls -lXBh";
-  lk = "ls -lSrh";
-  lc = "ls -lcrh";
-  lu = "ls -lurh";
-  lr = "ls -lRh";
-  lt = "ls -ltrh";
-  lm = "ls -alh | more";
-  lw = "ls -xAh";
-  ll = "ls -aFls";
-  labc = "ls -lap";
-  lf = "ls -l | egrep -v '^d'";
-  ldir = "ls -l | egrep '^d'";
 
   # File Permissions
   mx = "chmod a+x";
@@ -65,33 +96,12 @@
   "755" = "chmod -R 755";
   "777" = "chmod -R 777";
 
-  # History and Search
-  h = "history | grep ";
-  p = "ps aux | grep ";
-  f = "find . | grep ";
-
-  # Check Command Type
-  checkcommand = "type -t";
-
   # Network
   openports = "netstat -nape --inet";
 
   # Reboot
   reboot = "systemctl -i reboot";
   rebootsafe = "sudo shutdown -r now";
-  rebootforce = "sudo shutdown -r -n now";
-
-  # Disk and Space Usage
-  diskspace = "du -S | sort -n -r | more";
-  folders = "du -h --max-depth=1";
-  folderssort = "find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn";
-
-  # Directory Trees
-  tree = "tree -CAhF --dirsfirst";
-  treed = "tree -CAFd";
-
-  # Mounted File Systems
-  mountedinfo = "df -hT";
 
   # Archive Operations
   mktar = "tar -cvf";
@@ -101,35 +111,11 @@
   unbz2 = "tar -xvjf";
   ungz = "tar -xvzf";
 
-  # Log Files
-  logs = "sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f";
-
-  # SHA1 Hash
-  sha1 = "openssl sha1";
-
-  ## Nixos aliases
-  # Shells
-  devng = "nix develop ~/github/nix-winder/#angular";
-  devdjango = "nix develop ~/github/nix-winder/#django";
-  devjava = "nix develop ~/github/nix-winder/#java";
-  devgo = "nix develop ~/github/nix-winder/#go";
-  devrust = "nix develop ~/github/nix-winder/#rust";
-
-  flake-build = "sudo nixos-rebuild switch --flake .#cipher";
-
   # Miscellaneous
-  Hyprland = "exec env WLR_NO_HARDWARE_CURSORS=1 Hyprland";
-  nixbuild = "sudo nixos-rebuild switch";
   poweroff = "systemctl -i poweroff";
   nvidia0 = "sudo -E nvidia-settings -a '[fan]/GPUTargetFanSpeed=0'";
   nvidia50 = "sudo -E nvidia-settings -a '[fan]/GPUTargetFanSpeed=50'";
   nvidia100 = "sudo -E nvidia-settings -a '[fan]/GPUTargetFanSpeed=100'";
-  docreatefra6deb = "doctl compute droplet create --region fra1 --size s-1vcpu-1gb --image debian-12-x64 --ssh-keys 40930668,40798689,40998907 --wait";
-  docreateams6deb = "doctl compute droplet create --region ams3 --size s-1vcpu-1gb --image debian-12-x64 --ssh-keys 40930668,40798689,40998907 --wait";
-  docreatefra4deb = "doctl compute droplet create --region fra1 --size s-1vcpu-512mb-10gb --image debian-12-x64 --ssh-keys 40930668,40798689,40998907 --wait";
-  docreateams4deb = "doctl compute droplet create --region ams3 --size s-1vcpu-512mb-10gb --image debian-12-x64 --ssh-keys 40930668,40798689,40998907 --wait";
   ssh = "TERM=xterm-256color ssh";
   wget = "wget --hsts-file='$XDG_CACHE_HOME/wget-hsts'";
-  hug = "hugo server -F --bind=10.0.0.210 --baseURL=http://10.0.0.210";
-  lookingglass = "~/looking-glass-B5.0.1/client/build/looking-glass-client -F";
 }

@@ -1,11 +1,20 @@
-{config, ...}: {
+{
+  config,
+  osConfig,
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (lib) mkIf;
+
+  cfg = osConfig.modules.system;
+in {
   imports = [
     ./aliases.nix
     ./init.nix
     ./plugins.nix
   ];
-
-  config = {
+  config = mkIf (cfg.defaultUserShell == pkgs.zsh) {
     programs.zsh = {
       enable = true;
       dotDir = ".config/zsh";
@@ -47,7 +56,6 @@
         screenshots = "$HOME/Media/Pictures/Screenshots";
         notes = "$HOME/Cloud/Notes";
         dev = "$HOME/Dev";
-        dots = "$HOME/.config/nyx";
       };
 
       # Disable /etc/{zshrc,zprofile} that contains the "sane-default" setup out of the box

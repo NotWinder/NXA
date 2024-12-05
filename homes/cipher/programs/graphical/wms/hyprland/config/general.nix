@@ -1,10 +1,21 @@
-{
-  # █▀▀ █▀▀ █▄░█ █▀▀ █▀█ ▄▀█ █░░
-  # █▄█ ██▄ █░▀█ ██▄ █▀▄ █▀█ █▄▄
-  "gaps_in" = "5";
-  "gaps_out" = "15";
-  "border_size" = "1";
-  "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-  "col.inactive_border" = "rgba(595959aa)";
-  "layout" = "master ";
+{osConfig, ...}: let
+  inherit (osConfig) modules;
+
+  # theming
+  inherit (modules.style) colorScheme;
+  inherit (colorScheme) colors;
+in {
+  wayland.windowManager.hyprland.settings = {
+    general = {
+      # gaps
+      gaps_in = 4;
+      gaps_out = 8;
+
+      # border thiccness
+      border_size = 2;
+
+      # active border color
+      "col.active_border" = "0xff${colors.base07}";
+    };
+  };
 }

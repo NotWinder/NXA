@@ -89,6 +89,17 @@
         extraModules = [shared homes];
       };
     };
+
+    legion = mkNixosSystem {
+      inherit withSystem;
+      hostname = "legion";
+      system = "x86_64-linux";
+      modules = mkModulesFor "legion" {
+        roles = [graphical workstation];
+        extraModules = [shared homes];
+      };
+    };
+
     cipher-iso = mkNixosIso {
       inherit withSystem;
       hostname = "cipher";

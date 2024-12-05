@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{config, ...}: {
   # We want to handle user configurations on a per-file basis. What that
   # means is a new user cannot be added via, e.g., useradd unless a new
   # file has been added here to create user configuration.
@@ -13,7 +13,7 @@
   config = {
     users = {
       # Default user shell package
-      defaultUserShell = pkgs.zsh;
+      defaultUserShell = config.modules.system.defaultUserShell;
 
       # And other stuff...
       allowNoPasswordLogin = false;

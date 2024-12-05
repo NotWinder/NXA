@@ -67,6 +67,10 @@
         hyprutils.follows = "hyprutils";
       };
     };
+    hyprland-contrib = {
+      url = "github:hyprwm/contrib";
+      inputs.nixpkgs.follows = "hyprland/nixpkgs";
+    };
 
     # anyrun program launcher
     anyrun.url = "github:anyrun-org/anyrun";
