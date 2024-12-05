@@ -11,10 +11,10 @@
   env = modules.usrEnv;
   sys = modules.system;
 
-  winderpaper = inputs.winpaper.packages.${pkgs.stdenv.system};
+  winpaper = inputs.winpaper.packages.${pkgs.stdenv.system};
   hyprpaper = inputs.hyprpaper.packages.${pkgs.stdenv.system}.default;
 
-  Jinx = "${winderpaper.shows}/share/wallpapers/shows/Jinx.jpg";
+  Jinx = "${winpaper.shows}/share/wallpapers/shows/Jinx.jpg";
   #Bill = "${winderpaper.shows}/share/wallpapers/shows/Bill.png";
   #Victor = "${winderpaper.shows}/share/wallpapers/shows/Victor.jpg";
 in {

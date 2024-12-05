@@ -2,8 +2,8 @@
   "$mainMod, Q, exec, alacritty"
   "$mainMod, C, killactive,"
   "$mainMod, D, exec, rofi -show drun -theme ~/.config/rofi/global/rofi.rasi"
-  ''$mainMod, D, exec, killall tofi || run-as-service $(tofi-drun --prompt-text "Run")''
-  ''$mainMod, R,exec, killall anyrun || run-as-service $(anyrun)''
+  ''$mainMod, R, exec, killall tofi || run-as-service $(tofi-drun --prompt-text "Run")''
+  ''$mainMod, D,exec, killall anyrun || run-as-service $(anyrun)''
 
   "$mainMod, M, exit,"
   "$mainMod, E, exec, dolphin"

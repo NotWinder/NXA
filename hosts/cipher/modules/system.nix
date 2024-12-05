@@ -1,8 +1,10 @@
-{
+let
+  mainUser = "winder"; # The Main User of the host
+in {
   config.modules.system = {
-    mainUser = "winder";
-    users = ["winder"];
-    homePath = "/home/winder";
+    mainUser = mainUser;
+    users = [mainUser];
+    homePath = "/home/${mainUser}";
     autoLogin = true;
 
     fs = {

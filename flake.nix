@@ -104,6 +104,13 @@
       };
     };
 
+    # Personal collection of packages and modules
+    # that are too unstable or too personal for nyxexprs.
+    nyxexprs = {
+      url = "github:NotAShelf/nyxexprs";
+      inputs.systems.follows = "systems";
+    };
+
     # Secure-boot support on nixos
     # the interface iss still shaky and I would recommend
     # avoiding on production systems for now
@@ -115,7 +122,13 @@
       };
     };
 
-    nvw.url = "github:notwinder/nvw";
+    nvw = {
+      url = "github:notwinder/nvw";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
+    };
     winpaper = {
       url = "github:notwinder/winpaper";
       inputs = {

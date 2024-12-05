@@ -4,7 +4,7 @@
     ./git
     ./tops
 
-    #./bat.nix
+    ./bat.nix
     ./zoxide.nix
   ];
 }

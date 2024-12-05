@@ -7,9 +7,7 @@ let
   XDG_DATA_HOME = "$HOME/.local/share";
   XDG_RUNTIME_DIR = "/run/user/$UID";
   XDG_STATE_HOME = "$HOME/.local/state";
-
-in
-{
+in {
   XDG_BIN_HOME = "${XDG_BIN_HOME}";
   XDG_CACHE_HOME = "${XDG_CACHE_HOME}";
   XDG_CONFIG_HOME = "${XDG_CONFIG_HOME}";

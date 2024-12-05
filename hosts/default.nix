@@ -8,7 +8,7 @@
     # mkNixosIso and mkNixosSystem are my own builders for assembling a nixos system
     # provided by my local extended library
     inherit (inputs.self) lib;
-    inherit (lib) mkNixosIso mkNixosSystem mkModuleTree';
+    inherit (lib) mkNixosIso mkNixosInstallerIso mkNixosSystem mkModuleTree';
     inherit (lib.lists) concatLists flatten singleton;
 
     ## flake inputs ##
@@ -35,12 +35,12 @@
     ## roles ##
     # Roles either provide an additional set of defaults on top of the core module
     # or override existing defaults for role-specific optimizations.
-    iso = coreModules + /roles/iso; # for providing a uniform ISO configuration for live systems - only the build setup
-    headless = coreModules + /roles/headless; # for devices that are of the headless type - provides no GUI
+    #iso = coreModules + /roles/iso; # for providing a uniform ISO configuration for live systems - only the build setup
+    #headless = coreModules + /roles/headless; # for devices that are of the headless type - provides no GUI
     graphical = coreModules + /roles/graphical; # for devices that are of the graphical type - provides a GUI
     workstation = coreModules + /roles/workstation; # for devices that are of workstation type - any device that is for daily use
-    server = coreModules + /roles/server; # for devices that are of the server type - provides online services
-    laptop = coreModules + /roles/laptop; # for devices that are of the laptop type - provides power optimizations
+    #server = coreModules + /roles/server; # for devices that are of the server type - provides online services
+    #laptop = coreModules + /roles/laptop; # for devices that are of the laptop type - provides power optimizations
 
     # extra modules - optional but likely critical to a successful build
     sharedModules = extraModules + /shared; # the path where shared modules reside
@@ -81,6 +81,15 @@
       );
   in {
     cipher = mkNixosSystem {
+      inherit withSystem;
+      hostname = "cipher";
+      system = "x86_64-linux";
+      modules = mkModulesFor "cipher" {
+        roles = [graphical workstation];
+        extraModules = [shared homes];
+      };
+    };
+    cipher-iso = mkNixosIso {
       inherit withSystem;
       hostname = "cipher";
       system = "x86_64-linux";
