@@ -133,6 +133,10 @@
         flake-parts.follows = "flake-parts";
       };
     };
+    zenf = {
+      url = "github:notwinder/zenf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     winpaper = {
       url = "github:notwinder/winpaper";
       inputs = {

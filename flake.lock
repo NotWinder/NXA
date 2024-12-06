@@ -1537,7 +1537,8 @@
         "stm": "stm",
         "systems": "systems_7",
         "winpaper": "winpaper",
-        "xdg-portal-hyprland": "xdg-portal-hyprland"
+        "xdg-portal-hyprland": "xdg-portal-hyprland",
+        "zenf": "zenf"
       }
     },
     "rust-overlay": {
@@ -1852,6 +1853,26 @@
       "original": {
         "owner": "hyprwm",
         "repo": "xdg-desktop-portal-hyprland",
+        "type": "github"
+      }
+    },
+    "zenf": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1733461693,
+        "narHash": "sha256-fsGmxFB9cYJxJLmQwyX38GuLVRt5YEDTozUKzxl/sj4=",
+        "owner": "notwinder",
+        "repo": "zenf",
+        "rev": "f1789ebbfac8fa252ec9d12d33756492abda48ec",
+        "type": "github"
+      },
+      "original": {
+        "owner": "notwinder",
+        "repo": "zenf",
         "type": "github"
       }
     }

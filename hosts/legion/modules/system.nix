@@ -59,7 +59,7 @@ in {
 
       #spotify.enable = true;
       obs.enable = true;
-      chromium.enable = true;
+      zen.enable = true;
 
       git.signingKey = "0xAF26552424E53993 ";
 

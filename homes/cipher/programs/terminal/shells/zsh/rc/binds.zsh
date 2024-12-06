@@ -10,6 +10,7 @@ bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 
+
 bindkey "^A" vi-beginning-of-line
 bindkey "^E" vi-end-of-line
 
@@ -18,3 +19,5 @@ autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^V" edit-command-line
 
+
+bindkey "^ " autosuggest-accept
