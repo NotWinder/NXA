@@ -31,7 +31,8 @@ in {
       devjava = "nix develop ~/github/nix-winder/#java"; # runs a devshell for java
       devgo = "nix develop ~/github/nix-winder/#go"; # runs a devshell for go
       devrust = "nix develop ~/github/nix-winder/#rust"; # runs a devshell for rust
-      flake-build = "sudo nixos-rebuild switch --flake .#cipher"; # rebuilds the system with the cipher system
+      cipher = "sudo nixos-rebuild switch --flake .#cipher"; # rebuilds the system with the cipher system
+      legion = "sudo nixos-rebuild switch --flake .#legion"; # rebuilds the system with the legion system
 
       # quality of life aliases
       cat = "${getExe bat} --style=plain";
