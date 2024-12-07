@@ -66,7 +66,7 @@ in {
       obs.enable = true;
       zen.enable = true;
 
-      git.signingKey = "0xAF26552424E53993 ";
+      git.signingKey = "D12DC2F50D88D7D6";
 
       gaming = {
         enable = true;
