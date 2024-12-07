@@ -5,14 +5,6 @@
     hostId = builtins.substring 0 8 (builtins.hashString "md5" config.networking.hostName);
     firewall.enable = false;
   };
-  programs.proxychains.enable = true;
-  programs.proxychains.proxies = {
-    myproxy = {
-      type = "socks5";
-      host = "127.0.0.1";
-      port = 1080;
-    };
-  };
 }
 #{
 #  config,
