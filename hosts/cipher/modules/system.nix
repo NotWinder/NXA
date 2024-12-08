@@ -25,15 +25,15 @@ in {
       };
     };
 
-    containers = {
-      enabledContainers = ["alpha"];
-    };
+    #containers = {
+    #  enabledContainers = ["alpha"];
+    #};
 
     video.enable = true;
     sound.enable = true;
     bluetooth.enable = true;
     printing.enable = false;
-    emulation.enable = true;
+    #emulation.enable = true;
 
     virtualization = {
       enable = true;

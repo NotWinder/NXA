@@ -12,10 +12,17 @@
 in {
   config = mkIf (prg.gui.enable && sys.video.enable) {
     home.packages = with pkgs; [
-      nextcloud-client # Desktop sync client for Nextcloud
+      anydesk # Desktop sharing application, providing remote support and online meetings
       easyeffects # Audio effects for PipeWire applications
-      qbittorrent # Featureful free software BitTorrent client
+      gparted # Graphical disk partitioning tool
       helvum # GTK patchbay for pipewire
+      nextcloud-client # Desktop sync client for Nextcloud
+      picard # Official MusicBrainz tagger
+      picard-tools # Tools for high-throughput sequencing (HTS) data and formats such as SAM/BAM/CRAM and VCF
+      qbittorrent # Featureful free software BitTorrent client
+      telegram-desktop # Telegram Desktop messaging app
+      uget # Download manager using GTK and libcurl
+      universal-android-debloater # Tool to debloat non-rooted Android devices
 
       # Electron applications
       # zoom-us # may we never return to online education

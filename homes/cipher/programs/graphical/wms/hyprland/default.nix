@@ -24,6 +24,7 @@ in {
       grimblast
       hyprpicker
       dbus-hyprland-env
+      pkgs.nwg-displays
     ];
 
     wayland.windowManager.hyprland = {

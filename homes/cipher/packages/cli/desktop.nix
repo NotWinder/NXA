@@ -14,14 +14,19 @@ in {
   config = mkIf ((builtins.elem dev.type acceptedTypes) && prg.cli.enable) {
     home.packages = with pkgs; [
       # CLI
-      libnotify # Library that sends desktop notifications to a notification daemon
-      imagemagick # Software suite to create, edit, compose, or convert bitmap images
       bitwarden-cli # Secure and free password manager for all of your devices
-      trash-cli # Command line interface to the freedesktop.org trashcan
-      slides # Terminal based presentation tool
       brightnessctl # This program allows you read and control device brightness
-      pamixer # Pulseaudio command line mixer
+      imagemagick # Software suite to create, edit, compose, or convert bitmap images
+      libnotify # Library that sends desktop notifications to a notification daemon
       nix-tree # Interactively browse a Nix store paths dependencies
+      pamixer # Pulseaudio command line mixer
+      sing-box # Universal proxy platform
+      slides # Terminal based presentation tool
+      tldr # Simplified and community-driven man pages
+      tokei # Program that allows you to count your code, quickly
+      trash-cli # Command line interface to the freedesktop.org trashcan
+      unrar # Utility for RAR archives
+      ventoy-full # New Bootable USB Solution
     ];
   };
 }

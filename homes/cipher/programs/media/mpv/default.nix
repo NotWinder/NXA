@@ -13,6 +13,9 @@
   low1k = import ./low1k.nix {inherit pkgs;};
 in {
   config = mkIf prg.media.mpv.enable {
+    home.packages = with pkgs; [
+      celluloid #Simple GTK frontend for the mpv video player
+    ];
     programs.mpv = {
       enable = true;
 

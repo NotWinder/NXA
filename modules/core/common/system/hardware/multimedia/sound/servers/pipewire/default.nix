@@ -14,11 +14,14 @@ in {
   imports = [
     ./wireplumber
 
-    #./low-latency.nix
+    ./low-latency.nix
     ./settings.nix
   ];
 
   config = mkIf (sys.sound.enable && dev.hasSound) {
+    environment.systemPackages = with pkgs; [
+      qpwgraph # Qt graph manager for PipeWire, similar to QjackCtl
+    ];
     # Enable PipeWire sound server and additional emulation layers
     # for all kinds of backwards compatibility. Audio on Linux has
     # always been finicky, and this is the best way to ensure that

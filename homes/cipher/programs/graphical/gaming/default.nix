@@ -19,8 +19,11 @@ in {
   config = mkIf prg.gaming.enable {
     home.packages = with pkgs; [
       # runtime
+      bottles # Easy-to-use wineprefix manager
       dotnet-runtime_6 # for running terraria manually, from binary
+      heroic # Native GOG, Epic, and Amazon Games Launcher for Linux, Windows and Mac
       mono # general dotnet apps
+      pcsx2 # Playstation 2 emulator
       winetricks # wine helper utility
     ];
   };
