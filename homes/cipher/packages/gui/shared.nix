@@ -18,7 +18,7 @@ in {
       helvum # GTK patchbay for pipewire
       nextcloud-client # Desktop sync client for Nextcloud
       picard # Official MusicBrainz tagger
-      picard-tools # Tools for high-throughput sequencing (HTS) data and formats such as SAM/BAM/CRAM and VCF
+      #picard-tools # Tools for high-throughput sequencing (HTS) data and formats such as SAM/BAM/CRAM and VCF
       qbittorrent # Featureful free software BitTorrent client
       telegram-desktop # Telegram Desktop messaging app
       uget # Download manager using GTK and libcurl

@@ -88,7 +88,6 @@ in {
       "$MOD, up, movefocus, k"
       "$MOD, down, movefocus, j"
 
-      "$MOD, F, fullscreen,"
       "$MOD, 1, workspace, 1"
       "$MOD, 2, workspace, 2"
       "$MOD, 3, workspace, 3"

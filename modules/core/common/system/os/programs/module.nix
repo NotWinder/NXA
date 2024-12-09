@@ -6,7 +6,6 @@
     ./direnv.nix
     ./git.nix
     ./nano.nix
-    ./others.nix
     ./thunar.nix
     ./zsh.nix
   ];
