@@ -40,9 +40,9 @@ in {
         };
 
         environment.systemPackages = with pkgs; [
-          gcc
-          openjdk17_headless
-          gitMinimal
+          gcc # GNU Compiler Collection, version 13.3.0 (wrapper script)
+          openjdk17_headless # Open-source Java Development Kit
+          gitMinimal # Distributed version control system
         ];
 
         networking.interfaces.ve-alpha = {

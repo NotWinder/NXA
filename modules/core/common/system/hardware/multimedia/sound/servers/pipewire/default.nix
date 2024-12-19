@@ -14,7 +14,7 @@ in {
   imports = [
     ./wireplumber
 
-    ./low-latency.nix
+    #./low-latency.nix
     ./settings.nix
   ];
 

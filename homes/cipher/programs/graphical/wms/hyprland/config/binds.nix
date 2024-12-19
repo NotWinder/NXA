@@ -77,7 +77,6 @@ in {
 
       "$MOD, E, exec, dolphin"
       "$MOD, G, exec, $browser"
-      "$MOD, V, togglefloating,"
       "$MOD, R, exec, wofi --show drun"
       "$MOD, P, exec,nwg-displays"
       "$MOD, J, togglesplit, # dwindle"

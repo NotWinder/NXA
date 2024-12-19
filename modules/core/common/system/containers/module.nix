@@ -5,7 +5,7 @@
   # so each container does it's own "builtins.elem ..." bullshit before evaluating the container
   # configuration - hacky? yes. working? also yes.
   imports = [
-    ./alpha # sandbox
-    ./beta # postgresql
+    #./alpha # sandbox
+    #./beta # postgresql
   ];
 }

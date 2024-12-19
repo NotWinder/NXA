@@ -8,5 +8,6 @@
     ./ntpd.nix
     ./thermald.nix
     ./zram.nix
+    ./xray.nix
   ];
 }

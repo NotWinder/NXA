@@ -13,7 +13,7 @@ in {
 
     hardware.bluetooth = {
       enable = true;
-      package = pkgs.bluez5-experimental;
+      package = pkgs.bluez-experimental;
       #hsphfpd.enable = true;
       powerOnBoot = true;
       disabledPlugins = ["sap"];

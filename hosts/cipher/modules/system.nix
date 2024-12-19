@@ -25,15 +25,11 @@ in {
       };
     };
 
-    #containers = {
-    #  enabledContainers = ["alpha"];
-    #};
-
     video.enable = true;
     sound.enable = true;
     bluetooth.enable = true;
     printing.enable = false;
-    #emulation.enable = true;
+    emulation.enable = true;
 
     virtualization = {
       enable = true;
@@ -52,7 +48,7 @@ in {
     };
 
     security = {
-      tor.enable = true;
+      #tor.enable = true;
       fixWebcam = false;
       lockModules = true;
       auditd.enable = true;
@@ -66,7 +62,7 @@ in {
       obs.enable = true;
       zen.enable = true;
 
-      git.signingKey = "D12DC2F50D88D7D6";
+      git.signingKey = "0xB7747DE9EEAAE164";
 
       gaming = {
         enable = true;

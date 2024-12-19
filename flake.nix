@@ -56,7 +56,7 @@
     hyprpicker.url = "github:hyprwm/hyprpicker";
     hyprutils.url = "github:hyprwm/hyprutils";
     hyprland = {
-      url = "github:/hyprwm/Hyprland?ref=0.45.1-b";
+      url = "github:/hyprwm/Hyprland";
       inputs = {
         hyprutils.follows = "hyprutils";
       };

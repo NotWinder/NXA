@@ -47,7 +47,7 @@ in {
     ];
   in {
     # Lix, the higher performance Nix fork.
-    #package = pkgs.lix;
+    package = pkgs.lix;
 
     # Pin the registry to avoid downloading and evaluating
     # a new nixpkgs version on each command causing a re-eval.
@@ -155,7 +155,7 @@ in {
         "ca-derivations" # content addressed nix
         "auto-allocate-uids" # allow nix to automatically pick UIDs, rather than creating nixbld* user accounts
         "cgroups" # allow nix to execute builds inside cgroups
-        #"repl-flake" # allow passing installables to nix repl
+        "repl-flake" # allow passing installables to nix repl
         "no-url-literals" # disallow deprecated url-literals, i.e., URLs without quotation
         "dynamic-derivations" # allow "text hashing" derivation outputs, so we can build .drv files.
 
@@ -202,34 +202,34 @@ in {
 
       # Substituters to pull from. While sigs are disabled, we must
       # make sure the substituters listed here are trusted.
-      #substituters = [
-      #  "https://cache.nixos.org" # funny binary cache
-      #  "https://cache.privatevoid.net" # for nix-super
-      #  "https://nix-community.cachix.org" # nix-community cache
-      #  "https://hyprland.cachix.org" # hyprland
-      #  "https://nixpkgs-unfree.cachix.org" # unfree-package cache
-      #  "https://anyrun.cachix.org" # anyrun program launcher
-      #  "https://nyx.cachix.org" # cached stuff from my flake outputs
-      #  "https://neovim-flake.cachix.org" # a cache for my neovim flake
-      #  "https://cache.garnix.io" # garnix binary cache, hosts prismlauncher
-      #  "https://cache.notashelf.dev" # my own binary cache, served over https
-      #  "https://ags.cachix.org" # ags
-      #];
+      substituters = [
+        "https://cache.nixos.org" # funny binary cache
+        "https://cache.privatevoid.net" # for nix-super
+        "https://nix-community.cachix.org" # nix-community cache
+        "https://hyprland.cachix.org" # hyprland
+        "https://nixpkgs-unfree.cachix.org" # unfree-package cache
+        "https://anyrun.cachix.org" # anyrun program launcher
+        "https://nyx.cachix.org" # cached stuff from my flake outputs
+        "https://neovim-flake.cachix.org" # a cache for my neovim flake
+        "https://cache.garnix.io" # garnix binary cache, hosts prismlauncher
+        "https://cache.notashelf.dev" # my own binary cache, served over https
+        "https://ags.cachix.org" # ags
+      ];
 
-      #trusted-public-keys = [
-      #  "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      #  "cache.privatevoid.net:SErQ8bvNWANeAvtsOESUwVYr2VJynfuc9JRwlzTTkVg="
-      #  "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      #  "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-      #  "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
-      #  "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
-      #  "notashelf.cachix.org-1:VTTBFNQWbfyLuRzgm2I7AWSDJdqAa11ytLXHBhrprZk="
-      #  "neovim-flake.cachix.org-1:iyQ6lHFhnB5UkVpxhQqLJbneWBTzM8LBYOFPLNH4qZw="
-      #  "nyx.cachix.org-1:xH6G0MO9PrpeGe7mHBtj1WbNzmnXr7jId2mCiq6hipE="
-      #  "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
-      #  "cache.notashelf.dev-1:DhlmJBtURj+XS3j4F8SFFukT8dYgSjtFcd3egH8rE6U="
-      #  "ags.cachix.org-1:naAvMrz0CuYqeyGNyLgE010iUiuf/qx6kYrUv3NwAJ8="
-      #];
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "cache.privatevoid.net:SErQ8bvNWANeAvtsOESUwVYr2VJynfuc9JRwlzTTkVg="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+        "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
+        "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
+        "notashelf.cachix.org-1:VTTBFNQWbfyLuRzgm2I7AWSDJdqAa11ytLXHBhrprZk="
+        "neovim-flake.cachix.org-1:iyQ6lHFhnB5UkVpxhQqLJbneWBTzM8LBYOFPLNH4qZw="
+        "nyx.cachix.org-1:xH6G0MO9PrpeGe7mHBtj1WbNzmnXr7jId2mCiq6hipE="
+        "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+        "cache.notashelf.dev-1:DhlmJBtURj+XS3j4F8SFFukT8dYgSjtFcd3egH8rE6U="
+        "ags.cachix.org-1:naAvMrz0CuYqeyGNyLgE010iUiuf/qx6kYrUv3NwAJ8="
+      ];
     };
   };
 
