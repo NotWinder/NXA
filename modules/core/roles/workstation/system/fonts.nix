@@ -49,7 +49,9 @@ in {
 
       # programming fonts
       sarasa-gothic
-      (nerdfonts.override {fonts = ["Iosevka" "JetBrainsMono" "NerdFontsSymbolsOnly"];})
+      nerd-fonts.iosevka
+      nerd-fonts.symbols-only
+      nerd-fonts.jetbrains-mono
 
       # desktop fonts
       corefonts # MS fonts
@@ -99,3 +101,4 @@ in {
 #    };
 #  };
 #}
+

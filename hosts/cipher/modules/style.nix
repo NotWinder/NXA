@@ -30,6 +30,7 @@ in {
       kdeglobals = {
         package = "${cfg.theme.package}/share/color-schemes/CatppuccinMochaGreen.colors";
         colors = "${cfg.theme.package}/share/color-schemes/CatppuccinMochaGreen.colors";
+        #TerminalApplication = "alacritty";
       };
     };
 
