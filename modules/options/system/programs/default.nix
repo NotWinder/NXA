@@ -11,19 +11,13 @@ in {
     dev.enable = mkEnableOption "development related package sets";
 
     libreoffice.enable = mkEnableOption "LibreOffice suite";
-    discord.enable = mkEnableOption "Discord messenger";
     element.enable = mkEnableOption "Element Matrix client";
     obs.enable = mkEnableOption "OBS Studio";
     zen.enable = mkEnableOption "ZEN browser";
     librewolf.enable = mkEnableOption "LibreWolf";
-    spotify.enable = mkEnableOption "Spotify music player";
-    thunderbird.enable = mkEnableOption "Thunderbird mail client";
     vscode.enable = mkEnableOption "Visual Studio Code";
     steam.enable = mkEnableOption "Steam game client";
-    kdeconnect.enable = mkEnableOption "KDE Connect utility";
-    webcord.enable = mkEnableOption "Webcord Discord client";
     zathura.enable = mkEnableOption "Zathura document viewer";
-    nextcloud.enable = mkEnableOption "Nextcloud sync client";
     rnnoise.enable = mkEnableOption "RNNoise noise suppression plugin";
     noisetorch.enable = mkEnableOption "NoiseTorch noise suppression plugin";
 
@@ -34,10 +28,6 @@ in {
         default = true;
         description = "Enable ungoogled-chromium features";
       };
-    };
-
-    firefox = {
-      enable = mkEnableOption "Firefox browser";
     };
 
     editors = {

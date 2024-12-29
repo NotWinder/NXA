@@ -39,9 +39,6 @@
       "float, title:^(Picture-in-Picture)$"
       "pin, title:^(Picture-in-Picture)$"
 
-      # thunderbird
-      "workspace special silent, title:^(Write.*- Thunderbird)$"
-
       # pavucontrol
       "float,class:pavucontrol"
       "float,title:^(Volume Control)$"
@@ -59,7 +56,6 @@
 
       "workspace 3 silent, class:^(Spotify)$"
       "workspace 4, title:^(.*(Disc|WebC)ord.*)$"
-      "workspace 10 silent, class:^(Nextcloud)$"
     ];
   };
 }

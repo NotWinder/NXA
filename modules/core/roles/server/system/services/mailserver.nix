@@ -81,14 +81,6 @@ in {
           sendOnlyRejectMessage = "";
           quota = "1G";
         };
-
-        "cloud@notashelf.dev" = mkIf cfg.nextcloud.enable {
-          aliases = ["nextcloud@notashelf.dev"];
-          hashedPasswordFile = secrets.mailserver-cloud-secret.path;
-          sendOnly = true;
-          sendOnlyRejectMessage = "";
-          quota = "1G";
-        };
       };
 
       mailboxes = {

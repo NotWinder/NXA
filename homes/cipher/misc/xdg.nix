@@ -5,7 +5,6 @@
   ...
 }: let
   browser = ["zen.desktop"];
-  mailer = ["thunderbird.desktop"];
   zathura = ["zathura.desktop"];
   fileManager = ["org.kde.dolphin.desktop"];
 
@@ -33,9 +32,6 @@
     "application/pdf" = zathura;
 
     "x-scheme-handler/tg" = ["telegramdesktop.desktop"];
-    "x-scheme-handler/spotify" = ["spotify.desktop"];
-    "x-scheme-handler/discord" = ["WebCord.desktop"];
-    "x-scheme-handler/mailto" = mailer;
   };
 
   template = import lib.xdgTemplate "home-manager";
@@ -70,7 +66,6 @@ in {
 
       extraConfig = {
         XDG_SCREENSHOTS_DIR = "${config.xdg.userDirs.pictures}/Screenshots";
-        XDG_MAIL_DIR = "${config.home.homeDirectory}/Mail";
       };
     };
 

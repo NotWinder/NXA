@@ -44,7 +44,6 @@ in {
   LESS_TERMCAP_us = "$'\E[01;32m'";
 
   ##Others
-  GNUPGHOME = "${XDG_DATA_HOME}/gnupg";
   WGETRC = "${XDG_CONFIG_HOME}/wgetrc";
   WINEPREFIX = "${XDG_DATA_HOME}/wineprefixes/64-bit";
 }

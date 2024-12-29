@@ -85,7 +85,7 @@ in {
       # File Operations
       cp = "cp -i";
       mv = "mv -i";
-      rm = "trash -v";
+      rm = "${getExe pkgs.trash-cli} -v";
       rmd = "/bin/rm --recursive --force --verbose ";
       # Directory Navigation
       "cd.." = "cd ..";

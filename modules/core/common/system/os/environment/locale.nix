@@ -45,7 +45,7 @@ in {
       fcitx5.addons = with pkgs; [
         fcitx5-gtk
         fcitx5-lua
-        libsForQt5.fcitx5-qt
+        kdePackages.fcitx5-qt
 
         # themes
         fcitx5-material-color

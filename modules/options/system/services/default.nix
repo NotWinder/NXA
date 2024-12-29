@@ -15,11 +15,6 @@ in {
       mailserver.enable = mkEnableOption "nixos-mailserver service";
       mkm.enable = mkEnableOption "mkm-ticketing service";
 
-      nextcloud = mkService {
-        name = "Nextcloud";
-        type = "cloud storage";
-      };
-
       nginx = mkService {
         name = "Nginx";
         type = "webserver";

@@ -2,6 +2,7 @@
   osConfig,
   pkgs,
   lib,
+  inputs,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -16,18 +17,12 @@ in {
       easyeffects # Audio effects for PipeWire applications
       gparted # Graphical disk partitioning tool
       helvum # GTK patchbay for pipewire
-      nextcloud-client # Desktop sync client for Nextcloud
       picard # Official MusicBrainz tagger
-      #picard-tools # Tools for high-throughput sequencing (HTS) data and formats such as SAM/BAM/CRAM and VCF
       qbittorrent # Featureful free software BitTorrent client
       telegram-desktop # Telegram Desktop messaging app
       uget # Download manager using GTK and libcurl
       universal-android-debloater # Tool to debloat non-rooted Android devices
-
-      # Electron applications
-      # zoom-us # may we never return to online education
-      netflix # Open Netflix in Google Chrome app mode
-      bitwarden-desktop # Secure and free password manager for all of your devices
+      inputs.ghostty.packages.x86_64-linux.default
 
       # Obsidian has a pandoc plugin that allows us to render and export
       # alternative image format, but as the name indicates the plugin

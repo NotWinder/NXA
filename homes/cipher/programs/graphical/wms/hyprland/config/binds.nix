@@ -36,7 +36,7 @@ in {
       "$MOD, M, exit," # exit Hyprland session
       ''$MODSHIFT,H,exec,cat ${propaganda} | ${pkgs.wl-clipboard}/bin/wl-copy && ${pkgs.libnotify}/bin/notify-send "Propaganda" "ready to spread!" && sleep 0.3 && ${lib.getExe pkgs.wtype} -M ctrl -M shift -k v -m shift -m ctrl -s 300 -k Return'' # spread hyprland propaganda
 
-      "$MOD, Q, exec, alacritty"
+      "$MOD, Q, exec, ghostty"
       "$MOD, C, killactive,"
       "$MOD, D, exec, rofi -show drun -theme ~/.config/rofi/global/rofi.rasi"
       ''$MOD, R, exec, killall tofi || run-as-service $(tofi-drun --prompt-text "Run")''

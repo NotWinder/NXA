@@ -19,19 +19,19 @@ in {
           winDecStyles = ["modern"];
         };
       };
-      kvantum = {
-        package = pkgs.catppuccin-kvantum.override {
-          accent = "green";
-          variant = "mocha";
-        };
-        kvconfig = "${cfg.kvantum.package}/share/Kvantum/Catppuccin-Mocha-Green/Catppuccin-Mocha-Green.kvconfig";
-        svg = "${cfg.kvantum.package}/share/Kvantum/Catppuccin-Mocha-Green/Catppuccin-Mocha-Green.svg";
-      };
-      kdeglobals = {
-        package = "${cfg.theme.package}/share/color-schemes/CatppuccinMochaGreen.colors";
-        colors = "${cfg.theme.package}/share/color-schemes/CatppuccinMochaGreen.colors";
-        #TerminalApplication = "alacritty";
-      };
+      #kvantum = {
+      #  package = pkgs.catppuccin-kvantum.override {
+      #    accent = "green";
+      #    variant = "mocha";
+      #  };
+      #  kvconfig = "${cfg.kvantum.package}/share/Kvantum/Catppuccin-Mocha-Green/Catppuccin-Mocha-Green.kvconfig";
+      #  svg = "${cfg.kvantum.package}/share/Kvantum/Catppuccin-Mocha-Green/Catppuccin-Mocha-Green.svg";
+      #};
+      #kdeglobals = {
+      #  package = "${cfg.theme.package}/share/color-schemes/CatppuccinMochaGreen.colors";
+      #  colors = "${cfg.theme.package}/share/color-schemes/CatppuccinMochaGreen.colors";
+      #  #TerminalApplication = "alacritty";
+      #};
     };
 
     gtk = {
@@ -42,7 +42,7 @@ in {
         package = pkgs.tokyonight-gtk-theme;
       };
       iconTheme = {
-        name = "Papirus";
+        name = "Papirus-Dark";
         package = pkgs.papirus-icon-theme;
       };
     };

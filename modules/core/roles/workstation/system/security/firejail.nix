@@ -10,16 +10,6 @@ in {
   in {
     enable = true;
     wrappedBinaries = with pkgs; {
-      thunderbird = {
-        executable = getExe thunderbird;
-        profile = "${profiles}/thunderbird.profile";
-      };
-
-      #spotify = {
-      #  executable = getExe spotify;
-      #  profile = "${profiles}/spotify.profile";
-      #};
-
       mpv = {
         executable = getExe mpv;
         profile = "${profiles}/mpv.profile";

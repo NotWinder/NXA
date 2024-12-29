@@ -24,7 +24,6 @@ in {
       slides # Terminal based presentation tool
       tldr # Simplified and community-driven man pages
       tokei # Program that allows you to count your code, quickly
-      trash-cli # Command line interface to the freedesktop.org trashcan
       unrar # Utility for RAR archives
       ventoy-full # New Bootable USB Solution
     ];

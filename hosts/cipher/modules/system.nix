@@ -58,7 +58,7 @@ in {
       cli.enable = true;
       gui.enable = true;
 
-      #spotify.enable = true;
+      element.enable = true;
       obs.enable = true;
       zen.enable = true;
 
