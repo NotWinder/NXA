@@ -2,7 +2,6 @@
   osConfig,
   pkgs,
   lib,
-  inputs,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -22,7 +21,6 @@ in {
       telegram-desktop # Telegram Desktop messaging app
       uget # Download manager using GTK and libcurl
       universal-android-debloater # Tool to debloat non-rooted Android devices
-      inputs.ghostty.packages.x86_64-linux.default
 
       # Obsidian has a pandoc plugin that allows us to render and export
       # alternative image format, but as the name indicates the plugin

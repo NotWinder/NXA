@@ -9,10 +9,11 @@
   inherit (osConfig) meta;
 
   env = meta;
-  sys = modules.system;
-  prg = sys.programs;
+  uEnv = modules.usrEnv;
+  prg = uEnv.programs;
+  br = prg.browser;
 in {
-  config = mkIf prg.chromium.enable {
+  config = mkIf br.chromium.enable {
     programs.chromium = {
       enable = true;
       extensions = [

@@ -25,11 +25,11 @@ in {
       };
     };
 
-    video.enable = true;
-    sound.enable = true;
     bluetooth.enable = true;
-    printing.enable = false;
     emulation.enable = true;
+    printing.enable = false;
+    sound.enable = true;
+    video.enable = true;
 
     virtualization = {
       enable = true;
@@ -58,18 +58,20 @@ in {
       cli.enable = true;
       gui.enable = true;
 
-      element.enable = true;
       obs.enable = true;
-      zen.enable = true;
 
       git.signingKey = "0xB7747DE9EEAAE164";
 
-      gaming = {
-        enable = true;
+      gaming.enable = true;
+
+      terminals = {
+        ghostty.enable = true;
+        foot.enable = true;
       };
 
       default = {
-        terminal = "alacritty";
+        terminal = "ghostty";
+        browser = "zen";
       };
     };
   };

@@ -1,7 +1,6 @@
 {
   imports = [
     ./chromium
-    ./element
     ./librewolf
     ./obs
     ./office

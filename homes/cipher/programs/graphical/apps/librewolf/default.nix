@@ -7,10 +7,11 @@
   inherit (lib) mkIf;
   inherit (osConfig) modules;
 
-  sys = modules.system;
-  prg = sys.programs;
+  uEnv = modules.usrEnv;
+  prg = uEnv.programs;
+  br = prg.browser;
 in {
-  config = mkIf prg.librewolf.enable {
+  config = mkIf br.librewolf.enable {
     programs.librewolf = {
       enable = true;
       package = pkgs.librewolf.override {cfg.speechSynthesisSupport = false;};

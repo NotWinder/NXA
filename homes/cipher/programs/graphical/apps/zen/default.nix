@@ -7,10 +7,11 @@
   inherit (lib) mkIf;
   inherit (osConfig) modules;
 
-  sys = modules.system;
-  prg = sys.programs;
+  uEnv = modules.usrEnv;
+  prg = uEnv.programs;
+  br = prg.browser;
 in {
-  config = mkIf prg.zen.enable {
+  config = mkIf br.zen.enable {
     home.packages = [
       inputs'.zenf.packages.default
     ];

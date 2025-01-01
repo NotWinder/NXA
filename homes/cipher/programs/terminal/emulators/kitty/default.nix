@@ -7,10 +7,9 @@
   inherit (osConfig) modules;
   inherit (modules.style.colorScheme) colors;
 
-  dev = modules.device;
-  acceptedTypes = ["laptop" "desktop" "hybrid"];
+  prg = osConfig.modules.system.programs.terminals;
 in {
-  config = mkIf (builtins.elem dev.type acceptedTypes) {
+  config = mkIf prg.kitty.enable {
     programs.kitty = {
       enable = true;
       settings = import ./settings.nix {inherit colors;};

@@ -8,10 +8,9 @@
   inherit (osConfig) modules;
   inherit (modules.style.colorScheme) colors;
 
-  dev = modules.device;
-  acceptedTypes = ["laptop" "desktop" "hybrid"];
+  prg = osConfig.modules.system.programs.terminals;
 in {
-  config = mkIf (builtins.elem dev.type acceptedTypes) {
+  config = mkIf prg.wezterm.enable {
     programs.wezterm = {
       enable = true;
       package = pkgs.wezterm;

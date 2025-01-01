@@ -7,6 +7,10 @@
     programs = {
       media.mpv.enable = true;
 
+      browser = {
+        zen.enable = true;
+      };
+
       launchers = {
         anyrun.enable = true;
         tofi.enable = true;

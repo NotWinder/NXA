@@ -1,7 +1,8 @@
 _: {
   imports = [
     ./alacritty
-    #./foot
+    ./foot
+    ./ghostty
     ./kitty
     ./wezterm
   ];

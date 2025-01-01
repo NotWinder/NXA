@@ -22,6 +22,7 @@ in {
           JustWorksRepairing = "always";
           MultiProfile = "multiple";
           Experimental = true;
+          UserspaceHID = true;
         };
       };
     };

@@ -11,24 +11,11 @@ in {
     dev.enable = mkEnableOption "development related package sets";
 
     libreoffice.enable = mkEnableOption "LibreOffice suite";
-    element.enable = mkEnableOption "Element Matrix client";
-    obs.enable = mkEnableOption "OBS Studio";
-    zen.enable = mkEnableOption "ZEN browser";
-    librewolf.enable = mkEnableOption "LibreWolf";
-    vscode.enable = mkEnableOption "Visual Studio Code";
-    steam.enable = mkEnableOption "Steam game client";
-    zathura.enable = mkEnableOption "Zathura document viewer";
-    rnnoise.enable = mkEnableOption "RNNoise noise suppression plugin";
     noisetorch.enable = mkEnableOption "NoiseTorch noise suppression plugin";
-
-    chromium = {
-      enable = mkEnableOption "Chromium browser";
-      ungoogle = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable ungoogled-chromium features";
-      };
-    };
+    obs.enable = mkEnableOption "OBS Studio";
+    steam.enable = mkEnableOption "Steam game client";
+    vscode.enable = mkEnableOption "Visual Studio Code";
+    zathura.enable = mkEnableOption "Zathura document viewer";
 
     editors = {
       neovim.enable = mkEnableOption "Neovim text editor";
@@ -36,9 +23,11 @@ in {
     };
 
     terminals = {
+      alacritty.enable = mkEnableOption "Alacritty terminal emulator";
+      foot.enable = mkEnableOption "Foot terminal emulator";
+      ghostty.enable = mkEnableOption "Ghostty terminal emulator";
       kitty.enable = mkEnableOption "Kitty terminal emulator";
       wezterm.enable = mkEnableOption "WezTerm terminal emulator";
-      foot.enable = mkEnableOption "Foot terminal emulator";
     };
 
     git = {
@@ -53,7 +42,7 @@ in {
     default = {
       # what program should be used as the default terminal
       terminal = mkOption {
-        type = types.enum ["foot" "kitty" "wezterm"];
+        type = types.enum ["alacritty" "foot" "ghostty" "kitty" "wezterm"];
         default = "kitty";
       };
 
@@ -63,8 +52,8 @@ in {
       };
 
       browser = mkOption {
-        type = types.enum ["firefox" "librewolf" "chromium"];
-        default = "firefox";
+        type = types.enum ["zen" "librewolf" "chromium"];
+        default = "zen";
       };
 
       editor = mkOption {

@@ -8,10 +8,9 @@
   inherit (osConfig.modules.style.colorScheme) slug colors;
   inherit (lib) mkIf;
 
-  dev = osConfig.modules.device;
-  acceptedTypes = ["laptop" "desktop" "hybrid" "lite"];
+  prg = osConfig.modules.system.programs.terminals;
 in {
-  config = mkIf (builtins.elem dev.type acceptedTypes) {
+  config = mkIf prg.foot.enable {
     home.packages = with pkgs; [
       libsixel # for displaying images
     ];
