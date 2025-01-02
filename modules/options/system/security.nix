@@ -7,39 +7,8 @@
 in {
   options.modules.system.security = {
     fixWebcam = mkEnableOption "the purposefully disabled webcam by un-blacklisting the related kernel module.";
-    fprint.enable = mkEnableOption "Fingerprint reader service";
     tor.enable = mkEnableOption "Tor daemon";
-    usbguard.enable = mkEnableOption "USBGuard service for blocking unauthorized USB devices";
-    lockModules = mkEnableOption ''
-      kernel module locking to prevent kernel modules that are not specified in the config from being loaded
-
-      This is a highly breaking option, and will break many things including virtualization
-      and firewall if the required modules are not explicitly loaded in your kernel configuration.
-    '';
-
-    mitigations = {
-      disable = mkOption {
-        type = types.bool;
-        default = false;
-        example = true;
-        description = ''
-          Whether to disable spectre and meltdown mitigations in the kernel. This is rather a sandbox
-          option than something you should consider on a production/mission critical system. Unless
-          you know what *exactly* you are doing, do not enable this.
-        '';
-      };
-
-      acceptRisk = mkOption {
-        type = types.bool;
-        default = false;
-        example = true;
-        description = ''
-          You are either really stupid, or very knowledable. In either case,
-          this must be explicitly true in order to ensure users know what they are doing
-          when they disable security mitigations.
-        '';
-      };
-    };
+    usbguard.enable = mkEnableOption "USBGuard service for blocking unauthorized USB devices"; # TODO: check what is causing the html problem when its on
 
     selinux = {
       enable = mkEnableOption "system SELinux support + kernel patches";

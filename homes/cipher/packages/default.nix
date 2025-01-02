@@ -1,7 +1,6 @@
 {
   imports = [
-    ./gui
     ./cli
-    ./dev
+    ./gui
   ];
 }

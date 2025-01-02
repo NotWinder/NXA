@@ -21,7 +21,6 @@ in {
     # network and overall hardening
     ./networking
     ./security.nix
-    ./encryption.nix
 
     # filesystems
     ./fs.nix
@@ -33,9 +32,6 @@ in {
     # package and program related options
     ./services
     ./programs
-
-    # systemd-nspawn containers
-    ./containers.nix
   ];
   config = {
     warnings = mkMerge [

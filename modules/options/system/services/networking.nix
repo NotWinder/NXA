@@ -1,6 +1,5 @@
 {lib, ...}: let
   inherit (lib) mkEnableOption mkService;
-  inherit (lib.types) str;
 in {
   options.modules.system.services = {
     # networking

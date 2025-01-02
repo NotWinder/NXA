@@ -6,9 +6,8 @@ in {
   ];
 
   options.modules.system.programs = {
-    gui.enable = mkEnableOption "GUI package sets" // {default = true;};
     cli.enable = mkEnableOption "CLI package sets" // {default = true;};
-    dev.enable = mkEnableOption "development related package sets";
+    gui.enable = mkEnableOption "GUI package sets" // {default = true;};
 
     libreoffice.enable = mkEnableOption "LibreOffice suite";
     noisetorch.enable = mkEnableOption "NoiseTorch noise suppression plugin";
@@ -18,8 +17,8 @@ in {
     zathura.enable = mkEnableOption "Zathura document viewer";
 
     editors = {
-      neovim.enable = mkEnableOption "Neovim text editor";
       helix.enable = mkEnableOption "Helix text editor";
+      neovim.enable = mkEnableOption "Neovim text editor";
     };
 
     terminals = {
@@ -47,22 +46,22 @@ in {
       };
 
       fileManager = mkOption {
-        type = types.enum ["thunar" "dolphin" "nemo"];
+        type = types.enum ["dolphin" "nemo" "thunar"];
         default = "dolphin";
       };
 
       browser = mkOption {
-        type = types.enum ["zen" "librewolf" "chromium"];
+        type = types.enum ["chromium" "librewolf" "zen"];
         default = "zen";
       };
 
       editor = mkOption {
-        type = types.enum ["neovim" "helix" "emacs"];
+        type = types.enum ["emacs" "helix" "neovim"];
         default = "neovim";
       };
 
       launcher = mkOption {
-        type = types.enum ["rofi" "wofi" "anyrun"];
+        type = types.enum ["anyrun" "rofi" "wofi"];
         default = "rofi";
       };
     };

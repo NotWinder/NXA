@@ -3,53 +3,11 @@
   lib,
   ...
 }: let
-  inherit (lib) optionals versionOlder mkForce;
-  mitigationFlags =
-    (
-      optionals (versionOlder config.boot.kernelPackages.kernel.version "5.1.13")
-      [
-        # we don't need restricted indirect branch speculation
-        "noibrs"
-        # we don't need no indirect branch prediction barrier either, it sounds funny
-        "noibpb"
-        # allow programs to get data from some other program when they shouldn't be able to - maybe they need it!
-        "nospectre_v1"
-        "nospectre_v2"
-        # why flush the L1 cache? what if we need it later. anyone being able to get it is a small consequence, I think
-        "l1tf=off"
-        # of course we want to use, not bypass, the stored data
-        "nospec_store_bypass_disable"
-        "no_stf_barrier" # We don't need no barriers between software, they could be friends
-        "mds=off" # Zombieload attacks are fine
-      ]
-    )
-    ++ [
-      "mitigations=off" # Of course we don't want no mitigations
-    ];
+  inherit (lib) optionals mkForce;
 
   sys = config.modules.system;
-  cfg = sys.security;
 in {
   config = {
-    # failsafe for idiots, god knows there are plenty
-    assertions =
-      optionals cfg.mitigations.disable
-      [
-        {
-          assertion = cfg.mitigations.acceptRisk;
-          message = ''
-            You have enabled `config.modules.system.security.mitigations`.
-
-            To make sure you are not doing this out of sheer idiocy, you must explicitly
-            accept the risk of running your kernel without Spectre or Meltdown mitigations.
-
-            Set `config.modules.system.security.mitigations.acceptRisk` to `true` only if you know what your doing!
-
-            If you don't know what you are doing, but still insist on disabling mitigations; perish on your own accord.
-          '';
-        }
-      ];
-
     security = {
       protectKernelImage = true; # disables hibernation
 
@@ -66,10 +24,6 @@ in {
 
       # User namespaces are required for sandboxing. Better than nothing imo.
       allowUserNamespaces = true;
-
-      # Disable unprivileged user namespaces, unless containers are enabled
-      # required by podman to run containers in rootless mode.
-      unprivilegedUsernsClone = config.virtualisation.containers.enable;
 
       allowSimultaneousMultithreading = true;
     };
@@ -150,90 +104,88 @@ in {
       };
 
       # https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html
-      kernelParams =
-        [
-          # I'm sure we break hibernation in at least 5 other sections of this config, so
-          # let's disable hibernation explicitly. Allowing hibernation makes it possible
-          # to replace the booted kernel with a malicious one, akin to kexec. This helps
-          # us prevent an attack called "Evil Maid" where an attacker with physical access
-          # to the device. P.S. I chose to mention "Evil Maid" specifically because it sounds
-          # funny. Do not think that is the only attack you are vulnerable to.
-          # See: <https://en.wikipedia.org/wiki/Evil_maid_attack>
-          "nohibernate"
+      kernelParams = [
+        # I'm sure we break hibernation in at least 5 other sections of this config, so
+        # let's disable hibernation explicitly. Allowing hibernation makes it possible
+        # to replace the booted kernel with a malicious one, akin to kexec. This helps
+        # us prevent an attack called "Evil Maid" where an attacker with physical access
+        # to the device. P.S. I chose to mention "Evil Maid" specifically because it sounds
+        # funny. Do not think that is the only attack you are vulnerable to.
+        # See: <https://en.wikipedia.org/wiki/Evil_maid_attack>
+        "nohibernate"
 
-          # make stack-based attacks on the kernel harder
-          "randomize_kstack_offset=on"
+        # make stack-based attacks on the kernel harder
+        "randomize_kstack_offset=on"
 
-          # Disable vsyscalls as they are obsolete and have been replaced with vDSO.
-          # vsyscalls are also at fixed addresses in memory, making them a potential
-          # target for ROP attacks
-          # this breaks really old binaries for security
-          "vsyscall=none"
+        # Disable vsyscalls as they are obsolete and have been replaced with vDSO.
+        # vsyscalls are also at fixed addresses in memory, making them a potential
+        # target for ROP attacks
+        # this breaks really old binaries for security
+        "vsyscall=none"
 
-          # reduce most of the exposure of a heap attack to a single cache
-          # Disable slab merging which significantly increases the difficulty of heap
-          # exploitation by preventing overwriting objects from merged caches and by
-          # making it harder to influence slab cache layout
-          "slab_nomerge"
+        # reduce most of the exposure of a heap attack to a single cache
+        # Disable slab merging which significantly increases the difficulty of heap
+        # exploitation by preventing overwriting objects from merged caches and by
+        # making it harder to influence slab cache layout
+        "slab_nomerge"
 
-          # Disable debugfs which exposes a lot of sensitive information about the
-          # kernel. Some programs, such as powertop, use this interface to gather
-          # information about the system, but it is not necessary for the system to
-          # actually publish those. I can live without it.
-          "debugfs=off"
+        # Disable debugfs which exposes a lot of sensitive information about the
+        # kernel. Some programs, such as powertop, use this interface to gather
+        # information about the system, but it is not necessary for the system to
+        # actually publish those. I can live without it.
+        "debugfs=off"
 
-          # Sometimes certain kernel exploits will cause what is known as an "oops".
-          # This parameter will cause the kernel to panic on such oopses, thereby
-          # preventing those exploits
-          "oops=panic"
+        # Sometimes certain kernel exploits will cause what is known as an "oops".
+        # This parameter will cause the kernel to panic on such oopses, thereby
+        # preventing those exploits
+        "oops=panic"
 
-          # Only allow kernel modules that have been signed with a valid key to be
-          # loaded, which increases security by making it much harder to load a
-          # malicious kernel module
-          "module.sig_enforce=1"
+        # Only allow kernel modules that have been signed with a valid key to be
+        # loaded, which increases security by making it much harder to load a
+        # malicious kernel module
+        "module.sig_enforce=1"
 
-          # The kernel lockdown LSM can eliminate many methods that user space code
-          # could abuse to escalate to kernel privileges and extract sensitive
-          # information. This LSM is necessary to implement a clear security boundary
-          # between user space and the kernel
-          #  integrity: kernel features that allow userland to modify the running kernel
-          #             are disabled
-          #  confidentiality: kernel features that allow userland to extract confidential
-          #             information from the kernel are also disabled
-          # ArchWiki recommends opting in for "integrity", however since we avoid modifying
-          # running kernel (by the virtue of using NixOS and locking module hot-loading) the
-          # confidentiality mode is a better solution.
-          "lockdown=confidentiality"
+        # The kernel lockdown LSM can eliminate many methods that user space code
+        # could abuse to escalate to kernel privileges and extract sensitive
+        # information. This LSM is necessary to implement a clear security boundary
+        # between user space and the kernel
+        #  integrity: kernel features that allow userland to modify the running kernel
+        #             are disabled
+        #  confidentiality: kernel features that allow userland to extract confidential
+        #             information from the kernel are also disabled
+        # ArchWiki recommends opting in for "integrity", however since we avoid modifying
+        # running kernel (by the virtue of using NixOS and locking module hot-loading) the
+        # confidentiality mode is a better solution.
+        "lockdown=confidentiality"
 
-          # enable buddy allocator free poisoning
-          #  on: memory will befilled with a specific byte pattern
-          #      that is unlikely to occur in normal operation.
-          #  off (default): page poisoning will be disabled
-          "page_poison=on"
+        # enable buddy allocator free poisoning
+        #  on: memory will befilled with a specific byte pattern
+        #      that is unlikely to occur in normal operation.
+        #  off (default): page poisoning will be disabled
+        "page_poison=on"
 
-          # performance improvement for direct-mapped memory-side-cache utilization
-          # reduces the predictability of page allocations
-          "page_alloc.shuffle=1"
+        # performance improvement for direct-mapped memory-side-cache utilization
+        # reduces the predictability of page allocations
+        "page_alloc.shuffle=1"
 
-          # for debugging kernel-level slab issues
-          "slub_debug=FZP"
+        # for debugging kernel-level slab issues
+        "slub_debug=FZP"
 
-          # ignore access time (atime) updates on files
-          # except when they coincide with updates to the ctime or mtime
-          "rootflags=noatime"
+        # ignore access time (atime) updates on files
+        # except when they coincide with updates to the ctime or mtime
+        "rootflags=noatime"
 
-          # linux security modules
-          "lsm=landlock,lockdown,yama,integrity,apparmor,bpf,tomoyo,selinux"
+        # linux security modules
+        "lsm=landlock,lockdown,yama,integrity,apparmor,bpf,tomoyo,selinux"
 
-          # prevent the kernel from blanking plymouth out of the fb
-          "fbcon=nodefer"
+        # prevent the kernel from blanking plymouth out of the fb
+        "fbcon=nodefer"
 
-          # the format that will be used for integrity audit logs
-          #  0 (default): basic integrity auditing messages
-          #  1: additional integrity auditing messages
-          "integrity_audit=1"
-        ]
-        ++ optionals cfg.mitigations.disable mitigationFlags;
+        # the format that will be used for integrity audit logs
+        #  0 (default): basic integrity auditing messages
+        #  1: additional integrity auditing messages
+        "integrity_audit=1"
+      ];
 
       blacklistedKernelModules = lib.concatLists [
         # Obscure network protocols

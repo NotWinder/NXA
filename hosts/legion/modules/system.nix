@@ -49,7 +49,6 @@ in {
     security = {
       tor.enable = true;
       fixWebcam = false;
-      lockModules = true;
       auditd.enable = true;
     };
 

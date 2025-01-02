@@ -68,7 +68,7 @@ in {
       enable = mkOption {
         type = bool;
         default = false;
-        description = "to Enable ZFS or Not";
+        description = "Whether to Enable ZFS";
       };
     };
   };
