@@ -14,7 +14,7 @@ in {
   config = mkIf srv.media.mpd.enable {
     home.packages = with pkgs; [
       playerctl # CLI interface for playerctld
-      mpc_cli # CLI interface for mpd
+      mpc # CLI interface for mpd
       cava # CLI music visualizer (cavalier is a gui alternative)
     ];
 

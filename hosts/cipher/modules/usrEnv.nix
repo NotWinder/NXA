@@ -6,6 +6,7 @@
 
     programs = {
       media.mpv.enable = true;
+      media.ncmpcpp.enable = true;
 
       browser = {
         zen.enable = true;
@@ -18,5 +19,6 @@
 
       screenlock.swaylock.enable = true;
     };
+    services.media.mpd.enable = true;
   };
 }

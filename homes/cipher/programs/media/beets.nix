@@ -26,21 +26,21 @@ in {
 
       plugins = [
         # "acousticbrainz" # DEPRECATED
-        "mpdupdate"
-        "lyrics"
-        "thumbnails"
-        "fetchart"
-        "embedart"
+        #"absubmit" # DEPRECATED
         "chroma"
-        "fromfilename"
-        "lastgenre"
-        "absubmit"
         "duplicates"
         "edit"
+        "embedart"
+        "fetchart"
+        "fromfilename"
+        "lastgenre"
+        "lyrics"
         "mbcollection"
         "mbsync"
+        "mpdupdate"
         "replaygain"
         "scrub"
+        "thumbnails"
       ];
 
       import = {
@@ -71,6 +71,10 @@ in {
       acousticbrainz.auto = true;
       chroma.auto = true;
       replaygain.backend = "gstreamer";
+      musicbrainz = {
+        user = "notwinder";
+        pass = "zzfyWvjiaNUMBYhu#t2se4";
+      };
     };
   };
 }
