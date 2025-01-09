@@ -5,8 +5,11 @@
     useHomeManager = true;
 
     programs = {
-      media.mpv.enable = true;
-      media.ncmpcpp.enable = true;
+      media = {
+        beets.enable = true;
+        mpv.enable = true;
+        ncmpcpp.enable = true;
+      };
 
       browser = {
         zen.enable = true;

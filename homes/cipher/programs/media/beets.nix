@@ -15,7 +15,7 @@ in {
 
     settings = {
       ui.color = true;
-      directory = config.services.mpd.musicDirectory;
+      directory = "${config.services.mpd.musicDirectory}/library";
       library = "${config.services.mpd.musicDirectory}/musiclibrary.db";
 
       clutter = [
@@ -25,34 +25,37 @@ in {
       ];
 
       plugins = [
-        # "acousticbrainz" # DEPRECATED
-        #"absubmit" # DEPRECATED
-        "chroma"
         "duplicates"
         "edit"
-        "embedart"
-        "fetchart"
         "fromfilename"
-        "lastgenre"
+        "fuzzy"
+        "info"
+        "inline"
         "lyrics"
         "mbcollection"
         "mbsync"
         "mpdupdate"
         "replaygain"
-        "scrub"
-        "thumbnails"
+        "unimported"
       ];
 
       import = {
-        move = true;
-        timid = true;
-        detail = true;
+        autotag = false;
         bell = true;
-        write = true;
+        copy = false;
+        detail = true;
+        log = "/home/winder/Media/Music/beets/importer.log";
+        move = false;
+        timid = true;
+        write = false;
+      };
+
+      replace = {
+        "\\ " = "-";
       };
 
       mpd = {
-        host = "localhost";
+        host = "127.0.0.1";
         port = 6600;
       };
 
@@ -60,16 +63,6 @@ in {
         auto = true;
       };
 
-      thumbnails.auto = true;
-      fetchart.auto = true;
-
-      embedart = {
-        auto = true;
-        remove_art_file = true;
-      };
-
-      acousticbrainz.auto = true;
-      chroma.auto = true;
       replaygain.backend = "gstreamer";
       musicbrainz = {
         user = "notwinder";

@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   lib,
   ...
@@ -27,15 +26,7 @@ in {
 
     ncmpcpp.enable = mkEnableOption "ncmpcpp TUI music player";
 
-    beets.enable =
-      mkEnableOption ''
-        beets media library system.
-
-
-        Will be enabled automatically if  {option}`config.modules.usrEnv.services.mpd.enabled`
-        is set to true
-      ''
-      // {default = config.modules.usrEnv.services.media.mpd.enable;};
+    beets.enable = mkEnableOption "beets media library system.";
 
     mpv = {
       enable = mkEnableOption "mpv media player";
