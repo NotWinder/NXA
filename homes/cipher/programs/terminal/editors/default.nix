@@ -1,6 +1,6 @@
 {
   imports = [
     #./helix # sucks
-    ./neovim # full-blown IDE
+    #./neovim # full-blown IDE
   ];
 }
