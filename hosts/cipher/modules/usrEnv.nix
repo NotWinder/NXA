@@ -13,6 +13,7 @@
 
       browser = {
         zen.enable = true;
+        chromium.enable = true;
       };
 
       launchers = {

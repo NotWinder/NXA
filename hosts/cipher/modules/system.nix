@@ -64,12 +64,11 @@ in {
       gaming.enable = true;
 
       terminals = {
-        ghostty.enable = true;
-        foot.enable = true;
+        alacritty.enable = true;
       };
 
       default = {
-        terminal = "ghostty";
+        terminal = "alacritty";
         browser = "zen";
       };
     };

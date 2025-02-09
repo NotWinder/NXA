@@ -6,13 +6,12 @@
   inherit (lib.modules) mkDefault;
 in {
   services.xserver.xkb = {
-    layout = "tr";
+    layout = "us";
     variant = "";
   };
 
   i18n = let
     defaultLocale = "en_US.UTF-8";
-    tr = "tr_TR.UTF-8";
   in {
     inherit defaultLocale;
 
@@ -22,20 +21,19 @@ in {
       LC_CTYPE = defaultLocale;
       LC_MESSAGES = defaultLocale;
 
-      LC_ADDRESS = tr;
-      LC_IDENTIFICATION = tr;
-      LC_MEASUREMENT = tr;
-      LC_MONETARY = tr;
-      LC_NAME = tr;
-      LC_NUMERIC = tr;
-      LC_PAPER = tr;
-      LC_TELEPHONE = tr;
-      LC_TIME = tr;
+      LC_ADDRESS = defaultLocale;
+      LC_IDENTIFICATION = defaultLocale;
+      LC_MEASUREMENT = defaultLocale;
+      LC_MONETARY = defaultLocale;
+      LC_NAME = defaultLocale;
+      LC_NUMERIC = defaultLocale;
+      LC_PAPER = defaultLocale;
+      LC_TELEPHONE = defaultLocale;
+      LC_TIME = defaultLocale;
     };
 
     supportedLocales = mkDefault [
       "en_US.UTF-8/UTF-8"
-      "tr_TR.UTF-8/UTF-8"
     ];
 
     # IME configuration

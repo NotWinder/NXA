@@ -144,8 +144,5 @@
         systems.follows = "systems"; # if using nix-systems
       };
     };
-    ghostty = {
-      url = "github:ghostty-org/ghostty";
-    };
   };
 }

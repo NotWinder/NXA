@@ -39,6 +39,15 @@ in {
 
     # font packages that should be installed
     packages = with pkgs; [
+      noto-fonts
+      fira-code
+      noto-fonts-cjk-sans
+      jetbrains-mono
+      font-awesome
+      terminus_font
+      nerd-fonts.jetbrains-mono # unstable
+      #nerd-fonts.fira-code # unstable
+
       # defaults worth keeping
       dejavu_fonts
       freefont_ttf
@@ -48,7 +57,7 @@ in {
       roboto
 
       # programming fonts
-      sarasa-gothic
+      #sarasa-gothic
       nerd-fonts.iosevka
       nerd-fonts.symbols-only
       nerd-fonts.jetbrains-mono

@@ -24,7 +24,6 @@ in {
     terminals = {
       alacritty.enable = mkEnableOption "Alacritty terminal emulator";
       foot.enable = mkEnableOption "Foot terminal emulator";
-      ghostty.enable = mkEnableOption "Ghostty terminal emulator";
       kitty.enable = mkEnableOption "Kitty terminal emulator";
       wezterm.enable = mkEnableOption "WezTerm terminal emulator";
     };
@@ -41,7 +40,7 @@ in {
     default = {
       # what program should be used as the default terminal
       terminal = mkOption {
-        type = types.enum ["alacritty" "foot" "ghostty" "kitty" "wezterm"];
+        type = types.enum ["alacritty" "foot" "kitty" "wezterm"];
         default = "kitty";
       };
 
