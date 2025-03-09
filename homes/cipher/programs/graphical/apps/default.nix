@@ -1,5 +1,6 @@
 {
   imports = [
+    ./brave
     ./chromium
     ./librewolf
     ./obs

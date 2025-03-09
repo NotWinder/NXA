@@ -1,6 +1,6 @@
 {
   imports = [
+    #./nginx.nix
     ./jellyfin.nix
-   #./nginx.nix
   ];
 }

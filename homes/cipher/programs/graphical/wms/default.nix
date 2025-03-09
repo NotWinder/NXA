@@ -1,7 +1,7 @@
 {
   imports = [
-    ./i3
     ./hyprland
+    ./i3
     ./sway
   ];
 }

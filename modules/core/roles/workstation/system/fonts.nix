@@ -39,14 +39,14 @@ in {
 
     # font packages that should be installed
     packages = with pkgs; [
-      noto-fonts
-      fira-code
-      noto-fonts-cjk-sans
-      jetbrains-mono
-      font-awesome
-      terminus_font
-      nerd-fonts.jetbrains-mono # unstable
-      #nerd-fonts.fira-code # unstable
+      #noto-fonts
+      #fira-code
+      #noto-fonts-cjk-sans
+      #jetbrains-mono
+      #font-awesome
+      #terminus_font
+      #nerd-fonts.jetbrains-mono # unstable
+      ##nerd-fonts.fira-code # unstable
 
       # defaults worth keeping
       dejavu_fonts

@@ -44,6 +44,26 @@
       url = "github:Aylur/stm";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hyprland = {
+      url = "github:/hyprwm/Hyprland";
+      inputs = {
+        hyprutils.follows = "hyprutils";
+      };
+    };
+
+    xdg-portal-hyprland = {
+      url = "github:hyprwm/xdg-desktop-portal-hyprland";
+      inputs = {
+        hyprutils.follows = "hyprutils";
+      };
+    };
+
+    hyprland-contrib = {
+      url = "github:hyprwm/contrib";
+      inputs.nixpkgs.follows = "hyprland/nixpkgs";
+    };
+
     hyprpaper = {
       url = "github:hyprwm/hyprpaper";
       inputs = {
@@ -55,22 +75,6 @@
 
     hyprpicker.url = "github:hyprwm/hyprpicker";
     hyprutils.url = "github:hyprwm/hyprutils";
-    hyprland = {
-      url = "github:/hyprwm/Hyprland";
-      inputs = {
-        hyprutils.follows = "hyprutils";
-      };
-    };
-    xdg-portal-hyprland = {
-      url = "github:hyprwm/xdg-desktop-portal-hyprland";
-      inputs = {
-        hyprutils.follows = "hyprutils";
-      };
-    };
-    hyprland-contrib = {
-      url = "github:hyprwm/contrib";
-      inputs.nixpkgs.follows = "hyprland/nixpkgs";
-    };
 
     # anyrun program launcher
     anyrun.url = "github:anyrun-org/anyrun";
@@ -133,10 +137,12 @@
         flake-parts.follows = "flake-parts";
       };
     };
-    zenf = {
-      url = "github:notwinder/zenf";
+
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     winpaper = {
       url = "github:notwinder/winpaper";
       inputs = {

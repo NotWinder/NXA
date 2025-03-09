@@ -20,7 +20,7 @@ in {
       wl-clip-persist = mkGraphicalService {
         Unit.Description = "Persistent clipboard for Wayland";
         Service = {
-          ExecStart = "${getExe pkgs.wl-clip-persist} --clipboard both";
+          ExecStart = "${getExe pkgs.wl-clip-persist} --clipboard regular";
           Restart = "always";
         };
       };

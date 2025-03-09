@@ -50,8 +50,8 @@ in {
       };
 
       browser = mkOption {
-        type = types.enum ["chromium" "librewolf" "zen"];
-        default = "zen";
+        type = types.enum ["brave" "chromium" "librewolf" "zen"];
+        default = "chromium";
       };
 
       editor = mkOption {

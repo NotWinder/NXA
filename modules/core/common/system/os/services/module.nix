@@ -6,8 +6,11 @@
     ./getty.nix
     ./logrotate.nix
     ./ntpd.nix
+    ./prowlarr.nix
+    ./radarr.nix
+    ./sonarr.nix
     ./thermald.nix
-    ./zram.nix
     ./xray.nix
+    ./zram.nix
   ];
 }

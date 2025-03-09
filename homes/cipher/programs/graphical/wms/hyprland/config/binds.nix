@@ -14,12 +14,12 @@
   inherit (import ../packages {inherit inputs' pkgs;}) propaganda;
 
   terminal = "${defaults.terminal}";
+  browser = "${defaults.browser}";
 
   locker = getExe env.programs.screenlock.package;
 in {
   wayland.windowManager.hyprland.settings = {
     "$MOD" = "SUPER";
-    "$browser" = "zen";
 
     # keyword to toggle "monocle" - a.k.a no_gaps_when_only
     "$kw" = "dwindle:no_gaps_when_only";
@@ -195,10 +195,13 @@ in {
       "$MOD SHIFT,B,exec, ags -t bar"
 
       "$MOD, E, exec, dolphin"
-      "$MOD, G, exec, $browser"
+      "$MOD, G, exec, ${browser}"
       "$MOD, R, exec, wofi --show drun"
       "$MOD, P, exec,nwg-displays"
       "$MOD, escape, exec, bash ~/.config/waybar/scripts/power-menu/powermenu.sh"
+
+      "$MOD, O, exec, game-mount"
+      "$MOD, SHIFT O, exec, game-umount"
     ];
     bindm = [
       # Move/resize windows with mainMod + LMB/RMB and dragging

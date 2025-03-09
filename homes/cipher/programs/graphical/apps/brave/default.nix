@@ -1,7 +1,7 @@
 {
-  inputs,
   osConfig,
   lib,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf;
@@ -11,9 +11,9 @@
   prg = uEnv.programs;
   br = prg.browser;
 in {
-  config = mkIf br.zen.enable {
+  config = mkIf br.brave.enable {
     home.packages = [
-      inputs.zen-browser.packages.x86_64-linux.default
+      pkgs.brave
     ];
   };
 }

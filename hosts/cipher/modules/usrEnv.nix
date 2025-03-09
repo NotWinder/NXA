@@ -12,8 +12,8 @@
       };
 
       browser = {
-        zen.enable = true;
         chromium.enable = true;
+        librewolf.enable = true;
       };
 
       launchers = {
