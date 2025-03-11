@@ -69,7 +69,7 @@ in {
 
       default = {
         terminal = "alacritty";
-        browser = "brave";
+        browser = "chromium";
       };
     };
   };

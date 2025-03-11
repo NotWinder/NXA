@@ -1,5 +1,6 @@
 {
-  inputs',
+  inputs,
+  pkgs,
   config,
   lib,
   ...
@@ -16,15 +17,13 @@ in {
 
   config = mkIf (sys.video.enable && (env.desktop == "Hyprland" && config.meta.isWayland)) {
     services.displayManager.sessionPackages = [hyprlandPkg];
-
-    xdg.portal = {
+    programs.hyprland = {
       enable = true;
-      configPackages = [hyprlandPkg];
-      extraPortals = [
-        (inputs'.xdg-portal-hyprland.packages.xdg-desktop-portal-hyprland.override {
-          hyprland = hyprlandPkg;
-        })
-      ];
+      # set the flake package
+      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+      # make sure to also set the portal package, so that they are in sync
+      portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+      withUWSM = true;
     };
   };
 }

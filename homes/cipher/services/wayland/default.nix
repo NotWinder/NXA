@@ -1,11 +1,11 @@
 {
   imports = [
-    ./ags
+    #./ags
     ./clipboard
     ./gammastep
     ./hyprpaper
     ./swaybg
-   #./swayidle
+    #./swayidle
     ./waybar
   ];
 }

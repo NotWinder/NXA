@@ -45,36 +45,19 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprland = {
-      url = "github:/hyprwm/Hyprland";
-      inputs = {
-        hyprutils.follows = "hyprutils";
-      };
-    };
+    hyprland.url = "github:/hyprwm/Hyprland";
 
-    xdg-portal-hyprland = {
-      url = "github:hyprwm/xdg-desktop-portal-hyprland";
-      inputs = {
-        hyprutils.follows = "hyprutils";
-      };
-    };
-
-    hyprland-contrib = {
-      url = "github:hyprwm/contrib";
-      inputs.nixpkgs.follows = "hyprland/nixpkgs";
-    };
+    xdg-portal-hyprland.url = "github:hyprwm/xdg-desktop-portal-hyprland";
 
     hyprpaper = {
       url = "github:hyprwm/hyprpaper";
       inputs = {
-        hyprlang.follows = "hyprland/hyprlang";
         nixpkgs.follows = "hyprland/nixpkgs";
         systems.follows = "hyprland/systems";
       };
     };
 
     hyprpicker.url = "github:hyprwm/hyprpicker";
-    hyprutils.url = "github:hyprwm/hyprutils";
 
     # anyrun program launcher
     anyrun.url = "github:anyrun-org/anyrun";

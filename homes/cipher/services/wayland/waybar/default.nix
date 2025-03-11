@@ -1,27 +1,41 @@
 {
   pkgs,
-  lib,
   config,
-  osConfig,
+  lib,
   ...
-}: let
-  inherit (lib) mkIf;
-  inherit (osConfig.modules) device;
-  inherit (osConfig.modules.style.colorScheme) slug colors;
+}: {
+  #options = {
+  #  homeManagerModules.waybar.enable = lib.mkEnableOption "Enable waybar (config)";
+  #};
 
-  waybar_config = import ./presets/${slug}/config.nix {inherit osConfig config lib pkgs;};
-  waybar_style = import ./presets/${slug}/style.nix {inherit colors;};
-
-  acceptedTypes = ["desktop" "laptop" "lite" "hybrid"];
-in {
-  config = mkIf (builtins.elem device.type acceptedTypes) {
-    home.packages = with pkgs.python3Packages; [requests];
+  config = {
     programs.waybar = {
-      enable = false;
-      systemd.enable = true;
-      package = pkgs.waybar;
-      settings = waybar_config;
-      style = waybar_style;
+      enable = true;
+      settings = {
+        bar = {
+          layer = "top";
+          modules-left = ["river/tags"];
+          modules-center = ["custom/playerctl"];
+          modules-right = ["pulseaudio" "clock"];
+
+          pulseaudio = {
+            tooltip = false;
+            scroll-step = 1;
+            format = "{icon} {volume}%";
+            format-muted = "{icon} {volume}%";
+            on-click = "${pkgs.pamixer}/bin/pamixer --toggle-mute";
+            format-icons.default = ["" ""];
+          };
+
+          "custom/playerctl" = {
+            on-click = "${pkgs.playerctl}/bin/playerctl play-pause";
+            interval = 2;
+            exec = "${pkgs.playerctl}/bin/playerctl metadata title";
+            format = "  {}";
+          };
+        };
+      };
+      style = ./waybar-style.css;
     };
   };
 }

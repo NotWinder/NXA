@@ -43,6 +43,7 @@ in {
                 "OverlayScrollbar"
                 "TabHoverCardImages"
                 "VaapiVideoDecoder"
+                "AcceleratedVideoDecodeLinuxGL"
               ]
             }"
 
@@ -80,8 +81,7 @@ in {
             # and it's gonna be slow as hell
             # "--use-gl=egl"
 
-            "--ozone-platform=wayland"
-            "--enable-features=UseOzonePlatform"
+            "--ozone-platform-hint=auto"
           ];
       };
     };

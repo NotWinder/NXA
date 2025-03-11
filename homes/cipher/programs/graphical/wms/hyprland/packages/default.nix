@@ -4,7 +4,6 @@
   ...
 }: let
   packages = {
-    inherit (inputs'.hyprland-contrib.packages) grimblast;
     inherit (inputs'.hyprpicker.packages) hyprpicker;
 
     wrapper = pkgs.callPackage ./wrapper {inherit (inputs') hyprland;};

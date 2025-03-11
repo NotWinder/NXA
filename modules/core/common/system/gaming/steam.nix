@@ -13,39 +13,19 @@ in {
       # Enable steam
       enable = true;
 
-      # An attempt to reduce the closure size of Steam (which by default is *massive* - around 15 gigs)
-      # This removes game-specific libraries crammed into the Steam runtime
-      # by upstream (nixpkgs) packaging to mitigate errors due to missing libraries.
-      # As we strip those libraries, we gain space and lose compatibility - which
-      # unfortunately means that it is up to *us* to identify necessary libraries
-      # and stick them here.
-      package = pkgs.steam.override {
-        extraEnv = {
-          MANGOHUD = true;
-          SDL_VIDEODRIVER = "x11";
-        };
-
-        extraLibraries = ps:
-          with ps; [
-            atk
-            # for Titanfall 2 Northstar launcher
-            libunwind
-          ];
-      };
-
       # Whether to open ports in the firewall for Steam Remote Play
       remotePlay.openFirewall = false;
 
       # Whether to open ports in the firewall for Source Dedicated Server
       dedicatedServer.openFirewall = false;
 
-      # Compatibility tools to install
-      # For the accepted format (and the reason behind)
-      # the "compattool" attribute, see:
-      # <https://github.com/NixOS/nixpkgs/pull/296009>
-      extraCompatPackages = [
-        pkgs.proton-ge-bin.steamcompattool
-      ];
+      package = pkgs.steam.override {
+        extraPkgs = pkgs:
+          with pkgs; [
+            libkrb5
+            keyutils
+          ];
+      };
     };
 
     # udev rules for various controller compatibility.

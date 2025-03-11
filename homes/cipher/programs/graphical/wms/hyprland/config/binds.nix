@@ -25,7 +25,6 @@ in {
     "$kw" = "dwindle:no_gaps_when_only";
     "$disable" = ''act_opa=$(hyprctl getoption "decoration:active_opacity" -j | jq -r ".float");inact_opa=$(hyprctl getoption "decoration:inactive_opacity" -j | jq -r ".float");hyprctl --batch "keyword decoration:active_opacity 1;keyword decoration:inactive_opacity 1"'';
     "$enable" = ''hyprctl --batch "keyword decoration:active_opacity $act_opa;keyword decoration:inactive_opacity $inact_opa"'';
-    #"$screenshotarea" = ''hyprctl keyword animation "fadeOut,0,0,default"; grimblast --notify copysave area; hyprctl keyword animation "fadeOut,1,4,default"''
 
     bind = [
       "CTRL ALT, Delete, exec, hyprctl dispatch exit 0"
@@ -184,9 +183,6 @@ in {
       # screenshot and receording binds
       ''$MOD SHIFT,P,exec,$disable; grim - | wl-copy --type image/png && notify-send "Screenshot" "Screenshot copied to clipboard"; $enable''
       "$MOD SHIFT,S,exec,$disable; hyprshot; $enable" # screenshot and then pipe it to swappy
-      "$MOD, Print, exec, grimblast --notify --cursor copysave output" # copy all active outputs
-      "ALT SHIFT, S, exec, grimblast --notify --cursor copysave screen" # copy active screen
-      "ALT SHIFT, R, exec, grimblast --notify --cursor copysave area" # copy selection area
 
       # OCR
       "$MOD SHIFT,O,exec,ocr"

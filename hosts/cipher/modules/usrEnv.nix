@@ -12,7 +12,7 @@
       };
 
       browser = {
-        chromium.enable = true;
+        brave.enable = true;
         librewolf.enable = true;
       };
 
