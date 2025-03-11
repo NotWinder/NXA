@@ -1,11 +1,9 @@
 {
   imports = [
     ./fs
-    #./kernel
     ./modules
 
-    ./btrfs.nix
-    #./networking.nix
+    #./btrfs.nix
   ];
 
   config = {

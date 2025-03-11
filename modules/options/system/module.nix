@@ -12,26 +12,26 @@
 in {
   imports = [
     # configuration options for nixos activation scripts
-    ./activation.nix
+    #./activation.nix
 
     # boot/impermanence mounts
     ./boot.nix
-    ./impermanence.nix
+    #./impermanence.nix
 
-    # network and overall hardening
-    ./networking
-    ./security.nix
+    ## network and overall hardening
+    #./networking
+    #./security.nix
 
-    # filesystems
-    ./fs.nix
+    ## filesystems
+    #./fs.nix
 
-    # emulation and virtualization
-    ./emulation.nix
-    ./virtualization.nix
+    ## emulation and virtualization
+    #./emulation.nix
+    #./virtualization.nix
 
-    # package and program related options
-    ./services
-    ./programs
+    ## package and program related options
+    #./services
+    #./programs
   ];
   config = {
     warnings = mkMerge [

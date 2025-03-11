@@ -13,12 +13,12 @@
 in {
   imports = [
     #./overlays # tree-wide overrides for packages and such
-    ./transcend # module that merges trees outside central nixpkgs with our system's
+    #./transcend # module that merges trees outside central nixpkgs with our system's
 
-    #./builders.nix # configuration for remote builders
-    ./documentation.nix # nixos documentation
+    ##./builders.nix # configuration for remote builders
+    #./documentation.nix # nixos documentation
     ./nixpkgs.nix # global nixpkgs configuration.nix
-    ./system.nix # nixos system configuration
+    #./system.nix # nixos system configuration
   ];
 
   # Link selected flake inputs to `/etc/nix/path` for added backwards compatibility.
