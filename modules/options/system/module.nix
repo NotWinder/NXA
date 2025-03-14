@@ -8,30 +8,26 @@
   inherit (lib.options) mkOption mkEnableOption;
   inherit (lib.modules) mkMerge;
   inherit (lib.lists) optionals;
-  inherit (lib.types) enum listOf str nullOr bool package;
+  inherit (lib.types) enum listOf str bool package;
 in {
   imports = [
-    # configuration options for nixos activation scripts
-    #./activation.nix
-
     # boot/impermanence mounts
     ./boot.nix
-    #./impermanence.nix
+    ./impermanence.nix
 
     ## network and overall hardening
     #./networking
-    #./security.nix
+    ./security.nix
 
-    ## filesystems
-    #./fs.nix
+    # filesystems
+    ./fs.nix
 
-    ## emulation and virtualization
-    #./emulation.nix
-    #./virtualization.nix
+    # virtualization
+    ./virtualization.nix
 
-    ## package and program related options
+    # package and program related options
     #./services
-    #./programs
+    ./programs
   ];
   config = {
     warnings = mkMerge [
@@ -83,15 +79,6 @@ in {
       '';
     };
 
-    yubikeySupport = {
-      enable = mkEnableOption "yubikey support";
-      deviceType = mkOption {
-        type = nullOr (enum ["NFC5" "nano"]);
-        default = null;
-        description = "A list of device models to enable Yubikey support for";
-      };
-    };
-
     sound = {
       enable = mkEnableOption "sound related programs and audio-dependent programs";
     };
@@ -112,15 +99,6 @@ in {
         type = listOf str;
         default = [];
         description = "A list of extra drivers to enable for printing";
-      };
-
-      "3d" = {
-        enable = mkEnableOption "3D printing suite";
-        extraPrograms = mkOption {
-          type = listOf package;
-          default = [];
-          description = "A list of extra programs to enable for 3D printing";
-        };
       };
     };
   };

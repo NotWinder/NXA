@@ -7,6 +7,11 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+
+    # Impermanence
+    # doesn't offer much above properly used symlinks
+    # but it *is* convenient
+    impermanence.url = "github:nix-community/impermanence";
   };
 
   outputs = inputs @ {flake-parts, ...}:
