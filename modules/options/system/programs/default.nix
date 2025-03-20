@@ -6,7 +6,10 @@ in {
   ];
 
   options.modules.system.programs = {
-    cli.enable = mkEnableOption "CLI package sets" // {default = true;};
+    cli = {
+      enable = mkEnableOption "CLI package sets" // {default = true;};
+      adb.enable = mkEnableOption "Android Debug Bridge ";
+    };
     gui.enable = mkEnableOption "GUI package sets" // {default = true;};
 
     libreoffice.enable = mkEnableOption "LibreOffice suite";

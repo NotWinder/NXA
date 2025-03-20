@@ -23,7 +23,7 @@
   startscript = pkgs.writeShellScript "gamemode-start" ''
     ${optionalString (env.desktop == "Hyprland") ''
       export PATH=$PATH:${programs}
-      export HYPRLAND_INSTANCE_SIGNATURE=$(ls -w1 /tmp/hypr | tail -1)
+      export HYPRLAND_INSTANCE_SIGNATURE=$(ls -w1 $XDG_RUNTIME_DIR/hypr | tail -1)
       hyprctl --batch 'keyword decoration:blur 0 ; keyword animations:enabled 0 ; keyword misc:vfr 0'
     ''}
 
@@ -34,7 +34,7 @@
   endscript = pkgs.writeShellScript "gamemode-end" ''
     ${optionalString (env.desktop == "Hyprland") ''
       export PATH=$PATH:${programs}
-      export HYPRLAND_INSTANCE_SIGNATURE=$(ls -w1 /tmp/hypr | tail -1)
+      export HYPRLAND_INSTANCE_SIGNATURE=$(ls -w1 $XDG_RUNTIME_DIR/hypr | tail -1)
       hyprctl --batch 'keyword decoration:blur 1 ; keyword animations:enabled 1 ; keyword misc:vfr 1'
     ''}
 
@@ -50,6 +50,9 @@ in {
         general = {
           softrealtime = "auto";
           renice = 15;
+          defaultgov = "performance";
+          desiredgov = "performance";
+          desiredprof = "performance";
         };
 
         custom = {

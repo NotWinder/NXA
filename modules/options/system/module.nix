@@ -26,7 +26,7 @@ in {
     ./virtualization.nix
 
     # package and program related options
-    #./services
+    ./services
     ./programs
   ];
   config = {

@@ -8,6 +8,14 @@ in {
     defaultUserShell = pkgs.zsh;
     #autoLogin = true;
 
+    services = {
+      jellyfin.enable = true;
+      prowlarr.enable = true;
+      radarr.enable = true;
+      sonarr.enable = true;
+      xray.enable = true;
+    };
+
     #fs = {
     #  enabledFilesystems = ["btrfs" "vfat" "ntfs" "exfat"];
     #  zfs.enable = true;
@@ -19,10 +27,6 @@ in {
       initrd.enableTweaks = true;
       loadRecommendedModules = true;
       tmpOnTmpfs = false;
-      plymouth = {
-        enable = true;
-        withThemes = false;
-      };
     };
 
     #bluetooth.enable = true;

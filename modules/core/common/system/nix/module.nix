@@ -12,10 +12,8 @@
   inherit (lib.attrsets) mapAttrsToList filterAttrs mapAttrs mapAttrs';
 in {
   imports = [
-    #./overlays # tree-wide overrides for packages and such
     ./transcend # module that merges trees outside central nixpkgs with our system's
 
-    #./builders.nix # configuration for remote builders
     ./documentation.nix # nixos documentation
     ./nixpkgs.nix # global nixpkgs configuration.nix
     ./system.nix # nixos system configuration

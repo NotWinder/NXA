@@ -6,7 +6,6 @@
   # be a real user
   imports = [
     ./user.nix
-    ./builder.nix
     ./root.nix
   ];
 

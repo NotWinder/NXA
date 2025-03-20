@@ -16,7 +16,6 @@
     else config.boot.kernelPackages.nvidiaPackages.beta;
 
   dev = config.modules.device;
-  env = config.modules.usrEnv;
 in {
   config = mkIf (builtins.elem dev.gpu.type ["nvidia" "hybrid-nv"]) {
     # nvidia drivers are unfree software
@@ -56,13 +55,12 @@ in {
 
         (mkIf config.meta.isWayland {
           WLR_NO_HARDWARE_CURSORS = "1";
-          #__GLX_VENDOR_LIBRARY_NAME = "nvidia";
-          #GBM_BACKEND = "nvidia-drm"; # breaks firefox apparently
+          __GLX_VENDOR_LIBRARY_NAME = "nvidia";
         })
 
         (mkIf (config.meta.isWayland && (dev.gpu == "hybrid-nv")) {
-          #__NV_PRIME_RENDER_OFFLOAD = "1";
-          #WLR_DRM_DEVICES = mkDefault "/dev/dri/card1:/dev/dri/card0";
+          __NV_PRIME_RENDER_OFFLOAD = "1";
+          WLR_DRM_DEVICES = mkDefault "/dev/dri/card1:/dev/dri/card0";
         })
       ];
       systemPackages = with pkgs; [
@@ -100,10 +98,11 @@ in {
           finegrained = mkDefault false;
         };
 
+        ## TODO: add options for these settings in host config
         # use open source drivers by default, hosts may override this option if their gpu is
         # not supported by the open source drivers
         open = mkDefault false;
-        nvidiaSettings = false; # add nvidia-settings to pkgs, useless on nixos
+        nvidiaSettings = true;
         nvidiaPersistenced = true;
         forceFullCompositionPipeline = true;
       };
