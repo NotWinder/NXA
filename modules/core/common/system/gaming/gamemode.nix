@@ -1,5 +1,5 @@
 {
-  inputs,
+  inputs',
   config,
   pkgs,
   lib,
@@ -9,11 +9,10 @@
   inherit (config) modules;
 
   env = modules.usrEnv;
-  sys = modules.system;
-  prg = sys.programs;
+  prg = env.programs;
 
   programs = makeBinPath (with pkgs; [
-    inputs.hyprland.packages.${stdenv.system}.default
+    inputs'.hyprland.packages.default
     coreutils
     power-profiles-daemon
     systemd

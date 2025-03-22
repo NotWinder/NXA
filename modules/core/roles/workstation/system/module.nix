@@ -1,10 +1,7 @@
 {
   imports = [
-    ./programs
-    ./services
     ./security
 
-    ./fonts.nix
     ./misc.nix
   ];
 

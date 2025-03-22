@@ -25,9 +25,8 @@ in {
     # virtualization
     ./virtualization.nix
 
-    # package and program related options
+    #  services related options
     ./services
-    ./programs
   ];
   config = {
     warnings = mkMerge [

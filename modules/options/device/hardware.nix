@@ -1,3 +1,4 @@
+# cridit to raf (https://github.com/NotAShelf) (both comments and the code):
 {
   config,
   lib,
@@ -5,6 +6,8 @@
 }: let
   inherit (lib.options) mkOption mkEnableOption;
   inherit (lib.types) nullOr listOf enum str;
+
+  device = config.modules.device;
 in {
   options.modules.device = {
     type = mkOption {
@@ -20,7 +23,6 @@ in {
           - vm: a virtual machine
       '';
     };
-
     # the type of cpu your system has - vm and regular cpus currently do not differ
     # as I do not work with vms, but they have been added for forward-compatibility
     # TODO: make this a list - apparently more than one cpu on a device is still doable
@@ -57,6 +59,10 @@ in {
       };
     };
 
+    ## winder
+    # i have added individual options for each of the main line gpu options
+    # for the use case that there would be 2 gpu's in the system(sure the gpu.type
+    # can be a list instead of an enum but i like using boolians more)
     gpu = {
       type = mkOption {
         type = nullOr (enum ["pi" "amd" "intel" "nvidia" "hybrid-nv" "hybrid-amd"]);
@@ -66,6 +72,11 @@ in {
           drivers to be loaded, potentially optimizing video output performance
         '';
       };
+
+      amd.enable = mkEnableOption "For AMD GPUs" // {default = builtins.elem device.gpu.type ["amd"];};
+      hybrid-amd.enable = mkEnableOption "For Hybrid AMD GPUs (mainly on laptops)" // {default = builtins.elem device.gpu.type ["hybrid-amd"];};
+      hybrid-nv.enable = mkEnableOption "For Hybrid Nvidia GPUs (mainly on laptops)" // {default = builtins.elem device.gpu.type ["hybrid-nv"];};
+      nvidia.enable = mkEnableOption "For Nvidia GPUs" // {default = builtins.elem device.gpu.type ["nvidia"];};
     };
 
     monitors = mkOption {

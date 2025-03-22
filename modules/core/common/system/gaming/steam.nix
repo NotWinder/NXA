@@ -6,7 +6,7 @@
 }: let
   inherit (lib.modules) mkIf;
 
-  prg = config.modules.system.programs;
+  prg = config.modules.usrEnv.programs;
 in {
   config = mkIf prg.gaming.steam.enable {
     programs.steam = {
@@ -14,10 +14,10 @@ in {
       enable = true;
 
       # Whether to open ports in the firewall for Steam Remote Play
-      remotePlay.openFirewall = false;
+      remotePlay.openFirewall = true;
 
       # Whether to open ports in the firewall for Source Dedicated Server
-      dedicatedServer.openFirewall = false;
+      dedicatedServer.openFirewall = true;
 
       package = pkgs.steam.override {
         extraPkgs = pkgs:

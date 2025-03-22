@@ -6,8 +6,8 @@
 }: let
   inherit (lib) mkIf;
 
-  sys = config.modules.system;
-  prg = sys.programs;
+  env = config.modules.usrEnv;
+  prg = env.programs;
 in {
   config = mkIf prg.cli.enable {
     programs.direnv = {

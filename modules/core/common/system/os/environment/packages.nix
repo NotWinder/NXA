@@ -24,6 +24,7 @@
       lshw
       pciutils
       dnsutils
+      usbutils
     ];
   };
 }

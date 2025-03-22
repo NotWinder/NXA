@@ -7,8 +7,7 @@
   inherit (lib.modules) mkIf;
   inherit (config) modules;
 
-  sys = modules.system;
-  prg = sys.programs;
+  prg = modules.usrEnv.programs;
 in {
   config = mkIf prg.gaming.gamescope.enable {
     programs.gamescope = {

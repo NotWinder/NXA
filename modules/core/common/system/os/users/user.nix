@@ -4,9 +4,10 @@
   ...
 }: let
   inherit (lib) optionals;
+  inherit (config) modules;
 
-  sys = config.modules.system;
-  prg = sys.programs;
+  sys = modules.system;
+  prg = modules.usrEnv.programs;
 in {
   users.users.${sys.mainUser} = {
     isNormalUser = true;

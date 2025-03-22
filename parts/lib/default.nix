@@ -72,7 +72,7 @@
       # Checks and assertions for validating hardware capabilities of any given
       # host. Generally wraps around pkgs.stdenv.hostPlatform, but with additional
       # checks for validating host architecture and so on.
-      #hardware = callLibs ./hardware.nix;
+      hardware = callLibs ./hardware.nix;
 
       # An assortment of miscellaneous functions
       # that don't fit anywhere else.
@@ -98,13 +98,13 @@
       # Functions for working with systemd services. Includes an utility for passing
       # common hardening options, or creating services with well known targets, such
       # as graphical-session.target
-      #systemd = callLibs ./systemd.nix;
+      systemd = callLibs ./systemd.nix;
 
       # Various assertions for verifying system features.
       #validators = callLibs ./validators.nix;
 
       # Utilities for working with styling options, i.e., themes
-      #themes = callLibs ./themes.nix;
+      themes = callLibs ./themes.nix;
 
       # XDG user directories and templates.
       #xdg = callLibs ./xdg.nix;
@@ -113,7 +113,7 @@
     # A shorthand alias for the xdg templates used by nixos and home-manager.
     # This is certainly a weird approach, but I do not know how to handle this
     # in a better way.
-    #xdgTemplate = ./xdg.nix;
+    xdgTemplate = ./xdg.nix;
 
     # Get individual functions from the parent attributes
     #inherit (self.extendedLib.aliases) sslTemplate common;
@@ -123,15 +123,15 @@
     #inherit (self.extendedLib.deploy) mkNode;
     #inherit (self.extendedLib.firewall) mkTable mkRuleset mkIngressChain mkPrerouteChain mkInputChain mkForwardChain mkOutputChain mkPostrouteChain;
     #inherit (self.extendedLib.fs) mkBtrfs;
-    #inherit (self.extendedLib.hardware) isx86Linux primaryMonitor;
+    inherit (self.extendedLib.hardware) isx86Linux primaryMonitor;
     #inherit (self.extendedLib.misc) filterNixFiles importNixFiles boolToNum fetchKeys containsStrings indexOf intListToStringList;
     inherit (self.extendedLib.modules) mkService mkModuleTree mkModuleTree';
     #inherit (self.extendedLib.namespacing) makeSocketNsPhysical makeServiceNsPhysical unRestrictNamespaces;
     #inherit (self.extendedLib.networking) isValidIPv4;
     #inherit (self.extendedLib.ssh) mkPubkeyFor;
     #inherit (self.extendedLib.secrets) mkAgenixSecret;
-    #inherit (self.extendedLib.systemd) hardenService mkGraphicalService mkHyprlandService;
-    #inherit (self.extendedLib.themes) serializeTheme compileSCSS;
+    inherit (self.extendedLib.systemd) hardenService mkGraphicalService mkHyprlandService;
+    inherit (self.extendedLib.themes) serializeTheme compileSCSS;
     #inherit (self.extendedLib.validators) ifTheyExist ifGroupsExist isAcceptedDevice isWayland ifOneEnabled;
   };
 

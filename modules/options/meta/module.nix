@@ -1,3 +1,4 @@
+# cridit to raf (https://github.com/NotAShelf) (both comments and the code):
 {
   config,
   pkgs,

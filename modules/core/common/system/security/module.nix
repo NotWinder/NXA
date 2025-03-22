@@ -1,1 +1,5 @@
-{}
+{
+  imports = [
+    ./polkit.nix
+  ];
+}

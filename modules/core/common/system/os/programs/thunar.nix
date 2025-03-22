@@ -5,9 +5,9 @@
   ...
 }: let
   inherit (lib) mkIf;
+  inherit (config) modules;
 
-  sys = config.modules.system;
-  prg = sys.programs;
+  prg = modules.usrEnv.programs;
 in {
   config = mkIf prg.gui.enable {
     programs.thunar = {

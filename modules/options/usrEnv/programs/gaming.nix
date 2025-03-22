@@ -6,12 +6,22 @@
   inherit (lib.options) mkEnableOption;
   inherit (config) modules;
 
-  sys = modules.system;
-  prg = sys.programs;
+  env = modules.usrEnv;
+  prg = env.programs;
 in {
   options.modules.usrEnv.programs.gaming = {
-    enable = mkEnableOption "userspace gaming programs" // {default = prg.gaming.enable;};
+    enable = mkEnableOption ''
+      packages, services and warappers required for the device to be gaming-ready.
+
+      Setting this option to true will also enable certain other options with
+      the option to disable them explicitly.
+    '';
+
+    chess.enable = mkEnableOption "Chess programs and engines";
     emulation.enable = mkEnableOption "programs required to emulate other platforms" // {default = prg.gaming.enable;};
-    chess.enable = mkEnableOption "Chess programs and engines" // {default = false;};
+    gamemode.enable = mkEnableOption "Feral-Interactive's Gamemode with userspace optimizations" // {default = prg.gaming.enable;};
+    gamescope.enable = mkEnableOption "Gamescope compositing manager" // {default = prg.gaming.enable;};
+    mangohud.enable = mkEnableOption "MangoHud overlay" // {default = prg.gaming.enable;};
+    steam.enable = mkEnableOption "Steam client" // {default = prg.gaming.enable;};
   };
 }

@@ -3,7 +3,7 @@
     ./fs
     ./modules
 
-    #./btrfs.nix
+    ./btrfs.nix
   ];
 
   config = {

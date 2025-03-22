@@ -2,14 +2,21 @@
   inherit (lib) mkOption types;
 in {
   imports = [
+    ./browsers.nix
+    ./cli.nix
+    ./editors.nix
     ./gaming.nix
+    ./git.nix
+    ./gui.nix
     ./launchers.nix
     ./lockers.nix
     ./media.nix
+    ./terminals.nix
+    ./wallpaper.nix
   ];
 
   # default program options
-  options.modules.usrEnv.programs.defaults = {
+  options.modules.usrEnv.programs.default = {
     # what program should be used as the default terminal
     terminal = mkOption {
       type = types.enum ["alacritty" "foot" "kitty" "wezterm"];

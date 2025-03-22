@@ -4,9 +4,9 @@ in {
   config.modules.system = {
     mainUser = mainUser;
     users = [mainUser];
-    #homePath = "/home/${mainUser}";
+    homePath = "/home/${mainUser}";
     defaultUserShell = pkgs.zsh;
-    #autoLogin = true;
+    autoLogin = true;
 
     services = {
       jellyfin.enable = true;
@@ -16,10 +16,11 @@ in {
       xray.enable = true;
     };
 
-    #fs = {
-    #  enabledFilesystems = ["btrfs" "vfat" "ntfs" "exfat"];
-    #  zfs.enable = true;
-    #};
+    fs = {
+      enabledFilesystems = ["btrfs" "vfat" "ntfs" "exfat"];
+      zfs.enable = true;
+    };
+
     boot = {
       loader = "grub";
       secureBoot = false;
@@ -29,17 +30,16 @@ in {
       tmpOnTmpfs = false;
     };
 
-    #bluetooth.enable = true;
-    #emulation.enable = true;
-    #printing.enable = false;
-    #sound.enable = true;
-    #video.enable = true;
+    bluetooth.enable = true;
+    printing.enable = false;
+    sound.enable = true;
+    video.enable = true;
 
-    #virtualization = {
-    #  enable = true;
-    #  qemu.enable = true;
-    #  docker.enable = true;
-    #};
+    virtualization = {
+      enable = true;
+      qemu.enable = true;
+      docker.enable = true;
+    };
 
     #networking = {
     #  optimizeTcp = true;
@@ -51,30 +51,9 @@ in {
     #  };
     #};
 
-    #security = {
-    #  tor.enable = true;
-    #  fixWebcam = false;
-    #  auditd.enable = true;
-    #};
-
-    #programs = {
-    #  cli.enable = true;
-    #  gui.enable = true;
-
-    #  obs.enable = true;
-
-    #  git.signingKey = "0xB7747DE9EEAAE164";
-
-    #  gaming.enable = true;
-
-    #  terminals = {
-    #    alacritty.enable = true;
-    #  };
-
-    #  default = {
-    #    terminal = "alacritty";
-    #    browser = "chromium";
-    #  };
-    #};
+    security = {
+      tor.enable = true;
+      fixWebcam = false;
+    };
   };
 }
