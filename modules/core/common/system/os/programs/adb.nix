@@ -9,7 +9,7 @@
 
   prg = modules.usrEnv.programs;
 in {
-  config = mkIf (prg.cli.enable || prg.cli.adb.enable) {
+  config = mkIf (prg.cli.enable) {
     programs.adb.enable = true;
 
     services.udev = {

@@ -18,6 +18,7 @@ in {
       helvum # GTK patchbay for pipewire
       picard # Official MusicBrainz tagger
       qbittorrent # Featureful free software BitTorrent client
+      soulseekqt # Official Qt SoulSeek client
       telegram-desktop # Telegram Desktop messaging app
       uget # Download manager using GTK and libcurl
       universal-android-debloater # Tool to debloat non-rooted Android devices

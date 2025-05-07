@@ -21,6 +21,7 @@
     ./runners.nix
     ./searxng.nix
     ./sonarr.nix
+    ./syncthing.nix
     ./systemd.nix
     ./thermald.nix
     ./upower.nix
