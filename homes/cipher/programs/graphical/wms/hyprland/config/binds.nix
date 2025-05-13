@@ -173,9 +173,9 @@ in {
       ''$MOD SHIFT,H,exec,cat ${propaganda} | ${pkgs.wl-clipboard}/bin/wl-copy && ${pkgs.libnotify}/bin/notify-send "Propaganda" "ready to spread!" && sleep 0.3 && ${lib.getExe pkgs.wtype} -M ctrl -M shift -k v -m shift -m ctrl -s 300 -k Return'' # spread hyprland propaganda
 
       "$MOD, Q, exec, ${terminal}"
-      "$MOD, D, exec, rofi -show drun -theme ~/.config/rofi/global/rofi.rasi"
+      ''$MOD, D, exec, killall rofi || rofi -show drun''
       ''$MOD, R, exec, killall tofi || run-as-service $(tofi-drun --prompt-text "Run")''
-      ''$MOD, D,exec, killall anyrun || run-as-service $(anyrun)''
+      #''$MOD, D,exec, killall anyrun || run-as-service $(anyrun)''
 
       # window operators
       "$MOD,N,exec,hyprctl keyword $kw $(($(hyprctl getoption $kw -j | jaq -r '.int') ^ 1))" # toggle no_gaps_when_only

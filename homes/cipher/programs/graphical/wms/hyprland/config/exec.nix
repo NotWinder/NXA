@@ -8,9 +8,12 @@ in {
     exec-once = [
       # set cursor for HL itself
       "hyprctl setcursor ${pointerCursor.name} ${toString pointerCursor.size}"
-      "asztal"
+      "systemctl --user enable --now hyprpaper.service"
+      #"systemctl --user enable --now hyprlock.service"
+      "hyprlock"
+      "hyprpaper-timer"
+      "waybar"
       "nm-applet"
-      "hyprpaper"
     ];
   };
 }

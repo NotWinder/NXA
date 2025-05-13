@@ -10,13 +10,12 @@
   env = modules.usrEnv;
   sys = modules.system;
 
-  winpaper = inputs'.winpaper.packages;
   hyprpaper = inputs'.hyprpaper.packages.default;
-
-  Jinx = "${winpaper.shows}/share/wallpapers/shows/Jinx.jpg";
-  #Bill = "${winderpaper.shows}/share/wallpapers/shows/Bill.png";
-  #Victor = "${winderpaper.shows}/share/wallpapers/shows/Victor.jpg";
 in {
+  imports = [
+    ./scripts
+  ];
+
   config = mkIf ((sys.video.enable) && (osConfig.meta.isWayland && env.desktops.hyprland.enable)) {
     services.hyprpaper = {
       enable = true;
@@ -24,15 +23,6 @@ in {
       settings = {
         ipc = "on";
         splash = false;
-        preload = [
-          "${Jinx}"
-          #"${Bill}"
-          #"${Victor}"
-        ];
-        wallpaper = [
-          ",${Jinx}"
-          #",${Bill}"
-        ];
       };
     };
   };

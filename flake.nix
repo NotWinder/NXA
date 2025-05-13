@@ -23,6 +23,14 @@
 
     hyprland.url = "github:/hyprwm/Hyprland";
 
+    hyprlock = {
+      url = "github:hyprwm/hyprlock";
+      inputs = {
+        nixpkgs.follows = "hyprland/nixpkgs";
+        systems.follows = "hyprland/systems";
+      };
+    };
+
     hyprpaper = {
       url = "github:hyprwm/hyprpaper";
       inputs = {
@@ -39,13 +47,13 @@
     };
 
     # anyrun program launcher
-    anyrun.url = "github:anyrun-org/anyrun";
-    anyrun-nixos-options = {
-      url = "github:n3oney/anyrun-nixos-options";
-      inputs = {
-        flake-parts.follows = "flake-parts";
-      };
-    };
+    #anyrun.url = "github:anyrun-org/anyrun";
+    #anyrun-nixos-options = {
+    #  url = "github:n3oney/anyrun-nixos-options";
+    #  inputs = {
+    #    flake-parts.follows = "flake-parts";
+    #  };
+    #};
 
     # Personal collection of packages and modules
     # that are too unstable or too personal for nyxexprs.

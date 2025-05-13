@@ -1,5 +1,4 @@
 {
-  inputs',
   osConfig,
   pkgs,
   lib,
@@ -28,10 +27,7 @@ in {
         easytag # View and edit tags for various audio files
         kid3 # Simple and powerful audio tag editor
         musikcube # Terminal-based music player, library, and streaming audio server
-
-        # get ani-cli  from my own package collection
-        # I usually don't want to wait for nixpkgs
-        inputs'.nyxexprs.packages.ani-cli
+        ani-cli # Cli tool to browse and play anime
       ]
       ++ cfg.extraPackages;
   };

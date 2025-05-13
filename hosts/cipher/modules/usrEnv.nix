@@ -14,9 +14,7 @@
       git.signingKey = "0xB7747DE9EEAAE164";
 
       browsers = {
-        brave.enable = true;
         floorp.enable = true;
-        chromium.enable = true;
         librewolf.enable = true;
       };
 
@@ -36,7 +34,8 @@
       };
 
       launchers = {
-        anyrun.enable = true;
+        #anyrun.enable = true;
+        rofi.enable = true;
         tofi.enable = true;
       };
 

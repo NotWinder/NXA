@@ -26,7 +26,7 @@ in {
       enableExtraSocket = true;
       enableZshIntegration = true;
 
-      pinentryPackage = pinentryPkg;
+      pinentry.package = pinentryPkg;
 
       defaultCacheTtl = 1209600;
       defaultCacheTtlSsh = 1209600;

@@ -3,7 +3,6 @@
   lib,
   pkgs,
   osConfig,
-  inputs',
   ...
 }: let
   inherit (lib) mkIf optionals;
@@ -23,15 +22,14 @@ in {
           [
             pkgs.rofi-rbw
           ]
-          ++ optionals meta.isWayland (with inputs'.nyxexprs.packages; [
+          ++ optionals meta.isWayland (with pkgs; [
             rofi-rbw-wayland
-            rofi-calc-wayland
             rofi-emoji-wayland
           ]);
       };
       font = "Iosevka Nerd Font 14";
       extraConfig = {
-        modi = "drun,filebrowser,calc,emoji";
+        modi = "drun,filebrowser,emoji";
         drun-display-format = " {name} ";
         sidebar-mode = true;
         matching = "prefix";
@@ -42,7 +40,6 @@ in {
         display-drun = " Run";
         display-run = " Run";
         display-filebrowser = " Files";
-        display-calc = "󰃬 Calculator";
         display-emoji = "💀 Emoji";
       };
 

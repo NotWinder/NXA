@@ -20,7 +20,8 @@
 
   initialSession = {
     user = "${sys.mainUser}";
-    command = "${env.desktop}";
+    #command = "${env.desktop}";
+    command = "uwsm start hyprland.desktop";
   };
 
   defaultSession = {
@@ -48,8 +49,7 @@ in {
         default_session = defaultSession;
 
         # initial session
-        #initial_session = mkIf sys.autoLogin initialSession;
-        initial_session = "Hyprland (uwsm-managed)";
+        initial_session = mkIf sys.autoLogin initialSession;
       };
     };
 
