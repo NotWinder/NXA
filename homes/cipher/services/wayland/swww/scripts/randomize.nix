@@ -15,7 +15,7 @@
     WALLPAPER=$(find "$WALLPAPER_DIR" -type f ! -name "$(basename "$CURRENT_WALL")" | shuf -n 1)
 
     # Apply the selected wallpaper
-    sleep 1
+    sleep 0.5
     swww img "$WALLPAPER" --transition-fps 60 --transition-type grow --transition-duration 1
   '';
 in {

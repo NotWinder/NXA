@@ -41,6 +41,11 @@
 
     hyprpicker.url = "github:hyprwm/hyprpicker";
 
+    swww = {
+      url = "github:LGFae/swww";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

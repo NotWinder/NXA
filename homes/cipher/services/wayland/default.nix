@@ -4,7 +4,7 @@
     ./clipboard
     ./gammastep
     ./hyprlock
-    #./hyprpaper
+    ./hyprpaper
     ./swaybg
     ./swww
     ./waybar

@@ -40,6 +40,8 @@
       };
 
       screenlock.swaylock.enable = true;
+
+      wallpapers.swww.enable = true;
     };
     services.media.mpd.enable = true;
   };
