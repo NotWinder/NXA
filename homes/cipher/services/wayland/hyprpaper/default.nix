@@ -9,7 +9,6 @@
   inherit (osConfig) modules;
   env = modules.usrEnv;
   sys = modules.system;
-
   hyprpaper = inputs'.hyprpaper.packages.default;
 in {
   imports = [

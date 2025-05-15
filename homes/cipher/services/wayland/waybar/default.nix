@@ -264,7 +264,7 @@
             "format" = "{}";
             "rotate" = 0;
             "exec" = "echo ; echo 󰆊 switch wallpaper";
-            "on-click" = "hyprpaper-random";
+            "on-click" = "swww-random";
             "interval" = 900; # once every day
             "tooltip" = true;
           };
