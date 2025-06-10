@@ -6,6 +6,7 @@
     ./networking # wireguard and headscale
     ./login
 
+    ./cron.nix
     ./dbus.nix
     ./earlyoom.nix
     ./fwupd.nix

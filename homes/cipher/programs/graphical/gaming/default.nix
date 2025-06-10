@@ -25,6 +25,7 @@ in {
       mono # general dotnet apps
       pcsx2 # Playstation 2 emulator
       winetricks # wine helper utility
+      ludusavi # Backup tool for PC game saves
 
       # custom shell scripts
       #game-mount
