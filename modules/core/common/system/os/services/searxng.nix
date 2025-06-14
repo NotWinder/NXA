@@ -9,7 +9,7 @@
   sys = config.modules.system;
   cfg = sys.services;
 
-  inherit (cfg.searxng.settings) host port;
+  inherit (cfg.searxng.settings) port;
 in {
   config = mkIf cfg.searxng.enable {
     networking.firewall.allowedTCPPorts = [port];
@@ -36,15 +36,6 @@ in {
         environmentFile = config.age.secrets.searx-secretkey.path;
         settings = {
           use_default_settings = true;
-
-          general = {
-            instance_name = "NotASearx";
-            privacypolicy_url = false;
-            donation_url = "https://ko-fi.com/notashelf";
-            contact_url = "mailto:raf@notashelf.dev";
-            enable_metrics = true;
-            debug = false;
-          };
 
           search = {
             safe_search = 2; # 0 = None, 1 = Moderate, 2 = Strict
@@ -126,21 +117,6 @@ in {
           ];
         };
       };
-
-      nginx.virtualHosts."search.notashelf.dev" =
-        {
-          locations."/".proxyPass = "http://${host}:${toString port}";
-          extraConfig = ''
-            access_log /dev/null;
-            error_log /dev/null;
-            proxy_connect_timeout 60s;
-            proxy_send_timeout 60s;
-            proxy_read_timeout 60s;
-          '';
-
-          quic = true;
-        }
-        // lib.sslTemplate;
     };
   };
 }

@@ -84,11 +84,6 @@ in {
 
           # Static file serve endpoint
           /*
-          s3_web = {
-            bind_addr = "[::1]:3902";
-            root_domain = "s3.notashelf.dev";
-            index = "index.html";
-          };
 
           "k2v_api" = {
            "api_bind_addr" = "[::1]:3904";
@@ -101,18 +96,6 @@ in {
           };
         };
       };
-
-      nginx.virtualHosts."s3.notashelf.dev" =
-        {
-          locations."/".proxyPass = "http://127.0.0.1:3900";
-          extraConfig = ''
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header Host $host;
-            # Disable buffering to a temporary file.
-            proxy_max_temp_file_size 0;
-          '';
-        }
-        // lib.sslTemplate;
     };
   };
 }

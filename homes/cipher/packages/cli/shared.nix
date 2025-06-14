@@ -12,10 +12,6 @@
 in {
   config = mkIf prg.cli.enable {
     home.packages = with pkgs; [
-      # packages from inputs
-      #inputs'.agenix.packages.default
-      #inputs'.nyxexprs.packages.cloneit
-
       # CLI packages from nixpkgs
       duf # Disk Usage/Free Utility
       todo # Simple todo cli program written in rust

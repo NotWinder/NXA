@@ -8,11 +8,15 @@
   sys = config.modules.system;
 in {
   config = mkIf sys.video.enable {
-    services.xserver = {
-      enable = true;
+    services = {
       displayManager = {
         gdm.enable = false;
-        lightdm.enable = false;
+      };
+      xserver = {
+        enable = true;
+        displayManager = {
+          lightdm.enable = false;
+        };
       };
     };
   };

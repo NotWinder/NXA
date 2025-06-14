@@ -11,7 +11,6 @@
     ./less.nix
     ./misc.nix
     ./nano.nix
-    ./nh.nix
     ./thunar.nix
     ./wine.nix
     ./xdg-ninja.nix

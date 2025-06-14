@@ -2,7 +2,6 @@
   imports = [
     ./systemd
     ./databases # mysql, postgreqsl, redis and more
-    ./nginx # base nginx webserver configuration
     ./networking # wireguard and headscale
     ./login
 

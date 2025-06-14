@@ -73,10 +73,6 @@ in {
           # extremely experimental, just the way I like it on a production machine
           enable = true;
 
-          # strip copied binaries and libraries from inframs
-          # saves 30~ mb space according to the nix derivation
-          strip = true;
-
           # packages that will be added to the PATH in initrd
           # this is useful for debugging if the host provides
           # emergency access

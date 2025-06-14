@@ -1,6 +1,5 @@
 {
   imports = [
-    ./headscale
-    ./wireguard
+    #./wireguard
   ];
 }

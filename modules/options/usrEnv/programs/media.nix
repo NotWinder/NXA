@@ -44,9 +44,6 @@ in {
           uosc # proximity UI
           quality-menu # ytdl-format quality menu
           occivink.seekTo # seek to specific pos.
-
-          # from nyxexprs
-          # inputs'.nyxexprs.packages.mpv-history # save a history of played files with timestamps
         ];
       };
     };
