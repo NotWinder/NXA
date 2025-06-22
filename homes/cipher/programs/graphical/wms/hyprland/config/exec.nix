@@ -11,7 +11,7 @@ in {
       "hyprlock"
       "swww-random"
       "swww-timer"
-      "waybar"
+      "asztal"
       "nm-applet"
     ];
   };

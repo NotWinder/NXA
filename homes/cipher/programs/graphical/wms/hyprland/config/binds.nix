@@ -28,12 +28,11 @@ in {
 
     bind = [
       "CTRL ALT, Delete, exec, hyprctl dispatch exit 0"
-      "$MOD, M, exit," # exit Hyprland session
       "$MOD, C, killactive,"
       "$MOD, F, fullscreen," # fullscreen focused window
-      #bind = $mainMod SHIFT, Q, exec, $scriptsDir/KillActiveProcess.sh TODO:KillActiveProcess
-      "$MOD,V,togglefloating," # toggle floating for the focused window
+      "$MOD, V, togglefloating," # toggle floating for the focused window
       "$MOD ALT, V, exec, hyprctl dispatch workspaceopt allfloat"
+      "$MOD, M, exec, uwsm stop" # exit Hyprland session
       #bind = CTRL ALT, L, exec, $scriptsDir/LockScreen.sh # screen lock
       "$MOD SHIFT, L, exec, ${locker}" # lock the screen with swaylock
       #bind = CTRL ALT, P, exec, $scriptsDir/Wlogout.sh # power menu

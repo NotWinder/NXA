@@ -12,13 +12,17 @@
     };
 
     astal = {
-      url = "github:aylur/astal";
+      url = "github:Aylur/astal";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     ags = {
-      url = "github:aylur/ags";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:Aylur/ags";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        astal.follows = "astal";
+      };
     };
+    matugen.url = "github:InioX/Matugen?rev=0bd628f263b1d97f238849315f2ce3ab4439784e";
 
     hyprland.url = "github:/hyprwm/Hyprland";
 

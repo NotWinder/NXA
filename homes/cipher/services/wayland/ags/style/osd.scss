@@ -1,0 +1,31 @@
+@use "sass:color";
+@use "colors";
+
+.OSD,
+.osd {
+	background: transparent;
+	icon {
+		font-size: 16px;
+		margin-left: 16px;
+	}
+}
+
+.indicator .progress {
+	padding: 0px;
+
+	border-radius: 100px;
+	margin-bottom: 20px;
+	background-color: color.adjust(colors.$surface, $alpha: -0.2);
+
+	.fill {
+		transition: background-color 3s ease-in-out;
+		border-radius: 100px;
+		background-color: colors.$primary;
+		color: colors.$on_primary;
+		transition: min-width 0.1s;
+		&.muted {
+			background-color: colors.$inverse_surface_transparent_variant;
+			color: colors.$on_surface;
+		}
+	}
+}
