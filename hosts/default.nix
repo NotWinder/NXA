@@ -32,10 +32,10 @@
     # Roles either provide an additional set of defaults on top of the core module
     # or override existing defaults for role-specific optimizations.
     #iso = coreModules + /roles/iso; # for providing a uniform ISO configuration for live systems - only the build setup
-    #headless = coreModules + /roles/headless; # for devices that are of the headless type - provides no GUI
+    headless = coreModules + /roles/headless; # for devices that are of the headless type - provides no GUI
     graphical = coreModules + /roles/graphical; # for devices that are of the graphical type - provides a GUI
     workstation = coreModules + /roles/workstation; # for devices that are of workstation type - any device that is for daily use
-    #server = coreModules + /roles/server; # for devices that are of the server type - provides online services
+    server = coreModules + /roles/server; # for devices that are of the server type - provides online services
     #laptop = coreModules + /roles/laptop; # for devices that are of the laptop type - provides power optimizations
 
     # home-manager #
@@ -73,6 +73,15 @@
       system = "x86_64-linux";
       modules = mkModulesFor "cipher" {
         roles = [graphical workstation];
+        extraModules = [homes];
+      };
+    };
+    lorian = mkNixosSystem {
+      inherit withSystem;
+      hostname = "lorian";
+      system = "x86_64-linux";
+      modules = mkModulesFor "lorian" {
+        roles = [headless server];
         extraModules = [homes];
       };
     };
