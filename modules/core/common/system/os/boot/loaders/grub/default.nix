@@ -12,7 +12,7 @@ in {
       grub = {
         enable = mkDefault true;
         useOSProber = true;
-        efiSupport = true;
+        efiSupport = cfg.boot.isUEFI;
         enableCryptodisk = mkDefault false;
         device = cfg.boot.grub.device;
         theme = null;

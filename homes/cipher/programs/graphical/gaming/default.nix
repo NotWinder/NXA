@@ -11,8 +11,6 @@
   prg = env.programs;
 in {
   imports = [
-    ./scripts
-
     ./mangohud.nix
     ./chess.nix
   ];

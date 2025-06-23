@@ -1,16 +1,22 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: let
-  env = config.meta;
+  inherit (config) meta modules;
+  inherit (lib) mkIf;
+
+  prg = modules.usrEnv.programs;
 in {
-  # determine which version of wine to be used
-  # then add it to systemPackages
-  environment.systemPackages = with pkgs; let
-    winePackage =
-      if env.isWayland
-      then wineWowPackages.waylandFull
-      else wineWowPackages.stableFull;
-  in [winePackage];
+  config = mkIf prg.gui.enable {
+    # determine which version of wine to be used
+    # then add it to systemPackages
+    environment.systemPackages = with pkgs; let
+      winePackage =
+        if meta.isWayland
+        then wineWowPackages.waylandFull
+        else wineWowPackages.stableFull;
+    in [winePackage];
+  };
 }

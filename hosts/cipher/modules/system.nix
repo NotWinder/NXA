@@ -23,6 +23,7 @@ in {
 
     boot = {
       loader = "grub";
+      isUEFI = true;
       secureBoot = false;
       enableKernelTweaks = true;
       initrd.enableTweaks = true;

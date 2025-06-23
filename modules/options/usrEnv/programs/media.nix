@@ -1,15 +1,19 @@
 {
+  config,
   pkgs,
   lib,
   ...
 }: let
   inherit (lib.options) mkOption mkEnableOption literalExpression;
   inherit (lib.types) bool listOf package;
+  inherit (config) modules;
+
+  sys = modules.system;
 in {
   options.modules.usrEnv.programs.media = {
     addDefaultPackages = mkOption {
       type = bool;
-      default = true;
+      default = sys.video.enable;
       description = ''
         Whether to enable the default list of media-related packages ranging from audio taggers
         to video editors.

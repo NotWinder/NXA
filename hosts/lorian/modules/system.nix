@@ -19,6 +19,8 @@ in {
 
     boot = {
       loader = "grub";
+      grub.device = "/dev/sda";
+      isUEFI = false;
       secureBoot = false;
       enableKernelTweaks = true;
       initrd.enableTweaks = true;

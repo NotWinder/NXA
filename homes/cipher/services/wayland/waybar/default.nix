@@ -1,14 +1,14 @@
 {
-  #pkgs,
-  #config,
-  #lib,
+  osConfig,
+  lib,
   ...
-}: {
-  #options = {
-  #  homeManagerModules.waybar.enable = lib.mkEnableOption "Enable waybar (config)";
-  #};
+}: let
+  inherit (osConfig) modules meta;
+  inherit (lib) mkIf;
 
-  config = {
+  sys = modules.system;
+in {
+  config = mkIf (sys.video.enable && meta.isWayland) {
     programs.waybar = {
       enable = true;
       settings = {

@@ -1,7 +1,5 @@
 {
   config.modules.usrEnv = {
-    desktop = "none";
-    desktops."i3".enable = false;
     useHomeManager = true;
 
     programs = {

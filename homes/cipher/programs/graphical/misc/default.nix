@@ -1,5 +1,5 @@
 {
   imports = [
-    ./wlogout # wlogout configuration
+    #./wlogout # wlogout configuration
   ];
 }

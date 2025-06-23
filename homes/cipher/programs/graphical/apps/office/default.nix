@@ -8,9 +8,8 @@
   inherit (osConfig) modules;
 
   prg = modules.usrEnv.programs;
-  gui = prg.gui;
 in {
-  config = mkIf gui.libreoffice.enable {
+  config = mkIf prg.gui.libreoffice.enable {
     home.packages = with pkgs; [
       libreoffice-qt # Comprehensive, professional-quality productivity suite, a variant of openoffice.org
       hyphen # Text hyphenation library

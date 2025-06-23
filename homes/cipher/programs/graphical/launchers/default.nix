@@ -2,6 +2,5 @@
   imports = [
     ./rofi
     ./tofi
-    #./anyrun
   ];
 }

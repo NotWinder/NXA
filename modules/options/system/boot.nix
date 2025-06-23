@@ -11,6 +11,7 @@ in {
   # pre-boot and bootloader configurations
   options.modules.system.boot = {
     enableKernelTweaks = mkEnableOption "security and performance related kernel parameters";
+    isUEFI = mkEnableOption "Whether or not the system supports uefi boot";
     recommendedLoaderConfig = mkEnableOption "tweaks for common bootloader configs per my liking";
     loadRecommendedModules = mkEnableOption "kernel modules that accommodate for most use cases";
     tmpOnTmpfs =

@@ -1,61 +1,72 @@
 {
-  wayland.windowManager.hyprland.settings = {
-    windowrulev2 = [
-      # only allow shadows for floating windows
-      "noshadow, floating:0"
+  osConfig,
+  lib,
+  ...
+}: let
+  inherit (osConfig) modules;
+  inherit (lib) mkIf;
 
-      "float,class:udiskie"
+  env = modules.usrEnv;
+in {
+  config = mkIf env.desktops.hyprland.enable {
+    wayland.windowManager.hyprland.settings = {
+      windowrulev2 = [
+        # only allow shadows for floating windows
+        "noshadow, floating:0"
 
-      # wlogout
-      "fullscreen,class:wlogout"
-      "fullscreen,title:wlogout"
-      "noanim, title:wlogout"
+        "float,class:udiskie"
 
-      # spotify
-      "tile, title:Spotify"
-      "tile, class:^(Spotify)$"
+        # wlogout
+        "fullscreen,class:wlogout"
+        "fullscreen,title:wlogout"
+        "noanim, title:wlogout"
 
-      # steam settings window
-      "float, title:^(Steam Settings)$"
+        # spotify
+        "tile, title:Spotify"
+        "tile, class:^(Spotify)$"
 
-      # telegram media viewer
-      "float, title:^(Media viewer)$"
+        # steam settings window
+        "float, title:^(Steam Settings)$"
 
-      # NetworkManager Connection Editor
-      "float, class:nm-connection-editor"
-      "size 700 500,class:nm-connection-editor"
+        # telegram media viewer
+        "float, title:^(Media viewer)$"
 
-      # bitwarden
-      "float,class:Bitwarden"
-      "size 800 600,class:Bitwarden"
+        # NetworkManager Connection Editor
+        "float, class:nm-connection-editor"
+        "size 700 500,class:nm-connection-editor"
 
-      "idleinhibit focus, class:^(mpv)$"
-      "idleinhibit focus,class:foot"
+        # bitwarden
+        "float,class:Bitwarden"
+        "size 800 600,class:Bitwarden"
 
-      # firefox
-      "idleinhibit fullscreen, class:^(firefox)$"
-      "float,title:^(Firefox — Sharing Indicator)$"
-      "move 0 0,title:^(Firefox — Sharing Indicator)$"
-      "float, title:^(Picture-in-Picture)$"
-      "pin, title:^(Picture-in-Picture)$"
+        "idleinhibit focus, class:^(mpv)$"
+        "idleinhibit focus,class:foot"
 
-      # pavucontrol
-      "float,class:pavucontrol"
-      "float,title:^(Volume Control)$"
-      "size 800 600,title:^(Volume Control)$"
-      "move 75 44%,title:^(Volume Control)$"
-      "float, class:^(imv)$"
+        # firefox
+        "idleinhibit fullscreen, class:^(firefox)$"
+        "float,title:^(Firefox — Sharing Indicator)$"
+        "move 0 0,title:^(Firefox — Sharing Indicator)$"
+        "float, title:^(Picture-in-Picture)$"
+        "pin, title:^(Picture-in-Picture)$"
 
-      # throw sharing indicators away
-      "workspace special silent, title:^(Firefox — Sharing Indicator)$"
-      "workspace special silent, title:^(.*is sharing (your screen|a window)\.)$"
+        # pavucontrol
+        "float,class:pavucontrol"
+        "float,title:^(Volume Control)$"
+        "size 800 600,title:^(Volume Control)$"
+        "move 75 44%,title:^(Volume Control)$"
+        "float, class:^(imv)$"
 
-      # EA launcher puts a tiny window in the current workspae
-      # throw it away
-      "workspace special silent, title:^(title:Wine System Tray)$"
+        # throw sharing indicators away
+        "workspace special silent, title:^(Firefox — Sharing Indicator)$"
+        "workspace special silent, title:^(.*is sharing (your screen|a window)\.)$"
 
-      "workspace 3 silent, class:^(Spotify)$"
-      "workspace 4, title:^(.*(Disc|WebC)ord.*)$"
-    ];
+        # EA launcher puts a tiny window in the current workspae
+        # throw it away
+        "workspace special silent, title:^(title:Wine System Tray)$"
+
+        "workspace 3 silent, class:^(Spotify)$"
+        "workspace 4, title:^(.*(Disc|WebC)ord.*)$"
+      ];
+    };
   };
 }
