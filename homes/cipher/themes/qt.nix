@@ -89,7 +89,14 @@ in {
     # of those engines before GTK, despite our attempts to override.
     xdg.configFile = {
       # Write ~/.config/kdeglobals based on the kdeglobals file the user has specified.
-      "kdeglobals".source = cfg.qt.kdeglobals.colors;
+      "kdeglobals".source = let
+        originalFile = cfg.qt.kdeglobals.colors;
+        appendedContent = builtins.readFile originalFile + "\n[General]\nTerminalApplication=alacritty";
+      in
+        pkgs.writeTextFile {
+          name = "kdeglobals-with-alacritty";
+          text = appendedContent;
+        };
 
       # Write kvantum configuration, and the theme files required by the Catppuccin theme.
       "Kvantum/kvantum.kvconfig".source = let

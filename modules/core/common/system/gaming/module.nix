@@ -1,7 +1,7 @@
 {
   imports = [
-    ./gamescope.nix
     ./gamemode.nix
+    ./gamescope.nix
     ./steam.nix
   ];
 }

@@ -4,6 +4,6 @@
     ./mpd
 
     ./noisetorch.nix
-    ./spotifyd.nix
+    #./spotifyd.nix
   ];
 }

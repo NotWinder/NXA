@@ -11,6 +11,11 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     astal = {
       url = "github:Aylur/astal";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -1,0 +1,11 @@
+keys:
+  - &users '':
+      - &winder age1jccgutdumxcnerc0ake8u7ap7wdd4m6dmhqcvf6fsy40japk85lsshsdrw
+  - &hosts '':
+      - &cipher age1nrvjwwu9pcuy57neqm67eg9n83uflkq7wpq0kvr38qhlqkmseuyqyfsr6n
+creation_rules:
+  - path_regex: secrets.yaml$
+    key_groups:
+      - age:
+          - *winder
+          - *cipher

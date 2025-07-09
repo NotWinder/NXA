@@ -12,8 +12,8 @@ in {
       jellyfin.enable = true;
       prowlarr.enable = true;
       radarr.enable = true;
+      sing-box.enable = true;
       sonarr.enable = true;
-      xray.enable = true;
     };
 
     fs = {

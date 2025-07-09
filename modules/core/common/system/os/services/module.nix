@@ -20,6 +20,7 @@
     ./radarr.nix
     ./runners.nix
     ./searxng.nix
+    ./sing-box.nix
     ./sonarr.nix
     ./syncthing.nix
     ./systemd.nix

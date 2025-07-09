@@ -10,7 +10,7 @@
 
     ## flake inputs ##
     #hw = inputs.nixos-hardware.nixosModules; # hardware compat for pi4 and other quirky devices
-    #agenix = inputs.agenix.nixosModules.default; # secret encryption via age
+    sops-nix = inputs.sops-nix.nixosModules.sops; # secret encryption via age
     hm = inputs.home-manager.nixosModules.home-manager; # home-manager nixos module
 
     # Specify root path for the modules. The concept is similar to modulesPath
@@ -73,7 +73,7 @@
       system = "x86_64-linux";
       modules = mkModulesFor "cipher" {
         roles = [graphical workstation];
-        extraModules = [homes];
+        extraModules = [sops-nix homes];
       };
     };
     lorian = mkNixosSystem {
@@ -82,7 +82,7 @@
       system = "x86_64-linux";
       modules = mkModulesFor "lorian" {
         roles = [headless server];
-        extraModules = [homes];
+        extraModules = [sops-nix homes];
       };
     };
   };

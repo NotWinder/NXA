@@ -18,6 +18,11 @@ in {
         type = "proxy";
       };
 
+      sing-box = mkService {
+        name = "sing-box";
+        type = "proxy";
+      };
+
       vaultwarden = mkService {
         name = "Vaultwarden";
         type = "password manager";
