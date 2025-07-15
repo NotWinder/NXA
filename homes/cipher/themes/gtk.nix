@@ -104,12 +104,12 @@ in {
 
     # Store GTK css theme in a more easily discoverable location that some
     # applications *might* be smart enough to look at: ~/.config/gtk-4.0
-    xdg.configFile = let
-      gtk4Dir = "${cfg.gtk.theme.package}/share/themes/${cfg.gtk.theme.name}/gtk-4.0";
-    in {
-      "gtk-4.0/assets".source = "${gtk4Dir}/assets";
-      "gtk-4.0/gtk.css".source = "${gtk4Dir}/gtk.css";
-      "gtk-4.0/gtk-dark.css".source = "${gtk4Dir}/gtk-dark.css";
-    };
+    #xdg.configFile = let
+    #  gtk4Dir = "${cfg.gtk.theme.package}/share/themes/${cfg.gtk.theme.name}/gtk-4.0";
+    #in {
+    #  "gtk-4.0/assets".source = "${gtk4Dir}/assets";
+    #  "gtk-4.0/gtk.css".source = "${gtk4Dir}/gtk.css";
+    #  "gtk-4.0/gtk-dark.css".source = "${gtk4Dir}/gtk-dark.css";
+    #};
   };
 }

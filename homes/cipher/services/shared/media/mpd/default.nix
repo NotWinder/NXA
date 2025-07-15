@@ -88,6 +88,14 @@ in {
       };
     };
 
+    # Create the necessary .desktop file for playerctld
+    xdg.desktopEntries."playerctld" = {
+      name = "Player Control Daemon";
+      exec = "playerctld";
+      noDisplay = true;
+      type = "Application";
+    };
+
     programs = {
       /*
       # yams service

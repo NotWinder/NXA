@@ -17,6 +17,14 @@ in {
         if meta.isWayland
         then wineWowPackages.waylandFull
         else wineWowPackages.stableFull;
-    in [winePackage];
+    in [
+      winePackage
+      gsettings-desktop-schemas
+      gtk3
+    ];
+    services.dbus.packages = with pkgs; [
+      gsettings-desktop-schemas
+      gtk3
+    ];
   };
 }

@@ -1,9 +1,9 @@
 {
   imports = [
-    ./ags
     ./clipboard
     ./gammastep
     ./hyprpaper
+    ./quickshell
     ./swaybg
     ./swww
     ./waybar

@@ -16,11 +16,10 @@ in {
       exec-once = [
         # set cursor for HL itself
         "hyprctl setcursor ${pointerCursor.name} ${toString pointerCursor.size}"
-        "hyprlock"
-        "swww-random"
-        "swww-timer"
-        "asztal"
+        "caelestia shell"
         "nm-applet"
+        "wallpaper-random"
+        "wallpaper-timer"
       ];
     };
   };

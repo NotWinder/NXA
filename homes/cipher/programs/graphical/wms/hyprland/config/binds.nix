@@ -14,103 +14,42 @@ in {
   config = mkIf env.desktops.hyprland.enable {
     wayland.windowManager.hyprland.settings = {
       "$MOD" = "SUPER";
-
-      # keyword to toggle "monocle" - a.k.a no_gaps_when_only
-      "$kw" = "dwindle:no_gaps_when_only";
-      "$disable" = ''act_opa=$(hyprctl getoption "decoration:active_opacity" -j | jq -r ".float");inact_opa=$(hyprctl getoption "decoration:inactive_opacity" -j | jq -r ".float");hyprctl --batch "keyword decoration:active_opacity 1;keyword decoration:inactive_opacity 1"'';
-      "$enable" = ''hyprctl --batch "keyword decoration:active_opacity $act_opa;keyword decoration:inactive_opacity $inact_opa"'';
+      binds = {
+        scroll_event_delay = 10;
+      };
 
       bind = [
-        "CTRL ALT, Delete, exec, hyprctl dispatch exit 0"
-        "$MOD, C, killactive,"
-        "$MOD, F, fullscreen," # fullscreen focused window
-        "$MOD, V, togglefloating," # toggle floating for the focused window
-        "$MOD ALT, V, exec, hyprctl dispatch workspaceopt allfloat"
-        "$MOD, M, exec, uwsm stop" # exit Hyprland session
-        #bind = CTRL ALT, P, exec, $scriptsDir/Wlogout.sh # power menu
-        "$MOD SHIFT, Escape, exec, wlogout -p layer-shell" # logout menu
+        ## hyprland keybinds
+        "$MOD, C, killactive, # closes (not kills) the active window."
+        "$MOD SHIFT, C, forcekillactive, # kills the active window."
+        "$MOD, V, togglefloating, # toggles the current window’s floating state."
+        "$MOD, F, fullscreen, # toggles the focused window’s fullscreen mode."
+        "$MOD SHIFT, M, exit, # exits the compositor with no questions asked."
+        "$MOD, M, exec, uwsm stop # exits the compositor with no questions asked.(for uwsm users)"
+        "ALT, tab, cyclenext # focuses the next window (on a workspace, if visible is not provided)"
 
-        ## FEATURES / EXTRAS
-        #bind = $mainMod, H, exec, $scriptsDir/KeyHints.sh # help file
-        #bind = $mainMod ALT, R, exec, $scriptsDir/Refresh.sh # Refresh waybar, swaync, rofi
-        #bind = $mainMod ALT, E, exec, $scriptsDir/RofiEmoji.sh # emoji menu
-        #bind = $mainMod, S, exec, $scriptsDir/RofiSearch.sh # Google search using rofi
-        #bind = $mainMod SHIFT, B, exec, $scriptsDir/ChangeBlur.sh # Toggle blur settings
-        #bind = $mainMod SHIFT, G, exec, $scriptsDir/GameMode.sh # Toggle animations ON/OFF
-        #bind = $mainMod ALT, L, exec, $scriptsDir/ChangeLayout.sh # Toggle Master or Dwindle Layout
-        #bind = $mainMod ALT, V, exec, $scriptsDir/ClipManager.sh # Clipboard Manager
-        #bind = $mainMod SHIFT, N, exec, swaync-client -t -sw # swayNC notification panel
+        ## exec keybinds
+        "$MOD, Q, exec, ${terminal}" # open the default terminal emulator
+        "$MOD, R, exec, killall rofi || rofi -show drun" # open the application launcher (backup)
+        "$MOD, E, exec, dolphin" # open the default file explorer
+        "$MOD, G, exec, ${browser}" # open the default browser
+        "$MOD, P, exec, nwg-displays" # open nwg-displays (for monitor managment)
 
-        ## FEATURES / EXTRAS (UserScripts)
-        #bind = $mainMod, E, exec, $UserScripts/QuickEdit.sh # Quick Edit Hyprland Settings
-        #bind = $mainMod SHIFT, M, exec, $UserScripts/RofiBeats.sh # online music using rofi
-        #bind = $mainMod, W, exec, $UserScripts/WallpaperSelect.sh # Select wallpaper to apply
-        #bind = $mainMod SHIFT, W, exec, $UserScripts/WallpaperEffects.sh # Wallpaper Effects by imagemagick
-        #bind = CTRL ALT, W, exec, $UserScripts/WallpaperRandom.sh # Random wallpapers
-        #bind = $mainMod ALT, O, exec, hyprctl setprop active opaque toggle # disable opacity on active window
-        #bind = $mainMod SHIFT, K, exec, $scriptsDir/KeyBinds.sh # search keybinds via rofi
-        #bind = $mainMod SHIFT, A, exec, $UserScripts/Animations.sh #hyprland animations menu
-
-        ## Waybar / Bar related
-        #bind = $mainMod, B, exec, pkill -SIGUSR1 waybar # Toggle hide/show waybar
-        #bind = $mainMod CTRL, B, exec, $scriptsDir/WaybarStyles.sh # Waybar Styles Menu
-        #bind = $mainMod ALT, B, exec, $scriptsDir/WaybarLayout.sh # Waybar Layout Menu
-
-        # Dwindle Layout
-        "$MOD, J, togglesplit," # dwindle
-        "$MOD SHIFT, P,pseudo," # pseudotile focused window
-
-        # Master Layout
-        "$MOD CTRL, D, layoutmsg, removemaster"
-        "$MOD, I, layoutmsg, addmaster"
-        "$MOD, J, layoutmsg, cyclenext"
-        "$MOD, K, layoutmsg, cycleprev"
-        "$MOD CTRL, Return, layoutmsg, swapwithmaster"
-
-        # Works on either layout (Master or Dwindle)
-        "$MOD, M, exec, hyprctl dispatch splitratio 0.3"
-
-        # group
-        "$MOD, T, togglegroup" # toggle group
-        "$MOD SHIFT, T, changegroupactive" # change focus to another window
-
-        # Cycle windows if floating bring to top
-        "ALT, tab, cyclenext"
-        "ALT, tab, bringactivetotop"
-
-        ## Screenshot keybindings NOTE: You may need to press Fn key as well
-        #bind = $mainMod, Print, exec, $scriptsDir/ScreenShot.sh --now  # screenshot
-        #bind = $mainMod SHIFT, Print, exec, $scriptsDir/ScreenShot.sh --area # screenshot (area)
-        #bind = $mainMod CTRL, Print, exec, $scriptsDir/ScreenShot.sh --in5 # screenshot  (5 secs delay)
-        #bind = $mainMod CTRL SHIFT, Print, exec, $scriptsDir/ScreenShot.sh --in10 # screenshot (10 secs delay)
-        #bind = ALT, Print, exec, $scriptsDir/ScreenShot.sh --active # screenshot (active window only)
-
-        ## screenshot with swappy (another screenshot tool)
-        #bind = $mainMod SHIFT, S, exec, $scriptsDir/ScreenShot.sh --swappy #screenshot (swappy)
-
+        # Window Management
         ## Move windows
-        "$MOD CTRL, left, movewindow, h"
-        "$MOD CTRL, right, movewindow, l"
-        "$MOD CTRL, up, movewindow, k"
-        "$MOD CTRL, down, movewindow, j"
-
-        # Move focus with Mod + arrow keys
-        "$MOD, left, movefocus, h"
-        "$MOD, right, movefocus, l"
-        "$MOD, up, movefocus, k"
-        "$MOD, down, movefocus, j"
-
-        # Workspaces related
-        #bind = $mainMod, tab, workspace, m+1
-        #bind = $mainMod SHIFT, tab, workspace, m-1
-
-        # Special workspace
+        "$MOD SHIFT, h, movewindow, l"
+        "$MOD SHIFT, j, movewindow, d"
+        "$MOD SHIFT, k, movewindow, u"
+        "$MOD SHIFT, l, movewindow, r"
+        ## Move focus with Mod + arrow keys
+        "$MOD, h, movefocus, l"
+        "$MOD, j, movefocus, d"
+        "$MOD, k, movefocus, u"
+        "$MOD, l, movefocus, r"
+        ## Special workspace
         "$MOD SHIFT, U, movetoworkspace, special"
         "$MOD, U, togglespecialworkspace,"
-
         # The following mappings use the key codes to better support various keyboard layouts
-        # 1 is code:10, 2 is code 11, etc
-        # Switch workspaces with mainMod + [0-9]
         "$MOD, 1, workspace, 1"
         "$MOD, 2, workspace, 2"
         "$MOD, 3, workspace, 3"
@@ -121,8 +60,9 @@ in {
         "$MOD, 8, workspace, 8"
         "$MOD, 9, workspace, 9"
         "$MOD, 0, workspace, 10"
-
-        # Move active window and follow to workspace mainMod + SHIFT [0-9]
+        "$MOD, bracketleft, movetoworkspace, -1" # brackets [ or ]
+        "$MOD, bracketright, movetoworkspace, +1"
+        # Move active window and follow to workspace
         "$MOD SHIFT, 1, movetoworkspace, 1"
         "$MOD SHIFT, 2, movetoworkspace, 2"
         "$MOD SHIFT, 3, movetoworkspace, 3"
@@ -135,7 +75,6 @@ in {
         "$MOD SHIFT, 0, movetoworkspace, 10"
         "$MOD SHIFT, bracketleft, movetoworkspace, -1" # brackets [ or ]
         "$MOD SHIFT, bracketright, movetoworkspace, +1"
-
         # Move active window to a workspace silently mainMod + CTRL [0-9]
         "$MOD CTRL, 1, movetoworkspacesilent, 1"
         "$MOD CTRL, 2, movetoworkspacesilent, 2"
@@ -149,45 +88,29 @@ in {
         "$MOD CTRL, 0, movetoworkspacesilent, 10"
         "$MOD CTRL, bracketleft, movetoworkspacesilent, -1" # brackets [ or ]
         "$MOD CTRL, bracketright, movetoworkspacesilent, +1"
-
-        ## Scroll through existing workspaces with mainMod + scroll
+        ## Scroll through existing workspaces with Mod + scroll
         "$MOD, mouse_down, workspace, e+1"
         "$MOD, mouse_up, workspace, e-1"
-        "$MOD, L, workspace, e+1"
-        "$MOD, H, workspace, e-1"
 
-        # workspace controls
-        "$MOD SHIFT,L,movetoworkspace,+1" # move focused window to the next ws
-        "$MOD SHIFT,H,movetoworkspace,-1" # move focused window to the previous ws
+        ## Launcher
+        "Ctrl+Alt, C, global, caelestia:clearNotifs"
+        "Super, K, global, caelestia:showall"
 
-        #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-        "$MOD, Q, exec, ${terminal}"
-        ''$MOD, D, exec, killall rofi || rofi -show drun''
-        ''$MOD, R, exec, killall tofi || run-as-service $(tofi-drun --prompt-text "Run")''
-        #''$MOD, D,exec, killall anyrun || run-as-service $(anyrun)''
-
-        # window operators
-        "$MOD,N,exec,hyprctl keyword $kw $(($(hyprctl getoption $kw -j | jaq -r '.int') ^ 1))" # toggle no_gaps_when_only
-
-        # screenshot and receording binds
-        ''$MOD SHIFT,P,exec,$disable; grim - | wl-copy --type image/png && notify-send "Screenshot" "Screenshot copied to clipboard"; $enable''
-        "$MOD SHIFT,S,exec,$disable; hyprshot; $enable" # screenshot and then pipe it to swappy
-
-        # OCR
-        "$MOD SHIFT,O,exec,ocr"
-
-        # Toggle Statusbar
-        "$MOD SHIFT,B,exec, ags -t bar"
-
-        "$MOD, E, exec, dolphin"
-        "$MOD, G, exec, ${browser}"
-        "$MOD, R, exec, wofi --show drun"
-        "$MOD, P, exec,nwg-displays"
-        "$MOD, escape, exec, bash ~/.config/waybar/scripts/power-menu/powermenu.sh"
-
-        "$MOD, O, exec, game-mount"
-        "$MOD, SHIFT O, exec, game-umount"
+        # Media
+        ", XF86AudioPlay, global, caelestia:mediaToggle"
+        ", XF86AudioPause, global, caelestia:mediaToggle"
+        ", XF86AudioNext, global, caelestia:mediaNext"
+        ", XF86AudioPrev, global, caelestia:mediaPrev"
+        ", XF86AudioStop, global, caelestia:mediaStop"
+        "$MOD+SHIFT, Space, global, caelestia:mediaToggle"
+        "$MOD+SHIFT, Equal, global, caelestia:mediaNext"
+        "$MOD+SHIFT, Minus, global, caelestia:mediaPrev"
+        "$MOD, K, global, caelestia:showall"
+        "$MOD, D, global, caelestia:launcher"
+        "$MOD ALT, mouse_down, exec, wpctl set-volume -l '1.0' @DEFAULT_AUDIO_SINK@ 1%+"
+        "$MOD ALT, mouse_up, exec, wpctl set-volume -l '1.0' @DEFAULT_AUDIO_SINK@ 1%-"
+        "$MOD+SHIFT, mouse_down, exec, wpctl set-volume -l '1.0' @DEFAULT_AUDIO_SINK@ 5%+"
+        "$MOD+SHIFT, mouse_up, exec, wpctl set-volume -l '1.0' @DEFAULT_AUDIO_SINK@ 5%-"
       ];
       bindm = [
         # Move/resize windows with mainMod + LMB/RMB and dragging
@@ -203,24 +126,18 @@ in {
         "$MOD SHIFT, down, resizeactive,0 50"
 
         # volume controls
-        ",XF86AudioRaiseVolume, exec, wpctl set-volume -l '1.0' @DEFAULT_AUDIO_SINK@ 6%+"
-        ",XF86AudioLowerVolume, exec, wpctl set-volume -l '1.0' @DEFAULT_AUDIO_SINK@ 6%-"
-
-        # brightness controls
-        '',XF86MonBrightnessUp,exec,ags --run-js "brightness.screen += 0.05"''
-        '',XF86MonBrightnessDown,exec, ags --run-js "brightness.screen -= 0.05"''
+        ",XF86AudioRaiseVolume, exec, wpctl set-volume -l '1.0' @DEFAULT_AUDIO_SINK@ 5%+"
+        ",XF86AudioLowerVolume, exec, wpctl set-volume -l '1.0' @DEFAULT_AUDIO_SINK@ 5%-"
       ];
-      # binds that are locked, a.k.a will activate even while an input inhibitor is active
-      bindl = [
-        # media controls using keyboards
-        ", xf86AudioPlayPause, exec, $scriptsDir/MediaCtrl.sh --pause"
-        ", xf86AudioPause, exec, $scriptsDir/MediaCtrl.sh --pause"
-        ", xf86AudioPlay, exec, $scriptsDir/MediaCtrl.sh --pause"
-        ", xf86AudioNext, exec, $scriptsDir/MediaCtrl.sh --nxt "
-        ", xf86AudioPrev, exec, $scriptsDir/MediaCtrl.sh --prv"
-        ", xf86AudioStop, exec, $scriptsDir/MediaCtrl.sh --stop"
-        ", xf86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ", xf86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+      bindin = [
+        #"Super, catchall, global, caelestia:launcherInterrupt"
+        "Super, mouse:272, global, caelestia:launcherInterrupt"
+        "Super, mouse:273, global, caelestia:launcherInterrupt"
+        "Super, mouse:275, global, caelestia:launcherInterrupt"
+        "Super, mouse:276, global, caelestia:launcherInterrupt"
+        "Super, mouse:277, global, caelestia:launcherInterrupt"
+        "Super, mouse_down, global, caelestia:launcherInterrupt"
+        "Super, mouse_up, global, caelestia:launcherInterrupt"
       ];
     };
   };

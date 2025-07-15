@@ -1,10 +1,16 @@
 {
   inputs',
+  lib,
+  osConfig,
   pkgs,
   ...
 }: let
+  inherit (lib) mkIf;
+  inherit (osConfig) modules;
+  env = modules.usrEnv;
+
   winpaper = inputs'.winpaper.packages;
-  swww-random = pkgs.writeShellScriptBin "swww-random" ''
+  wallpaper-random = pkgs.writeShellScriptBin "wallpaper-random" ''
     TOP_DIR=${winpaper.wallpkgs}
     WALLPAPER_DIR="$TOP_DIR/share/wallpapers/"
     # Capture the output of `swww query`
@@ -19,5 +25,7 @@
     swww img "$WALLPAPER" --transition-fps 60 --transition-type grow --transition-duration 1
   '';
 in {
-  home.packages = [swww-random];
+  config = mkIf env.programs.wallpapers.swww.enable {
+    home.packages = [wallpaper-random];
+  };
 }

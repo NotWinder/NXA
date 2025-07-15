@@ -5,6 +5,7 @@
     ./ccache.nix
     ./development.nix
     ./direnv.nix
+    ./fish.nix
     ./flatpak.nix
     ./git.nix
     ./java.nix

@@ -1,4 +1,5 @@
 {
+  inputs',
   osConfig,
   pkgs,
   lib,
@@ -14,6 +15,7 @@ in {
     home.packages = with pkgs; [
       wlogout # Wayland based logout menu
       swappy # Wayland native snapshot editing tool, inspired by Snappy on macOS
+      nwg-displays # Output management utility for Sway and Hyprland
     ];
   };
 }

@@ -34,14 +34,11 @@
       };
 
       launchers = {
-        #anyrun.enable = true;
         rofi.enable = true;
         tofi.enable = true;
       };
 
       screenlock.swaylock.enable = true;
-
-      wallpapers.swww.enable = true;
     };
     services.media.mpd.enable = true;
   };

@@ -1,10 +1,21 @@
-{pkgs, ...}: let
-  swww-timer = pkgs.writeShellScriptBin "swww-timer" ''
+{
+  osConfig,
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (lib) mkIf;
+  inherit (osConfig) modules;
+  env = modules.usrEnv;
+
+  wallpaper-timer = pkgs.writeShellScriptBin "wallpaper-timer" ''
     while true; do
-        swww-random
+        wallpaper-random
         sleep 900
     done
   '';
 in {
-  home.packages = [swww-timer];
+  config = mkIf env.programs.wallpapers.swww.enable {
+    home.packages = [wallpaper-timer];
+  };
 }

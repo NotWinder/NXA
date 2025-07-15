@@ -14,6 +14,7 @@
     ./jellyfin.nix
     ./location.nix
     ./misc.nix
+    ./navidrome.nix
     ./ntpd.nix
     ./printing.nix
     ./prowlarr.nix

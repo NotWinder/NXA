@@ -14,11 +14,13 @@ in {
     home.packages = with pkgs; [
       anydesk # Desktop sharing application, providing remote support and online meetings
       easyeffects # Audio effects for PipeWire applications
+      feishin
       gparted # Graphical disk partitioning tool
       helvum # GTK patchbay for pipewire
+      nicotine-plus
       picard # Official MusicBrainz tagger
       qbittorrent # Featureful free software BitTorrent client
-      soulseekqt # Official Qt SoulSeek client
+      slskd
       telegram-desktop # Telegram Desktop messaging app
       uget # Download manager using GTK and libcurl
       universal-android-debloater # Tool to debloat non-rooted Android devices

@@ -21,7 +21,6 @@ in {
       portalPackage = null;
       systemd = {
         enable = false;
-        #variables = ["--all"];
       };
 
       settings = {
