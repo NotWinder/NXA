@@ -16,6 +16,9 @@
 
   specialArgs = {inherit inputs self inputs' self' defaults;};
 in {
+  stylix.enable = true;
+  stylix.polarity = "dark";
+  stylix.image = /nix/store/baqdlqlgcx79dmw8kp3ssw2wl7y2jmrq-wallpapers-3552191/share/wallpapers/marcy1.png;
   home-manager = mkIf env.useHomeManager {
     # tell home-manager to be as verbose as possible
     verbose = true;

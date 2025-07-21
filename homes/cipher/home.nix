@@ -2,6 +2,7 @@
   sys = osConfig.modules.system;
 in {
   imports = [
+    ./desktops
     # home package sets
     ./packages
 

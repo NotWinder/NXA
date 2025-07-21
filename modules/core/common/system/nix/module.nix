@@ -15,6 +15,7 @@ in {
     ./transcend # module that merges trees outside central nixpkgs with our system's
 
     ./documentation.nix # nixos documentation
+    ./nh.nix
     ./nixpkgs.nix # global nixpkgs configuration.nix
     ./system.nix # nixos system configuration
   ];
@@ -64,14 +65,6 @@ in {
     daemonCPUSchedPolicy = "idle";
     daemonIOSchedClass = "idle";
     daemonIOSchedPriority = 7;
-
-    # Collect garbage
-    gc = {
-      automatic = true;
-      dates = "Sat *-*-* 03:00";
-      options = "--delete-older-than 30d";
-      persistent = false; # don't try to catch up on missed GC runs
-    };
 
     # Automatically optimize nix store my removing hard links
     # do it after the gc.
@@ -207,7 +200,6 @@ in {
         "https://nixpkgs-unfree.cachix.org" # unfree-package cache
         "https://neovim-flake.cachix.org" # a cache for my neovim flake
         "https://cache.garnix.io" # garnix binary cache, hosts prismlauncher
-        "https://ags.cachix.org" # ags
       ];
 
       trusted-public-keys = [
@@ -217,7 +209,6 @@ in {
         "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
         "neovim-flake.cachix.org-1:iyQ6lHFhnB5UkVpxhQqLJbneWBTzM8LBYOFPLNH4qZw="
         "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
-        "ags.cachix.org-1:naAvMrz0CuYqeyGNyLgE010iUiuf/qx6kYrUv3NwAJ8="
       ];
     };
   };

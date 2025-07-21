@@ -1,10 +1,15 @@
 {
+  osConfig,
   config,
   pkgs,
   lib,
   ...
 }: let
-  browser = ["zen.desktop"];
+  inherit (osConfig) modules;
+
+  def = modules.usrEnv.programs.default;
+
+  browser = ["${def.browser}.desktop"];
   zathura = ["zathura.desktop"];
   fileManager = ["org.kde.dolphin.desktop"];
 
@@ -36,7 +41,6 @@
 
   template = import lib.xdgTemplate "home-manager";
 in {
-  #home.sessionVariables = template.sysEnv;
   xdg = {
     enable = true;
     cacheHome = "${config.home.homeDirectory}/.cache";

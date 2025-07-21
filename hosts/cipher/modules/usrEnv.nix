@@ -30,7 +30,7 @@
 
       default = {
         terminal = "alacritty";
-        browser = "floorp";
+        browser = "librewolf";
       };
 
       launchers = {

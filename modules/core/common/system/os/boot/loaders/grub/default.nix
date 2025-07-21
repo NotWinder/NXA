@@ -15,9 +15,6 @@ in {
         efiSupport = cfg.boot.isUEFI;
         enableCryptodisk = mkDefault false;
         device = cfg.boot.grub.device;
-        theme = null;
-        backgroundColor = null;
-        splashImage = null;
       };
     };
   };

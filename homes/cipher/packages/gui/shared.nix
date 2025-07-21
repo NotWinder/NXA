@@ -24,6 +24,10 @@ in {
       telegram-desktop # Telegram Desktop messaging app
       uget # Download manager using GTK and libcurl
       universal-android-debloater # Tool to debloat non-rooted Android devices
+      gimp3-with-plugins
+      wlogout # Wayland based logout menu
+      swappy # Wayland native snapshot editing tool, inspired by Snappy on macOS
+      nwg-displays # Output management utility for Sway and Hyprland
 
       # Obsidian has a pandoc plugin that allows us to render and export
       # alternative image format, but as the name indicates the plugin
@@ -39,6 +43,9 @@ in {
 
       # plasma packages
       kdePackages.ark # File archiver by KDE
+      unrar # Utility for RAR archives
+      unzip # Extraction utility for archives compressed in .zip format
+      p7zip # New p7zip fork with additional codecs and improvements
       kdePackages.dolphin # File manager by KDE
       kdePackages.dolphin-plugins # Plugins for Dolphin
       kdePackages.kdegraphics-thumbnailers # Thumbnailers for various graphics file formats
@@ -57,9 +64,9 @@ in {
       })
 
       # gnome packages
-      gnome-tweaks # Tool to customize advanced GNOME 3 options
-      gnome-calendar # Simple and beautiful calendar application for GNOME
-      komikku # Manga reader for GNOME
+      #gnome-tweaks # Tool to customize advanced GNOME 3 options
+      #gnome-calendar # Simple and beautiful calendar application for GNOME
+      #komikku # Manga reader for GNOME
     ];
   };
 }

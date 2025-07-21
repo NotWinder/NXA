@@ -2,24 +2,39 @@
   description = "NXA (Nix Automata)";
 
   inputs = {
-    systems.url = "github:nix-systems/default-linux";
-
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
+    systems.url = "github:nix-systems/default-linux";
+
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    quickshell = {
-      url = "github:quickshell-mirror/quickshell";
+
+    caelestia-cli = {
+      url = "github:caelestia-dots/cli";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    matugen.url = "github:InioX/Matugen?rev=0bd628f263b1d97f238849315f2ce3ab4439784e";
+
+    caelestia-shell = {
+      url = "github:caelestia-dots/shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    #quickshell = {
+    #  url = "github:quickshell-mirror/quickshell";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
+
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     hyprland.url = "github:/hyprwm/Hyprland";
 

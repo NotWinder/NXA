@@ -1,6 +1,9 @@
 {
   imports = [
-    ./graphical
+    ./browsers
+    ./documents
+    ./editors
+    ./gaming
     ./media
     ./terminal
   ];

@@ -13,7 +13,7 @@ in {
     programs.gamescope = {
       enable = true;
       capSysNice = true;
-      package = pkgs.gamescope; # the default, here in case I want to override it
+      package = pkgs.gamescope;
     };
   };
 }

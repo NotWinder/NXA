@@ -20,7 +20,6 @@ in {
 
     environment = {
       systemPackages = with pkgs; [
-        kdePackages.ark
         ffmpegthumbnailer
         libgsf
         xfce.tumbler
