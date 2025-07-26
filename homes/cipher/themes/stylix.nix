@@ -24,6 +24,8 @@
       base0F = "60594c";
     };
     polarity = "dark";
+    targets.librewolf.profileNames = [];
+    targets.floorp.profileNames = [];
     cursor = {
       name = "catppuccin-mocha-dark-cursors";
       package = pkgs.catppuccin-cursors.mochaDark;

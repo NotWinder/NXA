@@ -6,10 +6,6 @@
   inherit (osConfig) modules;
   inherit (lib) mkIf;
 
-  # theming
-  inherit (modules.style) colorScheme;
-  inherit (colorScheme) colors;
-
   env = modules.usrEnv;
 in {
   config = mkIf env.desktops.hyprland.enable {

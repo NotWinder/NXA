@@ -3,18 +3,11 @@
 in {
   imports = [
     ./desktops
-    # home package sets
+    ./misc
     ./packages
-
-    # programs and services that I use
     ./programs
     ./services
-
-    # declarative system and program themes (qt/gtk)
     ./themes
-
-    # things that don't fit anywhere else
-    ./misc
   ];
 
   config = {

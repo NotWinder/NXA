@@ -38,6 +38,7 @@
     ''}
 
     powerprofilesctl set balanced
+    ludusavi backup --force
     notify-send -a 'Gamemode' 'Optimizations deactivated' -u 'low'
   '';
 in {
@@ -48,7 +49,7 @@ in {
       settings = {
         general = {
           softrealtime = "auto";
-          renice = 15;
+          renice = 10;
           defaultgov = "performance";
           desiredgov = "performance";
           desiredprof = "performance";

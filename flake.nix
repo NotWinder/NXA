@@ -24,12 +24,13 @@
     caelestia-shell = {
       url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.quickshell.follows = "quickshell";
     };
 
-    #quickshell = {
-    #  url = "github:quickshell-mirror/quickshell";
-    #  inputs.nixpkgs.follows = "nixpkgs";
-    #};
+    quickshell = {
+      url = "github:quickshell-mirror/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     stylix = {
       url = "github:danth/stylix";

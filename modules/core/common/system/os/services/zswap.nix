@@ -16,9 +16,9 @@
 
     serviceConfig.Type = "oneshot";
 
-    script = ''
-      echo lz4 > /sys/module/zswap/parameters/compressor
-      echo z3fold > /sys/module/zswap/parameters/zpool
-    '';
+    #script = ''
+    #  echo lz4 > /sys/module/zswap/parameters/compressor
+    #  echo z3fold > /sys/module/zswap/parameters/zpool
+    #'';
   };
 }
