@@ -27,7 +27,7 @@
   defaultSession = {
     user = "greeter";
     command = concatStringsSep " " [
-      (getExe pkgs.greetd.tuigreet)
+      (getExe pkgs.tuigreet)
       "--time"
       "--remember"
       "--remember-user-session"
@@ -39,7 +39,6 @@ in {
   config = mkIf sys.video.enable {
     services.greetd = {
       enable = true;
-      vt = 2;
       restart = !sys.autoLogin;
 
       # <https://man.sr.ht/~kennylevinsen/greetd/>

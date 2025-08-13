@@ -1,5 +1,5 @@
 {
-  programs.fish = {
+  programs.ghostty = {
     enable = true;
   };
 }

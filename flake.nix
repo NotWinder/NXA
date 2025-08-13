@@ -38,6 +38,12 @@
     };
 
     hyprland.url = "github:/hyprwm/Hyprland";
+    hyprpolkitagent = {
+      url = "github:/hyprwm/hyprpolkitagent";
+      inputs = {
+        nixpkgs.follows = "hyprland/nixpkgs";
+      };
+    };
 
     hyprlock = {
       url = "github:hyprwm/hyprlock";

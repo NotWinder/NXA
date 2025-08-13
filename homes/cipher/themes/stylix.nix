@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   stylix = {
     enable = true;
     base16Scheme = {
@@ -24,12 +20,12 @@
       base0F = "60594c";
     };
     polarity = "dark";
-    targets.librewolf.profileNames = [];
-    targets.floorp.profileNames = [];
+    targets.librewolf.enable = false;
+    targets.floorp.enable = false;
     cursor = {
-      name = "catppuccin-mocha-dark-cursors";
-      package = pkgs.catppuccin-cursors.mochaDark;
-      size = 24;
+      name = "Breeze_Hacked";
+      package = pkgs.breeze-hacked-cursor-theme;
+      size = 32;
     };
     iconTheme = {
       enable = true;

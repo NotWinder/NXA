@@ -1,5 +1,6 @@
 {
   config,
+  pkgs,
   lib,
   ...
 }: let
@@ -9,6 +10,7 @@
 in {
   config = mkIf (cfg.fs.zfs.enable) {
     boot = {
+      kernelPackages = pkgs.linuxPackages_xanmod_latest;
       supportedFilesystems = ["zfs"];
       zfs = {
         extraPools = ["wpool"];

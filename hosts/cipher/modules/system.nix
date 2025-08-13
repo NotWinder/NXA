@@ -5,7 +5,7 @@ in {
     mainUser = mainUser;
     users = [mainUser];
     homePath = "/home/${mainUser}";
-    defaultUserShell = pkgs.zsh;
+    defaultUserShell = pkgs.fish;
     autoLogin = true;
 
     services = {

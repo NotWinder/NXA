@@ -26,17 +26,7 @@ in {
       };
     };
 
-    # https://nixos.wiki/wiki/Bluetooth
-    services.blueman.enable = true;
-
-    # Forces a reset for specified bluetooth usb dongle.
-    systemd.services.fix-generic-usb-bluetooth-dongle = {
-      description = "Fixes for generic USB bluetooth dongle.";
-      wantedBy = ["post-resume.target"];
-      after = ["post-resume.target"];
-      script = builtins.readFile ./scripts/hack.usb.reset;
-      scriptArgs = "33fa:0001";
-      serviceConfig.Type = "oneshot";
-    };
+    ## https://nixos.wiki/wiki/Bluetooth
+    #services.blueman.enable = true;
   };
 }

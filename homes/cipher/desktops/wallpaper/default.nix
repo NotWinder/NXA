@@ -1,7 +1,0 @@
-{
-  imports = [
-    ./hyprpaper
-    ./swaybg
-    ./swww
-  ];
-}
