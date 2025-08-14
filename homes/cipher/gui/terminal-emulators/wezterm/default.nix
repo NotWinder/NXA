@@ -4,13 +4,14 @@
   lib,
   ...
 }: let
+  inherit (builtins) elem;
   inherit (lib) mkIf;
   inherit (osConfig) modules;
   inherit (modules.style.colorScheme) colors;
 
   prg = modules.usrEnv.programs;
 in {
-  config = mkIf prg.terminals.wezterm.enable {
+  config = mkIf (elem "wezterm" prg.terminals) {
     programs.wezterm = {
       enable = true;
       package = pkgs.wezterm;

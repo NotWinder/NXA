@@ -13,14 +13,9 @@
 
       git.signingKey = "0xB7747DE9EEAAE164";
 
-      browsers = {
-        floorp.enable = true;
-        librewolf.enable = true;
-      };
+      browsers = ["floorp" "librewolf"];
 
-      terminals = {
-        alacritty.enable = true;
-      };
+      terminals = ["alacritty" "ghostty"];
 
       media = {
         beets.enable = true;
@@ -33,12 +28,7 @@
         browser = "librewolf";
       };
 
-      launchers = {
-        rofi.enable = true;
-        tofi.enable = true;
-      };
-
-      screenlock.swaylock.enable = true;
+      launchers = ["rofi" "tofi"];
     };
     services.media.mpd.enable = true;
   };

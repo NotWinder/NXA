@@ -4,19 +4,24 @@
   osConfig,
   ...
 }: let
+  inherit (lib) elem;
   inherit (lib) mkIf;
   inherit (osConfig) modules;
-  env = modules.usrEnv;
+  prg = modules.usrEnv.programs;
 
-  wallpaper-timer = pkgs.writeShellScriptBin "wallpaper-timer" ''
-    while true; do
-        sleep 2
-        wallpaper-random
-        sleep 900
-    done
-  '';
+  wallpaper-timer =
+    if (!elem "none" prg.wallpapers)
+    then
+      pkgs.writeShellScriptBin "wallpaper-timer" ''
+        while true; do
+            sleep 2
+            wallpaper-random
+            sleep 900
+        done
+      ''
+    else "";
 in {
-  config = mkIf env.programs.wallpapers.enable {
+  config = mkIf (!elem "none" prg.wallpapers) {
     home.packages = [wallpaper-timer];
   };
 }

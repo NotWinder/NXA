@@ -3,13 +3,14 @@
   lib,
   ...
 }: let
+  inherit (builtins) elem;
   inherit (lib) mkIf;
   inherit (osConfig) modules;
   inherit (modules.style.colorScheme) colors;
 
   prg = modules.usrEnv.programs;
 in {
-  config = mkIf prg.terminals.kitty.enable {
+  config = mkIf (elem "kitty" prg.terminals) {
     programs.kitty = {
       enable = true;
       settings = import ./settings.nix {inherit colors;};

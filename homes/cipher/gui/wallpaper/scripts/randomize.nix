@@ -5,13 +5,14 @@
   lib,
   ...
 }: let
+  inherit (builtins) elem;
   inherit (lib) mkIf;
   inherit (osConfig) modules;
-  env = modules.usrEnv;
+  prg = modules.usrEnv.programs;
 
   winpaper = inputs'.winpaper.packages;
   wallpaper-random =
-    if env.programs.wallpapers.hyprpaper.enable
+    if (elem "hyprpaper" prg.wallpapers)
     then
       pkgs.writeShellScriptBin "wallpaper-random" ''
         TOP_DIR=${winpaper.wallpkgs}
@@ -30,7 +31,7 @@
       ''
     else
       (
-        if env.programs.wallpapers.swww.enable
+        if (elem "swww" prg.wallpapers)
         then
           pkgs.writeShellScriptBin "wallpaper-random" ''
             TOP_DIR=${winpaper.wallpkgs}
@@ -49,7 +50,7 @@
         else ""
       );
 in {
-  config = mkIf env.programs.wallpapers.enable {
+  config = mkIf (!elem "none" prg.wallpapers) {
     home.packages = [wallpaper-random];
   };
 }

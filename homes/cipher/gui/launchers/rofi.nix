@@ -5,16 +5,17 @@
   osConfig,
   ...
 }: let
+  inherit (builtins) elem;
   inherit (lib) mkIf optionals;
   inherit (osConfig) modules meta;
 
-  env = modules.usrEnv;
+  prg = modules.usrEnv.programs;
   rofiPackage = with pkgs;
     if meta.isWayland
     then rofi-wayland
     else rofi;
 in {
-  config = mkIf env.programs.launchers.rofi.enable {
+  config = mkIf (elem "rofi" prg.launchers) {
     programs.rofi = {
       enable = true;
       package = rofiPackage.override {

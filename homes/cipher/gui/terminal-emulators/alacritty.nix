@@ -3,12 +3,13 @@
   lib,
   ...
 }: let
+  inherit (builtins) elem;
   inherit (lib) mkIf;
   inherit (osConfig) modules;
 
   prg = modules.usrEnv.programs;
 in {
-  config = mkIf prg.terminals.alacritty.enable {
+  config = mkIf (elem "alacritty" prg.terminals) {
     programs.alacritty = {
       enable = true;
       settings = {

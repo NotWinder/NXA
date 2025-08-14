@@ -10,7 +10,7 @@
   winpaper = inputs'.winpaper.packages;
   env = modules.usrEnv;
 in {
-  config = mkIf env.programs.screenlock.hyprlock.enable {
+  config = mkIf (env.programs.screenlock == "hyprlock") {
     programs.hyprlock = {
       enable = true;
       package = inputs'.hyprlock.packages.default;

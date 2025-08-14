@@ -4,11 +4,12 @@
   ...
 }: let
   inherit (lib) mkIf;
+  inherit (builtins) elem;
   inherit (osConfig) modules;
 
   prg = modules.usrEnv.programs;
 in {
-  config = mkIf prg.browsers.floorp.enable {
+  config = mkIf (elem "floorp" prg.browsers) {
     programs.floorp = {
       enable = true;
     };

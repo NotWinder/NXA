@@ -4,12 +4,13 @@
   osConfig,
   ...
 }: let
+  inherit (builtins) elem;
   inherit (lib) mkIf getExe mkGraphicalService;
-  inherit (osConfig) modules meta;
+  inherit (osConfig) modules;
 
-  env = modules.usrEnv;
+  prg = modules.usrEnv.programs;
 in {
-  config = mkIf (meta.isWayland && (env.desktop != "Hyprland")) {
+  config = mkIf (elem "swaybg" prg.wallpapers) {
     systemd.user.services = {
       swaybg = mkGraphicalService {
         Unit.Description = "Wallpaper chooser service";

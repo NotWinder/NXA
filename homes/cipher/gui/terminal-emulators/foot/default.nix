@@ -8,10 +8,11 @@
   inherit (osConfig.modules.style.colorScheme) slug colors;
   inherit (osConfig) modules;
   inherit (lib) mkIf;
+  inherit (builtins) elem;
 
   prg = modules.usrEnv.programs;
 in {
-  config = mkIf prg.terminals.foot.enable {
+  config = mkIf (elem "foot" prg.terminals) {
     home.packages = with pkgs; [
       libsixel # for displaying images
     ];

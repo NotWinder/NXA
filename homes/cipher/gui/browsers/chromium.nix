@@ -5,11 +5,12 @@
   ...
 }: let
   inherit (lib) mkIf optionals concatStringsSep;
+  inherit (builtins) elem;
   inherit (osConfig) meta modules;
 
   prg = modules.usrEnv.programs;
 in {
-  config = mkIf prg.browsers.chromium.enable {
+  config = mkIf (elem "chromium" prg.browsers) {
     programs.chromium = {
       enable = true;
       extensions = [
