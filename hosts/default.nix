@@ -40,15 +40,14 @@
     #laptop = coreModules + /roles/laptop; # for devices that are of the laptop type - provides power optimizations
 
     # home-manager #
-    homesPath = ../homes; # home-manager configurations for hosts that need home-manager
-    homes = [hm homesPath]; # combine hm flake input and the home module to be imported together
+    homesPath = modulePath + /homes; # home-manager configurations for hosts that need home-manager
 
     # mkModulesFor generates a list of modules to be imported by any host with
     # a given hostname. Do note that this needs to be called *in* the nixosSystem
     # set, since it generates a *module list*, which is also expected by system
     # builders.
     mkModulesFor = hostname: {
-      moduleTrees ? [options common profiles],
+      moduleTrees ? [options common profiles homesPath],
       roles ? [],
       extraModules ? [],
     } @ args:
@@ -74,7 +73,7 @@
       system = "x86_64-linux";
       modules = mkModulesFor "cipher" {
         roles = [graphical workstation];
-        extraModules = [sops-nix stylix homes];
+        extraModules = [sops-nix stylix hm];
       };
     };
     lorian = mkNixosSystem {
@@ -83,7 +82,7 @@
       system = "x86_64-linux";
       modules = mkModulesFor "lorian" {
         roles = [headless server];
-        extraModules = [sops-nix homes];
+        extraModules = [sops-nix hm];
       };
     };
   };

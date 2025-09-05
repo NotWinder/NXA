@@ -117,7 +117,7 @@
 
     # Get individual functions from the parent attributes
     #inherit (self.extendedLib.aliases) sslTemplate common;
-    inherit (self.extendedLib.builders) mkSystem mkNixosSystem mkNixosIso mkSDImage mkRaspi4Image;
+    inherit (self.extendedLib.builders) mkSystem mkNixosSystem;
     #inherit (self.extendedLib.ci) mkGithubMatrix;
     #inherit (self.extendedLib.dag) entryBefore entryBetween entryAfter entryAnywhere topoSort dagOf;
     #inherit (self.extendedLib.deploy) mkNode;

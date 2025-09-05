@@ -1,5 +1,6 @@
 {lib, ...}: let
   inherit (lib.strings) concatStringsSep;
+
   pagerArgs = [
     "--RAW-CONTROL-CHARS" # Only allow colors.
     "--wheel-lines=5"

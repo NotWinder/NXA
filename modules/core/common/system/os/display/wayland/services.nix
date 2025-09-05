@@ -7,9 +7,8 @@
   inherit (lib) mkIf getExe;
 
   cfg = config.modules.system.video;
-  env = config.meta;
 in {
-  config = mkIf (cfg.enable && env.isWayland) {
+  config = mkIf cfg.enable {
     systemd.services = {
       seatd = {
         enable = true;

@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  inherit (config) meta modules;
+  inherit (config) modules;
   inherit (lib) mkIf;
 
   prg = modules.usrEnv.programs;
@@ -13,10 +13,7 @@ in {
     # determine which version of wine to be used
     # then add it to systemPackages
     environment.systemPackages = with pkgs; let
-      winePackage =
-        if meta.isWayland
-        then wineWowPackages.waylandFull
-        else wineWowPackages.stableFull;
+      winePackage = wineWowPackages.waylandFull;
     in [
       winePackage
       gsettings-desktop-schemas

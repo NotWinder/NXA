@@ -10,7 +10,6 @@ in {
 
     services = {
       #sing-box = true;
-      xray.enable = true;
     };
 
     fs = {

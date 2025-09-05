@@ -48,23 +48,5 @@ in {
         on, e.g., a Tailscale network.
       '';
     };
-
-    isWayland = mkOption {
-      type = bool;
-      # TODO: there must be a better way to do this
-      default = with env.desktops; (sway.enable || hyprland.enable);
-      defaultText = "This will default to true if a Wayland compositor has been enabled";
-      description = ''
-        Whether to enable Wayland exclusive modules, this contains a wariety
-        of packages, modules, overlays, XDG portals and so on.
-
-        Generally includes:
-          - Wayland nixpkgs overlay
-          - Wayland only services
-          - Wayland only programs
-          - Wayland compatible versions of packages as opposed
-          to the defaults
-      '';
-    };
   };
 }

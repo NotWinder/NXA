@@ -9,6 +9,14 @@ in {
 
   # default program options
   options.modules.usrEnv.programs = {
+    bar = mkOption {
+      type = listOf (enum ["none" "waybar" "quickshell" "quickshell/caelestia" "quickshell/noctalia"]);
+      default = ["none"];
+      description = ''
+        The List of Bars/Shells to be Installed.
+      '';
+    };
+
     browsers = mkOption {
       type = listOf (enum ["none" "brave" "chromium" "floorp" "librewolf" "zen"]);
       default = ["none"];

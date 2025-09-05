@@ -13,11 +13,6 @@ in {
         type = "webserver";
       };
 
-      xray = mkService {
-        name = "Xray";
-        type = "proxy";
-      };
-
       sing-box = mkService {
         name = "sing-box";
         type = "proxy";

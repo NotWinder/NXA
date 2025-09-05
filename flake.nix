@@ -7,7 +7,7 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
-    systems.url = "github:nix-systems/default-linux";
+    systems.url = "github:nix-systems/default";
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
@@ -16,15 +16,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    caelestia-cli = {
-      url = "github:caelestia-dots/cli";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     caelestia-shell = {
       url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.quickshell.follows = "quickshell";
+    };
+
+    noctalia-shell = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     quickshell = {
@@ -63,11 +62,6 @@
 
     hyprpicker.url = "github:hyprwm/hyprpicker";
 
-    swww = {
-      url = "github:LGFae/swww";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -86,7 +80,6 @@
     # that are too unstable or too personal for nyxexprs.
     nyxexprs = {
       url = "github:NotAShelf/nyxexprs";
-      inputs.systems.follows = "systems";
     };
 
     # Impermanence
@@ -98,7 +91,6 @@
       url = "github:notwinder/winpaper";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        systems.follows = "systems";
       };
     };
   };

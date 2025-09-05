@@ -1,7 +1,6 @@
 {
   config.modules.usrEnv = {
     desktop = "Hyprland";
-    desktops."i3".enable = true;
     useHomeManager = true;
 
     programs = {
@@ -13,9 +12,13 @@
 
       git.signingKey = "0xB7747DE9EEAAE164";
 
+      bar = ["quickshell/caelestia" "quickshell"];
+
       browsers = ["floorp" "librewolf"];
 
       terminals = ["alacritty" "ghostty"];
+
+      wallpapers = ["swww"];
 
       media = {
         beets.enable = true;

@@ -6,13 +6,10 @@
 }: let
   inherit (lib.modules) mkIf;
 
-  sys = config.modules.system;
   env = config.modules.usrEnv;
-
-  hyprlandPkg = env.desktops.hyprland.package;
 in {
-  config = mkIf (sys.video.enable && (env.desktop == "Hyprland" && config.meta.isWayland)) {
-    services.displayManager.sessionPackages = [hyprlandPkg];
+  config = mkIf (env.desktop == "Hyprland") {
+    services.displayManager.sessionPackages = [inputs'.hyprland.packages.hyprland];
     programs.hyprland = {
       enable = true;
       # set the flake package

@@ -27,7 +27,6 @@
     ./systemd.nix
     ./thermald.nix
     ./upower.nix
-    ./xray.nix
     ./xserver.nix
     ./zram.nix
     ./zswap.nix

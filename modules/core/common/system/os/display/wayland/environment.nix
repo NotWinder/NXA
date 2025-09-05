@@ -8,7 +8,7 @@
   sys = config.modules.system;
   env = config.modules.usrEnv;
 in {
-  config = mkIf (sys.video.enable && config.meta.isWayland) {
+  config = mkIf sys.video.enable {
     environment.etc."greetd/environments".text = ''
       ${lib.optionalString (env.desktop == "Hyprland") "Hyprland"}
       zsh

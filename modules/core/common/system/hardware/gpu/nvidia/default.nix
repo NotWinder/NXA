@@ -25,22 +25,6 @@ in {
       {
         videoDrivers = ["nvidia"];
       }
-
-      # xorg settings
-      (mkIf (!config.meta.isWayland) {
-        # disable DPMS
-        monitorSection = ''
-          Option "DPMS" "false"
-        '';
-
-        # disable screen blanking in general
-        serverFlagsSection = ''
-          Option "StandbyTime" "0"
-          Option "SuspendTime" "0"
-          Option "OffTime" "0"
-          Option "BlankTime" "0"
-        '';
-      })
     ];
 
     # blacklist nouveau module so that it does not conflict with nvidia drm stuff
@@ -53,12 +37,12 @@ in {
       sessionVariables = mkMerge [
         {LIBVA_DRIVER_NAME = "nvidia";}
 
-        (mkIf config.meta.isWayland {
+        {
           WLR_NO_HARDWARE_CURSORS = "1";
           __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-        })
+        }
 
-        (mkIf (config.meta.isWayland && (dev.gpu == "hybrid-nv")) {
+        (mkIf (dev.gpu == "hybrid-nv") {
           __NV_PRIME_RENDER_OFFLOAD = "1";
           WLR_DRM_DEVICES = mkDefault "/dev/dri/card1:/dev/dri/card0";
         })
@@ -103,7 +87,7 @@ in {
         # not supported by the open source drivers
         open = mkDefault false;
         nvidiaSettings = true;
-        nvidiaPersistenced = true;
+        #nvidiaPersistenced = true;
         forceFullCompositionPipeline = true;
       };
 
