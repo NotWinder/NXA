@@ -10,16 +10,13 @@
 
   env = modules.usrEnv;
   prg = env.programs;
-  rofiPackage = pkgs.rofi-wayland;
 in {
   config.hm = mkIf (elem "rofi" prg.launchers && env.desktop != "none") {
     programs.rofi = {
       enable = true;
-      package = rofiPackage.override {
+      package = pkgs.rofi.override {
         plugins = [
-          pkgs.rofi-rbw
-          pkgs.rofi-rbw-wayland
-          pkgs.rofi-emoji-wayland
+          pkgs.rofi-emoji
         ];
       };
       extraConfig = {

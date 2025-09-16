@@ -1,6 +1,7 @@
 {
   inputs,
   inputs',
+  pkgs,
   lib,
   config,
   ...
@@ -19,6 +20,9 @@ in {
     systemd.user.sessionVariables = mkIf (elem "quickshell/caelestia" prg.bar && env.desktop != "none") {
       CAELESTIA_WALLPAPERS_DIR = "${winpaper.wallpkgs}/share/wallpapers/";
     };
+    home.packages = [
+      pkgs.gpu-screen-recorder
+    ];
     programs.caelestia = mkIf (elem "quickshell/caelestia" prg.bar && env.desktop != "none") {
       enable = true;
       cli = {
@@ -37,16 +41,42 @@ in {
         };
       };
       settings = {
-        paths.wallpaperDir = "${winpaper.wallpkgs}/share/wallpapers/";
-
-        border = {
-          rounding = 10;
-          thickness = 5;
+        appearance = {
+          anim = {
+            durations = {
+              scale = 1;
+            };
+          };
+          font = {
+            family = {
+              material = "Material Symbols Rounded";
+              mono = "CaskaydiaCove NF";
+              sans = "Rubik";
+            };
+            size = {
+              scale = 1;
+            };
+          };
+          padding = {
+            scale = 1;
+          };
+          rounding = {
+            scale = 1;
+          };
+          spacing = {
+            scale = 1;
+          };
+          transparency = {
+            enabled = false;
+            base = 0.85;
+            layers = 0.4;
+          };
         };
 
-        bar = {
-          status = {
-            showAudio = true;
+        general = {
+          apps = {
+            terminal = ["alacritty"];
+            audio = ["pavucontrol-qt"];
           };
         };
 
@@ -63,12 +93,220 @@ in {
           };
         };
 
-        services = {
-          audioIncrement = 0.1;
-          weatherLocation = "zahedan";
-          useFahrenheit = false;
-          useTwelveHourClock = false;
-          smartScheme = true;
+        bar = {
+          clock = {
+            showIcon = true;
+          };
+          entries = [
+            {
+              id = "logo";
+              enabled = true;
+            }
+            {
+              id = "workspaces";
+              enabled = true;
+            }
+            {
+              id = "spacer";
+              enabled = true;
+            }
+            {
+              id = "activeWindow";
+              enabled = true;
+            }
+            {
+              id = "spacer";
+              enabled = true;
+            }
+            {
+              id = "tray";
+              enabled = true;
+            }
+            {
+              id = "clock";
+              enabled = true;
+            }
+            {
+              id = "statusIcons";
+              enabled = true;
+            }
+            {
+              id = "power";
+              enabled = true;
+            }
+            {
+              id = "idleInhibitor";
+              enabled = false;
+            }
+          ];
+          persistent = true;
+          scrollActions = {
+            brightness = false;
+            workspaces = true;
+            volume = true;
+          };
+          showOnHover = true;
+          status = {
+            showAudio = true;
+            showBattery = true;
+            showBluetooth = true;
+            showKbLayout = false;
+            showMicrophone = false;
+            showNetwork = true;
+            showLockStatus = true;
+          };
+          tray = {
+            background = true;
+            iconSubs = [];
+            recolour = false;
+          };
+          workspaces = {
+            activeIndicator = true;
+            activeLabel = "󰮯";
+            activeTrail = false;
+            label = "  ";
+            occupiedBg = false;
+            occupiedLabel = "󰮯";
+            perMonitorWorkspaces = true;
+            showWindows = true;
+            shown = 4;
+          };
+        };
+
+        border = {
+          rounding = 10;
+          thickness = 10;
+        };
+
+        dashboard = {
+          enabled = true;
+          dragThreshold = 20;
+          mediaUpdateInterval = 500;
+          showOnHover = true;
+        };
+
+        launcher = {
+          actionPrefix = ">";
+          actions = [
+            {
+              name = "Calculator";
+              icon = "calculate";
+              description = "Do simple math equations (powered by Qalc)";
+              command = ["autocomplete" "calc"];
+              enabled = true;
+              dangerous = false;
+            }
+            {
+              name = "Scheme";
+              icon = "palette";
+              description = "Change the current colour scheme";
+              command = ["autocomplete" "scheme"];
+              enabled = true;
+              dangerous = false;
+            }
+            {
+              name = "Wallpaper";
+              icon = "image";
+              description = "Change the current wallpaper";
+              command = ["autocomplete" "wallpaper"];
+              enabled = true;
+              dangerous = false;
+            }
+            {
+              name = "Variant";
+              icon = "colors";
+              description = "Change the current scheme variant";
+              command = ["autocomplete" "variant"];
+              enabled = true;
+              dangerous = false;
+            }
+            {
+              name = "Transparency";
+              icon = "opacity";
+              description = "Change shell transparency";
+              command = ["autocomplete" "transparency"];
+              enabled = false;
+              dangerous = false;
+            }
+            {
+              name = "Random";
+              icon = "casino";
+              description = "Switch to a random wallpaper";
+              command = ["caelestia" "wallpaper" "-r"];
+              enabled = true;
+              dangerous = false;
+            }
+            {
+              name = "Light";
+              icon = "light_mode";
+              description = "Change the scheme to light mode";
+              command = ["setMode" "light"];
+              enabled = true;
+              dangerous = false;
+            }
+            {
+              name = "Dark";
+              icon = "dark_mode";
+              description = "Change the scheme to dark mode";
+              command = ["setMode" "dark"];
+              enabled = true;
+              dangerous = false;
+            }
+            {
+              name = "Shutdown";
+              icon = "power_settings_new";
+              description = "Shutdown the system";
+              command = ["systemctl" "poweroff"];
+              enabled = true;
+              dangerous = true;
+            }
+            {
+              name = "Reboot";
+              icon = "cached";
+              description = "Reboot the system";
+              command = ["systemctl" "reboot"];
+              enabled = true;
+              dangerous = true;
+            }
+            {
+              name = "Logout";
+              icon = "exit_to_app";
+              description = "Log out of the current session";
+              command = ["loginctl" "terminate-user" ""];
+              enabled = true;
+              dangerous = true;
+            }
+            {
+              name = "Lock";
+              icon = "lock";
+              description = "Lock the current session";
+              command = ["loginctl" "lock-session"];
+              enabled = true;
+              dangerous = false;
+            }
+            {
+              name = "Sleep";
+              icon = "bedtime";
+              description = "Suspend then hibernate";
+              command = ["systemctl" "suspend-then-hibernate"];
+              enabled = true;
+              dangerous = false;
+            }
+          ];
+          vimKeybinds = false;
+          enableDangerousActions = false;
+          maxShown = 8;
+          maxWallpapers = 9;
+          specialPrefix = "@";
+          useFuzzy = {
+            apps = false;
+            actions = false;
+            schemes = false;
+            variants = false;
+            wallpapers = false;
+          };
+          showOnHover = false;
+          hiddenApps = [];
         };
 
         osd = {
@@ -78,11 +316,15 @@ in {
           hideDelay = "2000";
         };
 
-        general = {
-          apps = {
-            terminal = ["alacritty"];
-            audio = ["pavucontrol"];
-          };
+        paths.wallpaperDir = "${winpaper.wallpkgs}/share/wallpapers/";
+
+        services = {
+          audioIncrement = 0.1;
+          weatherLocation = "zahedan";
+          useFahrenheit = false;
+          useTwelveHourClock = false;
+          smartScheme = true;
+          visualiserBars = 50;
         };
       };
     };

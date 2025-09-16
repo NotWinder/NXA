@@ -8,7 +8,7 @@
     ./gh.nix
     ./gpg.nix
     ./htop.nix
-    ./thefuck.nix
+    ./pay-respects.nix
     ./zoxide.nix
   ];
 }

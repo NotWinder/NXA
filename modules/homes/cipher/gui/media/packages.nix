@@ -21,7 +21,7 @@ in {
         easytag # View and edit tags for various audio files
         imv # Command line image viewer for tiling window managers
         kid3 # Simple and powerful audio tag editor
-        pavucontrol # PulseAudio Volume Control
+        lxqt.pavucontrol-qt # Pulseaudio mixer in Qt (port of pavucontrol)
         pulsemixer # Cli and curses mixer for pulseaudio
       ]
       ++ cfg.extraPackages;

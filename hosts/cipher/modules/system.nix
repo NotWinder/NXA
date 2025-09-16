@@ -22,12 +22,13 @@ in {
     };
 
     boot = {
-      loader = "grub";
-      isUEFI = true;
-      secureBoot = false;
       enableKernelTweaks = true;
       initrd.enableTweaks = true;
+      isUEFI = true;
       loadRecommendedModules = true;
+      loader = "grub";
+      plymouth.enable = false;
+      secureBoot = false;
       tmpOnTmpfs = false;
     };
 

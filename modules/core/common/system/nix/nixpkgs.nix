@@ -23,7 +23,6 @@
       permittedInsecurePackages = [
         "dotnet-sdk-6.0.428"
         "aspnetcore-runtime-6.0.36"
-        "ventoy-1.1.05"
       ];
 
       # Nixpkgs sets internal package aliases to ease migration from other

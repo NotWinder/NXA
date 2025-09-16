@@ -16,7 +16,7 @@ in {
   config.hm = mkIf (cfg.defaultUserShell == pkgs.zsh) {
     programs.zsh = {
       enable = true;
-      dotDir = "${config.xdg.configHome}/zsh";
+      dotDir = "${config.hm.xdg.configHome}/zsh";
       enableCompletion = true; # we handle this ourself
       enableVteIntegration = true;
       autosuggestion.enable = true;
@@ -28,7 +28,7 @@ in {
         share = true;
 
         # avoid cluttering $HOME with the histfile
-        path = "${config.xdg.dataHome}/zsh/zsh_history";
+        path = "${config.hm.xdg.dataHome}/zsh/zsh_history";
 
         # saves timestamps to the histfile
         extended = true;

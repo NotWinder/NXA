@@ -82,7 +82,7 @@
       system = "x86_64-linux";
       modules = mkModulesFor "lorian" {
         roles = [headless server];
-        extraModules = [sops-nix hm];
+        extraModules = [sops-nix stylix hm];
       };
     };
   };

@@ -28,7 +28,7 @@ in {
       gimp3-with-plugins
       wlogout # Wayland based logout menu
       swappy # Wayland native snapshot editing tool, inspired by Snappy on macOS
-     #nwg-displays # Output management utility for Sway and Hyprland
+      #nwg-displays # Output management utility for Sway and Hyprland
 
       # Obsidian has a pandoc plugin that allows us to render and export
       # alternative image format, but as the name indicates the plugin

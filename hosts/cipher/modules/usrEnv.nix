@@ -14,11 +14,9 @@
 
       bar = ["quickshell/caelestia" "quickshell"];
 
-      browsers = ["floorp" "librewolf"];
+      browsers = ["librewolf"];
 
       terminals = ["alacritty" "ghostty"];
-
-      wallpapers = ["swww"];
 
       media = {
         beets.enable = true;

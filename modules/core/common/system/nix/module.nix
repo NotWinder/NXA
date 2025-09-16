@@ -1,4 +1,5 @@
 {
+  inputs',
   self,
   config,
   pkgs,
@@ -46,7 +47,7 @@ in {
     ];
   in {
     # Lix, the higher performance Nix fork.
-    package = pkgs.lix;
+    package = inputs'.lix.packages.default;
 
     # Pin the registry to avoid downloading and evaluating
     # a new nixpkgs version on each command causing a re-eval.

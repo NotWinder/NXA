@@ -29,7 +29,6 @@ in {
       tldr # Simplified and community-driven man pages
       tokei # Program that allows you to count your code, quickly
       unionfs-fuse # FUSE UnionFS implementation
-      ventoy-full # New Bootable USB Solution
 
       # CLI
       wl-clipboard # Command-line copy/paste utilities for Wayland
