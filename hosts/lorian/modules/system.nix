@@ -9,7 +9,7 @@ in {
     autoLogin = true;
 
     services = {
-      #sing-box = true;
+      sing-box.enable = true;
     };
 
     fs = {

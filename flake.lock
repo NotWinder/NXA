@@ -133,11 +133,11 @@
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1757943127,
-        "narHash": "sha256-n9t6OY5fikMuzoFeN9JtCdawOUHgsrLBswdw98U+PbU=",
+        "lastModified": 1758031737,
+        "narHash": "sha256-D9e9R64xox8swabXvu0DEf8goazQGypjuLe6u7ejZ/k=",
         "owner": "caelestia-dots",
         "repo": "shell",
-        "rev": "172c1a047de327708a55d9c8e2efcbc09481d048",
+        "rev": "542495c74faff1285fa7371d2e5cbb2e5294ef9d",
         "type": "github"
       },
       "original": {
@@ -504,11 +504,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1757997814,
-        "narHash": "sha256-F+1aoG+3NH4jDDEmhnDUReISyq6kQBBuktTUqCUWSiw=",
+        "lastModified": 1758085625,
+        "narHash": "sha256-D0KVKNgWSDVjYFgPLEtSQvSKchTBT0YqSbNlH7OQ+bo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "5820376beb804de9acf07debaaff1ac84728b708",
+        "rev": "fb928abb67bd4df99040721ed48c3b42e24b1d08",
         "type": "github"
       },
       "original": {
@@ -1348,11 +1348,11 @@
         "pre-commit-hooks": "pre-commit-hooks_2"
       },
       "locked": {
-        "lastModified": 1757953081,
-        "narHash": "sha256-p+ghcqdstZ8faqImeR6bhrAOSxcUzanYGTp8LIuPRYI=",
+        "lastModified": 1758089384,
+        "narHash": "sha256-AudGkeB9JjqyBlSwgdJR/uxUy0givRwyyM1DVtEb7Vo=",
         "owner": "lix-project",
         "repo": "lix",
-        "rev": "812f466e0db207dbd9a3ea7882173943ee3bc44c",
+        "rev": "d63a31e7a9eb26a5768856fcc6f59f15bc44ffad",
         "type": "github"
       },
       "original": {
@@ -1643,11 +1643,11 @@
         "systems": "systems_4"
       },
       "locked": {
-        "lastModified": 1758006317,
-        "narHash": "sha256-+yfo7MSSvYxlANDqszwowm1x+K9t/IGE3Es53SPZw/4=",
+        "lastModified": 1758083337,
+        "narHash": "sha256-1UGGsGtW+QxGnOQX/oUIex4r8UCecxB8z91HU4303U8=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "d8db0861277f3eca048d38b51c13617e122cb2f7",
+        "rev": "a872682eb877ddef58b46e52153a911c08a9b07e",
         "type": "github"
       },
       "original": {
@@ -1701,11 +1701,11 @@
         "wiremix": "wiremix"
       },
       "locked": {
-        "lastModified": 1757987262,
-        "narHash": "sha256-LRI1ZjtNuv2nl7IyjItotxKPwxa29OIN/kLRqqYNpSw=",
+        "lastModified": 1758073657,
+        "narHash": "sha256-XUr5zPFimGjFfl+7D5eLv0YGujiH/niVK7qvG5ABt6Y=",
         "owner": "NotAShelf",
         "repo": "nyxexprs",
-        "rev": "8819bd4e914121983f6fa6f51ec7d72445c45981",
+        "rev": "f536e72558554f37de8c7ea6d81222904d90bced",
         "type": "github"
       },
       "original": {

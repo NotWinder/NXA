@@ -1,6 +1,6 @@
 {
   sops = {
-    defaultSopsFile = ../../../../secrets.yaml;
+    defaultSopsFile = ../../../../secrets.json;
     validateSopsFiles = false;
     age = {
       sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];

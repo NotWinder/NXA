@@ -1,11 +1,13 @@
 keys:
   - &users '':
-      - &winder age1jccgutdumxcnerc0ake8u7ap7wdd4m6dmhqcvf6fsy40japk85lsshsdrw
+      - &winder age1ydaslf4ve0jlk58m8rr3628ut97ngp06h0vtjhwghgew4xjzzsyqazzz5t
   - &hosts '':
       - &cipher age1nrvjwwu9pcuy57neqm67eg9n83uflkq7wpq0kvr38qhlqkmseuyqyfsr6n
+      - &lorian age12f9tpzjfkjcu722wf745jjf78ck0dnz3zdvemq3pstv4adnhwd8q5lt7l8
 creation_rules:
-  - path_regex: secrets.yaml$
+  - path_regex: secrets.json$
     key_groups:
       - age:
           - *winder
           - *cipher
+          - *lorian

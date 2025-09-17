@@ -1,5 +1,9 @@
-{lib, ...}: let
-  inherit (lib) mkService;
+{
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (lib) mkService mkEnableOption mkPackageOption mkOption types;
 in {
   imports = [
     ./databases.nix
@@ -13,9 +17,21 @@ in {
         type = "webserver";
       };
 
-      sing-box = mkService {
-        name = "sing-box";
-        type = "proxy";
+      sing-box = {
+        enable = mkEnableOption "sing-box service";
+        package = mkPackageOption pkgs "sing-box" {};
+
+        user = mkOption {
+          type = types.str;
+          default = "sing-box";
+          description = "User to run the sing-box service as.";
+        };
+
+        group = mkOption {
+          type = types.str;
+          default = "sing-box";
+          description = "Group to run the sing-box service as.";
+        };
       };
 
       vaultwarden = mkService {
