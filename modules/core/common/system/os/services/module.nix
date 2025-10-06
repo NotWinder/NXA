@@ -12,6 +12,7 @@
     ./getty.nix
     ./gnome.nix
     ./jellyfin.nix
+    ./lidarr.nix
     ./location.nix
     ./misc.nix
     ./navidrome.nix
@@ -22,6 +23,7 @@
     ./runners.nix
     ./searxng.nix
     ./sing-box.nix
+    ./slskd.nix
     ./sonarr.nix
     ./syncthing.nix
     ./systemd.nix

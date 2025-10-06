@@ -17,6 +17,8 @@ in {
       http_proxy = "http://127.0.0.1:10808";
     };
 
+    users.users.jellyfin.extraGroups = ["media"];
+
     services = {
       jellyfin = {
         enable = true;

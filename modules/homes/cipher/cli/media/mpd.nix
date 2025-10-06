@@ -24,17 +24,20 @@ in {
       mpd = {
         enable = true;
         musicDirectory = "${config.hm.home.homeDirectory}/Media/Music";
-        network = {
-          startWhenNeeded = true;
-          listenAddress = "0.0.0.0";
-          port = 6600;
-        };
+        playlistDirectory = "${config.hm.home.homeDirectory}/Media/Music/primary/Music/library/playlists";
+        #network = {
+        #  startWhenNeeded = true;
+        #  listenAddress = "0.0.0.0";
+        #  port = 6600;
+        #};
 
         extraConfig = ''
           auto_update           "yes"
           volume_normalization  "yes"
           restore_paused        "yes"
           filesystem_charset    "UTF-8"
+
+          bind_to_address "${config.hm.home.homeDirectory}/.local/share/mpd/socket"
 
           audio_output {
             type                "pipewire"

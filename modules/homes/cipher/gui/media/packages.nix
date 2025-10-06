@@ -16,7 +16,7 @@ in {
     home.packages = with pkgs;
       [
         ani-cli # Cli tool to browse and play anime
-        cantata # Graphical client for MPD
+        euphonica # Graphical client for MPD
         easyeffects # Audio effects for PipeWire applications
         easytag # View and edit tags for various audio files
         imv # Command line image viewer for tiling window managers

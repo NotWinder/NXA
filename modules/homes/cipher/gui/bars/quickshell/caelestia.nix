@@ -54,17 +54,17 @@ in {
               sans = "Rubik";
             };
             size = {
-              scale = 1;
+              scale = 0.8;
             };
           };
           padding = {
-            scale = 1;
+            scale = 0.8;
           };
           rounding = {
-            scale = 1;
+            scale = 0.8;
           };
           spacing = {
-            scale = 1;
+            scale = 0.8;
           };
           transparency = {
             enabled = false;
@@ -72,31 +72,75 @@ in {
             layers = 0.4;
           };
         };
-
         general = {
           apps = {
             terminal = ["alacritty"];
             audio = ["pavucontrol-qt"];
+            playback = ["mpv"];
+            explorer = ["thunar"];
+          };
+
+          battery = {
+            warnLevels = [
+              {
+                level = 20;
+                title = "Low battery";
+                message = "You might want to plug in a charger";
+                icon = "battery_android_frame_2";
+              }
+              {
+                level = 10;
+                title = "Did you see the previous message?";
+                message = "You should probably plug in a charger <b>now</b>";
+                icon = "battery_android_frame_1";
+              }
+              {
+                level = 5;
+                title = "Critical battery level";
+                message = "PLUG THE CHARGER RIGHT NOW!!";
+                icon = "battery_android_alert";
+                critical = true;
+              }
+            ];
+            criticalLevel = 3;
+          };
+          idle = {
+            lockBeforeSleep = true;
+            inhibitWhenAudio = true;
+            timeouts = [
+              {
+                timeout = 6000;
+                idleAction = "lock";
+              }
+              {
+                timeout = 8000;
+                idleAction = "dpms off";
+                returnAction = "dpms on";
+              }
+              {
+                timeout = 9000;
+                idleAction = ["systemctl" "suspend-then-hibernate"];
+              }
+            ];
           };
         };
-
         background = {
           desktopClock = {
             enabled = true;
           };
           enabled = true;
           visualiser = {
-            enabled = true;
+            enabled = false;
             autoHide = true;
-            rounding = "1";
-            spacing = "1";
+            rounding = 0.8;
+            spacing = 0.8;
           };
         };
-
         bar = {
           clock = {
             showIcon = true;
           };
+          dragThreshold = 50;
           entries = [
             {
               id = "logo";
@@ -134,14 +178,10 @@ in {
               id = "power";
               enabled = true;
             }
-            {
-              id = "idleInhibitor";
-              enabled = false;
-            }
           ];
           persistent = true;
           scrollActions = {
-            brightness = false;
+            brightness = true;
             workspaces = true;
             volume = true;
           };
@@ -156,7 +196,8 @@ in {
             showLockStatus = true;
           };
           tray = {
-            background = true;
+            background = false;
+            compact = false;
             iconSubs = [];
             recolour = false;
           };
@@ -169,22 +210,19 @@ in {
             occupiedLabel = "󰮯";
             perMonitorWorkspaces = true;
             showWindows = true;
-            shown = 4;
+            shown = 5;
           };
         };
-
         border = {
-          rounding = 10;
+          rounding = 25;
           thickness = 10;
         };
-
         dashboard = {
           enabled = true;
-          dragThreshold = 20;
+          dragThreshold = 50;
           mediaUpdateInterval = 500;
           showOnHover = true;
         };
-
         launcher = {
           actionPrefix = ">";
           actions = [
@@ -293,9 +331,10 @@ in {
               dangerous = false;
             }
           ];
-          vimKeybinds = false;
+          dragThreshold = 50;
+          vimKeybinds = true;
           enableDangerousActions = false;
-          maxShown = 8;
+          maxShown = 7;
           maxWallpapers = 9;
           specialPrefix = "@";
           useFuzzy = {
@@ -308,23 +347,66 @@ in {
           showOnHover = false;
           hiddenApps = [];
         };
-
+        lock = {
+          recolourLogo = false;
+        };
+        notifs = {
+          actionOnClick = false;
+          clearThreshold = 0.3;
+          defaultExpireTimeout = 5000;
+          expandThreshold = 20;
+          expire = true;
+        };
         osd = {
           enabled = true;
-          enableBrightness = false;
-          enableMicrophone = true;
-          hideDelay = "2000";
+          enableBrightness = true;
+          enableMicrophone = false;
+          hideDelay = 2000;
         };
-
-        paths.wallpaperDir = "${winpaper.wallpkgs}/share/wallpapers/";
-
+        paths = {
+          mediaGif = "root:/assets/bongocat.gif";
+          sessionGif = "root:/assets/kurukuru.gif";
+          wallpaperDir = "${winpaper.wallpkgs}/share/wallpapers/";
+        };
         services = {
           audioIncrement = 0.1;
+          defaultPlayer = "Spotify";
+          gpuType = "";
+          #playerAliases= [{ "from": "com.github.th_ch.youtube_music"; "to": "YT Music" }]p
           weatherLocation = "zahedan";
           useFahrenheit = false;
           useTwelveHourClock = false;
           smartScheme = true;
-          visualiserBars = 50;
+          visualiserBars = 45;
+        };
+        session = {
+          dragThreshold = 30;
+          enabled = true;
+          vimKeybinds = true;
+          commands = {
+            logout = ["loginctl" "terminate-user" ""];
+            shutdown = ["systemctl" "poweroff"];
+            hibernate = ["systemctl" "hibernate"];
+            reboot = ["systemctl" "reboot"];
+          };
+        };
+        sidebar = {
+          dragThreshold = 50;
+          enabled = true;
+        };
+        utilities = {
+          enabled = true;
+          maxToasts = 4;
+          toasts = {
+            audioInputChanged = true;
+            audioOutputChanged = true;
+            capsLockChanged = false;
+            chargingChanged = false;
+            configLoaded = true;
+            dndChanged = true;
+            gameModeChanged = true;
+            numLockChanged = false;
+          };
         };
       };
     };
@@ -346,6 +428,8 @@ in {
           "$MOD+SHIFT, Minus, global, caelestia:mediaPrev"
           "$MOD, K, global, caelestia:showall"
           "$MOD, D, global, caelestia:launcher"
+          "$MOD, L, global, caelestia:lock"
+          "$MOD, Escape, global, caelestia:session"
         ]
         ++ optionals (!config.hm.programs.caelestia.systemd.enable) [
           "$MOD+SHIFT, R, exec, caelestia-shell kill | sleep 1 | caelestia-shell"

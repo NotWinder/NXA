@@ -70,6 +70,12 @@ in {
         type = "media";
         port = 9696;
       };
+
+      lidarr = mkService {
+        name = "Prowlarr";
+        type = "media";
+        port = 8686;
+      };
     };
   };
 }

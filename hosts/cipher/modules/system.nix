@@ -10,6 +10,7 @@ in {
 
     services = {
       jellyfin.enable = true;
+      lidarr.enable = true;
       prowlarr.enable = true;
       radarr.enable = true;
       sing-box.enable = true;

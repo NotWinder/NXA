@@ -9,6 +9,7 @@
   sys = modules.system;
   prg = modules.usrEnv.programs;
 in {
+  users.groups.media = {};
   users.users.${sys.mainUser} = {
     isNormalUser = true;
 
@@ -42,6 +43,7 @@ in {
         "podman"
         "git"
         "libvirtd"
+        "media"
       ]
       ++ optionals prg.cli.adb.enable [
         "adbusers"

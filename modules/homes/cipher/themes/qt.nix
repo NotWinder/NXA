@@ -101,7 +101,7 @@ in {
       # Write kvantum configuration, and the theme files required by the Catppuccin theme.
       "Kvantum/kvantum.kvconfig".source = let
         themeName = "Catppuccin";
-        themedApps = ["qt5ct" "org.kde.dolphin" "org.kde.kalendar" "org.qbittorrent.qBittorrent" "hyprland-share-picker" "dolphin-emu" "cantata" "org.kde.kid3-qt"];
+        themedApps = ["qt5ct" "org.kde.dolphin" "org.kde.kalendar" "org.qbittorrent.qBittorrent" "hyprland-share-picker" "dolphin-emu" "org.kde.kid3-qt"];
       in
         (pkgs.formats.ini {}).generate "kvantum.kvconfig" {
           General.theme = themeName;

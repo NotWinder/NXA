@@ -11,6 +11,7 @@
 in {
   config.hm = mkIf prg.media.ncmpcpp.enable {
     programs.ncmpcpp.settings = {
+      mpd_host = "${config.hm.home.homeDirectory}/.local/share/mpd/socket";
       # Miscelaneous
       ncmpcpp_directory = "${config.hm.xdg.configHome}/ncmpcpp";
       ignore_leading_the = true;

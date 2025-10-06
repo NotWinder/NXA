@@ -9,6 +9,9 @@
 in {
   config.hm = mkIf (env.desktop == "Hyprland") {
     wayland.windowManager.hyprland.settings = {
+      cursor = {
+        hotspot_padding = 1;
+      };
       misc = {
         # Disable redundant renders
         disable_hyprland_logo = true; # wallpaper covers it anyway

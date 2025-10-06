@@ -20,6 +20,6 @@
       "/boot".options = defaults;
     };
 
-    system.stateVersion = "24.05";
+    system.stateVersion = "25.05";
   };
 }
