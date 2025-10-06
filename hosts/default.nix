@@ -76,6 +76,27 @@
         extraModules = [sops-nix stylix hm];
       };
     };
+
+    amadeus = mkNixosSystem {
+      inherit withSystem;
+      hostname = "amadeus";
+      system = "x86_64-linux";
+      modules = mkModulesFor "amadeus" {
+        roles = [graphical workstation];
+        extraModules = [sops-nix stylix hm];
+      };
+    };
+
+    salieri = mkNixosSystem {
+      inherit withSystem;
+      hostname = "salieri";
+      system = "x86_64-linux";
+      modules = mkModulesFor "salieri" {
+        roles = [graphical workstation];
+        extraModules = [sops-nix stylix hm];
+      };
+    };
+
     lorian = mkNixosSystem {
       inherit withSystem;
       hostname = "lorian";
