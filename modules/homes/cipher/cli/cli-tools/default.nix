@@ -6,9 +6,9 @@
     ./btop.nix
     ./fastfetch.nix
     ./gh.nix
-    ./gpg.nix
     ./htop.nix
     ./pay-respects.nix
+    ./ssh.nix
     ./zoxide.nix
   ];
 }

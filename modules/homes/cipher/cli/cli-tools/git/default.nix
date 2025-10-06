@@ -50,14 +50,7 @@ in {
 
       # my credentials
       userName = "notwinder";
-      userEmail = "winderdawshmaster@gmail.com";
-
-      # lets sign using our own key
-      # this must be provided by the host
-      signing = {
-        key = cfg.signingKey;
-        signByDefault = true;
-      };
+      userEmail = "notwinder@gmail.com";
 
       lfs = {
         enable = true;
@@ -139,6 +132,8 @@ in {
           conflictstyle = "diff3";
           stat = "true";
         };
+
+        pull.rebase = false;
 
         rebase = {
           autoSquash = true;
