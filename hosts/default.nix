@@ -67,6 +67,26 @@
         ]
       );
   in {
+    amadeus = mkNixosSystem {
+      inherit withSystem;
+      hostname = "amadeus";
+      system = "x86_64-linux";
+      modules = mkModulesFor "amadeus" {
+        roles = [graphical workstation];
+        extraModules = [sops-nix stylix hm];
+      };
+    };
+
+    brau1589 = mkNixosSystem {
+      inherit withSystem;
+      hostname = "brau1589";
+      system = "x86_64-linux";
+      modules = mkModulesFor "brau1589" {
+        roles = [graphical workstation];
+        extraModules = [sops-nix stylix hm];
+      };
+    };
+
     cipher = mkNixosSystem {
       inherit withSystem;
       hostname = "cipher";
@@ -77,11 +97,31 @@
       };
     };
 
-    amadeus = mkNixosSystem {
+    heu = mkNixosSystem {
       inherit withSystem;
-      hostname = "amadeus";
+      hostname = "heu";
       system = "x86_64-linux";
-      modules = mkModulesFor "amadeus" {
+      modules = mkModulesFor "heu" {
+        roles = [graphical workstation];
+        extraModules = [sops-nix stylix hm];
+      };
+    };
+
+    lorian = mkNixosSystem {
+      inherit withSystem;
+      hostname = "lorian";
+      system = "x86_64-linux";
+      modules = mkModulesFor "lorian" {
+        roles = [headless server];
+        extraModules = [sops-nix stylix hm];
+      };
+    };
+
+    magi = mkNixosSystem {
+      inherit withSystem;
+      hostname = "magi";
+      system = "x86_64-linux";
+      modules = mkModulesFor "magi" {
         roles = [graphical workstation];
         extraModules = [sops-nix stylix hm];
       };
@@ -97,12 +137,12 @@
       };
     };
 
-    lorian = mkNixosSystem {
+    wired = mkNixosSystem {
       inherit withSystem;
-      hostname = "lorian";
+      hostname = "wired";
       system = "x86_64-linux";
-      modules = mkModulesFor "lorian" {
-        roles = [headless server];
+      modules = mkModulesFor "wired" {
+        roles = [graphical workstation];
         extraModules = [sops-nix stylix hm];
       };
     };

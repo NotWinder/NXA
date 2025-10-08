@@ -78,6 +78,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # anyrun program launcher
     #anyrun.url = "github:anyrun-org/anyrun";
     #anyrun-nixos-options = {
