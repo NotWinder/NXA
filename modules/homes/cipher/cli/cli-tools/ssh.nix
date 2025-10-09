@@ -8,9 +8,9 @@
   sys = modules.system;
 
   # Check if the SSH secrets exist
-  hasSshSecrets = config.sops.secrets ? ssh_private_key && config.sops.secrets ? ssh_public_key;
+  enableSshSecrets = sys.enableSshSecrets or false;
 in {
-  config = mkIf hasSshSecrets {
+  config = mkIf enableSshSecrets {
     sops = {
       secrets = {
         "ssh_private_key" = {

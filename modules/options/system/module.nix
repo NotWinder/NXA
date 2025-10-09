@@ -69,6 +69,8 @@ in {
       description = "The Default Shell for the User.";
     };
 
+    enableSshSecrets = mkEnableOption "Whether or not add the ssh options to the config(requires secrets)";
+
     autoLogin = mkOption {
       type = bool;
       default = false;

@@ -1,13 +1,25 @@
 keys:
-  - &users '':
+  - &users "":
       - &winder age1ydaslf4ve0jlk58m8rr3628ut97ngp06h0vtjhwghgew4xjzzsyqazzz5t
-  - &hosts '':
+  - &hosts "":
+      - &amadeus age1ms63cvw3h6a9fpypqtt3fnukx8ftteemtwyjcm56lfsm55g0mfjqj5nvku
+      - &brau1589 age1e5lzx3523yzwmwdnhdjmaa4u47lx4wwtfffjj2e570eju3xm0f0s8cj8hf
       - &cipher age1nrvjwwu9pcuy57neqm67eg9n83uflkq7wpq0kvr38qhlqkmseuyqyfsr6n
+      - &heu age133cj5kj79439ek93r023607vhw3ngyp86fvkrgra7smdr9cg5anqnjy7pa
       - &lorian age12f9tpzjfkjcu722wf745jjf78ck0dnz3zdvemq3pstv4adnhwd8q5lt7l8
+      - &magi age1z3ewqa3y9t56yglrkevx9hjv3j3stkd789jvmemwma00sjkvxe8szvv0q8
+      - &salieri age10rxuw9vw7uqhka52jx0zurf0uhx6xd39tjj2qdrj9n0fxp3ljsssr27u20
+      - &wired age16tfpdly9vwwmryq6n683ntzcjp9lkyse8jmg5sxeh4eamde7aslsm2gj4n
 creation_rules:
   - path_regex: secrets.yaml$
     key_groups:
       - age:
           - *winder
+          - *amadeus
+          - *brau1589
           - *cipher
+          - *heu
           - *lorian
+          - *magi
+          - *salieri
+          - *wired

@@ -22,6 +22,8 @@ in {
       zfs.enable = true;
     };
 
+    enableSshSecrets = true;
+
     boot = {
       enableKernelTweaks = true;
       initrd.enableTweaks = true;
