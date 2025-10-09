@@ -1,74 +1,37 @@
-{inputs, ...}: let
-  # This will be evaluated during installation
-  # Pick the largest disk, or first nvme, or first disk, etc.
-  diskDevice =
-    # You can set this via environment variable during install
-    if builtins.getEnv "DISKO_DEVICE" != ""
-    then builtins.getEnv "DISKO_DEVICE"
-    else "/dev/sda"; # fallback
-in {
+{
   config = {
-    imports = [inputs.disko.nixosModules.disko];
-    disko.devices = {
-      disk = {
-        main = {
-          type = "disk";
-          device = diskDevice;
-          content = {
-            type = "gpt";
-            partitions = {
-              ESP = {
-                priority = 1;
-                name = "ESP";
-                start = "1M";
-                end = "1536M";
-                type = "EF00";
-                content = {
-                  type = "filesystem";
-                  format = "vfat";
-                  mountpoint = "/boot";
-                  mountOptions = ["umask=0077"];
-                };
-              };
-              root = {
-                size = "100%";
-                content = {
-                  type = "btrfs";
-                  extraArgs = ["-f"]; # Override existing partition
-                  subvolumes = {
-                    "/root" = {
-                      mountOptions = ["compress=zstd" "noatime"];
-                      mountpoint = "/";
-                    };
-                    "/home" = {
-                      mountOptions = ["compress=zstd" "relatime"];
-                      mountpoint = "/home";
-                    };
-                    "/nix" = {
-                      mountOptions = ["compress=zstd" "noatime"];
-                      mountpoint = "/nix";
-                    };
-                    "/snapshots" = {
-                      mountOptions = ["compress=zstd" "noatime"];
-                      mountpoint = "/snapshots";
-                    };
-                    "/swap" = {
-                      mountOptions = ["noatime"];
-                      mountpoint = "/swap";
-                    };
-                  };
-                };
-              };
-            };
-          };
-        };
-      };
+    fileSystems = {
+
+  "/" =
+    { device = "/dev/disk/by-uuid/0ad49081-7a4c-48e4-9ada-33663c261b55";
+      fsType = "btrfs";
+      options = [ "subvol=root" ];
+    };
+
+  "/home" =
+    { device = "/dev/disk/by-uuid/0ad49081-7a4c-48e4-9ada-33663c261b55";
+      fsType = "btrfs";
+      options = [ "subvol=home" ];
+    };
+
+  "/nix" =
+    { device = "/dev/disk/by-uuid/0ad49081-7a4c-48e4-9ada-33663c261b55";
+      fsType = "btrfs";
+      options = [ "subvol=nix" ];
+    };
+
+  "/boot" =
+    { device = "/dev/disk/by-uuid/E187-7427";
+      fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
+    };
     };
     swapDevices = [
       {
-        device = "/swap/swapfile";
+        device = "/var/lib/swapfile";
         size = 8 * 1024;
       }
     ];
   };
 }
+

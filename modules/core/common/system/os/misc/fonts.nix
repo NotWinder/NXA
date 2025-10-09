@@ -6,7 +6,7 @@
   inherit (lib.attrsets) mapAttrs;
 in {
   fonts = {
-    enableDefaultPackages = false;
+    enableDefaultPackages = true;
 
     fontconfig = {
       enable = true;

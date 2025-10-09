@@ -8,9 +8,15 @@ in {
     defaultUserShell = pkgs.fish;
     autoLogin = true;
 
+    services = {
+      sing-box.enable = true;
+    };
+
     fs = {
       enabledFilesystems = ["btrfs" "vfat" "ntfs" "exfat"];
     };
+
+    enableSshSecrets = true;
 
     boot = {
       enableKernelTweaks = true;

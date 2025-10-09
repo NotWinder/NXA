@@ -23,7 +23,7 @@ in {
     hardware.graphics = {
       extraPackages = with pkgs; [
         vaapiIntel
-        vaapiVdpau
+        #vaapiVdpau
         intel-compute-runtime
         intel-media-driver
         libvdpau-va-gl
@@ -31,7 +31,7 @@ in {
 
       extraPackages32 = with pkgs.pkgsi686Linux; [
         vaapiIntel
-        vaapiVdpau
+        #vaapiVdpau
         intel-media-driver
         libvdpau-va-gl
         # intel-compute-runtime # FIXME does not build due to unsupported system

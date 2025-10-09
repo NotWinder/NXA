@@ -21,6 +21,10 @@
         base0E = "ffad7f";
         base0F = "60594c";
       };
+      targets = {
+        font-packages.enable = false;
+        fontconfig.enable = false;
+      };
     };
     hm = {
       stylix = {
@@ -47,8 +51,6 @@
         targets = {
           librewolf.enable = false;
           floorp.enable = false;
-          font-packages.enable = false;
-          fontconfig.enable = false;
         };
         cursor = {
           name = "Breeze_Hacked";
@@ -65,26 +67,26 @@
           terminal = 0.8;
         };
         fonts = {
-          emoji = {
-            name = "Noto Color Emoji";
-            package = pkgs.noto-fonts-color-emoji;
-          };
-          monospace = {
-            name = "Source Code Pro Medium";
-            package = pkgs.source-sans;
-          };
-          sansSerif = {
-            name = "Lexend";
-            package = pkgs.lexend;
-          };
-          serif = {
-            name = "Noto Serif";
-            package = pkgs.noto-fonts;
-          };
-          sizes = {
-            applications = 15;
-            desktop = 15;
-          };
+          #emoji = {
+          #  name = "Noto Color Emoji";
+          #  package = pkgs.noto-fonts-color-emoji;
+          #};
+          #monospace = {
+          #  name = "Source Code Pro Medium";
+          #  package = pkgs.source-sans;
+          #};
+          #sansSerif = {
+          #  name = "Lexend";
+          #  package = pkgs.lexend;
+          #};
+          #serif = {
+          #  name = "Noto Serif";
+          #  package = pkgs.noto-fonts;
+          #};
+          #sizes = {
+          #  applications = 15;
+          #  desktop = 15;
+          #};
           #packages = with pkgs; [
           #  font-awesome
           #  nerd-fonts.fira-code

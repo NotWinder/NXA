@@ -8,7 +8,7 @@
   sys = modules.system;
 
   # Check if the SSH secrets exist
-  enableSshSecrets = sys.enableSshSecrets or false;
+  enableSshSecrets = sys.enableSshSecrets;
 in {
   config = mkIf enableSshSecrets {
     sops = {

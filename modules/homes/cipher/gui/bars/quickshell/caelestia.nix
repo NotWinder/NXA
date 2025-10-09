@@ -25,6 +25,7 @@ in {
     ];
     programs.caelestia = mkIf (elem "quickshell/caelestia" prg.bar && env.desktop != "none") {
       enable = true;
+      systemd.enable = false;
       cli = {
         enable = true;
         settings = {
@@ -412,7 +413,7 @@ in {
     };
     wayland.windowManager.hyprland.settings = mkIf (elem "quickshell/caelestia" prg.bar && env.desktop != "none") {
       exec-once = mkIf (!config.hm.programs.caelestia.systemd.enable) [
-        "caelestia-shell"
+        "caelestia shell -d && caelestia shell lock lock"
       ];
 
       bind =
