@@ -1,24 +1,26 @@
 {pkgs, ...}: {
   config = {
-    stylix.enable = true;
-    stylix.polarity = "dark";
-    stylix.base16Scheme = {
-      base00 = "17130b";
-      base01 = "1f1b13";
-      base02 = "2e2921";
-      base03 = "999080";
-      base04 = "d0c5b4";
-      base05 = "ebe1d4";
-      base06 = "fdefe0";
-      base07 = "ffffff";
-      base08 = "ffb4ab";
-      base09 = "f2c77f";
-      base0A = "e7c26c";
-      base0B = "afcfab";
-      base0C = "75cf9d";
-      base0D = "d7c5a0";
-      base0E = "ffad7f";
-      base0F = "60594c";
+    stylix = {
+      enable = true;
+      polarity = "dark";
+      base16Scheme = {
+        base00 = "17130b";
+        base01 = "1f1b13";
+        base02 = "2e2921";
+        base03 = "999080";
+        base04 = "d0c5b4";
+        base05 = "ebe1d4";
+        base06 = "fdefe0";
+        base07 = "ffffff";
+        base08 = "ffb4ab";
+        base09 = "f2c77f";
+        base0A = "e7c26c";
+        base0B = "afcfab";
+        base0C = "75cf9d";
+        base0D = "d7c5a0";
+        base0E = "ffad7f";
+        base0F = "60594c";
+      };
     };
     hm = {
       stylix = {
@@ -42,8 +44,12 @@
           base0F = "60594c";
         };
         polarity = "dark";
-        targets.librewolf.enable = false;
-        targets.floorp.enable = false;
+        targets = {
+          librewolf.enable = false;
+          floorp.enable = false;
+          font-packages.enable = false;
+          fontconfig.enable = false;
+        };
         cursor = {
           name = "Breeze_Hacked";
           package = pkgs.breeze-hacked-cursor-theme;

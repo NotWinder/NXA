@@ -72,9 +72,15 @@ in {
       };
 
       lidarr = mkService {
-        name = "Prowlarr";
+        name = "Lidarr";
         type = "media";
         port = 8686;
+      };
+
+      slskd = mkService {
+        name = "Slskd";
+        type = "media";
+        port = 5030;
       };
     };
   };
