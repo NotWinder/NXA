@@ -133,7 +133,7 @@ in {
         "idle=nomwait" # poll | halt | nomwait
 
         # enable IOMMU for devices used in passthrough
-        # and provide better host performance in virtualization
+        # and provide better host performance in virtualisation
         "iommu=pt"
 
         # disable usb autosuspend

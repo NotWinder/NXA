@@ -18,8 +18,8 @@ in {
     hardware.cpu.amd.updateMicrocode = true;
     boot = mkMerge [
       {
-        # Always load the kvm-amd module for Virtualization
-        # bellow modules allow for Virtualization on AMD cpus
+        # Always load the kvm-amd module for Virtualisation
+        # bellow modules allow for Virtualisation on AMD cpus
         # `"iommu=pt"` kernel parameter can be passed to remove
         # IOMMU overhead
         kernelModules = ["kvm-amd"];

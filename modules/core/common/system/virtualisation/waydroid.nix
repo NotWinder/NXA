@@ -20,7 +20,7 @@
     waydroid session stop
   '';
 in {
-  config = mkIf sys.virtualization.waydroid.enable {
+  config = mkIf sys.virtualisation.waydroid.enable {
     environment.systemPackages = with pkgs; [
       waydroid
       waydroid-ui

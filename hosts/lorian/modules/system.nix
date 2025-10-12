@@ -32,7 +32,7 @@ in {
     sound.enable = false;
     video.enable = false;
 
-    virtualization = {
+    virtualisation = {
       enable = false;
       qemu.enable = false;
       docker.enable = false;

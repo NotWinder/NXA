@@ -12,6 +12,8 @@ in {
 
   options.modules.system = {
     services = {
+      docker = mkEnableOption "Enable Docker";
+
       nginx = mkService {
         name = "Nginx";
         type = "webserver";

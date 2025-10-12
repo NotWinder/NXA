@@ -28,7 +28,7 @@ in {
     sound.enable = true;
     video.enable = true;
 
-    virtualization = {
+    virtualisation = {
       enable = true;
       qemu.enable = true;
       docker.enable = true;

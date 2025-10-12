@@ -6,7 +6,7 @@
 }: let
   inherit (lib) mkIf;
 
-  sys = config.modules.system.virtualization;
+  sys = config.modules.system.virtualisation;
 in {
   config = mkIf sys.qemu.enable {
     environment.systemPackages = with pkgs; [

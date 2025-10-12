@@ -6,7 +6,7 @@
 }: let
   inherit (lib.modules) mkIf;
 
-  sys = config.modules.system.virtualization;
+  sys = config.modules.system.virtualisation;
 in {
   config = mkIf (sys.docker.enable || sys.podman.enable) {
     # Enable Nvidia support for Podman if the Nvidia drivers are found

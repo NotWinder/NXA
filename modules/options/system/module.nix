@@ -22,8 +22,8 @@ in {
     # filesystems
     ./fs.nix
 
-    # virtualization
-    ./virtualization.nix
+    # virtualisation
+    ./virtualisation.nix
 
     #  services related options
     ./services
