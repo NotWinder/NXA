@@ -27,11 +27,6 @@ in {
           runAsRoot = false;
           swtpm.enable = true;
 
-          ovmf = {
-            enable = true;
-            packages = [pkgs.OVMFFull.fd];
-          };
-
           verbatimConfig = ''
             namespaces = []
 

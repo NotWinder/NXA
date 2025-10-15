@@ -25,7 +25,6 @@ in {
       telegram-desktop # Telegram Desktop messaging app
       uget # Download manager using GTK and libcurl
       universal-android-debloater # Tool to debloat non-rooted Android devices
-      gimp3-with-plugins
       wlogout # Wayland based logout menu
       swappy # Wayland native snapshot editing tool, inspired by Snappy on macOS
       #nwg-displays # Output management utility for Sway and Hyprland
