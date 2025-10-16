@@ -23,5 +23,6 @@ in {
     gamescope.enable = mkEnableOption "Gamescope compositing manager" // {default = prg.gaming.enable;};
     mangohud.enable = mkEnableOption "MangoHud overlay" // {default = prg.gaming.enable;};
     steam.enable = mkEnableOption "Steam client" // {default = prg.gaming.enable;};
+    wine.enable = mkEnableOption "wine compatibality layer to run windows apps on linux" // {default = prg.gaming.enable;};
   };
 }

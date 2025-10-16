@@ -16,6 +16,7 @@ in {
     ./mangohud.nix
     ./mangohud.nix
     ./steam.nix
+    ./wine.nix
   ];
 
   config.hm = mkIf prg.gaming.enable {

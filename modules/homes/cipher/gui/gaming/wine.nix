@@ -9,7 +9,7 @@
 
   prg = modules.usrEnv.programs;
 in {
-  config = mkIf prg.gui.enable {
+  config = mkIf prg.gaming.wine.enable {
     # determine which version of wine to be used
     # then add it to systemPackages
     environment.systemPackages = with pkgs; let

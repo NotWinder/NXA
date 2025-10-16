@@ -13,7 +13,6 @@
     ./misc.nix
     ./nano.nix
     ./thunar.nix
-    ./wine.nix
     ./xdg-ninja.nix
     ./zsh.nix
   ];
