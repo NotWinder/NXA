@@ -153,6 +153,9 @@ in {
 
         # disable displaying of the built-in Linux logo
         "logo.nologo"
+
+       #"video=HDMI-A-1:1600x900@60"
+        "video=HDMI-A-1:1600x900@59"
       ])
       ++ (optionals sys.boot.silentBoot [
         # tell the kernel to not be verbose

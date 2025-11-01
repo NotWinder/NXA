@@ -12,11 +12,12 @@
 in {
   imports = [
     ./caelestia.nix
+    ./dankMaterial.nix
     ./noctalia.nix
   ];
   config.hm = mkIf (elem "quickshell" prg.bar && env.desktop != "none") {
-    home.packages = [
-      inputs'.quickshell.packages.default
-    ];
+    #home.packages = [
+    #  inputs'.quickshell.packages.default
+    #];
   };
 }

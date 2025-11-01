@@ -12,6 +12,7 @@
     ./less.nix
     ./misc.nix
     ./nano.nix
+    ./packages.nix
     ./thunar.nix
     ./xdg-ninja.nix
     ./zsh.nix

@@ -21,6 +21,23 @@
     #  inputs.nixpkgs.follows = "nixpkgs";
     #};
 
+    dgop = {
+      url = "github:AvengeMedia/dgop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    dms-cli = {
+      url = "github:AvengeMedia/danklinux";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    dankMaterialShell = {
+      url = "github:AvengeMedia/DankMaterialShell";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.dgop.follows = "dgop";
+      inputs.dms-cli.follows = "dms-cli";
+    };
+
     caelestia-shell = {
       url = "github:jutraim/niri-caelestia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,10 +48,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    #niri = {
-    #  url = "github:YaLTeR/niri";
-    #  inputs.nixpkgs.follows = "nixpkgs";
-    #};
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     quickshell = {
       url = "github:quickshell-mirror/quickshell";
