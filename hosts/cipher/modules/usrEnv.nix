@@ -1,6 +1,6 @@
 {
   config.modules.usrEnv = {
-    desktop = "Hyprland";
+    desktop = "niri";
     useHomeManager = true;
 
     programs = {
