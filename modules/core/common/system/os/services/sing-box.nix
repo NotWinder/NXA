@@ -25,8 +25,8 @@ in {
     systemd.services.sing-box = {
       description = "Custom sing-box proxy service";
       wantedBy = ["multi-user.target"];
-      after = ["network-online.target"];
-      wants = ["network-online.target"];
+      after = ["network.target"];
+      wants = [];
 
       # This script runs before the main command
       preStart = ''

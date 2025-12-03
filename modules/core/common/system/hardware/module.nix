@@ -1,5 +1,6 @@
 {
   imports = [
+    ./asus
     ./cpu # cpu specific options
     ./gpu # gpu specific options
     ./multimedia # enable multimedia: e.g. sound and video

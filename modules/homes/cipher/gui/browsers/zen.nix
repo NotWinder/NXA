@@ -1,5 +1,5 @@
 {
-  inputs',
+  inputs,
   config,
   lib,
   ...
@@ -10,9 +10,8 @@
 
   prg = modules.usrEnv.programs;
 in {
-  config.hm = mkIf (elem "zen" prg.browsers) {
-    home.packages = [
-      inputs'.zen-browser.packages.default
-    ];
+  config.hm = {
+    imports = [inputs.zen-browser.homeModules.beta];
+    programs.zen-browser.enable = mkIf (elem "zen" prg.browsers) true;
   };
 }

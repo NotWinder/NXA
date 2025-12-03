@@ -4,6 +4,6 @@
     ./chromium.nix
     ./floorp.nix
     ./librewolf.nix
-    #./zen.nix
+    ./zen.nix
   ];
 }

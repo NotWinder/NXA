@@ -12,10 +12,11 @@ in {
     boot = {
       kernelPackages = pkgs.linuxPackages_xanmod_latest;
       supportedFilesystems = ["zfs"];
-      zfs = {
-        extraPools = ["wpool"];
-        forceImportRoot = false;
-      };
+      initrd.supportedFilesystems = ["zfs"];
+      #zfs = {
+      #  extraPools = ["wpool"];
+      #  forceImportRoot = false;
+      #};
     };
   };
 }

@@ -1,6 +1,6 @@
 {
   config.modules.usrEnv = {
-    desktop = "Hyprland";
+    desktop = "niri";
     useHomeManager = true;
 
     programs = {
@@ -10,9 +10,9 @@
         obs.enable = true;
       };
 
-      bar = ["quickshell/caelestia" "quickshell"];
+      bar = ["quickshell/dms"];
 
-      browsers = ["librewolf"];
+      browsers = ["zen"];
 
       terminals = ["alacritty" "ghostty"];
 

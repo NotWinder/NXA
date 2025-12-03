@@ -34,7 +34,7 @@ in {
 
       # quality of life aliases
       cat = "${getExe bat} --style=plain";
-      grep = "${getExe ripgrep}";
+      #grep = "${getExe ripgrep}";
       du = "${getExe dust}";
       ps = "${getExe procs}";
       mp = "mkdir -p";

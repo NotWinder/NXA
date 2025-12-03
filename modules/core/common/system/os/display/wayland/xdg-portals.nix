@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  inputs',
   lib,
   ...
 }: let
@@ -15,13 +14,20 @@ in {
       enable = true;
 
       extraPortals = [
-        inputs'.hyprland.packages.xdg-desktop-portal-hyprland
+        pkgs.xdg-desktop-portal-gnome
         pkgs.xdg-desktop-portal-gtk
       ];
 
       config = {
+        # For *all* desktops unless overridden
         common = {
-          default = ["gtk"];
+          default = ["gnome" "gtk"];
+        };
+
+        # Override specifically for Niri
+        # (GNOME portal is required to be *first* for screencast)
+        niri = {
+          default = ["gnome" "gtk"];
         };
       };
     };

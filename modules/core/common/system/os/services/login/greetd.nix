@@ -21,7 +21,7 @@
   initialSession = {
     user = "${sys.mainUser}";
     #command = "${env.desktop}";
-    command = "uwsm start hyprland.desktop";
+    command = "niri-session";
   };
 
   defaultSession = {

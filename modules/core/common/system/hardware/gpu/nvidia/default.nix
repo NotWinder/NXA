@@ -4,96 +4,89 @@
   lib,
   ...
 }: let
-  inherit (lib) mkIf mkDefault mkMerge versionOlder;
-
-  # use the latest possible nvidia package
-  nvStable = config.boot.kernelPackages.nvidiaPackages.stable.version;
-  nvBeta = config.boot.kernelPackages.nvidiaPackages.beta.version;
-
-  nvidiaPackage =
-    if (versionOlder nvBeta nvStable)
-    then config.boot.kernelPackages.nvidiaPackages.stable
-    else config.boot.kernelPackages.nvidiaPackages.beta;
-
+  inherit (lib) mkIf;
   dev = config.modules.device;
 in {
   config = mkIf (builtins.elem dev.gpu.type ["nvidia" "hybrid-nv"]) {
-    # nvidia drivers are unfree software
     nixpkgs.config.allowUnfree = true;
-
-    services.xserver = mkMerge [
-      {
-        videoDrivers = ["nvidia"];
-      }
+    boot.kernelParams = [
+      "nvidia-drm.modeset=1"
+      "nvidia-drm.fbdev=1"
     ];
-
-    # blacklist nouveau module so that it does not conflict with nvidia drm stuff
-    # also the nouveau performance is godawful, I'd rather run linux on a piece of paper than use nouveau
-    # no offense to nouveau devs, I'm sure they're doing their best and they have my respect for that
-    # but their best does not constitute a usable driver for me
-    boot.blacklistedKernelModules = ["nouveau"];
-
+    services.xserver = {
+      videoDrivers = ["nvidia"];
+    };
     environment = {
-      sessionVariables = mkMerge [
-        {LIBVA_DRIVER_NAME = "nvidia";}
+      variables = {
+        WLR_NO_HARDWARE_CURSORS = "1";
+        GBM_BACKEND = "nvidia-drm";
+        LIBVA_DRIVER_NAME = "nvidia";
 
-        {
-          WLR_NO_HARDWARE_CURSORS = "1";
-          __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-        }
+        # Force NVIDIA for Vulkan - Use ONLY ONE of these methods
+        VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/nvidia_icd.i686.json";
+        # Hide Mesa software drivers
+        DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1 = "1";
 
-        (mkIf (dev.gpu == "hybrid-nv") {
-          __NV_PRIME_RENDER_OFFLOAD = "1";
-          WLR_DRM_DEVICES = mkDefault "/dev/dri/card1:/dev/dri/card0";
-        })
-      ];
+        XWAYLAND_NO_GLAMOR = "1";
+      };
+      sessionVariables = {
+        # For DXVK/Proton to prefer NVIDIA
+        DXVK_FILTER_DEVICE_NAME = "NVIDIA";
+      };
       systemPackages = with pkgs; [
-        nvtopPackages.nvidia
-
-        # mesa
-        mesa
-
+        nvtopPackages.full
+        libgbm
+        mesa-demos
         # vulkan
         vulkan-tools
         vulkan-loader
         vulkan-validation-layers
         vulkan-extension-layer
 
+        wayland
+        wayland-protocols
+        libxkbcommon
         # libva
         libva
         libva-utils
+        # NVIDIA-specific packages
+        nvidia-vaapi-driver
+        egl-wayland
       ];
     };
-
     hardware = {
+      enableRedistributableFirmware = true;
+      enableAllFirmware = true;
       nvidia = {
-        package = mkDefault nvidiaPackage;
-        modesetting.enable = mkDefault true;
-
-        prime.offload = let
-          isHybrid = dev.gpu == "hybrid-nv";
-        in {
-          enable = isHybrid;
-          enableOffloadCmd = isHybrid;
+        package = config.boot.kernelPackages.nvidiaPackages.production;
+        modesetting.enable = true;
+        prime = {
+          nvidiaBusId = "PCI:1:0:0";
+          amdgpuBusId = "PCI:6:0:0";
+          offload = {
+            enable = true;
+            enableOffloadCmd = true;
+          };
         };
-
         powerManagement = {
-          enable = mkDefault true;
-          finegrained = mkDefault false;
+          enable = true;
+          finegrained = true;
         };
-
-        ## TODO: add options for these settings in host config
-        # use open source drivers by default, hosts may override this option if their gpu is
-        # not supported by the open source drivers
-        open = mkDefault false;
+        open = true;
         nvidiaSettings = true;
-        #nvidiaPersistenced = true;
-        forceFullCompositionPipeline = true;
+        forceFullCompositionPipeline = false;
       };
-
       graphics = {
-        extraPackages = with pkgs; [nvidia-vaapi-driver];
-        extraPackages32 = with pkgs.pkgsi686Linux; [nvidia-vaapi-driver];
+        enable = true;
+        enable32Bit = true;
+        extraPackages = with pkgs; [
+          nvidia-vaapi-driver
+          libglvnd
+          nvidia-vaapi-driver
+        ];
+        extraPackages32 = with pkgs.pkgsi686Linux; [
+          libgbm
+        ];
       };
     };
   };

@@ -1,6 +1,6 @@
 {
   config.hm = {
-    programs.git.aliases = {
+    programs.git.settings.aliases = {
       br = "branch";
       c = "commit -m";
       ca = "commit -am";

@@ -2,8 +2,6 @@
   imports = [
     ./fs
     ./modules
-
-    ./btrfs.nix
   ];
 
   config = {

@@ -54,19 +54,19 @@ in {
     ];
 
     # Ryzen cpu control
-    systemd.services.zenstates = mkIf zenpower.enable {
-      enable = true;
-      description = "Undervolt via Zenstates";
-      after = ["syslog.target" "systemd-modules-load.service"];
+    #systemd.services.zenstates = mkIf zenpower.enable {
+    #  enable = true;
+    #  description = "Undervolt via Zenstates";
+    #  after = ["syslog.target" "systemd-modules-load.service"];
 
-      unitConfig = {ConditionPathExists = "${pkgs.zenstates}/bin/zenstates";};
+    #  unitConfig = {ConditionPathExists = "${pkgs.zenstates}/bin/zenstates";};
 
-      serviceConfig = {
-        User = "root";
-        ExecStart = "${pkgs.zenstates}/bin/zenstates ${zenpower.args}";
-      };
+    #  serviceConfig = {
+    #    User = "root";
+    #    ExecStart = "${pkgs.zenstates}/bin/zenstates ${zenpower.args}";
+    #  };
 
-      wantedBy = ["multi-user.target"];
-    };
+    #  wantedBy = ["multi-user.target"];
+    #};
   };
 }

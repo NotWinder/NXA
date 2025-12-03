@@ -26,16 +26,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    dms-cli = {
-      url = "github:AvengeMedia/danklinux";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     dankMaterialShell = {
       url = "github:AvengeMedia/DankMaterialShell";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.dgop.follows = "dgop";
-      inputs.dms-cli.follows = "dms-cli";
     };
 
     caelestia-shell = {
@@ -59,7 +53,7 @@
     };
 
     stylix = {
-      url = "github:danth/stylix";
+      url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -100,23 +94,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hjem = {
-      url = "github:feel-co/hjem";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # anyrun program launcher
-    #anyrun.url = "github:anyrun-org/anyrun";
-    #anyrun-nixos-options = {
-    #  url = "github:n3oney/anyrun-nixos-options";
-    #  inputs = {
-    #    flake-parts.follows = "flake-parts";
-    #  };
-    #};
 
     # Personal collection of packages and modules
     # that are too unstable or too personal for nyxexprs.
@@ -128,6 +109,14 @@
     # doesn't offer much above properly used symlinks
     # but it *is* convenient
     impermanence.url = "github:nix-community/impermanence";
+
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
 
     winpaper = {
       url = "github:notwinder/winpaper";
