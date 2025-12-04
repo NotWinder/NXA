@@ -13,7 +13,7 @@
   terminal = "${prg.default.terminal}";
   browser = "${prg.default.browser}";
 in {
-  config.hm = mkIf (env.desktop == "Hyprland") {
+  config.hm = mkIf config.custom.programs.hyprland.enable {
     wayland.windowManager.hyprland.settings = {
       "$MOD" = "SUPER";
       binds = {

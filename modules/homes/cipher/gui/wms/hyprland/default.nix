@@ -9,14 +9,14 @@
   inherit (lib.filesystem) listFilesRecursive;
   inherit (lib.modules) mkIf;
   inherit (lib.strings) hasSuffix;
-  inherit (config) modules;
-
-  env = modules.usrEnv;
 in {
+  options.custom.programs.hyprland = {
+    enable = lib.mkEnableOption "Hyprland window manager";
+  };
   imports = filter (hasSuffix ".nix") (
     map toString (filter (p: p != ./default.nix) (listFilesRecursive ./config))
   );
-  config = mkIf (env.desktop == "Hyprland") {
+  config = mkIf config.custom.programs.hyprland.enable {
     services.displayManager.sessionPackages = [inputs'.hyprland.packages.hyprland];
     programs.hyprland = {
       enable = true;
@@ -29,10 +29,11 @@ in {
     };
 
     hm = {
-      home.packages = [
+      home.packages = with pkgs; [
         inputs'.hyprpolkitagent.packages.default
-        pkgs.grim
-        pkgs.slurp
+        grim
+        slurp
+        nwg-displays
       ];
 
       wayland.windowManager.hyprland = {

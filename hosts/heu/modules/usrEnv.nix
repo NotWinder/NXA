@@ -10,8 +10,6 @@
         obs.enable = true;
       };
 
-      bar = ["quickshell/caelestia" "quickshell"];
-
       browsers = ["librewolf"];
 
       terminals = ["alacritty" "ghostty"];

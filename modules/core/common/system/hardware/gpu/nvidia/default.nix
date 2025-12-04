@@ -5,9 +5,13 @@
   ...
 }: let
   inherit (lib) mkIf;
-  dev = config.modules.device;
 in {
-  config = mkIf (builtins.elem dev.gpu.type ["nvidia" "hybrid-nv"]) {
+  options.custom.hardware.nvidia = {
+    enable = lib.mkEnableOption "Enable NVIDIA GPU support";
+    isHybrid = lib.mkEnableOption "Indicates if the system is a hybrid GPU setup (e.g., NVIDIA + AMD)";
+    nvidiaOpen = lib.mkEnableOption "Use the open NVIDIA kernel module instead of the proprietary one";
+  };
+  config = mkIf config.custom.hardware.nvidia.enable {
     nixpkgs.config.allowUnfree = true;
     boot.kernelParams = [
       "nvidia-drm.modeset=1"
@@ -60,7 +64,7 @@ in {
       nvidia = {
         package = config.boot.kernelPackages.nvidiaPackages.production;
         modesetting.enable = true;
-        prime = {
+        prime = mkIf config.custom.hardware.nvidia.isHybrid {
           nvidiaBusId = "PCI:1:0:0";
           amdgpuBusId = "PCI:6:0:0";
           offload = {
@@ -68,11 +72,11 @@ in {
             enableOffloadCmd = true;
           };
         };
-        powerManagement = {
+        powerManagement = mkIf config.custom.hardware.nvidia.isHybrid {
           enable = true;
           finegrained = true;
         };
-        open = true;
+        open = config.custom.hardware.nvidia.nvidiaOpen;
         nvidiaSettings = true;
         forceFullCompositionPipeline = false;
       };

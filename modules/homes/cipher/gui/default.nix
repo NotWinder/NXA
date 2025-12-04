@@ -6,7 +6,6 @@
     ./gaming
     ./launchers
     ./media
-    ./screenlock
     ./terminal-emulators
     ./wallpaper
     ./wms

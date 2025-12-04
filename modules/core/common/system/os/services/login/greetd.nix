@@ -8,7 +8,6 @@
   inherit (lib.strings) concatStringsSep;
   inherit (lib.meta) getExe;
 
-  env = config.modules.usrEnv;
   sys = config.modules.system;
 
   # make desktop session paths available to greetd
@@ -20,8 +19,7 @@
 
   initialSession = {
     user = "${sys.mainUser}";
-    #command = "${env.desktop}";
-    command = "niri-session";
+    command = "${config.custom.services.greetd.autoLogin.command}";
   };
 
   defaultSession = {
@@ -36,10 +34,24 @@
     ];
   };
 in {
-  config = mkIf sys.video.enable {
+  options.custom.services.greetd = {
+    enable = lib.mkEnableOption "Greetd login manager";
+    autoLogin = {
+      enable = lib.mkEnableOption "Enable automatic login for the main user";
+      command = lib.mkOption {
+        type = lib.types.str;
+        default = "";
+        description = ''
+          The command to run for the automatic login session.
+        '';
+      };
+    };
+  };
+
+  config = mkIf config.custom.services.greetd.enable {
     services.greetd = {
       enable = true;
-      restart = !sys.autoLogin;
+      restart = !config.custom.services.greetd.autoLogin.enable;
 
       # <https://man.sr.ht/~kennylevinsen/greetd/>
       settings = {
@@ -48,7 +60,7 @@ in {
         default_session = defaultSession;
 
         # initial session
-        initial_session = mkIf sys.autoLogin initialSession;
+        initial_session = mkIf config.custom.services.greetd.autoLogin.enable initialSession;
       };
     };
 

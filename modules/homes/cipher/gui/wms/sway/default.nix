@@ -5,11 +5,16 @@
   ...
 }: let
   inherit (lib) mkIf;
-
-  env = config.modules.usrEnv;
 in {
-  imports = [./config.nix];
-  config.hm = mkIf (env.desktop == "sway") {
+  options.custom.programs.sway = {
+    enable = lib.mkEnableOption "sway window manager";
+  };
+  imports = [
+    ./config.nix
+    ./tools/swaylock.nix
+    ./tools/swaybg.nix
+  ];
+  config.hm = mkIf config.custom.programs.sway.enable {
     wayland.windowManager.sway = {
       enable = true;
       package = pkgs.swayfx;

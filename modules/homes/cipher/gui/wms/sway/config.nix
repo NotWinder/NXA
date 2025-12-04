@@ -6,13 +6,12 @@
 }: let
   inherit (lib) mkIf;
 
-  env = config.modules.usrEnv;
   terminal =
     if (defaults.terminal == "foot")
     then "foot"
     else "${defaults.terminal}";
 in {
-  config.hm = mkIf (env.desktop == "sway") {
+  config.hm = mkIf config.custom.programs.sway.enable {
     wayland.windowManager.sway = {
       config = {
         assigns = {

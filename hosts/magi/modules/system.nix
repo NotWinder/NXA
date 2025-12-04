@@ -6,7 +6,6 @@ in {
     users = [mainUser];
     homePath = "/home/${mainUser}";
     defaultUserShell = pkgs.fish;
-    autoLogin = true;
 
     fs = {
       enabledFilesystems = ["btrfs" "vfat" "ntfs" "exfat"];

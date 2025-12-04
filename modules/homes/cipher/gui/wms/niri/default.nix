@@ -12,10 +12,14 @@
   env = modules.usrEnv;
   prg = env.programs;
 in {
+  options.custom.programs.niri = {
+    enable = lib.mkEnableOption "Enable Niri as a window manager";
+  };
+
   imports = [
     inputs.niri.nixosModules.niri
   ];
-  config = mkIf (env.desktop == "niri") {
+  config = mkIf config.custom.programs.niri.enable {
     nixpkgs.overlays = [inputs.niri.overlays.niri];
     programs.niri = {
       enable = true;
@@ -28,7 +32,6 @@ in {
       ];
       programs.niri = {
         settings = {
-          spawn-at-startup = [{argv = ["dms" "run"];}];
           input = {
             keyboard = {
               numlock = true;
@@ -124,13 +127,6 @@ in {
                 {app-id = ''r#"^org\.gnome\.World\.Secrets$"#'';}
               ];
               block-out-from = "screen-capture";
-            }
-          ];
-
-          layer-rules = [
-            {
-              matches = [{namespace = "^quickshell$";}];
-              place-within-backdrop = true;
             }
           ];
 
@@ -319,10 +315,6 @@ in {
             "Ctrl+Alt+Delete".action = quit;
 
             "Mod+Shift+P".action = power-off-monitors;
-
-            "Mod+D".action = sh "dms ipc call spotlight toggle";
-
-            "Ctrl+L".action = sh "dms ipc call lock lock";
           };
           xwayland-satellite = {
             enable = true;

@@ -1,6 +1,6 @@
 {
   config,
-  inputs',
+  pkgs,
   lib,
   ...
 }: let
@@ -12,11 +12,11 @@ in {
   # this is based on the GNOME policykit agent
   # but uses a newer GTK version
   systemd = mkIf sys.video.enable {
-    user.services.polkit-pantheon-authentication-agent-1 = {
-      description = "Pantheon PolicyKit agent";
+    user.services.pantheon-agent-polkit-1 = {
+      description = "kde PolicyKit agent";
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${inputs'.hyprpolkitagent.packages.default}/result/libexec/hyprpolkitagent";
+        ExecStart = "${pkgs.pantheon.pantheon-agent-polkit}/result/libexec/polkit-kde-agent-1";
         Restart = "on-failure";
         RestartSec = 1;
         TimeoutStopSec = 10;

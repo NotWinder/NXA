@@ -6,7 +6,6 @@ in {
     users = [mainUser];
     homePath = "/home/${mainUser}";
     defaultUserShell = pkgs.fish;
-    autoLogin = true;
 
     services = {
       #jellyfin.enable = true;

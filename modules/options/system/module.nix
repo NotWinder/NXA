@@ -8,7 +8,7 @@
   inherit (lib.options) mkOption mkEnableOption;
   inherit (lib.modules) mkMerge;
   inherit (lib.lists) optionals;
-  inherit (lib.types) enum listOf str bool package;
+  inherit (lib.types) enum listOf str package;
 in {
   imports = [
     # boot/impermanence mounts
@@ -70,15 +70,6 @@ in {
     };
 
     enableSshSecrets = mkEnableOption "Whether or not add the ssh options to the config(requires secrets)";
-
-    autoLogin = mkOption {
-      type = bool;
-      default = false;
-      description = ''
-        Whether to enable passwordless login. This is generally useful on systems with
-        FDE (Full Disk Encryption) enabled. It is a security risk for systems without FDE.
-      '';
-    };
 
     sound = {
       enable = mkEnableOption "sound related programs and audio-dependent programs";

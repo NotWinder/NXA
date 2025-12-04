@@ -5,12 +5,13 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (config) modules;
 
   winpaper = inputs'.winpaper.packages;
-  env = modules.usrEnv;
 in {
-  config.hm = mkIf (env.programs.screenlock == "hyprlock") {
+  options.custom.programs.hyprlock = {
+    enable = lib.mkEnableOption "Hyprlock, screen locker for Hyprland";
+  };
+  config.hm = mkIf config.custom.programs.hyprlock.enable {
     programs.hyprlock = {
       enable = true;
       package = inputs'.hyprlock.packages.default;

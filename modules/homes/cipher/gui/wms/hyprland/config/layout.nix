@@ -3,12 +3,9 @@
   lib,
   ...
 }: let
-  inherit (config) modules;
   inherit (lib) mkIf;
-
-  env = modules.usrEnv;
 in {
-  config.hm = mkIf (env.desktop == "Hyprland") {
+  config.hm = mkIf config.custom.programs.hyprland.enable {
     wayland.windowManager.hyprland.settings = {
       dwindle = {
         pseudotile = false;

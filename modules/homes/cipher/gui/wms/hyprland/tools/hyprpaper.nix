@@ -4,14 +4,14 @@
   lib,
   ...
 }: let
-  inherit (builtins) elem;
   inherit (lib) mkIf;
 
-  inherit (config) modules;
-  prg = modules.usrEnv.programs;
   hyprpaper = inputs'.hyprpaper.packages.default;
 in {
-  config.hm = mkIf (elem "hyprpaper" prg.wallpapers) {
+  options.custom.programs.hyprpaper = {
+    enable = lib.mkEnableOption "Hyprpaper wallpaper manager";
+  };
+  config.hm = mkIf config.custom.programs.hyprpaper.enable {
     services.hyprpaper = {
       enable = true;
       package = hyprpaper;

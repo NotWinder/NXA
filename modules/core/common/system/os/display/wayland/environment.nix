@@ -6,11 +6,11 @@
   inherit (lib) mkIf;
 
   sys = config.modules.system;
-  env = config.modules.usrEnv;
 in {
   config = mkIf sys.video.enable {
     environment.etc."greetd/environments".text = ''
-      ${lib.optionalString (env.desktop == "Hyprland") "Hyprland"}
+      ${lib.optionalString config.custom.programs.hyprland.enable "Hyprland"}
+      fish
       zsh
     '';
 

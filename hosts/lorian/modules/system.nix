@@ -6,7 +6,6 @@ in {
     users = [mainUser];
     homePath = "/home/${mainUser}";
     defaultUserShell = pkgs.zsh;
-    autoLogin = true;
 
     services = {
       sing-box.enable = true;
