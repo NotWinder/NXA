@@ -22,12 +22,13 @@ in {
     };
     environment = {
       variables = {
-        WLR_NO_HARDWARE_CURSORS = "1";
-        GBM_BACKEND = "nvidia-drm";
-        LIBVA_DRIVER_NAME = "nvidia";
+        #WLR_NO_HARDWARE_CURSORS = "1";
+        #GBM_BACKEND = "nvidia-drm";
+        #LIBVA_DRIVER_NAME = "nvidia";
 
         # Force NVIDIA for Vulkan - Use ONLY ONE of these methods
         VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/nvidia_icd.i686.json";
+        DRI_PRIME = "1";
         # Hide Mesa software drivers
         DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1 = "1";
 
@@ -67,10 +68,11 @@ in {
         prime = mkIf config.custom.hardware.nvidia.isHybrid {
           nvidiaBusId = "PCI:1:0:0";
           amdgpuBusId = "PCI:6:0:0";
-          offload = {
-            enable = true;
-            enableOffloadCmd = true;
-          };
+          reverseSync.enable = true;
+          #offload = {
+          #  enable = true;
+          #  enableOffloadCmd = true;
+          #};
         };
         powerManagement = mkIf config.custom.hardware.nvidia.isHybrid {
           enable = true;

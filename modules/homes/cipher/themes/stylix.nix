@@ -51,6 +51,7 @@
         targets = {
           librewolf.enable = false;
           floorp.enable = false;
+          zen-browser.enable = false;
         };
         cursor = {
           name = "Breeze_Hacked";

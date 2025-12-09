@@ -13,10 +13,6 @@ in {
       kernelPackages = pkgs.linuxPackages_xanmod_latest;
       supportedFilesystems = ["zfs"];
       initrd.supportedFilesystems = ["zfs"];
-      #zfs = {
-      #  extraPools = ["wpool"];
-      #  forceImportRoot = false;
-      #};
     };
   };
 }

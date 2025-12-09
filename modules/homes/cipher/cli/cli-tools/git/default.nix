@@ -22,15 +22,8 @@
 #    };
 #  };
 #}
-{
-  config,
-  pkgs,
-  ...
-}: let
-  inherit (config) modules;
-
+{pkgs, ...}: let
   gitPackage = pkgs.gitFull;
-  cfg = modules.usrEnv.programs.git;
 in {
   imports = [
     ./aliases.nix
@@ -48,16 +41,17 @@ in {
       enable = true;
       package = gitPackage;
 
-      # my credentials
-      userName = "notwinder";
-      userEmail = "notwinder@gmail.com";
-
       lfs = {
         enable = true;
         skipSmudge = true;
       };
 
-      extraConfig = {
+      settings = {
+        # my credentials
+        user = {
+          name = "notwinder";
+          email = "notwinder@gmail.com";
+        };
         # I don't care about the usage of the term "master"
         # but main is easier to type, so that's that
         init.defaultBranch = "main";

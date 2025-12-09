@@ -1,5 +1,8 @@
 {
   config = {
+    boot.zfs = {
+      extraPools = ["wpool"];
+    };
     fileSystems = {
       "/boot" = {
         device = "/dev/disk/by-uuid/3105-B2F4";

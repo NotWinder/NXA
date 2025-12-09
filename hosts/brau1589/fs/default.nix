@@ -1,7 +1,10 @@
 {
   config = {
-    boot.zfs.extraPools = ["zroot"];
-    boot.zfs.forceImportRoot = false;
+    boot = {
+      zfs = {
+        extraPools = ["zroot"];
+      };
+    };
     services.zfs = {
       autoSnapshot.enable = true;
       autoScrub.enable = false;
