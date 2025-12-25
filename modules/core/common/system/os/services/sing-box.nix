@@ -24,9 +24,7 @@ in {
     # Define the systemd service unit from scratch
     systemd.services.sing-box = {
       description = "Custom sing-box proxy service";
-      wantedBy = ["multi-user.target"];
-      after = ["network.target"];
-      wants = [];
+      wantedBy = ["default.target"];
 
       # This script runs before the main command
       preStart = ''

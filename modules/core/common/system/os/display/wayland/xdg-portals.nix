@@ -21,13 +21,15 @@ in {
       config = {
         # For *all* desktops unless overridden
         common = {
-          default = ["gnome" "gtk"];
+          default = ["gnome"];
+          "org.freedesktop.impl.portal.FileChooser" = ["gtk"];
         };
 
         # Override specifically for Niri
         # (GNOME portal is required to be *first* for screencast)
         niri = {
-          default = ["gnome" "gtk"];
+          default = ["gnome"];
+          "org.freedesktop.impl.portal.FileChooser" = ["gtk"];
         };
       };
     };

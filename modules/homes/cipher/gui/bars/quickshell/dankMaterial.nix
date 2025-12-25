@@ -12,14 +12,18 @@ in {
 
   config.hm = {
     imports = [
-      inputs.dankMaterialShell.homeModules.dankMaterialShell.default
+      inputs.dms.homeModules.dankMaterialShell.default
     ];
+
     programs.dankMaterialShell = mkIf config.custom.programs.dms.enable {
       enable = true;
     };
+
     programs.niri = mkIf (config.custom.programs.niri.enable && config.custom.programs.dms.enable) {
       settings = {
-        spawn-at-startup = [{argv = ["dms" "run"];}];
+        spawn-at-startup = [
+          {argv = ["dms" "run" "&&" "dms" "ipc" "call" "lock" "lock"];}
+        ];
 
         layer-rules = [
           {
@@ -33,9 +37,11 @@ in {
         in {
           "Mod+D".action = sh "dms ipc call spotlight toggle";
           "Ctrl+L".action = sh "dms ipc call lock lock";
+          "Mod+Escape".action = sh "dms ipc powermenu toggle";
         };
       };
     };
+
     wayland.windowManager.hyprland = mkIf (config.custom.programs.hyprland.enable && config.custom.programs.dms.enable) {
       settings = {
         exec-once = [
@@ -44,6 +50,7 @@ in {
         bind = [
           "$MOD, D, exec, dms ipc call spotlight toggle"
           "Ctrl, L, exec, dms ipc call lock lock"
+          "$MOD, Escape, exec, dms ipc powermenu toggle"
         ];
       };
     };

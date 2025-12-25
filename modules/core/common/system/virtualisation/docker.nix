@@ -12,7 +12,8 @@ in {
     virtualisation = {
       docker = {
         enable = true;
-        storageDriver = "btrfs";
+        storageDriver = "zfs";
+        extraOptions = "--data-root=/zroot/containers";
       };
     };
   };

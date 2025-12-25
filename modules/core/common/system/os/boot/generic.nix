@@ -130,7 +130,7 @@ in {
         #  poll: slightly improve performance at cost of a hotter system (not recommended)
         #  halt: halt is forced to be used for CPU idle
         #  nomwait: Disable mwait for CPU C-states
-        "idle=nomwait" # poll | halt | nomwait
+        #"idle=nomwait" # poll | halt | nomwait
 
         # enable IOMMU for devices used in passthrough
         # and provide better host performance in virtualisation
@@ -154,7 +154,7 @@ in {
         # disable displaying of the built-in Linux logo
         "logo.nologo"
 
-       #"video=HDMI-A-1:1600x900@60"
+        #"video=HDMI-A-1:1600x900@60"
         "video=HDMI-A-1:1600x900@59"
       ])
       ++ (optionals sys.boot.silentBoot [

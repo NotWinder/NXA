@@ -23,13 +23,13 @@ in {
       # music player daemon service
       mpd = {
         enable = true;
-        musicDirectory = "${config.hm.home.homeDirectory}/Media/Music";
-        playlistDirectory = "${config.hm.home.homeDirectory}/Media/Music/primary/Music/library/playlists";
-        #network = {
-        #  startWhenNeeded = true;
-        #  listenAddress = "0.0.0.0";
-        #  port = 6600;
-        #};
+        musicDirectory = "/mnt/media/music";
+        playlistDirectory = "/mnt/media/music/primary/Music/library/playlists";
+        network = {
+          startWhenNeeded = true;
+          listenAddress = "0.0.0.0";
+          port = 6600;
+        };
 
         extraConfig = ''
           auto_update           "yes"

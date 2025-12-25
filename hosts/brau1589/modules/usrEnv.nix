@@ -24,7 +24,7 @@
           obs.enable = true;
         };
 
-        browsers = ["zen"];
+        browsers = ["librewolf" "zen-beta"];
 
         terminals = ["alacritty" "ghostty"];
 
@@ -36,7 +36,7 @@
 
         default = {
           terminal = "alacritty";
-          browser = "librewolf";
+          browser = "zen-beta";
         };
 
         launchers = ["rofi" "tofi"];

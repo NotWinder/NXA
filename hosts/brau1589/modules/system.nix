@@ -39,12 +39,11 @@ in {
     virtualisation = {
       enable = true;
       qemu.enable = true;
-      #docker.enable = true;
+      docker.enable = true;
     };
 
     security = {
       tor.enable = true;
-      fixWebcam = false;
     };
   };
 }

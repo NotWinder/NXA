@@ -12,6 +12,6 @@
 in {
   config.hm = {
     imports = [inputs.zen-browser.homeModules.beta];
-    programs.zen-browser.enable = mkIf (elem "zen" prg.browsers) true;
+    programs.zen-browser.enable = mkIf (elem "zen-beta" prg.browsers) true;
   };
 }

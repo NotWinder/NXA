@@ -170,6 +170,36 @@ in {
               action = spawn "brightnessctl" "--class=backlight" "set" "10%-";
             };
 
+            #"XF86KbdBrightnessUp" = {
+            #  allow-when-locked = true;
+            #  action = spawn "brightnessctl" "--class=backlight" "set" "10%-";
+            #};
+
+            #"XF86KbdBrightnessDown" = {
+            #  allow-when-locked = true;
+            #  action = spawn "brightnessctl" "--class=backlight" "set" "10%-";
+            #};
+
+            "XF86AudioPlay" = {
+              allow-when-locked = true;
+              action = sh "playerctl play-pause";
+            };
+
+            "XF86AudioPrev" = {
+              allow-when-locked = true;
+              action = sh "playerctl previous";
+            };
+
+            "XF86AudioNext" = {
+              allow-when-locked = true;
+              action = sh "playerctl next";
+            };
+
+            "XF86AudioStop" = {
+              allow-when-locked = true;
+              action = sh "playerctl stop";
+            };
+
             "Mod+O" = {
               repeat = false;
               action = toggle-overview;
@@ -305,11 +335,6 @@ in {
             "Print".action.screenshot = {show-pointer = false;};
             #"Ctrl+Print".action.screenshot = {screenshot-screen = true;};
             #"Alt+Print".action.screenshot = {screenshot-window = true;};
-
-            "Mod+Escape" = {
-              allow-inhibiting = false;
-              action = toggle-keyboard-shortcuts-inhibit;
-            };
 
             "Mod+Shift+E".action = quit;
             "Ctrl+Alt+Delete".action = quit;

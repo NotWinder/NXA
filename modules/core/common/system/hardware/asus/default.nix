@@ -2,23 +2,23 @@
   config = {
     #systemd.services.supergfxd.path = [pkgs.pciutils];
 
-    #services = {
-    #  supergfxd = {
-    #    enable = true;
-    #    settings = {
-    #      mode = "Hybrid";
-    #      always_reboot = false;
-    #      vfio_enable = false;
-    #      compute_enable = false;
-    #      hotplug_type = "None";
-    #    };
-    #  };
+    services = {
+      #supergfxd = {
+      #  enable = true;
+      #  settings = {
+      #    mode = "Hybrid";
+      #    always_reboot = false;
+      #    vfio_enable = false;
+      #    compute_enable = false;
+      #    hotplug_type = "None";
+      #  };
+      #};
 
-    #  asusd = {
-    #    enable = true;
-    #    enableUserService = true;
-    #  };
-    #};
+      asusd = {
+        enable = true;
+        enableUserService = true;
+      };
+    };
 
     #environment.systemPackages = with pkgs; [
     #  (writeShellScriptBin "gpu-hybrid" ''

@@ -13,30 +13,26 @@ in {
   };
   config = mkIf config.custom.hardware.nvidia.enable {
     nixpkgs.config.allowUnfree = true;
-    boot.kernelParams = [
-      "nvidia-drm.modeset=1"
-      "nvidia-drm.fbdev=1"
-    ];
-    services.xserver = {
-      videoDrivers = ["nvidia"];
-    };
+    #services.xserver.videoDrivers = ["nvidia"];
+    services.xserver.videoDrivers = ["nvidia" "amdgpu"];
+
+    #services.xserver.videoDrivers = ["amdgpu"];
+
     environment = {
       variables = {
-        #WLR_NO_HARDWARE_CURSORS = "1";
-        #GBM_BACKEND = "nvidia-drm";
-        #LIBVA_DRIVER_NAME = "nvidia";
+        #WLR_DRM_DEVICES = "/dev/dri/card1:/dev/dri/card2";
 
         # Force NVIDIA for Vulkan - Use ONLY ONE of these methods
-        VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/nvidia_icd.i686.json";
-        DRI_PRIME = "1";
+        #VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/nvidia_icd.i686.json";
+        #DRI_PRIME = "1";
         # Hide Mesa software drivers
-        DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1 = "1";
+        #DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1 = "1";
 
-        XWAYLAND_NO_GLAMOR = "1";
+        #XWAYLAND_NO_GLAMOR = "1";
       };
       sessionVariables = {
         # For DXVK/Proton to prefer NVIDIA
-        DXVK_FILTER_DEVICE_NAME = "NVIDIA";
+        #DXVK_FILTER_DEVICE_NAME = "NVIDIA";
       };
       systemPackages = with pkgs; [
         nvtopPackages.full
@@ -68,11 +64,11 @@ in {
         prime = mkIf config.custom.hardware.nvidia.isHybrid {
           nvidiaBusId = "PCI:1:0:0";
           amdgpuBusId = "PCI:6:0:0";
-          reverseSync.enable = true;
-          #offload = {
-          #  enable = true;
-          #  enableOffloadCmd = true;
-          #};
+
+          offload = {
+            enable = true;
+            enableOffloadCmd = true;
+          };
         };
         powerManagement = mkIf config.custom.hardware.nvidia.isHybrid {
           enable = true;
@@ -88,7 +84,6 @@ in {
         extraPackages = with pkgs; [
           nvidia-vaapi-driver
           libglvnd
-          nvidia-vaapi-driver
         ];
         extraPackages32 = with pkgs.pkgsi686Linux; [
           libgbm

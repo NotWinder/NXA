@@ -18,7 +18,7 @@ in {
     };
 
     browsers = mkOption {
-      type = listOf (enum ["none" "brave" "chromium" "floorp" "librewolf" "zen"]);
+      type = listOf (enum ["none" "brave" "chromium" "floorp" "librewolf" "zen-beta"]);
       default = ["none"];
       description = ''
         The List of Browser to be Installed.
@@ -102,7 +102,7 @@ in {
       };
 
       browser = mkOption {
-        type = enum ["brave" "chromium" "floorp" "librewolf" "zen"];
+        type = enum ["brave" "chromium" "floorp" "librewolf" "zen-beta"];
         default = "chromium";
       };
 

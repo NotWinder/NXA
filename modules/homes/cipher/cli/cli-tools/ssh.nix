@@ -62,6 +62,33 @@ in {
             identitiesOnly = true;
           };
         };
+        matchBlocks = {
+          waf = {
+            hostname = "85.133.217.107";
+            user = "waf";
+          };
+
+          db-ganje = {
+            hostname = "10.10.1.31";
+            user = "root";
+            proxyJump = "waf";
+          };
+          starbot = {
+            hostname = "10.10.1.39";
+            user = "starbot";
+            proxyJump = "waf";
+          };
+          park = {
+            hostname = "178.131.134.191";
+            user = "park";
+            port = 2248;
+          };
+          ganje = {
+            hostname = "10.10.1.28";
+            user = "ganje";
+            proxyJump = "waf";
+          };
+        };
       };
     };
   };
