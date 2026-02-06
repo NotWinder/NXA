@@ -10,7 +10,7 @@
 in {
   config = mkIf (cfg.fs.zfs.enable) {
     boot = {
-      kernelPackages = pkgs.linuxPackages_xanmod_latest;
+      kernelPackages = pkgs.linuxPackages;
       supportedFilesystems = ["zfs"];
       initrd.supportedFilesystems = ["zfs"];
     };

@@ -22,6 +22,6 @@ in {
     package = pkgs.ncmpcpp.override {visualizerSupport = true;};
 
     # look for music tracks inside mpd's music directory
-    mpdMusicDir = config.hm.services.mpd.musicDirectory;
+    mpdMusicDir = config.services.mpd.settings.music_directory;
   };
 }

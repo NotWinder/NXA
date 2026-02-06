@@ -58,7 +58,7 @@
           package = pkgs.breeze-hacked-cursor-theme;
           size = 32;
         };
-        iconTheme = {
+        icons = {
           enable = true;
           dark = "Papirus-Dark";
           light = "Papirus-Light";

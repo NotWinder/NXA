@@ -63,30 +63,136 @@ in {
           };
         };
         matchBlocks = {
-          waf = {
+          comp-proxmox = {
+            hostname = "85.133.217.106";
+            user = "root";
+          };
+
+          comp-waf = {
             hostname = "85.133.217.107";
             user = "waf";
           };
 
-          db-ganje = {
+          comp-ganje = {
+            hostname = "10.10.1.28";
+            user = "ganje";
+            proxyJump = "comp-waf";
+          };
+
+          comp-clickhouse = {
+            hostname = "10.10.1.29";
+            user = "clickhouse";
+            proxyJump = "comp-waf";
+          };
+
+          comp-ganje-db = {
             hostname = "10.10.1.31";
             user = "root";
-            proxyJump = "waf";
+            proxyJump = "comp-waf";
           };
-          starbot = {
+
+          comp-ganje-crawler = {
+            hostname = "10.10.1.33";
+            user = "root";
+            proxyJump = "comp-waf";
+          };
+
+          comp-scrapyd-cluster-108 = {
+            hostname = "10.10.1.34";
+            user = "root";
+            proxyJump = "comp-waf";
+          };
+
+          comp-scrapyd-cluster-109 = {
+            hostname = "10.10.1.36";
+            user = "root";
+            proxyJump = "comp-waf";
+          };
+
+          comp-ai = {
+            hostname = "10.10.1.35";
+            user = "bert_service";
+            proxyJump = "comp-waf";
+          };
+
+          comp-starbot = {
             hostname = "10.10.1.39";
             user = "starbot";
-            proxyJump = "waf";
+            proxyJump = "comp-waf";
           };
-          park = {
+
+          comp-starbot-db = {
+            hostname = "10.10.1.42";
+            user = "root";
+            proxyJump = "comp-waf";
+          };
+
+          comp-infra = {
+            hostname = "10.10.1.43";
+            user = "root";
+            proxyJump = "comp-waf";
+          };
+
+          comp-yektanet = {
+            hostname = "85.133.217.115";
+            user = "root";
+          };
+
+          comp-mohammad = {
+            hostname = "85.133.217.109";
+            user = "mohammad";
+            port = 2256;
+          };
+
+          comp-avid = {
+            hostname = "85.133.217.114";
+            user = "avid";
+          };
+
+          comp-waf-manage = {
+            hostname = "85.133.217.110";
+            user = "root";
+            port = 2256;
+          };
+
+          comp-zaris-manage = {
+            hostname = "10.10.1.37";
+            user = "zaris";
+            proxyJump = "comp-waf";
+          };
+
+          comp-monitor = {
+            hostname = "10.10.1.27";
+            user = "monitor";
+            proxyJump = "comp-waf";
+          };
+
+          comp-nixos = {
+            hostname = "10.10.1.44";
+            user = "nixos";
+            proxyJump = "comp-waf";
+          };
+
+          comp-test = {
+            hostname = "10.10.1.41";
+            user = "test";
+            proxyJump = "comp-waf";
+          };
+
+          comp-germany = {
+            hostname = "65.109.179.188";
+            user = "root";
+          };
+
+          comp-hiddify = {
+            hostname = "65.109.211.222";
+            user = "root";
+          };
+
+          comp-park = {
             hostname = "178.131.134.191";
             user = "park";
             port = 2248;
-          };
-          ganje = {
-            hostname = "10.10.1.28";
-            user = "ganje";
-            proxyJump = "waf";
           };
         };
       };

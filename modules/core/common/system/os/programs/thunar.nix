@@ -12,7 +12,7 @@ in {
   config = mkIf prg.gui.enable {
     programs.thunar = {
       enable = true;
-      plugins = with pkgs.xfce; [
+      plugins = with pkgs; [
         thunar-archive-plugin
         thunar-media-tags-plugin
       ];
@@ -22,7 +22,7 @@ in {
       systemPackages = with pkgs; [
         ffmpegthumbnailer
         libgsf
-        xfce.tumbler
+        tumbler
       ];
     };
 

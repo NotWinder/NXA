@@ -15,8 +15,8 @@ in {
 
       settings = {
         ui.color = true;
-        directory = "${config.services.mpd.musicDirectory}/library";
-        library = "${config.services.mpd.musicDirectory}/musiclibrary.db";
+        directory = "${config.services.mpd.settings.music_directory}/library";
+        library = "${config.services.mpd.settings.music_directory}/musiclibrary.db";
 
         clutter = [
           "Thumbs.DB"

@@ -144,7 +144,6 @@ in {
         "nix-command" # experimental nix commands
         "auto-allocate-uids" # allow nix to automatically pick UIDs, rather than creating nixbld* user accounts
         "cgroups" # allow nix to execute builds inside cgroups
-        "no-url-literals" # disallow deprecated url-literals, i.e., URLs without quotation
       ];
 
       # Ensures that the result of Nix expressions is fully determined by

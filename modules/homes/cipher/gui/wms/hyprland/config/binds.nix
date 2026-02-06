@@ -117,9 +117,18 @@ in {
         "$MOD+SHIFT, up, resizeactive,0 -50"
         "$MOD+SHIFT, down, resizeactive,0 50"
 
-        # volume controls
-        ",XF86AudioRaiseVolume, exec, wpctl set-volume -l '1.0' @DEFAULT_AUDIO_SINK@ 5%+"
-        ",XF86AudioLowerVolume, exec, wpctl set-volume -l '1.0' @DEFAULT_AUDIO_SINK@ 5%-"
+        ",XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"
+        ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"
+        ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+
+        ",XF86MonBrightnessUp, exec, brightnessctl --class=backlight set +10%"
+        ",XF86MonBrightnessDown, exec, brightnessctl --class=backlight set 10%-"
+
+        ",XF86AudioPlay, exec, playerctl play-pause"
+        ",XF86AudioPrev, exec, playerctl previous"
+        ",XF86AudioNext, exec, playerctl next"
+        ",XF86AudioStop, exec, playerctl stop"
       ];
     };
   };

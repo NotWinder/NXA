@@ -1,5 +1,4 @@
 {
-  inputs,
   lib,
   config,
   ...
@@ -10,48 +9,44 @@ in {
     enable = lib.mkEnableOption "Enable Niri as a window manager";
   };
 
-  config.hm = {
-    imports = [
-      inputs.dms.homeModules.dankMaterialShell.default
-    ];
-
-    programs.dankMaterialShell = mkIf config.custom.programs.dms.enable {
+  config = {
+    programs.dms-shell = mkIf config.custom.programs.dms.enable {
       enable = true;
     };
+    hm = {
+      programs.niri = mkIf (config.custom.programs.niri.enable && config.custom.programs.dms.enable) {
+        settings = {
+          layer-rules = [
+            {
+              matches = [{namespace = "^quickshell$";}];
+              place-within-backdrop = true;
+            }
+          ];
 
-    programs.niri = mkIf (config.custom.programs.niri.enable && config.custom.programs.dms.enable) {
-      settings = {
-        spawn-at-startup = [
-          {argv = ["dms" "run" "&&" "dms" "ipc" "call" "lock" "lock"];}
-        ];
-
-        layer-rules = [
-          {
-            matches = [{namespace = "^quickshell$";}];
-            place-within-backdrop = true;
-          }
-        ];
-
-        binds = with config.hm.lib.niri.actions; let
-          sh = spawn "sh" "-c";
-        in {
-          "Mod+D".action = sh "dms ipc call spotlight toggle";
-          "Ctrl+L".action = sh "dms ipc call lock lock";
-          "Mod+Escape".action = sh "dms ipc powermenu toggle";
+          binds = with config.hm.lib.niri.actions; let
+            sh = spawn "sh" "-c";
+          in {
+            "Mod+D".action = sh "dms ipc call spotlight toggle";
+            "Ctrl+L".action = sh "dms ipc call lock lock";
+            "Mod+Escape" = {
+              allow-when-locked = true;
+              action = sh "dms ipc powermenu toggle";
+            };
+          };
         };
       };
-    };
 
-    wayland.windowManager.hyprland = mkIf (config.custom.programs.hyprland.enable && config.custom.programs.dms.enable) {
-      settings = {
-        exec-once = [
-          "dms run"
-        ];
-        bind = [
-          "$MOD, D, exec, dms ipc call spotlight toggle"
-          "Ctrl, L, exec, dms ipc call lock lock"
-          "$MOD, Escape, exec, dms ipc powermenu toggle"
-        ];
+      wayland.windowManager.hyprland = mkIf (config.custom.programs.hyprland.enable && config.custom.programs.dms.enable) {
+        settings = {
+          exec-once = [
+            "dms run"
+          ];
+          bind = [
+            "$MOD, D, exec, dms ipc call spotlight toggle"
+            "Ctrl, L, exec, dms ipc call lock lock"
+            "$MOD, Escape, exec, dms ipc powermenu toggle"
+          ];
+        };
       };
     };
   };

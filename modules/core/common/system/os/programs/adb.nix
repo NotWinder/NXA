@@ -10,8 +10,6 @@
   prg = modules.usrEnv.programs;
 in {
   config = mkIf (prg.cli.enable) {
-    programs.adb.enable = true;
-
     services.udev = {
       packages = [
         pkgs.android-tools
