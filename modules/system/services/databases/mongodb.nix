@@ -1,14 +1,15 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{ config
+, lib
+, pkgs
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system;
+  sys = config.custom.system;
   cfg = sys.services;
-in {
+in
+{
   config = mkIf cfg.database.mongodb.enable {
     services.mongodb = {
       enable = true;

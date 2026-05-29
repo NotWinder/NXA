@@ -1,12 +1,12 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system;
+  sys = config.custom.system;
 
   waydroid-ui = pkgs.writeShellScriptBin "waydroid-ui" ''
     export WAYLAND_DISPLAY=wayland-0
@@ -19,7 +19,8 @@
     wait $WESTON_PID
     waydroid session stop
   '';
-in {
+in
+{
   config = mkIf sys.virtualisation.waydroid.enable {
     environment.systemPackages = with pkgs; [
       waydroid

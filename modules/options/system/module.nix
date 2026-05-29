@@ -1,15 +1,16 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (builtins) elemAt;
   inherit (lib.options) mkOption mkEnableOption;
   inherit (lib.modules) mkMerge;
   inherit (lib.lists) optionals;
   inherit (lib.types) enum listOf str package;
-in {
+in
+{
   imports = [
     # boot/impermanence mounts
     ./boot.nix
@@ -30,20 +31,20 @@ in {
   ];
   config = {
     warnings = mkMerge [
-      (optionals (config.modules.system.users == []) [
+      (optionals (config.custom.system.users == [ ]) [
         ''
           You have not added any users to be supported by your system. You may end up with an unbootable system!
 
-          Consider setting {option}`config.modules.system.users` in your configuration
+          Consider setting {option}`config.custom.system.users` in your configuration
         ''
       ])
     ];
   };
 
-  options.modules.system = {
+  options.custom.system = {
     mainUser = mkOption {
-      type = enum config.modules.system.users;
-      default = elemAt config.modules.system.users 0;
+      type = enum config.custom.system.users;
+      default = elemAt config.custom.system.users 0;
       description = ''
         The username of the main user for your system.
 
@@ -53,7 +54,7 @@ in {
 
     users = mkOption {
       type = listOf str;
-      default = ["winder"];
+      default = [ "winder" ];
       description = "A list of home-manager users on the system.";
     };
 
@@ -89,7 +90,7 @@ in {
       enable = mkEnableOption "printing";
       extraDrivers = mkOption {
         type = listOf str;
-        default = [];
+        default = [ ];
         description = "A list of extra drivers to enable for printing";
       };
     };

@@ -1,21 +1,22 @@
-{
-  keys,
-  config,
-  lib,
-  ...
-}: let
+{ keys
+, config
+, lib
+, ...
+}:
+let
   #inherit (lib.modules) mkDefault mkForce mkMerge;
   #inherit (lib.strings) concatStringsSep;
   #inherit (lib.attrsets) mapAttrs;
   #inherit (lib.lists) elemAt;
   #inherit (lib) mkPubkeyFor;
-in {
+in
+{
   services = {
     openssh = {
       # enable openssh
       enable = true;
       openFirewall = true; # the ssh port(s) should be automatically passed to the firewall's allowedTCPports
-      ports = [22]; # the port(s) openssh daemon should listen on
+      ports = [ 22 ]; # the port(s) openssh daemon should listen on
       #startWhenNeeded = true; # automatically start the ssh daemon when it's required
       #settings = {
       #  # no root login
@@ -106,7 +107,7 @@ in {
 
   #  hostConfig = concatStringsSep "\n" (map mkHostConfig hosts);
   #in {
-  #  startAgent = !config.modules.system.yubikeySupport.enable;
+  #  startAgent = !config.custom.system.yubikeySupport.enable;
   #  extraConfig = ''
   #    ${hostConfig}
   #  '';

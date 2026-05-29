@@ -1,14 +1,15 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (builtins) elem;
   inherit (lib.modules) mkIf;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  prg = modules.usrEnv.programs;
-in {
+  prg = custom.usrEnv.programs;
+in
+{
   config.hm = mkIf (elem "swww" prg.wallpapers) {
     services.swww = {
       enable = true;

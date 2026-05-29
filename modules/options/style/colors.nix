@@ -1,14 +1,14 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib.options) mkOption literalExpression;
   inherit (lib.types) str nullOr enum mkOptionType attrsOf coercedTo;
   inherit (lib.strings) removePrefix hasPrefix isString;
   inherit (lib) serializeTheme;
 
-  cfg = config.modules.style;
+  cfg = config.custom.style;
 
   hexColorType = mkOptionType {
     name = "hex-color";
@@ -22,13 +22,14 @@
     if builtins.pathExists ./palettes/${slug}.nix
     then (import ./palettes/${slug}.nix).colorscheme.palette
     else throw "The following colorscheme was imported but not found: ${slug}";
-in {
-  options.modules.style = {
+in
+{
+  options.custom.style = {
     # choose a colorscheme
     colorScheme = {
       # "Name Of The Scheme"
       name = mkOption {
-        type = nullOr (enum ["Catppuccin Mocha" "Tokyonight Storm" "Oxocarbon Dark"]);
+        type = nullOr (enum [ "Catppuccin Mocha" "Tokyonight Storm" "Oxocarbon Dark" ]);
         description = "The colorscheme that should be used globally to theme your system.";
         default = "Catppuccin Mocha";
       };
@@ -84,7 +85,7 @@ in {
       };
 
       variant = mkOption {
-        type = enum ["dark" "light"];
+        type = enum [ "dark" "light" ];
         default =
           if builtins.substring 0 1 cfg.colorScheme.colors.base00 < "5"
           then "dark"

@@ -1,7 +1,9 @@
-{lib, ...}: let
+{ lib, ... }:
+let
   inherit (lib) mkEnableOption;
-in {
-  options.modules.profiles = {
+in
+{
+  options.custom.profiles = {
     workstation.enable = mkEnableOption ''
       the Desktop profile
 

@@ -1,17 +1,18 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  inherit (config) modules;
+  inherit (config) custom;
 
-  env = modules.usrEnv;
+  env = custom.usrEnv;
   prg = env.programs;
   cfg = prg.media;
-in {
+in
+{
   config.hm = mkIf cfg.addDefaultPackages {
     home.packages = with pkgs;
       [

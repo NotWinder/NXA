@@ -1,13 +1,14 @@
-{
-  lib,
-  config,
-  ...
-}: let
+{ lib
+, config
+, ...
+}:
+let
   inherit (lib) mkIf;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  virt = modules.system.virtualisation;
-in {
+  virt = custom.system.virtualisation;
+in
+{
   config = mkIf virt.docker.enable {
     virtualisation = {
       docker = {

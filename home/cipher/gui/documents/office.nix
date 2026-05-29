@@ -1,14 +1,15 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  prg = modules.usrEnv.programs;
-in {
+  prg = custom.usrEnv.programs;
+in
+{
   config.hm = mkIf prg.gui.libreoffice.enable {
     home.packages = with pkgs; [
       libreoffice-qt # Comprehensive, professional-quality productivity suite, a variant of openoffice.org

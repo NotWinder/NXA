@@ -1,20 +1,53 @@
 # NXA (Nix Automata)
 
-This is going to be a redo of my nixos config.
+NixOS flake configuration managing 8 hosts, inspired by [NotAShelf's nyx](https://github.com/NotAShelf/nyx).
 
-## What is Changed
+## Hosts
 
-my config which was initially practically a full copy of [NotAShelf's](https://github.com/NotAShelf) [nyx](https://github.com/NotAShelf/nyx) and after that I made some changes on it was a bit confusing for me cuz I'm not that good with nix's language.
+| Host | Type | CPU | GPU | Role | Notes |
+|------|------|-----|-----|------|-------|
+| amadeus | desktop | Intel | Nvidia | graphical + workstation | |
+| brau1589 | desktop | AMD | Nvidia | graphical + workstation | ZFS, gaming |
+| cipher | desktop | Intel | — | graphical + workstation | gaming, arr-stack |
+| heu | desktop | AMD | Intel | graphical + workstation | |
+| lorian | server | Intel | — | headless + server | ext4, no GUI |
+| magi | desktop | Intel | AMD | graphical + workstation | |
+| salieri | desktop | AMD | AMD | graphical + workstation | |
+| wired | desktop | Intel | Intel | graphical + workstation | btrfs |
 
-I'll still be using a lot of the parts from the previous config, but I'll try to make it more manageable for myself.
+## Quick reference
 
-# Big Thanks To
+```bash
+# Build all
+nix build .#
 
-first of all, I want to say thanks to Raf ([NotAShelf's](https://github.com/NotAShelf))
-His Nyx was why I got interested in Nix and making my configuration bigger and better.
+# Build single host
+nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel
 
-And then I like to thank Mihai ([fufexan](https://github.com/fufexan)) your work with Nix always fasenated me and i would like to learn more from your repos.
+# Check evaluation
+nix flake check
 
-## updates
+# Format
+nix run nixpkgs#nixpkgs-fmt -- <file.nix>
+```
 
-since this is only an initial readme for the rewriting of my repo (which is a step up from the previous config) I'll add more to it in the future.
+## Adding a new host
+
+See [docs/adding-a-host.md](docs/adding-a-host.md).
+
+## Secrets
+
+SOPS-managed via age keys. See `secrets/.sops.yaml` for key configuration.
+
+## Configuration namespace
+
+All custom options live under `config.custom.*`:
+
+- `custom.device.*` — hardware description (CPU, GPU, monitors)
+- `custom.system.*` — system-level options (boot, services, users)
+- `custom.usrEnv.*` — user environment (programs, GUI, desktop)
+- `custom.style.*` — theming (GTK, Qt, colorscheme)
+- `custom.profiles.*` — composable feature sets (workstation, gaming)
+- `custom.programs.*` — per-program enable flags (hyprland, niri, etc.)
+- `custom.hardware.*` — hardware driver options (nvidia)
+- `custom.services.*` — service options (greetd)

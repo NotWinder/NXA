@@ -1,13 +1,14 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{ config
+, lib
+, pkgs
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system;
-in {
+  sys = config.custom.system;
+in
+{
   config = mkIf sys.printing.enable {
     # enable cups and add some drivers for common printers
     services = {

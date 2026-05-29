@@ -1,16 +1,17 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib) isx86Linux;
   inherit (lib.modules) mkIf;
 
-  inherit (config) modules;
-  sys = modules.system;
-  dev = modules.device;
-in {
+  inherit (config) custom;
+  sys = custom.system;
+  dev = custom.device;
+in
+{
   imports = [
     ./wireplumber
 
@@ -45,8 +46,8 @@ in {
     };
 
     systemd.user.services = {
-      pipewire.wantedBy = ["default.target"];
-      pipewire-pulse.wantedBy = ["default.target"];
+      pipewire.wantedBy = [ "default.target" ];
+      pipewire-pulse.wantedBy = [ "default.target" ];
     };
   };
 }

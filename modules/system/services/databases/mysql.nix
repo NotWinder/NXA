@@ -1,21 +1,22 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{ config
+, lib
+, pkgs
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system;
+  sys = config.custom.system;
   cfg = sys.services;
-in {
+in
+{
   config = mkIf cfg.database.mysql.enable {
     services.mysql = {
       enable = true;
       package = pkgs.mariadb;
 
       # databases and users
-      ensureDatabases = ["mkm"];
+      ensureDatabases = [ "mkm" ];
       ensureUsers = [
         {
           name = "mkm";

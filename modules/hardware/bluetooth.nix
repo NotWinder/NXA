@@ -1,21 +1,22 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system.bluetooth;
-in {
+  sys = config.custom.system.bluetooth;
+in
+{
   config = mkIf sys.enable {
-    modules.system.boot.extraKernelParams = ["btusb"];
+    custom.system.boot.extraKernelParams = [ "btusb" ];
 
     hardware.bluetooth = {
       enable = true;
       package = pkgs.bluez-experimental;
       powerOnBoot = true;
-      disabledPlugins = ["sap"];
+      disabledPlugins = [ "sap" ];
       settings = {
         General = {
           JustWorksRepairing = "always";

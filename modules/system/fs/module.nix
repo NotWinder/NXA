@@ -1,14 +1,15 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (builtins) elem;
   inherit (lib.modules) mkIf mkDefault;
 
-  sys = config.modules.system;
+  sys = config.custom.system;
   inherit (sys) fs;
-in {
+in
+{
   imports = [
     ./zfs
   ];

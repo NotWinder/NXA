@@ -1,18 +1,19 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (builtins) pathExists;
   inherit (lib.options) mkOption mkEnableOption;
   inherit (lib.types) str package int;
 
-  cfg = config.modules.style.gtk;
-in {
+  cfg = config.custom.style.gtk;
+in
+{
   # Theming options for GTK programs. Will be passed verbatim to home-manager
   # in some cases.
-  options.modules.style.gtk = {
+  options.custom.style.gtk = {
     enable = mkEnableOption "GTK theming options";
     usePortal = mkEnableOption "native desktop portal use for filepickers [xdg-desktop-portal-gtk]";
 
@@ -29,8 +30,8 @@ in {
         default = pkgs.catppuccin-gtk.override {
           variant = "mocha";
           size = "standard";
-          accents = ["blue"];
-          tweaks = ["normal"];
+          accents = [ "blue" ];
+          tweaks = [ "normal" ];
         };
       };
     };
@@ -69,18 +70,21 @@ in {
 
   config = {
     assertions = [
-      (let
-        themePath = cfg.theme.package + /share/themes + "/${cfg.theme.name}";
-      in {
-        assertion = cfg.enable -> pathExists themePath;
-        message = ''
-          ${toString themePath} set by the GTK module does not exist!
+      (
+        let
+          themePath = cfg.theme.package + /share/themes + "/${cfg.theme.name}";
+        in
+        {
+          assertion = cfg.enable -> pathExists themePath;
+          message = ''
+            ${toString themePath} set by the GTK module does not exist!
 
-          To suppress this message, make sure that
-          `config.modules.style.gtk.theme.package` contains
-          the path `${cfg.theme.name}`
-        '';
-      })
+            To suppress this message, make sure that
+            `config.custom.style.gtk.theme.package` contains
+            the path `${cfg.theme.name}`
+          '';
+        }
+      )
     ];
   };
 }

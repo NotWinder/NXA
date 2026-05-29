@@ -1,18 +1,19 @@
-{
-  pkgs,
-  lib,
-  ...
-}: let
+{ pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.options) mkOption;
   inherit (lib.types) either listOf package str int bool;
-in {
+in
+{
   imports = [
     ./gtk.nix
     ./qt.nix
     ./colors.nix
   ];
 
-  options.modules.style = {
+  options.custom.style = {
     forceGtk = mkOption {
       type = bool;
       default = false;
@@ -47,7 +48,7 @@ in {
 
     wallpapers = mkOption {
       type = either str (listOf str);
-      default = [];
+      default = [ ];
       description = "Wallpaper or wallpapers to use";
     };
   };

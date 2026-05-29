@@ -1,13 +1,14 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf;
 
-  sys = config.modules.system.virtualisation;
-in {
+  sys = config.custom.system.virtualisation;
+in
+{
   config = mkIf (sys.docker.enable || sys.podman.enable) {
     # Enable Nvidia support for Podman if the Nvidia drivers are found
     # in the list of xserver.videoDrivers.
@@ -41,7 +42,7 @@ in {
         # Prune images and containers periodically
         autoPrune = {
           enable = true;
-          flags = ["--all"];
+          flags = [ "--all" ];
           dates = "weekly";
         };
       };

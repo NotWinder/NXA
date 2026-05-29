@@ -1,13 +1,14 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system;
+  sys = config.custom.system;
   cfg = sys.services;
-in {
+in
+{
   config = mkIf cfg.jellyfin.enable {
     # Because most of the websites that jellyfin gets its metadata from
     # e.g tvdb and tmdb are blocked or not reachable in my country i use
@@ -18,7 +19,7 @@ in {
       https_proxy = "socks5h://127.0.0.1:10808";
     };
 
-    users.users.jellyfin.extraGroups = ["media"];
+    users.users.jellyfin.extraGroups = [ "media" ];
 
     services = {
       jellyfin = {

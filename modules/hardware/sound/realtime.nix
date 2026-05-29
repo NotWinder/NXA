@@ -1,21 +1,22 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf;
 
-  cfg = config.modules.system.sound;
-  dev = config.modules.device;
-in {
+  cfg = config.custom.system.sound;
+  dev = config.custom.device;
+in
+{
   config = mkIf (cfg.enable && dev.hasSound) {
     # port of https://gitlab.archlinux.org/archlinux/packaging/packages/realtime-privileges
     # see https://wiki.archlinux.org/title/Realtime_process_management
     # tldr: realtime processes have higher priority than normal processes
     # and that's a good thing
     users = {
-      users."${config.modules.system.mainUser}".extraGroups = ["audio"];
-      groups.audio = {};
+      users."${config.custom.system.mainUser}".extraGroups = [ "audio" ];
+      groups.audio = { };
     };
 
     security.pam.loginLimits = [

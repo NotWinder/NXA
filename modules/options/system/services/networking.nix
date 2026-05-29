@@ -1,7 +1,9 @@
-{lib, ...}: let
+{ lib, ... }:
+let
   inherit (lib) mkEnableOption mkService;
-in {
-  options.modules.system.services = {
+in
+{
+  options.custom.system.services = {
     # networking
     networking = {
       wireguard.enable = mkEnableOption "Wireguard service";

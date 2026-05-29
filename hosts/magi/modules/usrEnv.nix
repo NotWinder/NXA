@@ -1,5 +1,5 @@
 {
-  config.modules.usrEnv = {
+  config.custom.usrEnv = {
     desktop = "Hyprland";
     useHomeManager = true;
 
@@ -10,9 +10,9 @@
         obs.enable = true;
       };
 
-      browsers = ["librewolf"];
+      browsers = [ "librewolf" ];
 
-      terminals = ["alacritty" "ghostty"];
+      terminals = [ "alacritty" "ghostty" ];
 
       media = {
         beets.enable = true;
@@ -25,7 +25,7 @@
         browser = "librewolf";
       };
 
-      launchers = ["rofi" "tofi"];
+      launchers = [ "rofi" "tofi" ];
     };
     services.media.mpd.enable = true;
   };

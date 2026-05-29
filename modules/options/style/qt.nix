@@ -1,23 +1,24 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.options) mkOption mkEnableOption;
   inherit (lib.types) package str;
 
-  cfg = config.modules.style.qt;
-in {
-  options.modules.style.qt = {
+  cfg = config.custom.style.qt;
+in
+{
+  options.custom.style.qt = {
     enable = mkEnableOption "QT Style Module";
     theme = {
       package = mkOption {
         type = package;
         default = pkgs.catppuccin-kde.override {
-          flavour = ["mocha"];
-          accents = ["blue"];
-          winDecStyles = ["modern"];
+          flavour = [ "mocha" ];
+          accents = [ "blue" ];
+          winDecStyles = [ "modern" ];
         };
 
         description = ''

@@ -1,20 +1,21 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{ config
+, lib
+, pkgs
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system;
+  sys = config.custom.system;
   cfg = sys.services;
 
   inherit (cfg.searxng.settings) port;
-in {
+in
+{
   config = mkIf cfg.searxng.enable {
-    networking.firewall.allowedTCPPorts = [port];
+    networking.firewall.allowedTCPPorts = [ port ];
 
-    modules.system.services = {
+    custom.system.services = {
       nginx.enable = true;
       database.redis.enable = true;
     };
@@ -26,7 +27,7 @@ in {
         group = lib.mkForce "searx-redis";
       };
 
-      groups.searx-redis = {};
+      groups.searx-redis = { };
     };
 
     services = {
@@ -39,7 +40,7 @@ in {
 
           search = {
             safe_search = 2; # 0 = None, 1 = Moderate, 2 = Strict
-            formats = ["html" "json" "rss"];
+            formats = [ "html" "json" "rss" ];
             autocomplete = "google"; # "dbpedia", "duckduckgo", "google", "startpage", "swisscows", "qwant", "wikipedia" - leave blank to turn it off by default
             default_lang = "en";
           };

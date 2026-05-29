@@ -1,13 +1,14 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf mkMerge;
   inherit (lib.lists) singleton;
 
-  dev = config.modules.device;
-in {
+  dev = config.custom.device;
+in
+{
   # WirePlumber is a modular session / policy manager for PipeWire
   services.pipewire.wireplumber = {
     extraConfig = mkMerge [
@@ -67,8 +68,8 @@ in {
         "60-onboard-card" = {
           "monitor.alsa.rules" = singleton {
             matches = [
-              {"media.class" = "Audio/Device";}
-              {"devie.product.name" = "Starship/Matisse HD Audio Controller";}
+              { "media.class" = "Audio/Device"; }
+              { "devie.product.name" = "Starship/Matisse HD Audio Controller"; }
             ];
 
             actions.update-props = {
@@ -98,10 +99,10 @@ in {
       (mkIf dev.hasBluetooth {
         "10-bluez" = {
           "monitor.bluez.rules" = singleton {
-            matches = singleton {"device.name" = "~bluez_card.*";};
+            matches = singleton { "device.name" = "~bluez_card.*"; };
             actions = {
               update-props = {
-                "bluez5.roles" = ["hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag"];
+                "bluez5.roles" = [ "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag" ];
                 "bluez5.enable-msbc" = true;
                 "bluez5.enable-sbc-xq" = true;
                 "bluez5.enable-hw-volume" = true;

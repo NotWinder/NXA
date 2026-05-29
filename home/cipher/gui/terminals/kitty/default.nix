@@ -1,19 +1,20 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (builtins) elem;
   inherit (lib) mkIf;
-  inherit (config) modules;
-  inherit (modules.style.colorScheme) colors;
+  inherit (config) custom;
+  inherit (custom.style.colorScheme) colors;
 
-  prg = modules.usrEnv.programs;
-in {
+  prg = custom.usrEnv.programs;
+in
+{
   config.hm = mkIf (elem "kitty" prg.terminals) {
     programs.kitty = {
       enable = true;
-      settings = import ./settings.nix {inherit colors;};
+      settings = import ./settings.nix { inherit colors; };
       keybindings = {
         "ctrl+c" = "copy_or_interrupt";
         "ctrl+alt+c" = "copy_to_clipboard";

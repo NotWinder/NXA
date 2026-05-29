@@ -1,17 +1,18 @@
-{
-  inputs',
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
-  inherit (config.modules.style.colorScheme) slug colors;
-  inherit (config) modules;
+{ inputs'
+, config
+, pkgs
+, lib
+, ...
+}:
+let
+  inherit (config.custom.style.colorScheme) slug colors;
+  inherit (config) custom;
   inherit (lib) mkIf;
   inherit (builtins) elem;
 
-  prg = modules.usrEnv.programs;
-in {
+  prg = custom.usrEnv.programs;
+in
+{
   config.hm = mkIf (elem "foot" prg.terminals) {
     home.packages = with pkgs; [
       libsixel # for displaying images
@@ -68,7 +69,7 @@ in {
           uri-characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.,~:;/?#@!$&%*+=\"'()[]";
         };
 
-        colors = import ./presets/${slug}/colors.nix {inherit colors;} // {alpha = "0.85";};
+        colors = import ./presets/${slug}/colors.nix { inherit colors; } // { alpha = "0.85"; };
       };
     };
   };

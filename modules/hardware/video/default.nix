@@ -1,13 +1,14 @@
-{
-  pkgs,
-  lib,
-  config,
-  ...
-}: let
+{ pkgs
+, lib
+, config
+, ...
+}:
+let
   inherit (lib) mkIf isx86Linux;
 
-  sys = config.modules.system;
-in {
+  sys = config.custom.system;
+in
+{
   config = mkIf sys.video.enable {
     hardware = {
       graphics = {

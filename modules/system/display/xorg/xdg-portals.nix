@@ -1,12 +1,13 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf;
-  sys = config.modules.system;
-in {
+  sys = config.custom.system;
+in
+{
   config = mkIf sys.video.enable {
     xdg.portal = {
       enable = true;

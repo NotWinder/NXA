@@ -1,14 +1,15 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  prg = modules.usrEnv.programs;
-in {
+  prg = custom.usrEnv.programs;
+in
+{
   config = mkIf prg.gaming.gamescope.enable {
     programs.gamescope = {
       enable = true;

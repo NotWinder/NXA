@@ -7,10 +7,10 @@
         };
       };
     };
-    modules.device = {
+    custom.device = {
       type = "desktop";
       cpu.type = "intel";
-      monitors = ["HDMI-A-1"];
+      monitors = [ "HDMI-A-1" ];
       hasBluetooth = true;
       hasSound = true;
       #hasTPM = true;

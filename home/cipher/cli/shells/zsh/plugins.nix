@@ -1,13 +1,14 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{ config
+, lib
+, pkgs
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  cfg = config.modules.system;
-in {
+  cfg = config.custom.system;
+in
+{
   config.hm = mkIf (cfg.defaultUserShell == pkgs.zsh) {
     programs.zsh.plugins = [
       {

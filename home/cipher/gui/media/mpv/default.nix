@@ -1,17 +1,18 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf mkMerge;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  env = modules.usrEnv;
+  env = custom.usrEnv;
   prg = env.programs;
 
-  low1k = import ./low1k.nix {inherit pkgs;};
-in {
+  low1k = import ./low1k.nix { inherit pkgs; };
+in
+{
   config.hm = mkIf prg.media.mpv.enable {
     programs.mpv = {
       enable = true;

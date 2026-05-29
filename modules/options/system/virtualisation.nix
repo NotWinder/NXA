@@ -1,7 +1,9 @@
-{lib, ...}: let
+{ lib, ... }:
+let
   inherit (lib) mkEnableOption;
-in {
-  options.modules.system.virtualisation = {
+in
+{
+  options.custom.system.virtualisation = {
     enable = mkEnableOption "virtualisation";
 
     distrobox.enable = mkEnableOption "distrobox";

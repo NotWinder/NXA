@@ -1,15 +1,16 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system;
+  sys = config.custom.system;
   cfg = sys.services;
-in {
+in
+{
   config = mkIf cfg.lidarr.enable {
-    users.users.lidarr.extraGroups = ["media"];
+    users.users.lidarr.extraGroups = [ "media" ];
     services.lidarr = {
       enable = true;
       openFirewall = true;

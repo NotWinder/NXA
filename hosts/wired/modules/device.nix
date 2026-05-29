@@ -1,9 +1,9 @@
 {
-  config.modules.device = {
+  config.custom.device = {
     type = "desktop";
     cpu.type = "intel";
     gpu.type = "intel";
-    monitors = ["HDMI-A-1"];
+    monitors = [ "HDMI-A-1" ];
     hasBluetooth = true;
     hasSound = true;
     #hasTPM = true;

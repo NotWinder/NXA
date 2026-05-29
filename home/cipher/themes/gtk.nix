@@ -1,21 +1,24 @@
-{
-  osConfig,
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ osConfig
+, config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf;
 
-  cfg = osConfig.modules.style;
-in {
+  cfg = osConfig.custom.style;
+in
+{
   config = mkIf cfg.gtk.enable {
-    xdg.systemDirs.data = let
-      schema = pkgs.gsettings-desktop-schemas;
-    in ["${schema}/share/gsettings-schemas/${schema.name}"];
+    xdg.systemDirs.data =
+      let
+        schema = pkgs.gsettings-desktop-schemas;
+      in
+      [ "${schema}/share/gsettings-schemas/${schema.name}" ];
 
     home = {
-      packages = [pkgs.glib]; # gsettings
+      packages = [ pkgs.glib ]; # gsettings
       file = {
         "${config.xdg.dataHome}/themes/${cfg.gtk.theme.name}".source = "${cfg.gtk.theme.package}/share/themes/${cfg.gtk.theme.name}";
       };

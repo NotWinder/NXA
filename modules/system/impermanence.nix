@@ -1,13 +1,14 @@
-{
-  inputs,
-  config,
-  lib,
-  ...
-}: let
+{ inputs
+, config
+, lib
+, ...
+}:
+let
   inherit (lib) optionalString mkIf mkForce;
 
-  cfg = config.modules.system.impermanence;
-in {
+  cfg = config.custom.system.impermanence;
+in
+{
   imports = [
     inputs.impermanence.nixosModules.impermanence
   ];
@@ -53,7 +54,7 @@ in {
           "/var/cache/tailscale"
           "/var/lib/tailscale"
         ]
-        ++ [config.programs.ccache.cacheDir];
+        ++ [ config.programs.ccache.cacheDir ];
 
       files = [
         # important state
@@ -94,12 +95,12 @@ in {
 
     boot.initrd.systemd.services.rollback = {
       description = "Rollback BTRFS root subvolume to a pristine state";
-      wantedBy = ["initrd.target"];
+      wantedBy = [ "initrd.target" ];
       # make sure it's done after encryption
       # i.e. LUKS/TPM process
-      after = ["systemd-cryptsetup@enc.service"];
+      after = [ "systemd-cryptsetup@enc.service" ];
       # mount the root fs before clearing
-      before = ["sysroot.mount"];
+      before = [ "sysroot.mount" ];
       unitConfig.DefaultDependencies = "no";
       serviceConfig.Type = "oneshot";
       script = ''
@@ -152,7 +153,7 @@ in {
           You have enabled home impermanence without root impermanence. This
           is not supported due to the fact that we handle all all impermanence
           related deletions and creations in a single service. Please enable
-          `modules.system.impermanence.root.enable` if you wish to proceed.
+          `custom.system.impermanence.root.enable` if you wish to proceed.
         '';
       }
     ];
@@ -163,7 +164,7 @@ in {
     # as the assertions format? /rant
     warnings =
       if cfg.home.enable
-      then ["Home impermanence is enabled. This is experimental, beware."]
-      else [];
+      then [ "Home impermanence is enabled. This is experimental, beware." ]
+      else [ ];
   };
 }

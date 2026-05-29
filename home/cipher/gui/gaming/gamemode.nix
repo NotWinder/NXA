@@ -1,14 +1,14 @@
-{
-  inputs',
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ inputs'
+, config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf makeBinPath optionalString;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  env = modules.usrEnv;
+  env = custom.usrEnv;
   prg = env.programs;
 
   programs = makeBinPath (with pkgs; [
@@ -41,7 +41,8 @@
     ludusavi backup --force
     notify-send -a 'Gamemode' 'Optimizations deactivated' -u 'low'
   '';
-in {
+in
+{
   config = mkIf prg.gaming.gamemode.enable {
     programs.gamemode = {
       enable = true;

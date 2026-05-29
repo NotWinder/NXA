@@ -1,13 +1,14 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system;
-in {
+  sys = config.custom.system;
+in
+{
   # start the Pantheon policykit agent
   # this is based on the GNOME policykit agent
   # but uses a newer GTK version
@@ -22,9 +23,9 @@ in {
         TimeoutStopSec = 10;
       };
 
-      wantedBy = ["graphical-session.target"];
-      wants = ["graphical-session.target"];
-      after = ["graphical-session.target"];
+      wantedBy = [ "graphical-session.target" ];
+      wants = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
     };
   };
 }

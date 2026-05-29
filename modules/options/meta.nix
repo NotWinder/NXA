@@ -1,15 +1,16 @@
 # cridit to raf (https://github.com/NotAShelf) (both comments and the code):
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.options) mkOption;
   inherit (lib.types) nullOr bool str strMatching;
 
-  env = config.modules.usrEnv;
-in {
+  env = config.custom.usrEnv;
+in
+{
   options.meta = {
     hostname = mkOption {
       type = str;

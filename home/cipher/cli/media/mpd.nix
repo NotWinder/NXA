@@ -1,15 +1,16 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  env = modules.usrEnv;
+  env = custom.usrEnv;
   srv = env.services;
-in {
+in
+{
   config = mkIf srv.media.mpd.enable {
     hm = {
       home.packages = with pkgs; [

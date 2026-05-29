@@ -1,17 +1,18 @@
-{
-  config,
-  inputs,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, inputs
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf;
   inherit (lib) getExe;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  env = modules.usrEnv;
+  env = custom.usrEnv;
   prg = env.programs;
-in {
+in
+{
   options.custom.programs.niri = {
     enable = lib.mkEnableOption "Enable Niri as a window manager";
   };
@@ -20,7 +21,7 @@ in {
     inputs.niri.nixosModules.niri
   ];
   config = mkIf config.custom.programs.niri.enable {
-    nixpkgs.overlays = [inputs.niri.overlays.niri];
+    nixpkgs.overlays = [ inputs.niri.overlays.niri ];
     programs.niri = {
       enable = true;
       package = pkgs.niri;
@@ -67,13 +68,13 @@ in {
             center-focused-column = "never";
 
             preset-column-widths = [
-              {proportion = 0.33333;}
-              {proportion = 0.5;}
-              {proportion = 0.66667;}
-              {proportion = 1.0;}
+              { proportion = 0.33333; }
+              { proportion = 0.5; }
+              { proportion = 0.66667; }
+              { proportion = 1.0; }
             ];
 
-            default-column-width = {proportion = 1.0;};
+            default-column-width = { proportion = 1.0; };
             focus-ring.enable = false;
 
             border.enable = false;
@@ -108,22 +109,24 @@ in {
               open-floating = true;
             }
             {
-              geometry-corner-radius = let
-                radius = 13.0;
-              in {
-                top-left = radius;
-                top-right = radius;
-                bottom-left = radius;
-                bottom-right = radius;
-              };
+              geometry-corner-radius =
+                let
+                  radius = 13.0;
+                in
+                {
+                  top-left = radius;
+                  top-right = radius;
+                  bottom-left = radius;
+                  bottom-right = radius;
+                };
               clip-to-geometry = true;
               draw-border-with-background = false;
             }
             {
               matches = [
-                {app-id = ''r#"^org\.keepassxc\.KeePassXC$"#'';}
+                { app-id = ''r#"^org\.keepassxc\.KeePassXC$"#''; }
 
-                {app-id = ''r#"^org\.gnome\.World\.Secrets$"#'';}
+                { app-id = ''r#"^org\.gnome\.World\.Secrets$"#''; }
               ];
               block-out-from = "screen-capture";
             }
@@ -131,7 +134,8 @@ in {
 
           binds = with config.hm.lib.niri.actions; let
             sh = spawn "sh" "-c";
-          in {
+          in
+          {
             "Mod+Q".action = spawn "alacritty";
 
             "Mod+E".action = spawn "dolphin";
@@ -331,7 +335,7 @@ in {
 
             "Mod+T".action = toggle-column-tabbed-display;
 
-            "Print".action.screenshot = {show-pointer = false;};
+            "Print".action.screenshot = { show-pointer = false; };
             #"Ctrl+Print".action.screenshot = {screenshot-screen = true;};
             #"Alt+Print".action.screenshot = {screenshot-window = true;};
 

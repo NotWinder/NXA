@@ -1,16 +1,17 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf;
-  inherit (config.modules) device;
+  inherit (config.custom) device;
 
-  format = pkgs.formats.json {};
+  format = pkgs.formats.json { };
 
-  acceptedTypes = ["desktop" "laptop"];
-in {
+  acceptedTypes = [ "desktop" "laptop" ];
+in
+{
   config.hm = mkIf (builtins.elem device.type acceptedTypes) {
     # Write a PipeWire userspace configuration based on werman's noise-supression-for-voice
     # for usage instructions, see:
@@ -37,7 +38,7 @@ in {
                 }
               ];
             };
-            "audio.position" = ["FL" "FR"];
+            "audio.position" = [ "FL" "FR" ];
             "capture.props" = {
               "node.name" = "effect_input.rnnoise";
               "node.passive" = true;

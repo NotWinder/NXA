@@ -14,7 +14,7 @@
         };
       };
     };
-    modules.usrEnv = {
+    custom.usrEnv = {
       useHomeManager = true;
 
       programs = {
@@ -24,9 +24,9 @@
           obs.enable = true;
         };
 
-        browsers = ["librewolf" "zen-beta"];
+        browsers = [ "librewolf" "zen-beta" ];
 
-        terminals = ["alacritty" "ghostty"];
+        terminals = [ "alacritty" "ghostty" ];
 
         media = {
           beets.enable = true;
@@ -39,7 +39,7 @@
           browser = "zen-beta";
         };
 
-        launchers = ["rofi" "tofi"];
+        launchers = [ "rofi" "tofi" ];
       };
       services.media.mpd.enable = true;
     };

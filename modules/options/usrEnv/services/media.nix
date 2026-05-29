@@ -1,15 +1,16 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib.options) mkOption mkEnableOption;
   inherit (lib.types) str;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  sys = modules.system;
-in {
-  options.modules.usrEnv.services.media = {
+  sys = custom.system;
+in
+{
+  options.custom.usrEnv.services.media = {
     mpd = {
       enable = mkEnableOption "mpd service";
       musicDirectory = mkOption {

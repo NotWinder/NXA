@@ -1,15 +1,16 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.options) mkOption;
   inherit (lib.types) ints bool enum package;
 
-  cfg = config.modules.usrEnv.brightness;
-in {
-  options.modules.usrEnv.brightness = {
+  cfg = config.custom.usrEnv.brightness;
+in
+{
+  options.custom.usrEnv.brightness = {
     enable = mkOption {
       type = bool;
       default = false;
@@ -22,7 +23,7 @@ in {
       type = package;
       default = pkgs.writeShellApplication {
         name = "set-system-brightness";
-        runtimeInputs = with pkgs; [brightnessctl];
+        runtimeInputs = with pkgs; [ brightnessctl ];
         text = "brightnessctl set ${cfg.value}";
       };
     };
@@ -37,7 +38,7 @@ in {
 
     service = {
       type = mkOption {
-        type = enum ["oneshot" "simple"];
+        type = enum [ "oneshot" "simple" ];
         default = "oneshot";
         description = ''
           The type of the service to be used for setting brightness on graphical session start.
@@ -45,7 +46,7 @@ in {
       };
 
       target = mkOption {
-        type = enum ["graphical-session.target" "multi-user.target"];
+        type = enum [ "graphical-session.target" "multi-user.target" ];
         default = "graphical-session.target";
         description = ''
           The target that the systemd-brightnessd service will be bound to.

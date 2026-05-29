@@ -1,46 +1,48 @@
-{lib, ...}: let
+{ lib, ... }:
+let
   inherit (lib) mkOption mkEnableOption;
   inherit (lib.types) str enum listOf;
-in {
+in
+{
   imports = [
     ./gaming.nix
     ./media.nix
   ];
 
   # default program options
-  options.modules.usrEnv.programs = {
+  options.custom.usrEnv.programs = {
     bar = mkOption {
-      type = listOf (enum ["none" "waybar" "quickshell" "quickshell/caelestia" "quickshell/noctalia" "quickshell/dms"]);
-      default = ["none"];
+      type = listOf (enum [ "none" "waybar" "quickshell" "quickshell/caelestia" "quickshell/noctalia" "quickshell/dms" ]);
+      default = [ "none" ];
       description = ''
         The List of Bars/Shells to be Installed.
       '';
     };
 
     browsers = mkOption {
-      type = listOf (enum ["none" "brave" "chromium" "floorp" "librewolf" "zen-beta"]);
-      default = ["none"];
+      type = listOf (enum [ "none" "brave" "chromium" "floorp" "librewolf" "zen-beta" ]);
+      default = [ "none" ];
       description = ''
         The List of Browser to be Installed.
       '';
     };
 
     cli = {
-      enable = mkEnableOption "CLI package sets" // {default = true;};
+      enable = mkEnableOption "CLI package sets" // { default = true; };
 
       adb.enable = mkEnableOption "Android Debug Bridge ";
     };
 
     editors = mkOption {
-      type = listOf (enum ["none" "helix" "neovim"]);
-      default = ["none"];
+      type = listOf (enum [ "none" "helix" "neovim" ]);
+      default = [ "none" ];
       description = ''
         The List of Text Editors to be Installed.
       '';
     };
 
     git = {
-      enable = mkEnableOption "git versions control" // {default = true;};
+      enable = mkEnableOption "git versions control" // { default = true; };
 
       signingKey = mkOption {
         type = str;
@@ -50,7 +52,7 @@ in {
     };
 
     gui = {
-      enable = mkEnableOption "GUI package sets" // {default = true;};
+      enable = mkEnableOption "GUI package sets" // { default = true; };
 
       libreoffice.enable = mkEnableOption "LibreOffice suite";
       obs.enable = mkEnableOption "OBS Studio";
@@ -58,15 +60,15 @@ in {
     };
 
     launchers = mkOption {
-      type = listOf (enum ["none" "anyrun" "rofi" "tofi"]);
-      default = ["none"];
+      type = listOf (enum [ "none" "anyrun" "rofi" "tofi" ]);
+      default = [ "none" ];
       description = ''
         The List of Application Launchers to be Installed.
       '';
     };
 
     screenlock = mkOption {
-      type = enum ["none" "hyprlock" "swaylock"];
+      type = enum [ "none" "hyprlock" "swaylock" ];
       default = "none";
       description = ''
         The Screenlocker to be Installed.
@@ -74,16 +76,16 @@ in {
     };
 
     terminals = mkOption {
-      type = listOf (enum ["none" "alacritty" "foot" "ghostty" "kitty" "wezterm"]);
-      default = ["none"];
+      type = listOf (enum [ "none" "alacritty" "foot" "ghostty" "kitty" "wezterm" ]);
+      default = [ "none" ];
       description = ''
         The List of Terminal Emulators Launchers to be Installed.
       '';
     };
 
     wallpapers = mkOption {
-      type = listOf (enum ["none" "hyprpaper" "swaybg" "swww"]);
-      default = ["none"];
+      type = listOf (enum [ "none" "hyprpaper" "swaybg" "swww" ]);
+      default = [ "none" ];
       description = ''
         The List of Wallpaper Setting Applications to be Installed.
       '';
@@ -92,27 +94,27 @@ in {
     default = {
       # what program should be used as the default terminal
       terminal = mkOption {
-        type = enum ["alacritty" "foot" "kitty" "wezterm"];
+        type = enum [ "alacritty" "foot" "kitty" "wezterm" ];
         default = "kitty";
       };
 
       fileManager = mkOption {
-        type = enum ["dolphin" "nemo" "thunar"];
+        type = enum [ "dolphin" "nemo" "thunar" ];
         default = "dolphin";
       };
 
       browser = mkOption {
-        type = enum ["brave" "chromium" "floorp" "librewolf" "zen-beta"];
+        type = enum [ "brave" "chromium" "floorp" "librewolf" "zen-beta" ];
         default = "chromium";
       };
 
       editor = mkOption {
-        type = enum ["emacs" "helix" "neovim"];
+        type = enum [ "emacs" "helix" "neovim" ];
         default = "neovim";
       };
 
       launcher = mkOption {
-        type = enum ["anyrun" "rofi" "wofi"];
+        type = enum [ "anyrun" "rofi" "wofi" ];
         default = "rofi";
       };
     };

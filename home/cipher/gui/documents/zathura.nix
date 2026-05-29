@@ -1,35 +1,36 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  prg = modules.usrEnv.programs;
-in {
+  prg = custom.usrEnv.programs;
+in
+{
   config.hm = mkIf prg.gui.zathura.enable {
     xdg = {
       desktopEntries.zathura = {
         name = "zathura";
         type = "Application";
         comment = "A minimalistic PDF viewer";
-        categories = ["Office" "Viewer"];
+        categories = [ "Office" "Viewer" ];
         exec = "zathura --fork %f";
         terminal = false;
-        mimeType = ["application/pdf"];
+        mimeType = [ "application/pdf" ];
       };
 
-     #configFile."zathura/catppuccin-mocha".source = pkgs.fetchurl {
-     #  url = "https://raw.githubusercontent.com/catppuccin/zathura/main/src/catppuccin-mocha";
-     #  hash = "sha256-POxMpm77Pd0qywy/jYzZBXF/uAKHSQ0hwtXD4wl8S2Q=";
-     #};
+      #configFile."zathura/catppuccin-mocha".source = pkgs.fetchurl {
+      #  url = "https://raw.githubusercontent.com/catppuccin/zathura/main/src/catppuccin-mocha";
+      #  hash = "sha256-POxMpm77Pd0qywy/jYzZBXF/uAKHSQ0hwtXD4wl8S2Q=";
+      #};
     };
 
     programs.zathura = {
       enable = true;
-     #extraConfig = "include catppuccin-mocha";
+      #extraConfig = "include catppuccin-mocha";
 
       options = {
         font = "Iosevka 15";

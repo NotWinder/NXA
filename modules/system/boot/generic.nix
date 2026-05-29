@@ -1,13 +1,14 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib) mkDefault mkForce mkOverride mkMerge mkIf optionals;
 
-  sys = config.modules.system;
-in {
+  sys = config.custom.system;
+in
+{
   config.boot = {
     # kernel console loglevel
     consoleLogLevel = 3;
@@ -76,7 +77,7 @@ in {
           # packages that will be added to the PATH in initrd
           # this is useful for debugging if the host provides
           # emergency access
-          storePaths = with pkgs; [util-linux pciutils];
+          storePaths = with pkgs; [ util-linux pciutils ];
           extraBin = {
             fdisk = "${pkgs.util-linux}/bin/fdisk";
             lsblk = "${pkgs.util-linux}/bin/lsblk";
@@ -115,7 +116,7 @@ in {
       (mkIf sys.boot.initrd.optimizeCompressor
         {
           compressor = "zstd";
-          compressorArgs = ["-19" "-T0"];
+          compressorArgs = [ "-19" "-T0" ];
         })
     ];
 

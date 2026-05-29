@@ -1,12 +1,13 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib) mkDefault mkIf;
 
-  cfg = config.modules.system;
-in {
+  cfg = config.custom.system;
+in
+{
   config = mkIf (cfg.boot.loader == "grub") {
     boot.loader = {
       grub = {

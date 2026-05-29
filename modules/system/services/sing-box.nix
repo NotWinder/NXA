@@ -1,13 +1,13 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 with lib; let
-  sys = config.modules.system;
+  sys = config.custom.system;
   cfg = sys.services.sing-box;
-in {
+in
+{
   config = mkIf cfg.enable {
     sops.secrets = {
       "sing-box-url" = {
@@ -19,12 +19,12 @@ in {
       isSystemUser = true;
       group = cfg.group;
     };
-    users.groups.${cfg.group} = {};
+    users.groups.${cfg.group} = { };
 
     # Define the systemd service unit from scratch
     systemd.services.sing-box = {
       description = "Custom sing-box proxy service";
-      wantedBy = ["default.target"];
+      wantedBy = [ "default.target" ];
 
       # This script runs before the main command
       preStart = ''
@@ -57,8 +57,8 @@ in {
         Group = cfg.group;
 
         # Grant the capability to manage network interfaces.
-        AmbientCapabilities = ["CAP_NET_ADMIN"];
-        CapabilityBoundingSet = ["CAP_NET_ADMIN"];
+        AmbientCapabilities = [ "CAP_NET_ADMIN" ];
+        CapabilityBoundingSet = [ "CAP_NET_ADMIN" ];
 
         # Systemd will create and manage these directories
         StateDirectory = "sing-box";

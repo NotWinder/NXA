@@ -1,15 +1,16 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib) optionals;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  sys = modules.system;
-  prg = modules.usrEnv.programs;
-in {
-  users.groups.media = {};
+  sys = custom.system;
+  prg = custom.usrEnv.programs;
+in
+{
+  users.groups.media = { };
   users.users.${sys.mainUser} = {
     isNormalUser = true;
 

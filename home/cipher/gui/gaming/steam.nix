@@ -1,13 +1,14 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf;
 
-  prg = config.modules.usrEnv.programs;
-in {
+  prg = config.custom.usrEnv.programs;
+in
+{
   config = mkIf prg.gaming.steam.enable {
     programs.steam = {
       # Enable steam

@@ -1,6 +1,8 @@
-{config, ...}: let
-  sys = config.modules.system;
-in {
+{ config, ... }:
+let
+  sys = config.custom.system;
+in
+{
   imports = [
     ./cli
     ./gui
@@ -12,7 +14,7 @@ in {
     home = {
       username = "${sys.mainUser}";
       homeDirectory = "${sys.homePath}";
-      extraOutputsToInstall = ["doc" "devdoc"];
+      extraOutputsToInstall = [ "doc" "devdoc" ];
 
       stateVersion = "23.11";
     };

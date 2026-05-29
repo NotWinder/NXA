@@ -1,15 +1,16 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
-  inherit (config) modules;
+{ config
+, lib
+, pkgs
+, ...
+}:
+let
+  inherit (config) custom;
   inherit (lib) mkIf;
 
-  type = modules.device.type;
-  acceptedTypes = ["desktop" "laptop"];
-in {
+  type = custom.device.type;
+  acceptedTypes = [ "desktop" "laptop" ];
+in
+{
   config = mkIf (builtins.elem type acceptedTypes) {
     # "saying java is good because it runs on all systems is like saying
     # anal sex is good because it works on all species"

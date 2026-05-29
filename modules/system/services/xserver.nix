@@ -1,12 +1,13 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system;
-in {
+  sys = config.custom.system;
+in
+{
   config = mkIf sys.video.enable {
     services = {
       displayManager = {

@@ -1,14 +1,14 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf;
   inherit (lib.strings) concatStringsSep;
   inherit (lib.meta) getExe;
 
-  sys = config.modules.system;
+  sys = config.custom.system;
 
   # make desktop session paths available to greetd
   sessionData = config.services.displayManager.sessionData.desktops;
@@ -33,7 +33,8 @@
       "--sessions '${sessionPaths}'"
     ];
   };
-in {
+in
+{
   options.custom.services.greetd = {
     enable = lib.mkEnableOption "Greetd login manager";
     autoLogin = {

@@ -1,22 +1,23 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
-  inherit (config) modules;
-  env = modules.usrEnv;
+  inherit (config) custom;
+  env = custom.usrEnv;
 
   cfg = env.brightness;
-in {
+in
+{
   config = mkIf cfg.enable {
     systemd.services."system-brightnessd" = {
       description = "Automatic backlight management with systemd";
 
       # TODO: maybe this needs to be a part of graphical-session.target?
       # I am not very sure how wantedBy and partOf really work
-      wantedBy = ["default.target"];
-      partOf = ["graphical-session.target"];
+      wantedBy = [ "default.target" ];
+      partOf = [ "graphical-session.target" ];
 
       # TODO: this needs to be hardened
       # not that a backlight service is a security risk, but it's a good habit

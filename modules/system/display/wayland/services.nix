@@ -1,13 +1,14 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{ config
+, lib
+, pkgs
+, ...
+}:
+let
   inherit (lib) mkIf getExe;
 
-  cfg = config.modules.system.video;
-in {
+  cfg = config.custom.system.video;
+in
+{
   config = mkIf cfg.enable {
     systemd.services = {
       seatd = {
@@ -19,7 +20,7 @@ in {
           Restart = "always";
           RestartSec = "1";
         };
-        wantedBy = ["multi-user.target"];
+        wantedBy = [ "multi-user.target" ];
       };
     };
   };

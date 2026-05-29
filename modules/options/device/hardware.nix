@@ -1,17 +1,16 @@
-# cridit to raf (https://github.com/NotAShelf) (both comments and the code):
-{
-  config,
-  lib,
-  ...
-}: let
+# credit to raf (https://github.com/NotAShelf) (both comments and the code):
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib.options) mkOption mkEnableOption;
   inherit (lib.types) nullOr listOf enum str;
-
-  device = config.modules.device;
-in {
-  options.modules.device = {
+in
+{
+  options.custom.device = {
     type = mkOption {
-      type = enum ["laptop" "desktop" "server" "hybrid" "lite" "vm"];
+      type = enum [ "laptop" "desktop" "server" "hybrid" "lite" "vm" ];
       default = "";
       description = ''
         The type/purpose of the device that will be used within the rest of the configuration.
@@ -28,7 +27,7 @@ in {
     # TODO: make this a list - apparently more than one cpu on a device is still doable
     cpu = {
       type = mkOption {
-        type = nullOr (enum ["pi" "intel" "vm-intel" "amd" "vm-amd"]);
+        type = nullOr (enum [ "pi" "intel" "vm-intel" "amd" "vm-amd" ]);
         default = null;
         description = ''
           The manifaturer/type of the primary system CPU.
@@ -65,23 +64,18 @@ in {
     # can be a list instead of an enum but i like using boolians more)
     gpu = {
       type = mkOption {
-        type = nullOr (enum ["pi" "amd" "intel" "nvidia" "hybrid-nv" "hybrid-amd"]);
+        type = nullOr (enum [ "pi" "amd" "intel" "nvidia" "hybrid-nv" "hybrid-amd" ]);
         default = null;
         description = ''
           The manifaturer/type of the primary system GPU. Allows the correct GPU
           drivers to be loaded, potentially optimizing video output performance
         '';
       };
-
-      amd.enable = mkEnableOption "For AMD GPUs" // {default = builtins.elem device.gpu.type ["amd"];};
-      hybrid-amd.enable = mkEnableOption "For Hybrid AMD GPUs (mainly on laptops)" // {default = builtins.elem device.gpu.type ["hybrid-amd"];};
-      hybrid-nv.enable = mkEnableOption "For Hybrid Nvidia GPUs (mainly on laptops)" // {default = builtins.elem device.gpu.type ["hybrid-nv"];};
-      nvidia.enable = mkEnableOption "For Nvidia GPUs" // {default = builtins.elem device.gpu.type ["nvidia"];};
     };
 
     monitors = mkOption {
       type = listOf str;
-      default = [];
+      default = [ ];
       description = ''
         A list of monitors connected to the system.
 
@@ -102,7 +96,7 @@ in {
 
   config.assertions = [
     {
-      assertion = config.modules.device.type != null;
+      assertion = config.custom.device.type != null;
       message = ''
         ${config.meta.hostname} is missing a device type. Please define it
         in the appropriate host configuration!

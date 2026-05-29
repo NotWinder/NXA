@@ -1,17 +1,18 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{ config
+, lib
+, pkgs
+, ...
+}:
+let
   inherit (lib) mkIf mkEnableOption mkOption literalExpression types;
 
   cfg = config.services.noisetorch;
 
-  dev = config.modules.device;
+  dev = config.custom.device;
 
-  acceptedTypes = ["desktop" "laptop" "lite" "hybrid"];
-in {
+  acceptedTypes = [ "desktop" "laptop" "lite" "hybrid" ];
+in
+{
   options = {
     services.noisetorch = {
       enable = mkEnableOption "noisetorch service";
@@ -38,7 +39,7 @@ in {
   };
 
   config.hm = mkIf (cfg.enable && builtins.elem dev.type acceptedTypes) {
-    home.packages = [cfg.package];
+    home.packages = [ cfg.package ];
 
     systemd.user.services.noisetorch = {
       Unit = {
@@ -47,7 +48,7 @@ in {
         After = "${cfg.deviceUnit}";
       };
       Install = {
-        WantedBy = ["default.target"];
+        WantedBy = [ "default.target" ];
       };
       Service = {
         Type = "simple";

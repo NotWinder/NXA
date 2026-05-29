@@ -1,20 +1,21 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib) mkEnableOption mkOption literalExpression;
 
-  cfg = config.modules.system.impermanence;
-in {
-  options.modules.system.impermanence = {
+  cfg = config.custom.system.impermanence;
+in
+{
+  options.custom.system.impermanence = {
     enable = mkOption {
       default = cfg.root.enable || cfg.home.enable;
       readOnly = true;
       description = ''
         Internal option for deciding if Impermanence module is enabled
-        based on the values of `modules.system.impermanence.root.enable`
-        and `modules.system.impermanence.home.enable`.
+        based on the values of `custom.system.impermanence.root.enable`
+        and `custom.system.impermanence.home.enable`.
       '';
     };
 
@@ -26,7 +27,7 @@ in {
       '';
 
       extraFiles = mkOption {
-        default = [];
+        default = [ ];
         example = literalExpression ''["/etc/nix/id_rsa"]'';
         description = ''
           Additional files in the root to link to persistent storage.
@@ -34,7 +35,7 @@ in {
       };
 
       extraDirectories = mkOption {
-        default = [];
+        default = [ ];
         example = literalExpression ''["/var/lib/libvirt"]'';
         description = ''
           Additional directories in the root to link to persistent
@@ -59,7 +60,7 @@ in {
       };
 
       extraFiles = mkOption {
-        default = [];
+        default = [ ];
         example = literalExpression ''
           [
             ".gnupg/pubring.kbx"
@@ -75,7 +76,7 @@ in {
       };
 
       extraDirectories = mkOption {
-        default = [];
+        default = [ ];
         example = literalExpression ''[".config/gsconnect"]'';
         description = ''
           Additional directories in the home directory to link to

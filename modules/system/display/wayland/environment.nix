@@ -1,12 +1,13 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system;
-in {
+  sys = config.custom.system;
+in
+{
   config = mkIf sys.video.enable {
     environment.etc."greetd/environments".text = ''
       ${lib.optionalString config.custom.programs.hyprland.enable "Hyprland"}

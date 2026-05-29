@@ -1,14 +1,16 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   mainUser = "winder"; # The Main User of the host
-in {
-  config.modules.system = {
+in
+{
+  config.custom.system = {
     mainUser = mainUser;
-    users = [mainUser];
+    users = [ mainUser ];
     homePath = "/home/${mainUser}";
     defaultUserShell = pkgs.fish;
 
     fs = {
-      enabledFilesystems = ["btrfs" "vfat" "ntfs" "exfat"];
+      enabledFilesystems = [ "btrfs" "vfat" "ntfs" "exfat" ];
     };
 
     boot = {

@@ -1,15 +1,16 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf;
 
-  dev = config.modules.device;
-in {
+  dev = config.custom.device;
+in
+{
   config = mkIf dev.hasTPM {
-    boot.kernelModules = ["uhid"];
+    boot.kernelModules = [ "uhid" ];
 
     security.tpm2 = {
       # Enable Trusted Platform Module 2 support
@@ -33,6 +34,6 @@ in {
     };
 
     # Utilities to work with TPM2 on Linux.
-    environment.systemPackages = with pkgs; [tpm2-tools tpm2-tss tpm2-abrmd];
+    environment.systemPackages = with pkgs; [ tpm2-tools tpm2-tss tpm2-abrmd ];
   };
 }

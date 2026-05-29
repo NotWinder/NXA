@@ -1,14 +1,15 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  env = modules.usrEnv;
-in {
+  env = custom.usrEnv;
+in
+{
   config.hm = mkIf (env.programs.screenlock == "swaylock") {
     programs.swaylock = {
       enable = true;

@@ -1,13 +1,14 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf;
 
-  dev = config.modules.device;
-  acceptedTypes = ["desktop" "laptop" "lite" "hybrid"];
-in {
+  dev = config.custom.device;
+  acceptedTypes = [ "desktop" "laptop" "lite" "hybrid" ];
+in
+{
   config.hm = mkIf (builtins.elem dev.type acceptedTypes) {
     services.easyeffects = {
       enable = true;

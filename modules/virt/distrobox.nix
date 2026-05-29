@@ -1,13 +1,14 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system.virtualisation;
-in {
+  sys = config.custom.system.virtualisation;
+in
+{
   config = mkIf sys.distrobox.enable {
     environment.systemPackages = with pkgs; [
       distrobox
@@ -17,7 +18,7 @@ in {
     systemd.user = {
       timers."distrobox-update" = {
         enable = true;
-        wantedBy = ["timers.target"];
+        wantedBy = [ "timers.target" ];
         timerConfig = {
           OnBootSec = "1h";
           OnUnitActiveSec = "1d";

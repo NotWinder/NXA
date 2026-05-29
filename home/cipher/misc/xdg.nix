@@ -1,16 +1,16 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
-  inherit (config) modules;
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
+  inherit (config) custom;
 
-  def = modules.usrEnv.programs.default;
+  def = custom.usrEnv.programs.default;
 
-  browser = ["${def.browser}.desktop"];
-  zathura = ["zathura.desktop"];
-  fileManager = ["org.kde.dolphin.desktop"];
+  browser = [ "${def.browser}.desktop" ];
+  zathura = [ "zathura.desktop" ];
+  fileManager = [ "org.kde.dolphin.desktop" ];
 
   associations = {
     "text/html" = browser;
@@ -27,19 +27,20 @@
     "application/x-extension-xht" = browser;
 
     "inode/directory" = fileManager;
-    "application/x-xz-compressed-tar" = ["org.kde.ark.desktop"];
+    "application/x-xz-compressed-tar" = [ "org.kde.ark.desktop" ];
 
-    "audio/*" = ["mpv.desktop"];
-    "video/*" = ["mpv.desktop"];
-    "image/*" = ["imv.desktop"];
+    "audio/*" = [ "mpv.desktop" ];
+    "video/*" = [ "mpv.desktop" ];
+    "image/*" = [ "imv.desktop" ];
     "application/json" = browser;
     "application/pdf" = zathura;
 
-    "x-scheme-handler/tg" = ["telegramdesktop.desktop"];
+    "x-scheme-handler/tg" = [ "telegramdesktop.desktop" ];
   };
 
   template = import lib.xdgTemplate "home-manager";
-in {
+in
+{
   config.hm = {
     xdg = {
       enable = true;

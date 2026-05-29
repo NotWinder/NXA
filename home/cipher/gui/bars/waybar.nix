@@ -1,15 +1,16 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (builtins) elem;
-  inherit (config) modules;
+  inherit (config) custom;
   inherit (lib) mkIf;
 
-  env = modules.usrEnv;
+  env = custom.usrEnv;
   prg = env.programs;
-in {
+in
+{
   config.hm = mkIf (elem "waybar" prg.bar && env.desktop != "none") {
     programs.waybar = {
       enable = true;
@@ -87,7 +88,7 @@ in {
               transition-to-left = true;
               click-to-reveal = true;
             };
-            modules = ["upower" "upower/headset"];
+            modules = [ "upower" "upower/headset" ];
           };
 
           "custom/smallspacer" = {
@@ -97,14 +98,14 @@ in {
             interval = 1;
             rotate = 270;
             format = "{icon}";
-            format-icons = ["󰝦" "󰪞" "󰪟" "󰪠" "󰪡" "󰪢" "󰪣" "󰪤" "󰪥"];
+            format-icons = [ "󰝦" "󰪞" "󰪟" "󰪠" "󰪡" "󰪢" "󰪣" "󰪤" "󰪥" ];
             max-length = 10;
           };
           "cpu" = {
             interval = 1;
             format = "{icon}";
             rotate = 270;
-            format-icons = ["󰝦" "󰪞" "󰪟" "󰪠" "󰪡" "󰪢" "󰪣" "󰪤" "󰪥"];
+            format-icons = [ "󰝦" "󰪞" "󰪟" "󰪠" "󰪡" "󰪢" "󰪣" "󰪤" "󰪥" ];
           };
 
           "mpris" = {
@@ -135,7 +136,7 @@ in {
               "transition-to-left" = true;
               # "click-to-reveal"= true
             };
-            modules = ["custom/menu" "custom/spacer" "tray"];
+            modules = [ "custom/menu" "custom/spacer" "tray" ];
           };
 
           "custom/menu" = {
@@ -196,9 +197,9 @@ in {
 
           "wlr/workspaces" = {
             "persistent-workspaces" = {
-              "3" = []; # Always show a workspace with name '3', on all outputs if it does not exists
-              "4" = ["eDP-1"]; # Always show a workspace with name '4', on output 'eDP-1' if it does not exists
-              "5" = ["eDP-1" "DP-2"]; # Always show a workspace with name '5', on outputs 'eDP-1' and 'DP-2' if it does not exists
+              "3" = [ ]; # Always show a workspace with name '3', on all outputs if it does not exists
+              "4" = [ "eDP-1" ]; # Always show a workspace with name '4', on output 'eDP-1' if it does not exists
+              "5" = [ "eDP-1" "DP-2" ]; # Always show a workspace with name '5', on outputs 'eDP-1' and 'DP-2' if it does not exists
             };
           };
 
@@ -218,7 +219,7 @@ in {
             "waves" = false;
             "noise_reduction" = 0.77;
             "input_delay" = 2;
-            "format-icons" = ["▁" "▂" "▃" "▄" "▅" "▆" "▇" "█"];
+            "format-icons" = [ "▁" "▂" "▃" "▄" "▅" "▆" "▇" "█" ];
             "actions" = {
               "on-click-right" = "mode";
             };
@@ -289,7 +290,7 @@ in {
             "tooltip-format" = "{title}";
             "on-click" = "activate";
             "on-click-middle" = "close";
-            "ignore-list" = ["Alacritty"];
+            "ignore-list" = [ "Alacritty" ];
             "app_ids-mapping" = {
               "firefoxdeveloperedition" = "firefox-developer-edition";
             };
@@ -355,7 +356,7 @@ in {
             "format-charging" = "<span color='#a6d189'>󱐋</span>";
             "format-plugged" = "󰂄";
             # "format-alt"= "<<span weight='bold' color='#c2864a'>{time} <span weight='bold' color='white'>| <span weight='bold' color='#82d457'>{capacity}%</span></span></span>";
-            "format-icons" = ["󰝦" "󰪞" "󰪟" "󰪠" "󰪡" "󰪢" "󰪣" "󰪤" "󰪥"];
+            "format-icons" = [ "󰝦" "󰪞" "󰪟" "󰪠" "󰪡" "󰪢" "󰪣" "󰪤" "󰪥" ];
             #  "format-icons"= ["";"","","","","","",""],
             #"format-icons"= ["󰂎"; "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
             "on-click-right" = "pkill waybar & hyprctl dispatch exec waybar";
@@ -366,7 +367,7 @@ in {
             "device" = "intel_backlight";
             "rotate" = 0;
             "format" = "{icon}";
-            "format-icons" = ["󰃞" "󰃝" "󰃟" "󰃠"];
+            "format-icons" = [ "󰃞" "󰃝" "󰃟" "󰃠" ];
             "scroll-step" = 1;
             "min-length" = 2;
           };
@@ -395,13 +396,13 @@ in {
               "transition-to-left" = true;
               "click-to-reveal" = true;
             };
-            "modules" = ["pulseaudio" "pulseaudio/slider"];
+            "modules" = [ "pulseaudio" "pulseaudio/slider" ];
           };
 
           "network" = {
             "tooltip" = true;
             "format-wifi" = "{icon} ";
-            "format-icons" = ["󰤟" "󰤢" "󰤥"];
+            "format-icons" = [ "󰤟" "󰤢" "󰤥" ];
             #  "format-wifi"= "<i class='fa-solid fa-wifi-slash'></i>";
             "rotate" = 0;
             "format-ethernet" = "󰈀 ";
@@ -426,7 +427,7 @@ in {
               "phone" = "";
               "portable" = "";
               "car" = "";
-              "default" = ["" "" ""];
+              "default" = [ "" "" "" ];
             };
           };
 

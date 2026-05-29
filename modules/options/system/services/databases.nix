@@ -1,7 +1,9 @@
-{lib, ...}: let
+{ lib, ... }:
+let
   inherit (lib) mkService;
-in {
-  options.modules.system.services = {
+in
+{
+  options.custom.system.services = {
     # database backends
     database = {
       mysql = mkService {

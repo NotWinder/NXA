@@ -1,15 +1,16 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system;
+  sys = config.custom.system;
   cfg = sys.services;
-in {
+in
+{
   config = mkIf cfg.sonarr.enable {
-    users.users.sonarr.extraGroups = ["media"];
+    users.users.sonarr.extraGroups = [ "media" ];
     services.sonarr = {
       enable = true;
       openFirewall = true;

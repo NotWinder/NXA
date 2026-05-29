@@ -1,20 +1,22 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
-  inherit (config) modules;
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
+  inherit (config) custom;
   inherit (lib) mkIf;
 
-  prg = modules.usrEnv.programs;
-in {
+  prg = custom.usrEnv.programs;
+in
+{
   config = mkIf prg.gaming.wine.enable {
     # determine which version of wine to be used
     # then add it to systemPackages
     environment.systemPackages = with pkgs; let
       winePackage = wineWow64Packages.waylandFull;
-    in [
+    in
+    [
       winePackage
       gsettings-desktop-schemas
       gtk3

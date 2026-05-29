@@ -1,16 +1,17 @@
-{
-  lib,
-  pkgs,
-  ...
-}: let
+{ lib
+, pkgs
+, ...
+}:
+let
   inherit (lib) mkService mkEnableOption mkPackageOption mkOption types;
-in {
+in
+{
   imports = [
     ./databases.nix
     ./networking.nix
   ];
 
-  options.modules.system = {
+  options.custom.system = {
     services = {
       docker = mkEnableOption "Enable Docker";
 
@@ -21,7 +22,7 @@ in {
 
       sing-box = {
         enable = mkEnableOption "sing-box service";
-        package = mkPackageOption pkgs "sing-box" {};
+        package = mkPackageOption pkgs "sing-box" { };
 
         user = mkOption {
           type = types.str;

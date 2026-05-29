@@ -1,7 +1,9 @@
-{osConfig, ...}: let
-  cfg = osConfig.modules.style;
+{ osConfig, ... }:
+let
+  cfg = osConfig.custom.style;
   inherit (cfg.pointerCursor) package name size;
-in {
+in
+{
   home.pointerCursor = {
     # Package, name and the size of the cursor. The same values need to be set
     # in Hyprland config to make sure our cursors are consistent.

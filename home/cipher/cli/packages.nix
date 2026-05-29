@@ -1,15 +1,16 @@
-{
-  config,
-  lib,
-  pkgs,
-  #inputs',
+{ config
+, lib
+, pkgs
+, #inputs',
   ...
-}: let
+}:
+let
   inherit (lib) mkIf;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  prg = modules.usrEnv.programs;
-in {
+  prg = custom.usrEnv.programs;
+in
+{
   config.hm = mkIf prg.cli.enable {
     home.packages = with pkgs; [
       duf # Disk Usage/Free Utility

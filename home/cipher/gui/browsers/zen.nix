@@ -1,17 +1,18 @@
-{
-  inputs,
-  config,
-  lib,
-  ...
-}: let
+{ inputs
+, config
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
   inherit (builtins) elem;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  prg = modules.usrEnv.programs;
-in {
+  prg = custom.usrEnv.programs;
+in
+{
   config.hm = {
-    imports = [inputs.zen-browser.homeModules.beta];
+    imports = [ inputs.zen-browser.homeModules.beta ];
     programs.zen-browser.enable = mkIf (elem "zen-beta" prg.browsers) true;
   };
 }

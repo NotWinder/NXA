@@ -1,13 +1,14 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{ config
+, lib
+, pkgs
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  cfg = config.modules.system;
-in {
+  cfg = config.custom.system;
+in
+{
   imports = [
     ./aliases.nix
     ./init.nix
@@ -21,7 +22,7 @@ in {
       enableVteIntegration = true;
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
-      sessionVariables = {LC_ALL = "en_US.UTF-8";};
+      sessionVariables = { LC_ALL = "en_US.UTF-8"; };
 
       history = {
         # share history between different zsh sessions
@@ -40,7 +41,7 @@ in {
         expireDuplicatesFirst = true;
         ignoreDups = true;
         ignoreSpace = true;
-        ignorePatterns = ["rm *" "pkill *" "kill *" "killall *"];
+        ignorePatterns = [ "rm *" "pkill *" "kill *" "killall *" ];
       };
 
       # dirhashes are easy aliases to commonly used directoryies

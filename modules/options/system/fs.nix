@@ -1,8 +1,8 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib.options) mkOption mkEnableOption;
   inherit (lib.lists) optionals;
   inherit (lib.types) listOf str enum bool;
@@ -11,12 +11,13 @@
   # additional filesystems sneak into the supportedFilesystems lists
   # of the `boot` and `boot.initrd` module options, we define them
   # inside an enum that will be checked.
-  supportedFilesystems = ["vfat" "ext4" "btrfs" "exfat" "ntfs"];
-in {
-  options.modules.system.fs = {
+  supportedFilesystems = [ "vfat" "ext4" "btrfs" "exfat" "ntfs" ];
+in
+{
+  options.custom.system.fs = {
     enabledFilesystems = mkOption {
       type = listOf (enum supportedFilesystems);
-      default = ["vfat"];
+      default = [ "vfat" ];
       description = ''
         List of filesystems that will be supported by the current host.
 
@@ -40,7 +41,7 @@ in {
     # BTRFS
     btrfs = {
       scrub = {
-        enable = mkEnableOption "automatic scrubbing of btrfs subvolumes" // {default = true;};
+        enable = mkEnableOption "automatic scrubbing of btrfs subvolumes" // { default = true; };
         interval = mkOption {
           type = str;
           default = "weekly";
@@ -55,7 +56,7 @@ in {
 
         fileSystems = mkOption {
           type = listOf str;
-          default = ["/"];
+          default = [ "/" ];
           description = ''
             List of btrfs subvolumes to scrub. By default, only the
             root subvolume will be scrubbed.
@@ -74,11 +75,11 @@ in {
   };
 
   config = {
-    warnings = optionals (config.modules.system.fs == []) [
+    warnings = optionals (config.custom.system.fs == [ ]) [
       ''
         You have not added any filesystems to be supported by your system! Without
         any filesystems enabled, you may end up with an unbootable system! You should
-        consider {option}`config.modules.system.fs` in your configuration with one or
+        consider {option}`config.custom.system.fs` in your configuration with one or
         two filesysteems used by your booted disks.
 
         If this is an installation media, you may discard this warning.

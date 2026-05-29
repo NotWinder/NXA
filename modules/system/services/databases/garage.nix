@@ -1,52 +1,55 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{ config
+, lib
+, pkgs
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system;
+  sys = config.custom.system;
   cfg = sys.services;
-in {
+in
+{
   config = mkIf cfg.database.garage.enable {
-    networking.firewall.allowedTCPPorts = [3900 3901 3903];
+    networking.firewall.allowedTCPPorts = [ 3900 3901 3903 ];
 
     environment.systemPackages = [
       pkgs.garage
     ];
 
-    systemd = let
-      sc = config.systemd.services.garage.serviceConfig;
-      gc = config.services.garage.settings;
-    in {
-      tmpfiles.rules = [
-        "d /srv/storage/garage 0755 ${sc.User} ${sc.Group}"
-        "d '${gc.data_dir}' 0700 ${sc.User} ${sc.Group} - -"
-        "d '${gc.metadata_dir}' 0700 ${sc.User} ${sc.Group} - -"
-      ];
+    systemd =
+      let
+        sc = config.systemd.services.garage.serviceConfig;
+        gc = config.services.garage.settings;
+      in
+      {
+        tmpfiles.rules = [
+          "d /srv/storage/garage 0755 ${sc.User} ${sc.Group}"
+          "d '${gc.data_dir}' 0700 ${sc.User} ${sc.Group} - -"
+          "d '${gc.metadata_dir}' 0700 ${sc.User} ${sc.Group} - -"
+        ];
 
-      services.garage = {
-        # this lets custom data directory work by having a real user own the service process
-        # the user and its group need to be created in the users section
-        serviceConfig = {
-          User = "garage";
-          Group = "garage";
-          ReadWritePaths = [gc.data_dir gc.metadata_dir];
-          RequiresMountsFor = [gc.data_dir];
-          DynamicUser = false;
-          PrivateTmp = true;
-          ProtectSystem = true;
-        };
+        services.garage = {
+          # this lets custom data directory work by having a real user own the service process
+          # the user and its group need to be created in the users section
+          serviceConfig = {
+            User = "garage";
+            Group = "garage";
+            ReadWritePaths = [ gc.data_dir gc.metadata_dir ];
+            RequiresMountsFor = [ gc.data_dir ];
+            DynamicUser = false;
+            PrivateTmp = true;
+            ProtectSystem = true;
+          };
 
-        environment = {
-          RUST_LOG = "debug";
+          environment = {
+            RUST_LOG = "debug";
+          };
         };
       };
-    };
 
     users = {
-      groups.garage = {};
+      groups.garage = { };
 
       users.garage = {
         isSystemUser = true;

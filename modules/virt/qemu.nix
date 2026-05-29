@@ -1,13 +1,14 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system.virtualisation;
-in {
+  sys = config.custom.system.virtualisation;
+in
+{
   config = mkIf sys.qemu.enable {
     environment.systemPackages = with pkgs; [
       virt-manager
@@ -48,10 +49,10 @@ in {
     '';
 
     # Additional kernel modules that may be needed by libvirt
-    boot.kernelModules = ["vfio-pci"];
+    boot.kernelModules = [ "vfio-pci" ];
 
     # Trust bridge network interface(s)
-    networking.firewall.trustedInterfaces = ["virbr0" "br0"];
+    networking.firewall.trustedInterfaces = [ "virbr0" "br0" ];
 
     # For passthrough with VFI
     services.udev.extraRules = ''

@@ -1,14 +1,15 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{ config
+, lib
+, pkgs
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  env = config.modules.usrEnv;
+  env = config.custom.usrEnv;
   prg = env.programs;
-in {
+in
+{
   config = mkIf prg.cli.enable {
     programs.direnv = {
       enable = true;

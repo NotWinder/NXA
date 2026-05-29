@@ -1,17 +1,18 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib.options) mkOption;
   inherit (lib.types) bool enum;
 
-  cfg = config.modules.usrEnv;
-  sys = config.modules.system;
-in {
-  options.modules.usrEnv = {
+  cfg = config.custom.usrEnv;
+  sys = config.custom.system;
+in
+{
+  options.custom.usrEnv = {
     desktop = mkOption {
-      type = enum ["none" "Hyprland" "sway" "niri" "plasma"];
+      type = enum [ "none" "Hyprland" "sway" "niri" "plasma" ];
       default = "none";
       description = ''
         The desktop environment to be used.
@@ -28,7 +29,7 @@ in {
         repository root.
 
         ::: {.warning}
-        Username via `modules.system.mainUser` must be set if
+        Username via `custom.system.mainUser` must be set if
         this option is enabled.
         :::
       '';
@@ -39,7 +40,7 @@ in {
     assertions = [
       {
         assertion = cfg.useHomeManager -> sys.mainUser != null;
-        message = "modules.system.mainUser must be set while modules.usrEnv.useHomeManager is enabled";
+        message = "custom.system.mainUser must be set while custom.usrEnv.useHomeManager is enabled";
       }
     ];
   };

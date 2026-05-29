@@ -1,13 +1,14 @@
-{
-  pkgs,
-  config,
-  lib,
-  ...
-}: let
+{ pkgs
+, config
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  cfg = config.modules.system;
-in {
+  cfg = config.custom.system;
+in
+{
   imports = [
     ./aliases.nix
   ];

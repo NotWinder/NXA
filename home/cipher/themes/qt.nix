@@ -1,21 +1,22 @@
-{
-  osConfig,
-  pkgs,
-  lib,
-  ...
-}: let
+{ osConfig
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (builtins) concatStringsSep;
   inherit (lib.modules) mkIf mkMerge;
 
-  cfg = osConfig.modules.style;
-in {
+  cfg = osConfig.custom.style;
+in
+{
   config = mkIf cfg.qt.enable {
     qt = {
       enable = true;
       platformTheme = {
         # Sets QT_QPA_PLATFORMTHEME, takes "gtk", "gtk3", "adwaita", "kde" and a few others.
         name = mkIf cfg.forceGtk "gtk3";
-        package = []; # libraries associated with the platformtheme, we add those manually
+        package = [ ]; # libraries associated with the platformtheme, we add those manually
       };
 
       #style = {
@@ -89,21 +90,23 @@ in {
     # of those engines before GTK, despite our attempts to override.
     xdg.configFile = {
       # Write ~/.config/kdeglobals based on the kdeglobals file the user has specified.
-      "kdeglobals".source = let
-        originalFile = cfg.qt.kdeglobals.colors;
-        appendedContent = builtins.readFile originalFile + "\n[General]\nTerminalApplication=alacritty";
-      in
+      "kdeglobals".source =
+        let
+          originalFile = cfg.qt.kdeglobals.colors;
+          appendedContent = builtins.readFile originalFile + "\n[General]\nTerminalApplication=alacritty";
+        in
         pkgs.writeTextFile {
           name = "kdeglobals-with-alacritty";
           text = appendedContent;
         };
 
       # Write kvantum configuration, and the theme files required by the Catppuccin theme.
-      "Kvantum/kvantum.kvconfig".source = let
-        themeName = "Catppuccin";
-        themedApps = ["qt5ct" "org.kde.dolphin" "org.kde.kalendar" "org.qbittorrent.qBittorrent" "hyprland-share-picker" "dolphin-emu" "org.kde.kid3-qt"];
-      in
-        (pkgs.formats.ini {}).generate "kvantum.kvconfig" {
+      "Kvantum/kvantum.kvconfig".source =
+        let
+          themeName = "Catppuccin";
+          themedApps = [ "qt5ct" "org.kde.dolphin" "org.kde.kalendar" "org.qbittorrent.qBittorrent" "hyprland-share-picker" "dolphin-emu" "org.kde.kid3-qt" ];
+        in
+        (pkgs.formats.ini { }).generate "kvantum.kvconfig" {
           General.theme = themeName;
           Applications."${themeName}" = concatStringsSep ", " themedApps;
         };

@@ -1,15 +1,16 @@
-{
-  config,
-  lib,
-  ...
-}: let
-  inherit (config) modules;
+{ config
+, lib
+, ...
+}:
+let
+  inherit (config) custom;
   inherit (lib) mkIf;
-  sys = modules.system;
+  sys = custom.system;
 
   # Check if the SSH secrets exist
   enableSshSecrets = sys.enableSshSecrets;
-in {
+in
+{
   config = mkIf enableSshSecrets {
     sops = {
       secrets = {
@@ -29,8 +30,8 @@ in {
     # Copy the secret to the actual SSH location
     systemd.services.setup-ssh-key = {
       description = "Setup SSH private key from secrets";
-      wantedBy = ["multi-user.target"];
-      after = ["sops-nix.service"];
+      wantedBy = [ "multi-user.target" ];
+      after = [ "sops-nix.service" ];
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;

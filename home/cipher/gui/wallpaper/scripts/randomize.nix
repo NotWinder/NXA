@@ -1,14 +1,14 @@
-{
-  inputs',
-  pkgs,
-  config,
-  lib,
-  ...
-}: let
+{ inputs'
+, pkgs
+, config
+, lib
+, ...
+}:
+let
   inherit (builtins) elem;
   inherit (lib) mkIf;
-  inherit (config) modules;
-  prg = modules.usrEnv.programs;
+  inherit (config) custom;
+  prg = custom.usrEnv.programs;
 
   winpaper = inputs'.winpaper.packages;
   wallpaper-random =
@@ -49,8 +49,9 @@
           ''
         else ""
       );
-in {
+in
+{
   config.hm = mkIf (!elem "none" prg.wallpapers) {
-    home.packages = [wallpaper-random];
+    home.packages = [ wallpaper-random ];
   };
 }

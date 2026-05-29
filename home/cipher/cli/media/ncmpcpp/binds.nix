@@ -1,14 +1,15 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  env = modules.usrEnv;
+  env = custom.usrEnv;
   prg = env.programs;
-in {
+in
+{
   config.hm = mkIf prg.media.ncmpcpp.enable {
     programs.ncmpcpp.bindings = [
       {
@@ -21,11 +22,11 @@ in {
       }
       {
         key = "J";
-        command = ["select_item" "scroll_down"];
+        command = [ "select_item" "scroll_down" ];
       }
       {
         key = "K";
-        command = ["select_item" "scroll_up"];
+        command = [ "select_item" "scroll_up" ];
       }
     ];
   };

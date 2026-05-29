@@ -1,21 +1,22 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (builtins) elem;
   inherit (lib) mkIf;
-  inherit (config) modules;
-  inherit (modules.style.colorScheme) colors;
+  inherit (config) custom;
+  inherit (custom.style.colorScheme) colors;
 
-  prg = modules.usrEnv.programs;
-in {
+  prg = custom.usrEnv.programs;
+in
+{
   config.hm = mkIf (elem "wezterm" prg.terminals) {
     programs.wezterm = {
       enable = true;
       package = pkgs.wezterm;
-      colorSchemes = import ./colorSchemes.nix {inherit colors;};
+      colorSchemes = import ./colorSchemes.nix { inherit colors; };
       extraConfig = ''
         local wez = require("wezterm")
         local act = wezterm.action

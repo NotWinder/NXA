@@ -1,14 +1,15 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  sys = modules.system;
-in {
+  sys = custom.system;
+in
+{
   config = mkIf sys.video.enable {
     xdg.portal = {
       enable = true;
@@ -22,17 +23,17 @@ in {
       config = {
         # For *all* desktops unless overridden
         common = {
-          default = ["gnome"];
-          "org.freedesktop.impl.portal.FileChooser" = ["gtk"];
+          default = [ "gnome" ];
+          "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
         };
 
         # Override specifically for Niri
         # Niri uses wlr-screencopy protocol, so wlr portal is needed for screen sharing
         niri = {
-          default = ["wlr" "gtk"];
-          "org.freedesktop.impl.portal.Screenshot" = ["wlr"];
-          "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
-          "org.freedesktop.impl.portal.FileChooser" = ["gtk"];
+          default = [ "wlr" "gtk" ];
+          "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
+          "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+          "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
         };
       };
     };

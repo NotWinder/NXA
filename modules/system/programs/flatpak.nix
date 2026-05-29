@@ -1,18 +1,19 @@
-{
-  config,
-  lib,
-  ...
-}: let
-  inherit (config) modules;
+{ config
+, lib
+, ...
+}:
+let
+  inherit (config) custom;
   inherit (lib) mkIf;
 
-  type = modules.device.type;
-  acceptedTypes = ["desktop" "laptop"];
-in {
+  type = custom.device.type;
+  acceptedTypes = [ "desktop" "laptop" ];
+in
+{
   config = mkIf (builtins.elem type acceptedTypes) {
     # enable flatpak, as well as xdgp to communicate with the host filesystems
     services.flatpak.enable = true;
 
-    environment.sessionVariables.XDG_DATA_DIRS = ["/var/lib/flatpak/exports/share"];
+    environment.sessionVariables.XDG_DATA_DIRS = [ "/var/lib/flatpak/exports/share" ];
   };
 }

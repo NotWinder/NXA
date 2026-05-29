@@ -1,15 +1,16 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
   inherit (lib.meta) getExe;
   inherit (pkgs) eza bat ripgrep dust procs yt-dlp python3;
 
-  cfg = config.modules.system;
-in {
+  cfg = config.custom.system;
+in
+{
   config.hm = mkIf (cfg.defaultUserShell == pkgs.fish) {
     programs.fish.shellAliases = {
       # make sudo use aliases

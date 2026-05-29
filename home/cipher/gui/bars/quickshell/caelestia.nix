@@ -1,22 +1,23 @@
-{
-  inputs,
-  inputs',
-  pkgs,
-  lib,
-  config,
-  ...
-}: let
+{ inputs
+, inputs'
+, pkgs
+, lib
+, config
+, ...
+}:
+let
   inherit (builtins) elem;
   inherit (lib) mkIf optionals;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  env = modules.usrEnv;
+  env = custom.usrEnv;
   prg = env.programs;
 
   winpaper = inputs'.winpaper.packages;
-in {
+in
+{
   config.hm = {
-    imports = [inputs.caelestia-shell.homeManagerModules.default];
+    imports = [ inputs.caelestia-shell.homeManagerModules.default ];
     systemd.user.sessionVariables = mkIf (elem "quickshell/caelestia" prg.bar && env.desktop != "none") {
       CAELESTIA_WALLPAPERS_DIR = "${winpaper.wallpkgs}/share/wallpapers/";
     };
@@ -75,10 +76,10 @@ in {
         };
         general = {
           apps = {
-            terminal = ["alacritty"];
-            audio = ["pavucontrol-qt"];
-            playback = ["mpv"];
-            explorer = ["thunar"];
+            terminal = [ "alacritty" ];
+            audio = [ "pavucontrol-qt" ];
+            playback = [ "mpv" ];
+            explorer = [ "thunar" ];
           };
 
           battery = {
@@ -120,7 +121,7 @@ in {
               }
               {
                 timeout = 9000;
-                idleAction = ["systemctl" "suspend-then-hibernate"];
+                idleAction = [ "systemctl" "suspend-then-hibernate" ];
               }
             ];
           };
@@ -199,7 +200,7 @@ in {
           tray = {
             background = false;
             compact = false;
-            iconSubs = [];
+            iconSubs = [ ];
             recolour = false;
           };
           workspaces = {
@@ -231,7 +232,7 @@ in {
               name = "Calculator";
               icon = "calculate";
               description = "Do simple math equations (powered by Qalc)";
-              command = ["autocomplete" "calc"];
+              command = [ "autocomplete" "calc" ];
               enabled = true;
               dangerous = false;
             }
@@ -239,7 +240,7 @@ in {
               name = "Scheme";
               icon = "palette";
               description = "Change the current colour scheme";
-              command = ["autocomplete" "scheme"];
+              command = [ "autocomplete" "scheme" ];
               enabled = true;
               dangerous = false;
             }
@@ -247,7 +248,7 @@ in {
               name = "Wallpaper";
               icon = "image";
               description = "Change the current wallpaper";
-              command = ["autocomplete" "wallpaper"];
+              command = [ "autocomplete" "wallpaper" ];
               enabled = true;
               dangerous = false;
             }
@@ -255,7 +256,7 @@ in {
               name = "Variant";
               icon = "colors";
               description = "Change the current scheme variant";
-              command = ["autocomplete" "variant"];
+              command = [ "autocomplete" "variant" ];
               enabled = true;
               dangerous = false;
             }
@@ -263,7 +264,7 @@ in {
               name = "Transparency";
               icon = "opacity";
               description = "Change shell transparency";
-              command = ["autocomplete" "transparency"];
+              command = [ "autocomplete" "transparency" ];
               enabled = false;
               dangerous = false;
             }
@@ -271,7 +272,7 @@ in {
               name = "Random";
               icon = "casino";
               description = "Switch to a random wallpaper";
-              command = ["caelestia" "wallpaper" "-r"];
+              command = [ "caelestia" "wallpaper" "-r" ];
               enabled = true;
               dangerous = false;
             }
@@ -279,7 +280,7 @@ in {
               name = "Light";
               icon = "light_mode";
               description = "Change the scheme to light mode";
-              command = ["setMode" "light"];
+              command = [ "setMode" "light" ];
               enabled = true;
               dangerous = false;
             }
@@ -287,7 +288,7 @@ in {
               name = "Dark";
               icon = "dark_mode";
               description = "Change the scheme to dark mode";
-              command = ["setMode" "dark"];
+              command = [ "setMode" "dark" ];
               enabled = true;
               dangerous = false;
             }
@@ -295,7 +296,7 @@ in {
               name = "Shutdown";
               icon = "power_settings_new";
               description = "Shutdown the system";
-              command = ["systemctl" "poweroff"];
+              command = [ "systemctl" "poweroff" ];
               enabled = true;
               dangerous = true;
             }
@@ -303,7 +304,7 @@ in {
               name = "Reboot";
               icon = "cached";
               description = "Reboot the system";
-              command = ["systemctl" "reboot"];
+              command = [ "systemctl" "reboot" ];
               enabled = true;
               dangerous = true;
             }
@@ -311,7 +312,7 @@ in {
               name = "Logout";
               icon = "exit_to_app";
               description = "Log out of the current session";
-              command = ["loginctl" "terminate-user" ""];
+              command = [ "loginctl" "terminate-user" "" ];
               enabled = true;
               dangerous = true;
             }
@@ -319,7 +320,7 @@ in {
               name = "Lock";
               icon = "lock";
               description = "Lock the current session";
-              command = ["loginctl" "lock-session"];
+              command = [ "loginctl" "lock-session" ];
               enabled = true;
               dangerous = false;
             }
@@ -327,7 +328,7 @@ in {
               name = "Sleep";
               icon = "bedtime";
               description = "Suspend then hibernate";
-              command = ["systemctl" "suspend-then-hibernate"];
+              command = [ "systemctl" "suspend-then-hibernate" ];
               enabled = true;
               dangerous = false;
             }
@@ -346,7 +347,7 @@ in {
             wallpapers = false;
           };
           showOnHover = false;
-          hiddenApps = [];
+          hiddenApps = [ ];
         };
         lock = {
           recolourLogo = false;
@@ -385,10 +386,10 @@ in {
           enabled = true;
           vimKeybinds = true;
           commands = {
-            logout = ["loginctl" "terminate-user" ""];
-            shutdown = ["systemctl" "poweroff"];
-            hibernate = ["systemctl" "hibernate"];
-            reboot = ["systemctl" "reboot"];
+            logout = [ "loginctl" "terminate-user" "" ];
+            shutdown = [ "systemctl" "poweroff" ];
+            hibernate = [ "systemctl" "hibernate" ];
+            reboot = [ "systemctl" "reboot" ];
           };
         };
         sidebar = {

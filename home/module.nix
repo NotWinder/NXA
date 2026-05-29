@@ -1,25 +1,26 @@
-{
-  inputs',
-  self',
-  self,
-  config,
-  lib,
-  ...
-}: let
+{ inputs'
+, self'
+, self
+, config
+, lib
+, ...
+}:
+let
   inherit (self) inputs;
   inherit (lib.modules) mkIf mkForce;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  sys = modules.system;
-  env = modules.usrEnv;
+  sys = custom.system;
+  env = custom.usrEnv;
   defaults = env.programs.default;
 
-  specialArgs = {inherit inputs self inputs' self' defaults;};
-in {
+  specialArgs = { inherit inputs self inputs' self' defaults; };
+in
+{
   imports = [
     ./cipher/home.nix
 
-    (lib.mkAliasOptionModule ["hm"] ["home-manager" "users" sys.mainUser])
+    (lib.mkAliasOptionModule [ "hm" ] [ "home-manager" "users" sys.mainUser ])
   ];
   home-manager = mkIf env.useHomeManager {
     # tell home-manager to be as verbose as possible

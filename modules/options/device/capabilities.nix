@@ -1,9 +1,11 @@
-# cridit to raf (https://github.com/NotAShelf) (both comments and the code):
-{lib, ...}: let
+# credit to raf (https://github.com/NotAShelf) (both comments and the code):
+{ lib, ... }:
+let
   inherit (lib.options) mkOption;
   inherit (lib.types) bool;
-in {
-  options.modules.device = {
+in
+{
+  options.custom.device = {
     # Bluetooth is an insecure protocol, especially if it has been left unchecked.
     # While this defaults to true (as most devices *do* have bluetooth), bluetooth.enable
     # should not default to true unless it's explicitly desired.

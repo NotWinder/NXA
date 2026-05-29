@@ -1,14 +1,15 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, inputs
+, ...
+}:
+let
   inherit (lib) mkIf;
 
-  sys = config.modules.system.boot;
-in {
+  sys = config.custom.system.boot;
+in
+{
   imports = [
     inputs.lanzaboote.nixosModules.lanzaboote
   ];

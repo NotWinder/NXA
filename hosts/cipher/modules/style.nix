@@ -1,11 +1,12 @@
+{ config
+, pkgs
+, ...
+}:
+let
+  cfg = config.custom.style.qt;
+in
 {
-  config,
-  pkgs,
-  ...
-}: let
-  cfg = config.modules.style.qt;
-in {
-  config.modules.style = {
+  config.custom.style = {
     forceGtk = true;
     useKvantum = true;
 
@@ -14,9 +15,9 @@ in {
       theme = {
         name = "Catppuccin-Mocha-Dark";
         package = pkgs.catppuccin-kde.override {
-          flavour = ["mocha"];
-          accents = ["green"];
-          winDecStyles = ["modern"];
+          flavour = [ "mocha" ];
+          accents = [ "green" ];
+          winDecStyles = [ "modern" ];
         };
       };
       kvantum = {

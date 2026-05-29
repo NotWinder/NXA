@@ -1,5 +1,5 @@
 {
-  config.modules.usrEnv = {
+  config.custom.usrEnv = {
     useHomeManager = true;
 
     programs = {

@@ -1,11 +1,12 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
-in {
-  config.modules.usrEnv.programs = mkIf config.modules.profiles.gaming.enable {
+in
+{
+  config.custom.usrEnv.programs = mkIf config.custom.profiles.gaming.enable {
     gaming.enable = true;
   };
 }

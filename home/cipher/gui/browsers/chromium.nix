@@ -1,23 +1,24 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}: let
+{ lib
+, pkgs
+, config
+, ...
+}:
+let
   inherit (lib) mkIf concatStringsSep;
   inherit (builtins) elem;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  prg = modules.usrEnv.programs;
-in {
+  prg = custom.usrEnv.programs;
+in
+{
   config.hm = mkIf (elem "chromium" prg.browsers) {
     programs.chromium = {
       enable = true;
       extensions = [
-        {id = "mnjggcdmjocbbbhaepdhchncahnbgone";} # sponsor block
-        {id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";} # ublock
-        {id = "nngceckbapebfimnlniiiahkandclblb";} # bitwarden
-        {id = "iaiomicjabeggjcfkbimgmglanimpnae";} # tab manager
+        { id = "mnjggcdmjocbbbhaepdhchncahnbgone"; } # sponsor block
+        { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # ublock
+        { id = "nngceckbapebfimnlniiiahkandclblb"; } # bitwarden
+        { id = "iaiomicjabeggjcfkbimgmglanimpnae"; } # tab manager
       ];
 
       package = pkgs.chromium.override {

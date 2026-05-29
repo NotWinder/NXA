@@ -31,11 +31,11 @@
     ./upower.nix
     ./xserver.nix
     ./zram.nix
-   #./zswap.nix
+    #./zswap.nix
   ];
   systemd.network.wait-online.enable = false;
-  systemd.services."systemd-tmpfiles-clean".serviceConfig.ExecStart = [""];
+  systemd.services."systemd-tmpfiles-clean".serviceConfig.ExecStart = [ "" ];
   systemd.timers."systemd-tmpfiles-clean".enable = false;
   boot.initrd.systemd.network.wait-online.enable = false;
-  boot.blacklistedKernelModules = ["serial8250" "tpm" "tpm_tis" "tpm_crb"];
+
 }

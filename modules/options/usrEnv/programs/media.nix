@@ -1,16 +1,17 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.options) mkOption mkEnableOption literalExpression;
   inherit (lib.types) bool listOf package;
-  inherit (config) modules;
+  inherit (config) custom;
 
-  sys = modules.system;
-in {
-  options.modules.usrEnv.programs.media = {
+  sys = custom.system;
+in
+{
+  options.custom.usrEnv.programs.media = {
     addDefaultPackages = mkOption {
       type = bool;
       default = sys.video.enable;
@@ -22,7 +23,7 @@ in {
 
     extraPackages = mkOption {
       type = listOf package;
-      default = [];
+      default = [ ];
       description = ''
         Additional packages that will be appended to media related packages.
       '';

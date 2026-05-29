@@ -1,15 +1,16 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{ config
+, lib
+, pkgs
+, ...
+}:
+let
   inherit (lib) literalExpression mkEnableOption mkOption types;
 
-  cfg = config.modules.system.boot;
-in {
+  cfg = config.custom.system.boot;
+in
+{
   # pre-boot and bootloader configurations
-  options.modules.system.boot = {
+  options.custom.system.boot = {
     enableKernelTweaks = mkEnableOption "security and performance related kernel parameters";
     isUEFI = mkEnableOption "Whether or not the system supports uefi boot";
     recommendedLoaderConfig = mkEnableOption "tweaks for common bootloader configs per my liking";
@@ -21,7 +22,7 @@ in {
         This option defaults to `true` if the host provides patches to the kernel package in
         `boot.kernelPatches`
       ''
-      // {default = config.boot.kernelPatches == [];};
+      // { default = config.boot.kernelPatches == [ ]; };
 
     secureBoot = mkEnableOption ''
       secure-boot with the necessary packages. Requires systemd-boot to be disabled
@@ -31,7 +32,7 @@ in {
       mkEnableOption ''
         almost entirely silent boot process through `quiet` kernel parameter
       ''
-      // {default = config.modules.system.boot.plymouth.enable;};
+      // { default = config.custom.system.boot.plymouth.enable; };
 
     initrd = {
       enableTweaks = mkEnableOption "quality of life tweaks for the initrd stage";
@@ -61,19 +62,19 @@ in {
 
     extraKernelParams = mkOption {
       type = with types; listOf str;
-      default = [];
+      default = [ ];
       description = "Extra kernel parameters to be added to the kernel command line.";
     };
 
     extraModulePackages = mkOption {
       type = with types; listOf package;
-      default = [];
+      default = [ ];
       example = literalExpression ''with config.boot.kernelPackages; [acpi_call]'';
       description = "Extra kernel modules to be loaded.";
     };
 
     loader = mkOption {
-      type = types.enum ["none" "grub" "systemd-boot"];
+      type = types.enum [ "none" "grub" "systemd-boot" ];
       default = "none";
       description = "The bootloader that should be used for the device.";
     };
@@ -94,7 +95,7 @@ in {
       '';
 
       pack = mkOption {
-        type = types.enum [1 2 3 4];
+        type = types.enum [ 1 2 3 4 ];
         default = 3;
         description = "The pack number for the theme to be selected from.";
       };
@@ -125,7 +126,7 @@ in {
           and is to avoid specifying default kernels that are not compatible with
           active hardware.
 
-          To supress this error, you must set `config.modules.system.boot.kernel`
+          To supress this error, you must set `config.custom.system.boot.kernel`
           to a valid kernel package.
         '';
       }
