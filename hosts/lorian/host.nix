@@ -1,6 +1,6 @@
 {
   imports = [
-    ./fs
+    ./fs.nix
     ./modules
   ];
 
