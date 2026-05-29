@@ -121,6 +121,12 @@ in {
             proxyJump = "comp-waf";
           };
 
+          comp-starbot2 = {
+            hostname = "10.10.1.55";
+            user = "starbot";
+            proxyJump = "comp-waf";
+          };
+
           comp-starbot-db = {
             hostname = "10.10.1.42";
             user = "root";
@@ -170,6 +176,12 @@ in {
           comp-nixos = {
             hostname = "10.10.1.44";
             user = "nixos";
+            proxyJump = "comp-waf";
+          };
+
+          comp-nexus = {
+            hostname = "10.10.1.55";
+            user = "waf";
             proxyJump = "comp-waf";
           };
 

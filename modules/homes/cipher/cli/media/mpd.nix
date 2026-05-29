@@ -11,40 +11,39 @@
   srv = env.services;
 in {
   config = mkIf srv.media.mpd.enable {
-    #hm = {
-    #  home.packages = with pkgs; [
-    #    playerctl # CLI interface for playerctld
-    #  ];
-    #  services = {
-    #    playerctld.enable = true;
-    #    mpris-proxy.enable = true;
-    #    mpd-mpris.enable = true;
+    hm = {
+      home.packages = with pkgs; [
+        playerctl # CLI interface for playerctld
+      ];
+      services = {
+        playerctld.enable = true;
+        mpris-proxy.enable = true;
+        mpd-mpris.enable = true;
 
-    #    # MPRIS 2 support to mpd
-    #    mpdris2 = {
-    #      enable = true;
-    #      notifications = true;
-    #      multimediaKeys = true;
-    #      mpd = {
-    #        # for some reason config.xdg.userDirs.music is not a "path" - possibly because it has $HOME in its name?
-    #        inherit (config.services.mpd) musicDirectory;
-    #      };
-    #    };
+        # MPRIS 2 support to mpd
+        mpdris2 = {
+          enable = true;
+          notifications = true;
+          multimediaKeys = true;
+          mpd = {
+            musicDirectory = "/mnt/media/music";
+          };
+        };
 
-    #    # discord rich presence for mpd
-    #    mpd-discord-rpc = {
-    #      enable = true;
-    #      settings = {
-    #        format = {
-    #          details = "$title";
-    #          state = "On $album by $artist";
-    #          large_text = "$album";
-    #          small_image = "";
-    #        };
-    #      };
-    #    };
-    #  };
-    #};
+        # discord rich presence for mpd
+        mpd-discord-rpc = {
+          enable = true;
+          settings = {
+            format = {
+              details = "$title";
+              state = "On $album by $artist";
+              large_text = "$album";
+              small_image = "";
+            };
+          };
+        };
+      };
+    };
     services = {
       # music player daemon service
       mpd = {

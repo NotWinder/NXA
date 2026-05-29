@@ -16,6 +16,7 @@ in {
       extraPortals = [
         pkgs.xdg-desktop-portal-gnome
         pkgs.xdg-desktop-portal-gtk
+        pkgs.xdg-desktop-portal-wlr
       ];
 
       config = {
@@ -26,9 +27,11 @@ in {
         };
 
         # Override specifically for Niri
-        # (GNOME portal is required to be *first* for screencast)
+        # Niri uses wlr-screencopy protocol, so wlr portal is needed for screen sharing
         niri = {
-          default = ["gnome"];
+          default = ["wlr" "gtk"];
+          "org.freedesktop.impl.portal.Screenshot" = ["wlr"];
+          "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
           "org.freedesktop.impl.portal.FileChooser" = ["gtk"];
         };
       };

@@ -13,7 +13,7 @@ in {
     # determine which version of wine to be used
     # then add it to systemPackages
     environment.systemPackages = with pkgs; let
-      winePackage = wineWowPackages.waylandFull;
+      winePackage = wineWow64Packages.waylandFull;
     in [
       winePackage
       gsettings-desktop-schemas

@@ -37,7 +37,6 @@ in {
               numlock = true;
             };
 
-            mouse.accel-speed = 1.0;
             touchpad = {
               tap = true;
               dwt = true;

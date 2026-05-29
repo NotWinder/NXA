@@ -81,6 +81,9 @@ in {
       openmoji-black
       openmoji-color
       twemoji-color-font
+
+      # persian fonts
+      vazir-fonts
     ];
   };
 }

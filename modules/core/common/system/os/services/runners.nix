@@ -38,7 +38,7 @@
         SDL2
         vulkan-loader
         gdk-pixbuf
-        xorg.libX11
+        libx11
       ];
     };
   };
