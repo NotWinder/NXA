@@ -17,7 +17,7 @@ in
 
     fs = {
       enabledFilesystems = [ "btrfs" "vfat" "ntfs" "exfat" ];
-      zfs.enable = true;
+      #zfs.enable = true;
     };
 
     enableSshSecrets = true;
