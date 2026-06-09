@@ -12,8 +12,6 @@
     #hw = inputs.nixos-hardware.nixosModules; # hardware compat for pi4 and other quirky devices
     sops-nix = inputs.sops-nix.nixosModules.sops; # secret encryption via age
     hm = inputs.home-manager.nixosModules.home-manager; # home-manager nixos module
-    stylix = inputs.stylix.nixosModules.stylix;
-
     # Specify root path for the modules. The concept is similar to modulesPath
     # that is found in nixpkgs, and is defined in case the modulePath changes
     # depth (i.e modules becomes nixos/modules).
@@ -69,7 +67,7 @@
       system = "x86_64-linux";
       modules = mkModulesFor "amadeus" {
         roles = [graphical workstation];
-        extraModules = [sops-nix stylix hm];
+        extraModules = [sops-nix hm];
       };
     };
 
@@ -79,7 +77,7 @@
       system = "x86_64-linux";
       modules = mkModulesFor "brau1589" {
         roles = [graphical workstation];
-        extraModules = [sops-nix stylix hm];
+        extraModules = [sops-nix hm];
       };
     };
 
@@ -89,7 +87,7 @@
       system = "x86_64-linux";
       modules = mkModulesFor "cipher" {
         roles = [graphical workstation];
-        extraModules = [sops-nix stylix hm];
+        extraModules = [sops-nix hm];
       };
     };
 
@@ -99,7 +97,7 @@
       system = "x86_64-linux";
       modules = mkModulesFor "heu" {
         roles = [graphical workstation];
-        extraModules = [sops-nix stylix hm];
+        extraModules = [sops-nix hm];
       };
     };
 
@@ -109,7 +107,7 @@
       system = "x86_64-linux";
       modules = mkModulesFor "lorian" {
         roles = [headless server];
-        extraModules = [sops-nix stylix hm];
+        extraModules = [sops-nix hm];
       };
     };
 
@@ -119,7 +117,7 @@
       system = "x86_64-linux";
       modules = mkModulesFor "magi" {
         roles = [graphical workstation];
-        extraModules = [sops-nix stylix hm];
+        extraModules = [sops-nix hm];
       };
     };
 
@@ -129,7 +127,7 @@
       system = "x86_64-linux";
       modules = mkModulesFor "salieri" {
         roles = [graphical workstation];
-        extraModules = [sops-nix stylix hm];
+        extraModules = [sops-nix hm];
       };
     };
 
@@ -139,7 +137,7 @@
       system = "x86_64-linux";
       modules = mkModulesFor "wired" {
         roles = [graphical workstation];
-        extraModules = [sops-nix stylix hm];
+        extraModules = [sops-nix hm];
       };
     };
   };

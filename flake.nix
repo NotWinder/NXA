@@ -46,17 +46,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    stylix = {
-      url = "github:nix-community/stylix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        gnome-shell = {
-          url = "https://codeload.github.com/GNOME/gnome-shell/tar.gz/ef02db02bf0ff342734d525b5767814770d85b49";
-          flake = false;
-        };
-      };
-    };
-
     hyprland.url = "github:/hyprwm/Hyprland";
     hyprpolkitagent = {
       url = "github:/hyprwm/hyprpolkitagent";
