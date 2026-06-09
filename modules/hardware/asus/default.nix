@@ -16,7 +16,6 @@
 
       asusd = {
         enable = true;
-        enableUserService = true;
       };
     };
 

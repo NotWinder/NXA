@@ -23,16 +23,11 @@ in {
   services.kmscon = {
     enable = false;
     hwRender = true;
-    fonts = [
-      {
-        name = "Source Code Pro";
-        package = pkgs.source-code-pro;
-      }
-    ];
 
     extraOptions = "--term xterm-256color";
-    extraConfig = ''
-      font-size=14
-    '';
+    config = {
+      "font-size" = 14;
+      "font-name" = "Source Code Pro";
+    };
   };
 }
