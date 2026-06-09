@@ -9,7 +9,7 @@
     timesyncd = {
       enable = true;
       servers = config.networking.timeServers; # default value
-      settings.PollIntervalMinSec = 128;
+      settings.Time.PollIntervalMinSec = 128;
     };
   };
 }
