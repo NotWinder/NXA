@@ -40,6 +40,7 @@ in {
         enable = true;
         package = null;
         portalPackage = null;
+        configType = "hyprlang";
         systemd = {
           enable = false;
         };

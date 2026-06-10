@@ -57,6 +57,7 @@ in
       userDirs = {
         enable = pkgs.stdenv.isLinux;
         createDirectories = true;
+        setSessionVariables = true;
 
         download = "${config.hm.home.homeDirectory}/Downloads";
         desktop = "${config.hm.home.homeDirectory}/Desktop";

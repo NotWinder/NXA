@@ -22,7 +22,7 @@ in {
   # revisit this in the future.
   services.kmscon = {
     enable = false;
-    hwRender = true;
+    config.hwaccel = true;
 
     extraOptions = "--term xterm-256color";
     config = {

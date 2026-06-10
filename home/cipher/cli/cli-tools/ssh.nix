@@ -55,15 +55,13 @@ in
       programs.ssh = {
         enable = true;
         enableDefaultConfig = false;
-        matchBlocks = {
+        settings.matchBlocks = {
           "github.com" = {
             hostname = "github.com";
             user = "git";
             identityFile = "${sys.homePath}/.ssh/id_ed25519";
             identitiesOnly = true;
           };
-        };
-        matchBlocks = {
           comp-proxmox = {
             hostname = "85.133.217.106";
             user = "root";
