@@ -2,22 +2,24 @@
   config,
   lib,
   ...
-}: {
+}: let
+  inherit (lib.modules) mkIf;
+in {
   # https://nixpk.gs/pr-tracker.html?pr=316558
   programs.ccache = {
     enable = false;
     cacheDir = "/var/cache/sccache";
   };
 
-  systemd.tmpfiles.rules = [
+  systemd.tmpfiles.rules = mkIf config.programs.ccache.enable [
     "z ${config.programs.ccache.cacheDir} 770 root nixbld - -"
   ];
 
-  nix.settings.extra-sandbox-paths = [
+  nix.settings.extra-sandbox-paths = mkIf config.programs.ccache.enable [
     config.programs.ccache.cacheDir
   ];
 
-  nixpkgs.overlays = lib.mkIf (config.programs.ccache.enable && config.programs.ccache.packageNames == []) [
+  nixpkgs.overlays = mkIf (config.programs.ccache.enable && config.programs.ccache.packageNames == []) [
     (_: super: {
       ccacheWrapper = super.ccacheWrapper.override {
         extraConfig = ''
