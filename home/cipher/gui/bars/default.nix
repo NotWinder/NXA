@@ -1,6 +1,6 @@
 {
   imports = [
-    ./quickshell
+    ./dankMaterial.nix
     ./waybar.nix
   ];
 }

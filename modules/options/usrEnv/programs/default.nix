@@ -12,7 +12,7 @@ in
   # default program options
   options.custom.usrEnv.programs = {
     bar = mkOption {
-      type = listOf (enum [ "none" "waybar" "quickshell" "quickshell/caelestia" "quickshell/noctalia" "quickshell/dms" ]);
+      type = listOf (enum [ "none" "waybar" "dms" ]);
       default = [ "none" ];
       description = ''
         The List of Bars/Shells to be Installed.
