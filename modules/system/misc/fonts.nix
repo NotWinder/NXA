@@ -1,10 +1,11 @@
-{
-  pkgs,
-  lib,
-  ...
-}: let
+{ pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.attrsets) mapAttrs;
-in {
+in
+{
   fonts = {
     enableDefaultPackages = true;
 
@@ -12,19 +13,20 @@ in {
       enable = true;
       hinting.enable = true;
       antialias = true;
-      defaultFonts = let
-        # fonts that should be in each font family
-        # if applicable
-        common = [
-          "Iosevka Nerd Font"
-          "Symbols Nerd Font"
-          "Noto Color Emoji"
-        ];
-      in
+      defaultFonts =
+        let
+          # fonts that should be in each font family
+          # if applicable
+          common = [
+            "Iosevka Nerd Font"
+            "Symbols Nerd Font"
+            "Noto Color Emoji"
+          ];
+        in
         mapAttrs (_: fonts: fonts ++ common) {
-          serif = ["Noto Serif"];
-          sansSerif = ["Lexend"];
-          emoji = ["Noto Color Emoji"];
+          serif = [ "Noto Serif" ];
+          sansSerif = [ "Lexend" ];
+          emoji = [ "Noto Color Emoji" ];
           monospace = [
             "Source Code Pro Medium"
             "Source Han Mono"
@@ -82,8 +84,8 @@ in {
       openmoji-color
       twemoji-color-font
 
-      # persian fonts
-      vazir-fonts
+      # persian fonts - commented out: vazir-fonts not available in current nixpkgs
+      # vazir-fonts
     ];
   };
 }

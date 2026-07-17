@@ -21,7 +21,7 @@ in
       cleanup = "sudo nix-collect-garbage --delete-older-than 3d && nix-collect-garbage -d"; # Uses nix-collect-garbage to Cleanup the old generaions
       bloat = "nix path-info -Sh /run/current-system"; # Shows the current systems size
       curgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system"; # lists the generaions of the system
-      gc-check = "nix-store --gc --print-roots | egrep -v \"^(/nix/var|/run/\w+-system|\{memory|/proc)\""; # TODO: check what is does
+      gc-check = ''nix-store --gc --print-roots | egrep -v "^(/nix/var|/run/\w+-system|\{memory|/proc})"''; # TODO: check what is does
       repair = "nix-store --verify --check-contents --repair";
       run = "nix run"; # runs the flake
       search = "nix search"; # Searchs in the flake

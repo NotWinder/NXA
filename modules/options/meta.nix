@@ -38,7 +38,7 @@ in
     };
 
     nodeAddress = mkOption {
-      type = nullOr (strMatching "^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$"); # :D?
+      type = nullOr (strMatching "^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])\\.){3}(25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])$"); # IPv4 regex
       default = null;
       readOnly = true;
       description = ''
