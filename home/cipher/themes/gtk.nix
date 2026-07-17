@@ -43,6 +43,8 @@ in
         package = cfg.gtk.theme.package;
       };
 
+      gtk4.theme = config.gtk.theme;
+
       iconTheme = {
         name = cfg.gtk.iconTheme.name;
         package = cfg.gtk.iconTheme.package;

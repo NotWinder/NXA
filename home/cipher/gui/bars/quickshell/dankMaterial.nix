@@ -1,31 +1,40 @@
-{
-  lib,
-  config,
-  ...
-}: let
+{ inputs
+, lib
+, config
+, ...
+}:
+let
   inherit (lib) mkIf;
-in {
+in
+{
   options.custom.programs.dms = {
-    enable = lib.mkEnableOption "Enable Niri as a window manager";
+    enable = lib.mkEnableOption "Enable DankMaterialShell";
   };
 
   config = {
-    programs.dms-shell = mkIf config.custom.programs.dms.enable {
-      enable = true;
-    };
     hm = {
+      imports = [ inputs.dms.homeModules.default ];
+
+      programs.dank-material-shell = mkIf config.custom.programs.dms.enable {
+        enable = true;
+        settings = {
+          iconTheme = "Papirus-Dark";
+        };
+      };
+
       programs.niri = mkIf (config.custom.programs.niri.enable && config.custom.programs.dms.enable) {
         settings = {
           layer-rules = [
             {
-              matches = [{namespace = "^quickshell$";}];
+              matches = [{ namespace = "^quickshell$"; }];
               place-within-backdrop = true;
             }
           ];
 
           binds = with config.hm.lib.niri.actions; let
             sh = spawn "sh" "-c";
-          in {
+          in
+          {
             "Mod+D".action = sh "dms ipc call spotlight toggle";
             "Ctrl+L".action = sh "dms ipc call lock lock";
             "Mod+Escape" = {
