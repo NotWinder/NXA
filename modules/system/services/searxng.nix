@@ -34,7 +34,6 @@ in
       searx = {
         enable = true;
         package = pkgs.searxng;
-        environmentFile = config.age.secrets.searx-secretkey.path;
         settings = {
           use_default_settings = true;
 

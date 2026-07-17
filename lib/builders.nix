@@ -1,8 +1,8 @@
-{
-  inputs,
-  lib,
-  ...
-}: let
+{ inputs
+, lib
+, ...
+}:
+let
   # inherit self from inputs
   inherit (inputs) self nixpkgs;
   inherit (lib.lists) singleton concatLists;
@@ -28,41 +28,42 @@
   # when (not if) a new system is added to `hosts/default.nix` with minimum lines of code rewritten each time.
   # Ultimately this defines specialArgs we need and lazily merges any args and modules the host may choose
   # to pass to the builder.
-  mkNixosSystem = {
-    withSystem,
-    system,
-    ...
-  } @ args:
-    withSystem system ({
-      inputs',
-      self',
-      ...
-    }:
-      mkSystem {
-        # specialArgs
-        specialArgs = recursiveUpdate {
-          inherit (self) keys;
+  mkNixosSystem =
+    { withSystem
+    , system
+    , ...
+    } @ args:
+    withSystem system ({ inputs'
+                       , self'
+                       , ...
+                       }:
+    mkSystem {
+      # specialArgs
+      specialArgs = recursiveUpdate
+        {
           inherit lib modulesPath;
           inherit inputs self inputs' self';
-        } (args.specialArgs or {});
+        }
+        (args.specialArgs or { });
 
-        # Modules
-        modules = concatLists [
-          (singleton {
-            networking.hostName = args.hostname;
-            nixpkgs = {
-              hostPlatform = mkDefault args.system;
-              flake.source = nixpkgs.outPath;
-            };
+      # Modules
+      modules = concatLists [
+        (singleton {
+          networking.hostName = args.hostname;
+          nixpkgs = {
+            hostPlatform = mkDefault args.system;
+            flake.source = nixpkgs.outPath;
+          };
 
-            # set baseModules in the place of nixos/lib/eval-config.nix's default argument
-            # _module.args.baseModules = import "${modulesPath}/module-list.nix";
-          })
+          # set baseModules in the place of nixos/lib/eval-config.nix's default argument
+          # _module.args.baseModules = import "${modulesPath}/module-list.nix";
+        })
 
-          # if host needs additional modules, append them
-          (args.modules or [])
-        ];
-      });
-in {
+        # if host needs additional modules, append them
+        (args.modules or [ ])
+      ];
+    });
+in
+{
   inherit mkSystem mkNixosSystem;
 }

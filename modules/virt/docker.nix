@@ -13,8 +13,8 @@ in
     virtualisation = {
       docker = {
         enable = true;
-        storageDriver = "zfs";
-        extraOptions = "--data-root=/zroot/containers";
+        storageDriver = virt.docker.storageDriver;
+        extraOptions = "--data-root=${virt.docker.dataRoot}";
       };
     };
   };

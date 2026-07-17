@@ -33,6 +33,8 @@ in
 
     beets.enable = mkEnableOption "beets media library system.";
 
+    rnnoise.enable = mkEnableOption "RNNoise noise suppression filter-chain module";
+
     mpv = {
       enable = mkEnableOption "mpv media player";
       scripts = mkOption {

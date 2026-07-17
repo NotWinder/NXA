@@ -63,8 +63,6 @@ in
         enable = true;
         package = pkgs.garage;
 
-        environmentFile = config.age.secrets.garage-env.path;
-
         settings = {
           metadata_dir = "/srv/storage/garage/meta";
           data_dir = "/srv/storage/garage/data";
@@ -76,7 +74,6 @@ in
 
           # For inter-node comms
           rpc_bind_addr = "[::]:3901";
-          rpc_secret_file = config.age.secrets.garage-env.path;
           # rpc_public_addr = "127.0.0.1:3901";
 
           # Standard S3 api endpoint

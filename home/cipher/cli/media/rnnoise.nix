@@ -5,14 +5,11 @@
 }:
 let
   inherit (lib.modules) mkIf;
-  inherit (config.custom) device;
 
   format = pkgs.formats.json { };
-
-  acceptedTypes = [ "desktop" "laptop" ];
 in
 {
-  config.hm = mkIf (builtins.elem device.type acceptedTypes) {
+  config.hm = mkIf config.custom.usrEnv.programs.media.rnnoise.enable {
     # Write a PipeWire userspace configuration based on werman's noise-supression-for-voice
     # for usage instructions, see:
     # <https://github.com/werman/noise-suppression-for-voice?tab=readme-ov-file#linux>

@@ -31,6 +31,7 @@
           beets.enable = true;
           mpv.enable = true;
           ncmpcpp.enable = true;
+          rnnoise.enable = false;
         };
 
         default = {

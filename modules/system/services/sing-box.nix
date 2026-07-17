@@ -9,12 +9,6 @@ with lib; let
 in
 {
   config = mkIf cfg.enable {
-    sops.secrets = {
-      "sing-box-url" = {
-        owner = cfg.user;
-        group = cfg.group;
-      };
-    };
     users.users.${cfg.user} = {
       isSystemUser = true;
       group = cfg.group;
@@ -26,28 +20,8 @@ in
       description = "Custom sing-box proxy service";
       wantedBy = [ "default.target" ];
 
-      # This script runs before the main command
       preStart = ''
-        # Make curl available in the script's PATH
-        PATH=${makeBinPath [pkgs.curl]}:$PATH
-
-        echo "Fetching sing-box configuration for custom service..."
-
-        # Read the URL from the sops secret file
-        # IMPORTANT: This assumes you have the sops secret defined elsewhere
-        # in your configuration.
-        URL=$(cat ${config.sops.secrets."sing-box-url".path})
-
-        if [ -z "$URL" ]; then
-          echo "Error: The sing-box-url secret is empty!" >&2
-          exit 1
-        fi
-
-        # Download the config to the service's runtime directory
-        curl --fail --silent --show-error --location "$URL" \
-             --output /run/sing-box/config.json
-
-        echo "Successfully fetched custom sing-box configuration."
+        echo "sing-box config must be placed at /run/sing-box/config.json"
       '';
 
       # Main service configuration
