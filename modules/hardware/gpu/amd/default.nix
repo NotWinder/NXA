@@ -25,9 +25,7 @@ in
     hardware.graphics = {
       extraPackages = with pkgs;
         [
-          amdvlk
-
-          # mesa
+          # mesa (includes RADV Vulkan driver)
           mesa
 
           # vulkan
@@ -44,7 +42,7 @@ in
           else with pkgs; [ rocm-opencl-icd rocm-opencl-runtime ]
         );
 
-      extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
+      extraPackages32 = [ pkgs.driversi686Linux.mesa ];
     };
   };
 }

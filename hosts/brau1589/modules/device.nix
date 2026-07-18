@@ -12,7 +12,7 @@
     custom.device = {
       type = "desktop";
       cpu.type = "amd";
-      gpu.type = "nvidia";
+      gpu.type = "hybrid-nv";
       monitors = [ "HDMI-A-1" ];
       hasBluetooth = true;
       hasSound = true;
