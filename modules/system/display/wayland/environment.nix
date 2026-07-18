@@ -15,7 +15,7 @@ let
 
   # Determine DRM devices for hybrid graphics
   drmDevices =
-    if isNvidiaHybrid then "/dev/dri/card1:/dev/dri/card0"
+    if isNvidiaHybrid then "/dev/dri/card1:/dev/dri/card2"
     else if isAmdHybrid then "/dev/dri/card0:/dev/dri/card1"
     else "";
 
@@ -46,7 +46,7 @@ in
     '';
 
     environment = {
-      variables = {
+      sessionVariables = {
         #_JAVA_AWT_WM_NONEREPARENTING = "1";
         #NIXOS_OZONE_WL = "1";
         #GDK_BACKEND = "wayland,x11";
