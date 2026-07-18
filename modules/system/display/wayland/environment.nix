@@ -13,28 +13,22 @@ let
   isAmdHybrid = builtins.elem dev.gpu.type [ "amd" "hybrid-amd" ];
   isHybrid = isNvidiaHybrid || isAmdHybrid;
 
-  # Determine DRM devices for hybrid graphics
+  # DRM device order for wlroots-based compositors (niri uses smithay, ignores this).
+  # iGPU first since it drives the display in Optimus mode.
   drmDevices =
-    if isNvidiaHybrid then "/dev/dri/card1:/dev/dri/card2"
+    if isNvidiaHybrid then "/dev/dri/card2:/dev/dri/card1"
     else if isAmdHybrid then "/dev/dri/card0:/dev/dri/card1"
     else "";
 
+  # Safe global vars for hybrid graphics:
+  # - DRI_PRIME, __EGL_VENDOR_LIBRARY_FILENAMES, VK_ICD_FILENAMES are intentionally
+  #   excluded — they force the compositor onto the dGPU, which breaks niri (only
+  #   the iGPU can drive the display in Optimus mode). Set them per-application
+  #   instead (e.g. via niri config `env` blocks or desktop file overrides).
   hybridVars = {
     WLR_DRM_DEVICES = drmDevices;
-    DRI_PRIME = "1";
     LIBVA_DRIVER_NAME = if isNvidiaHybrid then "nvidia" else "radeonsi";
     VDPAU_DRIVER = if isNvidiaHybrid then "nvidia" else "radeonsi";
-    __GLX_VENDOR_LIBRARY_NAME = if isNvidiaHybrid then "nvidia" else "";
-    __EGL_VENDOR_LIBRARY_FILENAMES =
-      if isNvidiaHybrid then
-        "/run/opengl-driver/share/egl/egl_external_platform.d/15_nvidia.json"
-      else "";
-    VK_ICD_FILENAMES =
-      if isNvidiaHybrid then
-        "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/nvidia_icd.i686.json"
-      else if isAmdHybrid then
-        "/usr/share/vulkan/icd.d/radeon_icd.x86_64.json:/usr/share/vulkan/icd.d/radeon_icd.i686.json"
-      else "";
   };
 in
 {
