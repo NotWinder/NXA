@@ -29,6 +29,7 @@ let
     WLR_DRM_DEVICES = drmDevices;
     LIBVA_DRIVER_NAME = if isNvidiaHybrid then "nvidia" else "radeonsi";
     VDPAU_DRIVER = if isNvidiaHybrid then "nvidia" else "radeonsi";
+    MANGOHUD_DLSYM = "1";
   };
 in
 {
