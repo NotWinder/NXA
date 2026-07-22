@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     cachix
     opencode
@@ -8,5 +8,6 @@
     # opencode MCP servers
     mcp-server-filesystem
     context7-mcp
+    mcp-nixos
   ];
 }
