@@ -19,6 +19,15 @@ in
       '';
     };
 
+    persistPath = mkOption {
+      type = lib.types.str;
+      default = "/persist";
+      description = ''
+        The root path for persistent storage. All impermanence-backed
+        directories and files will be stored under this path.
+      '';
+    };
+
     root = {
       enable = mkEnableOption ''
         the Impermanence module for persisting important state directories.

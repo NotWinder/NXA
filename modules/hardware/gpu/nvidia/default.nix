@@ -1,20 +1,19 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
+  inherit (builtins) elem;
   inherit (lib) mkIf;
-in {
-  options.custom.hardware.nvidia = {
-    enable = lib.mkEnableOption "Enable NVIDIA GPU support";
-    isHybrid = lib.mkEnableOption "Indicates if the system is a hybrid GPU setup (e.g., NVIDIA + AMD)";
-    nvidiaOpen = lib.mkEnableOption "Use the open NVIDIA kernel module instead of the proprietary one";
-  };
-  config = mkIf config.custom.hardware.nvidia.enable {
+
+  dev = config.custom.device;
+in
+{
+  config = mkIf (elem dev.gpu.type [ "nvidia" "hybrid-nv" ]) {
     nixpkgs.config.allowUnfree = true;
     #services.xserver.videoDrivers = ["nvidia"];
-    services.xserver.videoDrivers = ["nvidia" "amdgpu"];
+    services.xserver.videoDrivers = [ "nvidia" "amdgpu" ];
 
     #services.xserver.videoDrivers = ["amdgpu"];
 
@@ -61,7 +60,7 @@ in {
       nvidia = {
         package = config.boot.kernelPackages.nvidiaPackages.production;
         modesetting.enable = true;
-        prime = mkIf config.custom.hardware.nvidia.isHybrid {
+        prime = mkIf dev.gpu.nvidia.isHybrid {
           nvidiaBusId = "PCI:1:0:0";
           amdgpuBusId = "PCI:6:0:0";
 
@@ -70,11 +69,11 @@ in {
             enableOffloadCmd = true;
           };
         };
-        powerManagement = mkIf config.custom.hardware.nvidia.isHybrid {
+        powerManagement = mkIf dev.gpu.nvidia.isHybrid {
           enable = true;
           finegrained = true;
         };
-        open = config.custom.hardware.nvidia.nvidiaOpen;
+        open = dev.gpu.nvidia.nvidiaOpen;
         nvidiaSettings = true;
         forceFullCompositionPipeline = false;
       };

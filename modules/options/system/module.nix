@@ -17,7 +17,7 @@ in
     ./impermanence.nix
 
     ## network and overall hardening
-    #./networking
+    ./networking.nix
     ./security.nix
 
     # filesystems

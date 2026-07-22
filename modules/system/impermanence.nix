@@ -30,19 +30,19 @@ in
           (user: {
             name = user;
             value = {
-              hashedPasswordFile = "/persist/passwords/${user}";
+              hashedPasswordFile = "${cfg.persistPath}/passwords/${user}";
             };
           })
           config.custom.system.users) // {
         root = {
           # passwordFile needs to be in a volume marked with `neededForBoot = true`
-          hashedPasswordFile = "/persist/passwords/root";
+          hashedPasswordFile = "${cfg.persistPath}/passwords/root";
         };
       };
     };
 
-    # home.persistence."/persist/home/${config.custom.system.mainUser}" = {};
-    environment.persistence."/persist" = {
+    # home.persistence."${cfg.persistPath}/home/${config.custom.system.mainUser}" = {};
+    environment.persistence."${cfg.persistPath}" = {
       directories =
         [
           "/etc/nixos"
@@ -80,20 +80,20 @@ in
 
     # for some reason *this* is what makes networkmanager not get screwed completely instead of the impermanence module
     systemd.tmpfiles.rules = [
-      "L /var/lib/NetworkManager/secret_key - - - - /persist/var/lib/NetworkManager/secret_key"
-      "L /var/lib/NetworkManager/seen-bssids - - - - /persist/var/lib/NetworkManager/seen-bssids"
-      "L /var/lib/NetworkManager/timestamps - - - - /persist/var/lib/NetworkManager/timestamps"
+      "L /var/lib/NetworkManager/secret_key - - - - ${cfg.persistPath}/var/lib/NetworkManager/secret_key"
+      "L /var/lib/NetworkManager/seen-bssids - - - - ${cfg.persistPath}/var/lib/NetworkManager/seen-bssids"
+      "L /var/lib/NetworkManager/timestamps - - - - ${cfg.persistPath}/var/lib/NetworkManager/timestamps"
     ];
 
     services.openssh.hostKeys = mkForce [
       {
         bits = 4096;
-        path = "/persist/etc/ssh/ssh_host_rsa_key";
+        path = "${cfg.persistPath}/etc/ssh/ssh_host_rsa_key";
         type = "rsa";
       }
       {
         bits = 4096;
-        path = "/persist/etc/ssh/ssh_host_ed25519_key";
+        path = "${cfg.persistPath}/etc/ssh/ssh_host_ed25519_key";
         type = "ed25519";
       }
     ];

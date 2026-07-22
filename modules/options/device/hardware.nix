@@ -71,6 +71,11 @@ in
           drivers to be loaded, potentially optimizing video output performance
         '';
       };
+
+      nvidia = {
+        isHybrid = mkEnableOption "Indicates if the system is a hybrid GPU setup (e.g., NVIDIA + AMD)";
+        nvidiaOpen = mkEnableOption "Use the open NVIDIA kernel module instead of the proprietary one";
+      };
     };
 
     monitors = mkOption {
