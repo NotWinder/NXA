@@ -18,8 +18,6 @@ let
 in
 {
   imports = [
-    ./cipher/home.nix
-
     (lib.mkAliasOptionModule [ "hm" ] [ "home-manager" "users" sys.mainUser ])
   ];
   home-manager = mkIf env.useHomeManager {

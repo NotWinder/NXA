@@ -21,10 +21,6 @@
       tmpOnTmpfs = false;
     };
 
-    bluetooth.enable = true;
-    sound.enable = true;
-    video.enable = true;
-
     virtualisation = {
       enable = true;
       qemu.enable = true;

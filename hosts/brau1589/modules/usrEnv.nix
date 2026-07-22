@@ -14,34 +14,9 @@
         };
       };
     };
-    custom.usrEnv = {
-      useHomeManager = true;
-
-      programs = {
-        cli.enable = true;
-        gui = {
-          enable = true;
-          obs.enable = true;
-        };
-
-        browsers = [ "librewolf" "zen-beta" ];
-
-        terminals = [ "alacritty" "ghostty" ];
-
-        media = {
-          beets.enable = true;
-          mpv.enable = true;
-          ncmpcpp.enable = true;
-        };
-
-        default = {
-          terminal = "alacritty";
-          browser = "zen-beta";
-        };
-
-        launchers = [ "rofi" "tofi" ];
-      };
-      services.media.mpd.enable = true;
+    custom.usrEnv.programs = {
+      browsers = [ "librewolf" "zen-beta" ];
+      default.browser = "zen-beta";
     };
   };
 }

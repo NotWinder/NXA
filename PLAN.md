@@ -1,7 +1,7 @@
 # NXA Architecture Improvement Plan
 
 Last updated: 2026-07-22
-Status: **Phase 1 complete**
+Status: **Phase 1 & 2 complete**
 
 ---
 
@@ -55,7 +55,13 @@ Plus identical boot defaults (`enableKernelTweaks`, `initrd.enableTweaks`, etc.)
 - `headless`: enable sshd, disable sound/video/bluetooth
 - `server`: enable server-oriented services
 
-**Status:** ❌ Not started
+**Status:** ✅ Complete
+
+**Changes:**
+- `graphical.nix` now enables video/sound/bluetooth with `mkDefault true`
+- `headless.nix` now disables video/sound/bluetooth with `mkDefault false`
+- `server.nix`: removed dead commented imports
+- All 8 host `system.nix` files stripped of redundant bluetooth/sound/video lines
 
 ---
 
@@ -63,9 +69,14 @@ Plus identical boot defaults (`enableKernelTweaks`, `initrd.enableTweaks`, etc.)
 
 **Problem:** `home/module.nix` hardcodes `./cipher/home.nix`. lorian (headless server) gets cipher's full GUI home config.
 
-**Solution:** Derive path from hostname: `./${config.custom.system.mainUser}/home.nix` or `./${config.networking.hostName}/home.nix`.
+**Solution:** Remove hardcoded import from `home/module.nix`. Add host-specific home config import in `hosts/default.nix` via `homesPath + "/${hostname}/home.nix"`. Create `home/<hostname>/home.nix` wrappers for each host.
 
-**Status:** ❌ Not started
+**Status:** ✅ Complete
+
+**Changes:**
+- `home/module.nix`: removed `./cipher/home.nix` import
+- `hosts/default.nix`: added host-specific home import in `mkModulesFor`
+- Created `home/{amadeus,brau1589,heu,lorian,magi,salieri,wired}/home.nix` (each imports `../cipher/home.nix`)
 
 ---
 
@@ -73,9 +84,14 @@ Plus identical boot defaults (`enableKernelTweaks`, `initrd.enableTweaks`, etc.)
 
 **Problem:** Workstation profile only enables libreoffice + zathura. Most graphical hosts repeat terminal/browser/launcher selections.
 
-**Solution:** Move common desktop defaults (terminals, browsers, launchers) into the profile.
+**Solution:** Move common desktop defaults (terminals, browsers, launchers, media, OBS, mpd) into the profile.
 
-**Status:** ❌ Not started
+**Status:** ✅ Complete
+
+**Changes:**
+- `workstation.nix` now sets mkDefault for: browsers, terminals, launchers, default terminal/browser, OBS, beets, mpv, ncmpcpp, mpd service
+- All 7 graphical host `usrEnv.nix` files stripped of now-redundant config (13+ lines each)
+- brau1589 keeps browser overrides (adds zen-beta); cipher/brau1589 keep WM/greetd config
 
 ---
 

@@ -1,14 +1,12 @@
+{ lib, ... }:
 {
-  imports = [
-    #./environment.nix
-    #./systemd.nix
-    #./documentation.nix
-    #./fonts.nix
-    #./nix.nix
-    #./programs.nix
-    #./users.nix
-    #./xdg.nix
-  ];
+  config = {
+    system.nixos.tags = ["headless"];
 
-  system.nixos.tags = ["headless"];
+    custom.system = {
+      video.enable = lib.mkDefault false;
+      sound.enable = lib.mkDefault false;
+      bluetooth.enable = lib.mkDefault false;
+    };
+  };
 }
