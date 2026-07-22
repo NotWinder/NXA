@@ -19,10 +19,6 @@ in
           dns.enable = true;
         };
       };
-
-      networkd-dispatcher = {
-        enable = true;
-      };
     };
 
     programs.proxychains = {
