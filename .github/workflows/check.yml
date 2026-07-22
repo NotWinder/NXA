@@ -1,0 +1,27 @@
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@v16
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: DeterminateSystems/magic-nix-cache-action@v8
+
+      - uses: DeterminateSystems/flake-checker-action@v9
+
+      - name: Run nix flake check
+        run: nix flake check
+
+      - name: Check nix formatting
+        run: nix run nixpkgs#nixpkgs-fmt -- --check .
