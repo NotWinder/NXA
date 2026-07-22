@@ -1,7 +1,7 @@
 # NXA Architecture Improvement Plan
 
 Last updated: 2026-07-22
-Status: **Phase 1 & 2 complete**
+Status: **All phases complete (except 6.2 deferred)**
 
 ---
 
@@ -185,7 +185,9 @@ Plus identical boot defaults (`enableKernelTweaks`, `initrd.enableTweaks`, etc.)
 
 **Solution:** Either import stylix or remove the reference.
 
-**Status:** ❌ Not started
+**Status:** ✅ Complete
+
+**Changes:** Removed stale `stylix` references from `AGENTS.md` and `docs/adding-a-host.md`. Stylix was referenced as an extraModule but never actually imported.
 
 ### 6.2 Host-specific disko/router abstraction
 
@@ -193,4 +195,4 @@ Plus identical boot defaults (`enableKernelTweaks`, `initrd.enableTweaks`, etc.)
 
 **Solution:** Migrate to shared disko abstraction for btrfs hosts.
 
-**Status:** ❌ Not started
+**Status:** ⏸️ Skipped — high risk without hardware testing, deferred.

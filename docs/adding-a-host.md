@@ -150,7 +150,7 @@ Add an entry following the existing pattern:
   system = "x86_64-linux";
   modules = mkModulesFor "<hostname>" {
     roles = [graphical workstation];  # or [headless server] for servers
-    extraModules = [sops-nix stylix hm];  # skip stylix for headless
+    extraModules = [sops-nix hm];
   };
 };
 ```

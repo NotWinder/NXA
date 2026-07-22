@@ -44,8 +44,8 @@ jq . <file>.json >/dev/null && yamllint -c .yamllint.yaml <file>.yaml || true
 - **All custom options** are under `config.custom.*` (declared in `modules/options/`, accessed as `config.custom.usrEnv`, `config.custom.system`, etc.).
 - **Roles** stack tags and defaults: graphical adds `system.nixos.tags = ["graphical"]`.
 - **stateVersion:** `system.stateVersion = "25.05"` for all hosts.
-- **Host modules** are assembled via `mkModulesFor` in `hosts/default.nix`, which auto-imports module trees + roles + extraModules (sops-nix, stylix, home-manager).
-- **ExtraModules pattern:** always pass `sops-nix`, `stylix`, `hm` as extraModules for graphical/workstation hosts.
+- **Host modules** are assembled via `mkModulesFor` in `hosts/default.nix`, which auto-imports module trees + roles + extraModules (sops-nix, home-manager).
+- **ExtraModules pattern:** always pass `sops-nix` and `hm` as extraModules for graphical/workstation hosts.
 - **Adding a host:** see `docs/adding-a-host.md`.
 
 ## Secrets safety
