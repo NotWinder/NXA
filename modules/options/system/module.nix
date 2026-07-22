@@ -6,7 +6,7 @@
 let
   inherit (builtins) elemAt;
   inherit (lib.options) mkOption mkEnableOption;
-  inherit (lib.modules) mkMerge;
+  inherit (lib.modules) mkMerge mkDefault;
   inherit (lib.lists) optionals;
   inherit (lib.types) enum listOf nullOr str package;
 in
@@ -29,17 +29,20 @@ in
     #  services related options
     ./services
   ];
-  config = {
-    warnings = mkMerge [
-      (optionals (config.custom.system.users == [ ]) [
+  config = mkMerge [
+    {
+      warnings = optionals (config.custom.system.users == [ ]) [
         ''
           You have not added any users to be supported by your system. You may end up with an unbootable system!
 
           Consider setting {option}`config.custom.system.users` in your configuration
         ''
-      ])
-    ];
-  };
+      ];
+    }
+    {
+      custom.system.printing.enable = mkDefault false;
+    }
+  ];
 
   options.custom.system = {
     mainUser = mkOption {
@@ -72,7 +75,7 @@ in
 
     defaultUserShell = mkOption {
       type = package;
-      default = pkgs.bash;
+      default = pkgs.fish;
       description = "The Default Shell for the User.";
     };
 

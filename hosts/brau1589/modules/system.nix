@@ -1,14 +1,5 @@
-{ pkgs, ... }:
-let
-  mainUser = "winder"; # The Main User of the host
-in
 {
   config.custom.system = {
-    mainUser = mainUser;
-    users = [ mainUser ];
-    homePath = "/home/${mainUser}";
-    defaultUserShell = pkgs.fish;
-
     services = {
       prowlarr.enable = true;
       #sing-box.enable = true;
@@ -23,10 +14,7 @@ in
     enableSshSecrets = true;
 
     boot = {
-      enableKernelTweaks = true;
-      initrd.enableTweaks = true;
       isUEFI = true;
-      loadRecommendedModules = true;
       loader = "grub";
       plymouth.enable = false;
       secureBoot = false;
@@ -34,7 +22,6 @@ in
     };
 
     bluetooth.enable = true;
-    printing.enable = false;
     sound.enable = true;
     video.enable = true;
 

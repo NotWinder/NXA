@@ -11,10 +11,10 @@ in
 {
   # pre-boot and bootloader configurations
   options.custom.system.boot = {
-    enableKernelTweaks = mkEnableOption "security and performance related kernel parameters";
+    enableKernelTweaks = mkEnableOption "security and performance related kernel parameters" // { default = true; };
     isUEFI = mkEnableOption "Whether or not the system supports uefi boot";
     recommendedLoaderConfig = mkEnableOption "tweaks for common bootloader configs per my liking";
-    loadRecommendedModules = mkEnableOption "kernel modules that accommodate for most use cases";
+    loadRecommendedModules = mkEnableOption "kernel modules that accommodate for most use cases" // { default = true; };
     tmpOnTmpfs =
       mkEnableOption ''
         `/tmp` living on tmpfs. false means it will be cleared manually on each reboot
@@ -35,7 +35,7 @@ in
       // { default = config.custom.system.boot.plymouth.enable; };
 
     initrd = {
-      enableTweaks = mkEnableOption "quality of life tweaks for the initrd stage";
+      enableTweaks = mkEnableOption "quality of life tweaks for the initrd stage" // { default = true; };
       optimizeCompressor = mkEnableOption ''
         initrd compression algorithm optimizations for size.
 
