@@ -1,15 +1,16 @@
-{
-  config,
-  inputs',
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, inputs'
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (builtins) filter map toString;
   inherit (lib.filesystem) listFilesRecursive;
   inherit (lib.modules) mkIf;
   inherit (lib.strings) hasSuffix;
-in {
+in
+{
   options.custom.programs.hyprland = {
     enable = lib.mkEnableOption "Hyprland window manager";
   };
@@ -17,7 +18,7 @@ in {
     map toString (filter (p: p != ./default.nix) (listFilesRecursive ./config))
   );
   config = mkIf config.custom.programs.hyprland.enable {
-    services.displayManager.sessionPackages = [inputs'.hyprland.packages.hyprland];
+    services.displayManager.sessionPackages = [ inputs'.hyprland.packages.hyprland ];
     programs.hyprland = {
       enable = true;
       # set the flake package
@@ -30,7 +31,7 @@ in {
 
     hm = {
       home.packages = with pkgs; [
-        inputs'.hyprpolkitagent.packages.default
+        hyprpolkitagent
         grim
         slurp
         nwg-displays

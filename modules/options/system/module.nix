@@ -8,7 +8,7 @@ let
   inherit (lib.options) mkOption mkEnableOption;
   inherit (lib.modules) mkMerge;
   inherit (lib.lists) optionals;
-  inherit (lib.types) enum listOf str package;
+  inherit (lib.types) enum listOf nullOr str package;
 in
 {
   imports = [
@@ -62,6 +62,12 @@ in
       type = str;
       default = "/home/winder";
       description = "Path to home directory of the mainUser.";
+    };
+
+    nhFlakePath = mkOption {
+      type = nullOr str;
+      default = null;
+      description = "Flake path for nh (NH_OS_FLAKE). Defaults to inputs.self.outPath when null.";
     };
 
     defaultUserShell = mkOption {

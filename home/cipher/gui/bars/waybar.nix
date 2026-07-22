@@ -60,7 +60,6 @@ in
           "custom/led" = {
             format = "<span color='#021c18'>󰍿</span> <span color='#313436'></span> ";
             format-alt = "󰍿 <span color='#bbc2c7'></span> ";
-            on-click = "~/mouse.sh";
             tooltip = false;
           };
 
@@ -74,8 +73,7 @@ in
           };
 
           "upower#headset" = {
-            format = " {percentage}";
-            native-path = "/org/freedesktop/UPower/devices/headset_dev_A6_98_9A_0D_D3_49";
+            format = " {percentage}";
             show-icon = false;
             tooltip = false;
           };
@@ -323,7 +321,7 @@ in
           "clock" = {
             "format" = "{:%I:%M %p}";
             "rotate" = 0;
-            "on-click" = "/usr/local/bin/ags -t ActivityCenter";
+            "on-click" = "ags -t ActivityCenter";
             "tooltip-format" = "<tt>{calendar}</tt>";
             "calendar" = {
               "mode" = "month";
@@ -410,7 +408,7 @@ in
             "format-linked" = "󰈀 {ifname} (No IP)";
             "format-disconnected" = " ";
             "tooltip-format-disconnected" = "Disconnected";
-            "on-click" = "/usr/local/bin/ags -t ControlPanel";
+            "on-click" = "ags -t ControlPanel";
             "interval" = 2;
           };
 

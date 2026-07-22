@@ -31,14 +31,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprland.url = "github:/hyprwm/Hyprland";
-    hyprpolkitagent = {
-      url = "github:/hyprwm/hyprpolkitagent";
-      inputs = {
-        nixpkgs.follows = "hyprland/nixpkgs";
-      };
-    };
-
+    hyprland.url = "github:hyprwm/Hyprland";
     hyprlock = {
       url = "github:hyprwm/hyprlock";
       inputs = {
@@ -56,7 +49,7 @@
     };
 
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.2";
+      url = "github:nix-community/lanzaboote/v1.1.0";
 
       inputs.nixpkgs.follows = "nixpkgs";
     };

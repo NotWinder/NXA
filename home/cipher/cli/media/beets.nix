@@ -45,7 +45,7 @@ in
           bell = true;
           copy = false;
           detail = true;
-          log = "/home/winder/Media/Music/beets/importer.log";
+          log = "${config.custom.system.homePath}/Media/Music/beets/importer.log";
           move = false;
           timid = true;
           write = false;

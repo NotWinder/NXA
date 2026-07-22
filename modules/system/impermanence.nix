@@ -20,23 +20,28 @@ in
       # manually outside your configuration.nix or whatever
       # P.S: This option requires you to define a password file for your users
       # inside your configuration.nix - you can generate this password with
-      # mkpasswd -m sha-512 > /persist/passwords/notashelf after you confirm /persist/passwords exists
+      # mkpasswd -m sha-512 > /persist/passwords/<username> after you confirm /persist/passwords exists
       mutableUsers = false;
 
       # each existing user needs to have a passwordFile defined here
       # otherwise, they will not be available for a login
-      users = {
+      users = builtins.listToAttrs
+        (map
+          (user: {
+            name = user;
+            value = {
+              hashedPasswordFile = "/persist/passwords/${user}";
+            };
+          })
+          config.custom.system.users) // {
         root = {
           # passwordFile needs to be in a volume marked with `neededForBoot = true`
           hashedPasswordFile = "/persist/passwords/root";
         };
-        notashelf = {
-          hashedPasswordFile = "/persist/passwords/notashelf";
-        };
       };
     };
 
-    # home.persistence."/persist/home/notashelf" = {};
+    # home.persistence."/persist/home/${config.custom.system.mainUser}" = {};
     environment.persistence."/persist" = {
       directories =
         [
