@@ -2,13 +2,11 @@
   config.custom.system = {
     services = {
       prowlarr.enable = true;
-      #sing-box.enable = true;
       sonarr.enable = true;
     };
 
     fs = {
       enabledFilesystems = [ "btrfs" "vfat" "ntfs" "exfat" ];
-      #zfs.enable = true;
     };
 
     enableSshSecrets = true;

@@ -27,17 +27,6 @@
         options = ["subvol=home" "compress=zstd"];
       };
 
-      #"/persist" = {
-      #  device = "/dev/disk/by-uuid/55b0f02e-8949-42e1-86ad-60559647f1fd";
-      #  fsType = "btrfs";
-      #  options = ["subvol=persist" "compress=zstd" "noatime"];
-      #};
-
-      #"/var/log" = {
-      #  device = "/dev/disk/by-uuid/55b0f02e-8949-42e1-86ad-60559647f1fd";
-      #  fsType = "btrfs";
-      #  options = ["subvol=log" "compress=zstd" "noatime"];
-      #};
     };
     swapDevices = [
       {

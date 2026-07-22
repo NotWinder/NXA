@@ -27,18 +27,7 @@
     virtualisation = {
       enable = true;
       qemu.enable = true;
-      #docker.enable = true;
     };
-
-    #networking = {
-    #  optimizeTcp = true;
-    #  nftables.enable = true;
-    #  tailscale = {
-    #    enable = true;
-    #    isClient = true;
-    #    isServer = false;
-    #  };
-    #};
 
     security = {
       tor.enable = true;

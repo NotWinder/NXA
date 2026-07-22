@@ -9,7 +9,6 @@
       inherit (lib.lists) concatLists flatten singleton;
 
       ## flake inputs ##
-      #hw = inputs.nixos-hardware.nixosModules; # hardware compat for pi4 and other quirky devices
       sops-nix = inputs.sops-nix.nixosModules.sops; # secret encryption via age
       hm = inputs.home-manager.nixosModules.home-manager; # home-manager nixos module
       # Specify root path for the modules. The concept is similar to modulesPath
