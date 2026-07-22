@@ -1,198 +1,147 @@
 # NXA Architecture Improvement Plan
 
 Last updated: 2026-07-22
-Status: **All phases complete (except 6.2 deferred)**
+Status: Active
 
 ---
 
-## Phase 1 — Foundations (low risk, high impact)
+## Phase 1 — Eliminate Host Boilerplate (high impact)
 
-### 1.1 Eliminate boilerplate in host `system.nix` files
+### 1.1 Push remaining defaults into option modules
 
-**Problem:** Every host repeats:
+**Problem:** Every host's `system.nix` still repeats near-identical values:
+- `fs.enabledFilesystems = [ "btrfs" "vfat" "ntfs" "exfat" ]` — 7 of 8 hosts identical
+- `boot.isUEFI = true; boot.loader = "grub";` — 7 of 8 hosts
+- `virtualisation = { enable = true; qemu.enable = true; docker.enable = true; }` — 7 of 8
+- `security = { tor.enable = true; fixWebcam = false; }` — 7 of 8
+
+**Solution:** Set `mkDefault` for all of these in `modules/options/system/module.nix`. Each host file retains only what *differs* from the defaults.
+
+**Files to change:**
+- `modules/options/system/module.nix` — add default blocks
+- All 8 `hosts/*/modules/system.nix` — strip redundant values
+
+---
+
+### 1.2 Gate global boot assumptions
+
+**Problem:** `modules/system/boot/module.nix` unconditionally blacklists TPM modules and sets `zfs.zfs_arc_max`, even on non-TPM / non-ZFS systems.
+
+**Solution:** Guard with conditionals:
+- TPM blacklist only when `!config.custom.device.hasTPM`
+- ZFS kernel param only when `config.custom.system.fs.zfs.enable`
+
+**Files to change:**
+- `modules/system/boot/module.nix`
+
+---
+
+## Phase 2 — Options & Namespace Corrections
+
+### 2.1 Move WM option declarations into the options tree
+
+**Problem:** `home/cipher/gui/wms/hyprland/default.nix` declares `options.custom.programs.hyprland` ad-hoc outside `modules/options/`. This means only hosts importing the cipher home-manager module can reference it. niri/sway options don't exist as options at all.
+
+**Solution:** Create `modules/options/usrEnv/programs/wms.nix` declaring options for `hyprland`, `niri`, `sway`. The HM implementation modules in `home/` reference these declared options.
+
+**Files to create:**
+- `modules/options/usrEnv/programs/wms.nix`
+
+**Files to change:**
+- `home/cipher/gui/wms/hyprland/default.nix` — move option declaration out, keep implementation
+- `home/cipher/gui/wms/niri/default.nix` — same
+- `home/cipher/gui/wms/sway/default.nix` — same
+
+---
+
+### 2.2 Drop the `workstation` role (overlap with `workstation` profile)
+
+**Problem:** `modules/roles/workstation/` only sets `system.nixos.tags = ["workstation"]`. The `workstation` profile (`modules/profiles/workstation.nix`) does all actual configuration. Two overlapping concepts for the same thing.
+
+**Solution:** Remove the `workstation` role directory. Remove it from `hosts/default.nix` role lists. Keep only the `workstation` profile. Optionally: remove the role from the `graphical` role's tag list too, or promote the profile to a role if preferred.
+
+**Files to change:**
+- `modules/roles/workstation/` — delete directory
+- `modules/roles/graphical.nix` — remove `workstation` from any implicit tag references
+- `hosts/default.nix` — remove `workstation` from `mkModulesFor` role lists
+- `docs/adding-a-host.md` — update example
+
+---
+
+### 2.3 Kill `mkService`
+
+**Problem:** The author self-describes `mkService` as "a horrendous abstraction" in `lib/modules.nix:58`. It only provides `host` + `port` options, forcing every consumer to supplement via `extraOptions`. The `sing-box` service already does it right with explicit options.
+
+**Solution:** Inline all `mkService` call-sites in `modules/options/system/services/default.nix` with explicit option definitions (like `sing-box` already has). Remove `mkService` from the library.
+
+**Files to change:**
+- `modules/options/system/services/default.nix` — replace `mkService` calls with explicit `mkOption`/`mkEnableOption`
+- `lib/modules.nix` — remove `mkService` definition and export
+
+---
+
+## Phase 3 — Module & Import Cleanup
+
+### 3.1 Explicit top-level imports vs auto-discovery
+
+**Problem:** `mkModuleTree'` silently collects every `module.nix` in the tree. A rename, move, or accidental creation of a `module.nix` silently changes behaviour. There's no explicit dependency graph.
+
+**Solution:** Keep `mkModuleTree'` only for large, deeply nested sub-trees where the discovery is genuinely useful (e.g. `home/cipher/gui/`, `modules/options/style/palettes/`). Replace it with explicit `imports = [ ... ]` lists for the top-level module trees in `hosts/default.nix`.
+
+**Files to change:**
+- `lib/modules.nix` — no change (keep the utility for where it's useful)
+- `hosts/default.nix` — replace `(map importPathOrTree ...)` with explicit import lists for the known module trees
+- Potentially: module tree entry points (`modules/system/module.nix`, `modules/options/module.nix`, etc.) already use explicit imports, so this change is mostly in `hosts/default.nix`
+
+---
+
+### 3.2 Clean up stale docs
+
+**Problem:** `docs/adding-a-host.md` still documents the old boilerplate patterns (setting `mainUser`, `users`, `homePath`, `sound.enable`, `video.enable`, etc. in every host `system.nix`).
+
+**Solution:** Rewrite to reflect current simplified patterns after Phase 1.1.
+
+**Files to change:**
+- `docs/adding-a-host.md`
+
+---
+
+### 3.3 Clean up commented-out / dead code
+
+**Candidates:**
+- `modules/system/boot/module.nix` — commented `./analasis.nix` import
+- `modules/hardware/gpu/nvidia/default.nix` — many commented environment variables
+- `modules/system/display/wayland/environment.nix` — commented session variables
+- `modules/system/impermanence.nix` — commented SSH host key paths, `home.persistence`
+- `modules/options/system/services/default.nix` — `docker` option here vs `virtualisation.docker` in `virtualisation.nix`
+- `modules/roles/server.nix` — single line file, possibly unnecessary
+- `modules/hardware/redistributable.nix` — check if still needed
+
+---
+
+## Phase 4 — Architecture (Optional / Discuss)
+
+### 4.1 Decouple home-manager user configs from cipher
+
+**Problem:** Every `home/<user>/home.nix` is a thin wrapper importing `../cipher/home.nix`. Per-user differences must be hacked into shared files with `mkIf`.
+
+**Solution:** Split `home/cipher/home.nix` into shared modules (`home/shared/cli.nix`, `home/shared/gui.nix`, etc.) and have each user's `home.nix` explicitly compose what they want.
+
+---
+
+### 4.2 Data-driven host definitions
+
+**Problem:** `hosts/default.nix` has 8 near-identical `mkNixosSystem` blocks.
+
+**Solution:** Define a single `builtins.mapAttrs` over a data attrset:
+
 ```nix
-mainUser = "winder";
-users = [ mainUser ];
-homePath = "/home/${mainUser}";
+hosts = {
+  amadeus  = { roles = [graphical workstation]; system = "x86_64-linux"; };
+  brau1589 = { roles = [graphical workstation]; system = "x86_64-linux"; };
+  lorian   = { roles = [headless server];       system = "x86_64-linux"; };
+  ...
+};
 ```
-Plus identical boot defaults (`enableKernelTweaks`, `initrd.enableTweaks`, etc.) across 7 of 8 hosts.
 
-**Solution:** Move defaults into `modules/options/system/module.nix` via `mkDefault`. Each host only keeps what differs.
-
-**Changes:**
-- `enableKernelTweaks`, `initrd.enableTweaks`, `loadRecommendedModules` now default to `true`
-- `defaultUserShell` now defaults to `pkgs.fish`
-- `printing.enable` defaults to `false`
-- All 8 host `system.nix` files stripped of now-redundant values (saved ~15 lines each)
-- `lorian` retains `pkgs.zsh` and `isUEFI = false` as host-specific overrides
-
-**Status:** ✅ Complete
-
----
-
-### 1.2 Simplify `callLibs` in `lib/default.nix`
-
-**Problem:** The `callLibs` function uses a `__functor` pattern the author self-describes as "the most cursed." It adds complexity for zero benefit — every lib file already takes `{ inputs, lib, ... }`.
-
-**Solution:** Replace `callLibs ./foo.nix` with `import ./foo.nix { inherit inputs; lib = self; }`.
-
-**Files touched:** `lib/default.nix` only (callers remain unchanged since the `extendedLib` attr shape stays the same).
-
-**Changes:** Removed `callLibs` function entirely. Replaced 5 `callLibs` calls with direct `import`. Removed dead commented-out code. `lib/default.nix` went from 164→49 lines.
-
-**Status:** ✅ Complete
-
----
-
-## Phase 2 — Roles & Profiles (architectural corrections)
-
-### 2.1 Make roles actually configure systems
-
-**Problem:** `graphical.nix`, `headless.nix`, and `server.nix` only set a tag. They don't configure anything.
-
-**Solution:** Each role gains `mkIf`-guarded config:
-- `graphical`: enable wayland, pipewire, graphical target
-- `headless`: enable sshd, disable sound/video/bluetooth
-- `server`: enable server-oriented services
-
-**Status:** ✅ Complete
-
-**Changes:**
-- `graphical.nix` now enables video/sound/bluetooth with `mkDefault true`
-- `headless.nix` now disables video/sound/bluetooth with `mkDefault false`
-- `server.nix`: removed dead commented imports
-- All 8 host `system.nix` files stripped of redundant bluetooth/sound/video lines
-
----
-
-### 2.2 Derive home-manager config path from hostname
-
-**Problem:** `home/module.nix` hardcodes `./cipher/home.nix`. lorian (headless server) gets cipher's full GUI home config.
-
-**Solution:** Remove hardcoded import from `home/module.nix`. Add host-specific home config import in `hosts/default.nix` via `homesPath + "/${hostname}/home.nix"`. Create `home/<hostname>/home.nix` wrappers for each host.
-
-**Status:** ✅ Complete
-
-**Changes:**
-- `home/module.nix`: removed `./cipher/home.nix` import
-- `hosts/default.nix`: added host-specific home import in `mkModulesFor`
-- Created `home/{amadeus,brau1589,heu,lorian,magi,salieri,wired}/home.nix` (each imports `../cipher/home.nix`)
-
----
-
-### 2.3 Expand `custom.profiles.workstation`
-
-**Problem:** Workstation profile only enables libreoffice + zathura. Most graphical hosts repeat terminal/browser/launcher selections.
-
-**Solution:** Move common desktop defaults (terminals, browsers, launchers, media, OBS, mpd) into the profile.
-
-**Status:** ✅ Complete
-
-**Changes:**
-- `workstation.nix` now sets mkDefault for: browsers, terminals, launchers, default terminal/browser, OBS, beets, mpv, ncmpcpp, mpd service
-- All 7 graphical host `usrEnv.nix` files stripped of now-redundant config (13+ lines each)
-- brau1589 keeps browser overrides (adds zen-beta); cipher/brau1589 keep WM/greetd config
-
----
-
-## Phase 3 — Namespace & Options Cleanup
-
-### 3.1 Unify `custom.hardware` into `custom.device`
-
-**Problem:** GPU config lives under `custom.hardware.nvidia` while GPU *type* declarations are under `custom.device.gpu`. No cross-linking.
-
-**Solution:** Add assertions + optionally migrate GPU enable options under `custom.device.gpu.*`.
-
-**Status:** ❌ Not started
-
----
-
-### 3.2 Add missing `custom.system.networking` option module
-
-**Problem:** The README references networking options (tailscale, nftables, optimizeTcp) but `modules/options/system/networking.nix` doesn't exist. Host configs set these ad-hoc.
-
-**Solution:** Create the missing options module with tailscale, nftables, and optimizeTcp options.
-
-**Status:** ❌ Not started
-
----
-
-### 3.3 Add `custom.system.impermanence.persistPath`
-
-**Problem:** No centralized abstraction for the persist path. Hosts must reach into raw `environment.persistence."/persist"`.
-
-**Solution:** Add `persistPath` option (default `"/persist"`) to the impermanence options module.
-
-**Status:** ❌ Not started
-
----
-
-## Phase 4 — Stale Code Removal
-
-### 4.1 Clean up commented-out imports
-
-**Files to clean:**
-- `hosts/default.nix` — commented nixos-hardware, caelestia-shell
-- `modules/roles/headless.nix` — all commented imports
-- `modules/roles/server.nix` — all commented imports
-- `modules/system/boot/module.nix` — commented `./analasis.nix`
-- `modules/system/services/module.nix` — commented fwupd, navidrome
-- `modules/virt/module.nix` — commented podman
-- All hosts `system.nix` — commented-out services
-- `lib/default.nix` — all commented-out extendedLib entries (aliases, ci, dag, etc.)
-
-**Status:** ⏳ Partially done (lib/default.nix cleaned in Phase 1.2)
-
----
-
-### 4.2 Remove dead core
-
-**Problem:** `modules/system/boot/loaders/none/` exists but `custom.system.boot.loader` has no `"none"` in its enum.
-
-**Solution:** Drop dead paths.
-
-**Status:** ❌ Not started
-
----
-
-## Phase 5 — CI & Automation
-
-### 5.1 Add GitHub Actions CI
-
-**Problem:** No automated checks. 8 hosts are never verified after changes.
-
-**Solution:** Add `.github/workflows/check.yml` with `nix flake check`.
-
-**Status:** ❌ Not started
-
----
-
-### 5.2 Add justfile
-
-**Problem:** Common commands spread across docs and AGENTS.md; no single entry point.
-
-**Solution:** Add `justfile` with `check-all`, `format`, `build-host <name>`.
-
-**Status:** ❌ Not started
-
----
-
-## Phase 6 — Optional Enhancements
-
-### 6.1 Stylix integration
-
-**Problem:** AGENTS.md mentions stylix as extraModule, but it's never imported.
-
-**Solution:** Either import stylix or remove the reference.
-
-**Status:** ✅ Complete
-
-**Changes:** Removed stale `stylix` references from `AGENTS.md` and `docs/adding-a-host.md`. Stylix was referenced as an extraModule but never actually imported.
-
-### 6.2 Host-specific disko/router abstraction
-
-**Problem:** 6 hosts define filesystems raw in `fs.nix`. Only brau1589 uses `disko.nix`.
-
-**Solution:** Migrate to shared disko abstraction for btrfs hosts.
-
-**Status:** ⏸️ Skipped — high risk without hardware testing, deferred.
+Reduces `hosts/default.nix` from ~150 lines to ~40.
