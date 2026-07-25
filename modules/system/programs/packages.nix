@@ -1,5 +1,6 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   environment.systemPackages = with pkgs; [
+    ansible
     cachix
     opencode
     opencode-desktop

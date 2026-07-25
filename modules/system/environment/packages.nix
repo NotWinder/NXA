@@ -1,7 +1,6 @@
-{
-  pkgs,
-  lib,
-  ...
+{ pkgs
+, lib
+, ...
 }: {
   environment = {
     # NixOS ships a bunch of packages by default under environment.defaultPackages
@@ -12,7 +11,7 @@
     #  - perl # No thank you (why is this here?)
     #  - rsync # Already in systemPackages
     #  - strace # Never needed it
-    defaultPackages = lib.mkForce [];
+    defaultPackages = lib.mkForce [ ];
 
     # packages that will be shared across all users and all systems
     # this should generally include tools used for debugging
@@ -25,6 +24,7 @@
       pciutils
       dnsutils
       usbutils
+      uv
     ];
   };
 }
