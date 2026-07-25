@@ -2,3 +2,4 @@ result
 result-*
 .direnv/
 *.hm.old
+hosts/*/certs/*.key

@@ -1,5 +1,5 @@
 {
   imports = [
-    #./wireguard
+    ./wireguard.nix
   ];
 }

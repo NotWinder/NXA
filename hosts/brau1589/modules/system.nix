@@ -1,32 +1,46 @@
 {
-  config.custom.system = {
-    services = {
-      prowlarr.enable = true;
-      sonarr.enable = true;
+  config = {
+    custom.system = {
+      services = {
+        prowlarr.enable = true;
+        sonarr.enable = true;
+        networking.wireguard.enable = true;
+      };
+
+      fs = {
+        enabledFilesystems = [ "btrfs" "vfat" "ntfs" "exfat" ];
+      };
+
+      enableSshSecrets = true;
+
+      boot = {
+        isUEFI = true;
+        loader = "grub";
+        plymouth.enable = false;
+        secureBoot = false;
+        tmpOnTmpfs = false;
+      };
+
+      virtualisation = {
+        enable = true;
+        qemu.enable = true;
+        docker.enable = true;
+      };
+
+      security = {
+        tor.enable = true;
+      };
     };
 
-    fs = {
-      enabledFilesystems = [ "btrfs" "vfat" "ntfs" "exfat" ];
-    };
+    security.pki.certificates = [
+      (builtins.readFile ../certs/vault.home.pem)
+    ];
 
-    enableSshSecrets = true;
+    sops.secrets.vaultwarden_server_key = { };
 
-    boot = {
-      isUEFI = true;
-      loader = "grub";
-      plymouth.enable = false;
-      secureBoot = false;
-      tmpOnTmpfs = false;
-    };
-
-    virtualisation = {
-      enable = true;
-      qemu.enable = true;
-      docker.enable = true;
-    };
-
-    security = {
-      tor.enable = true;
+    networking = {
+      networkmanager.dns = "none";
+      nameservers = [ "127.0.0.1" ];
     };
   };
 }
