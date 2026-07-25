@@ -33,7 +33,7 @@
     };
 
     security.pki.certificates = [
-      (builtins.readFile ../certs/vault.home.pem)
+      (builtins.readFile ../certs/ca.pem)
     ];
 
     sops.secrets.vaultwarden_server_key = { };
