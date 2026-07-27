@@ -2,6 +2,6 @@
   imports = [
     ./environment.nix
     ./services.nix
-    #./xdg-portals.nix
+    ./xdg-portals.nix
   ];
 }

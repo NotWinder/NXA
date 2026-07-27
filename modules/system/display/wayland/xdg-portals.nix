@@ -17,22 +17,18 @@ in
       extraPortals = [
         pkgs.xdg-desktop-portal-gnome
         pkgs.xdg-desktop-portal-gtk
-        pkgs.xdg-desktop-portal-wlr
       ];
 
       config = {
-        # For *all* desktops unless overridden
         common = {
-          default = [ "gnome" ];
+          default = [ "gtk" ];
           "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
         };
 
-        # Override specifically for Niri
-        # Niri uses wlr-screencopy protocol, so wlr portal is needed for screen sharing
         niri = {
-          default = [ "wlr" "gtk" ];
-          "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
-          "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+          default = [ "gnome" "gtk" ];
+          "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
+          "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
           "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
         };
       };
