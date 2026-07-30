@@ -7,6 +7,11 @@
         networking.wireguard.enable = true;
       };
 
+      networking.tailscale = {
+        enable = true;
+        isClient = true;
+      };
+
       fs = {
         enabledFilesystems = [ "btrfs" "vfat" "ntfs" "exfat" ];
       };

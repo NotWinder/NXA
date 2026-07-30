@@ -1,12 +1,12 @@
-{
-  config,
-  pkgs,
-  ...
+{ config
+, pkgs
+, ...
 }: {
   ##  Networking
 
   imports = [
     ./ssh.nix
+    ./tailscale.nix
   ];
 
   #networking.interfaces.enp5s0.wakeOnLan.enable = true;
