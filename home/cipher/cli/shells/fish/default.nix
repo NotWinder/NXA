@@ -13,6 +13,11 @@ in
     ./aliases.nix
   ];
   config.hm = mkIf (cfg.defaultUserShell == pkgs.fish) {
+    programs.direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+      enableFishIntegration = true;
+    };
     programs.fish = {
       enable = true;
       functions = {
