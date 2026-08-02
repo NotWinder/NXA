@@ -1,15 +1,16 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (config) custom;
   inherit (lib) mkIf;
   sys = custom.system;
 
   # Check if the SSH secrets exist
   enableSshSecrets = sys.enableSshSecrets;
-in {
+in
+{
   config = mkIf enableSshSecrets {
     sops = {
       secrets = {
@@ -29,8 +30,8 @@ in {
     # Copy the secret to the actual SSH location
     systemd.services.setup-ssh-key = {
       description = "Setup SSH private key from secrets";
-      wantedBy = ["multi-user.target"];
-      after = ["sops-nix.service"];
+      wantedBy = [ "multi-user.target" ];
+      after = [ "sops-nix.service" ];
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
@@ -281,6 +282,36 @@ in {
           comp-rr-n8n-main-worker-2 = {
             hostname = "91.107.168.181";
             user = "root";
+          };
+          comp-k8s-cp-01 = {
+            hostname = "10.10.1.100";
+            user = "cp-01";
+            proxyJump = "comp-proxmox";
+          };
+          comp-k8s-cp-02 = {
+            hostname = "10.10.1.101";
+            user = "cp-01";
+            proxyJump = "comp-proxmox";
+          };
+          comp-k8s-cp-03 = {
+            hostname = "10.10.1.102";
+            user = "cp-01";
+            proxyJump = "comp-proxmox";
+          };
+          comp-k8s-worker-01 = {
+            hostname = "10.10.1.103";
+            user = "worker-01";
+            proxyJump = "comp-proxmox";
+          };
+          comp-k8s-worker-02 = {
+            hostname = "10.10.1.104";
+            user = "worker-02";
+            proxyJump = "comp-proxmox";
+          };
+          comp-k8s-worker-03 = {
+            hostname = "10.10.1.105";
+            user = "worker-03";
+            proxyJump = "comp-proxmox";
           };
           comp-digiarka = {
             hostname = "10.10.1.65";
