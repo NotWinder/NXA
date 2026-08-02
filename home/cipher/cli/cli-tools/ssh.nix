@@ -290,12 +290,12 @@ in
           };
           comp-k8s-cp-02 = {
             hostname = "10.10.1.101";
-            user = "cp-01";
+            user = "cp-02";
             proxyJump = "comp-proxmox";
           };
           comp-k8s-cp-03 = {
             hostname = "10.10.1.102";
-            user = "cp-01";
+            user = "cp-03";
             proxyJump = "comp-proxmox";
           };
           comp-k8s-worker-01 = {
