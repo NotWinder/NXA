@@ -2,6 +2,7 @@
   config = {
     custom.system = {
       services = {
+        jellyfin.enable = true;
         prowlarr.enable = true;
         sonarr.enable = true;
         networking.wireguard.enable = true;
