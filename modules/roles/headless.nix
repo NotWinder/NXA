@@ -1,12 +1,13 @@
-{ lib, ... }:
-{
-  config = {
-    system.nixos.tags = ["headless"];
+{ lib, ... }: {
+  flake.modules.roles.headless = {
+    config = {
+      system.nixos.tags = [ "headless" ];
 
-    custom.system = {
-      video.enable = lib.mkDefault false;
-      sound.enable = lib.mkDefault false;
-      bluetooth.enable = lib.mkDefault false;
+      custom.system = {
+        video.enable = lib.mkDefault false;
+        sound.enable = lib.mkDefault false;
+        bluetooth.enable = lib.mkDefault false;
+      };
     };
   };
 }

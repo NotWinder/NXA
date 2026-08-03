@@ -100,12 +100,15 @@
       systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
 
       imports = [
-        # Auto-load the coarse aspect files at the top of `modules/` into the
+        # Auto-load the aspect files at the top of `modules/` into the
         # flake-parts module space (the `flake.modules.nixos.<name>` registry).
         # The legacy NixOS module trees are excluded here: they are consumed by
-        # hosts via `mkModulesFor` until Phase 2+ wires them through the registry.
+        # hosts via the registry's coarse aspects (base/system/hardware/nix/
+        # virt/profiles wrap these trees). Role and host aspect files at the
+        # top level of `modules/{roles,hosts}/` auto-load; `modules/_lib/` is
+        # skipped by import-tree's `/_` convention.
         (((inputs.import-tree).filter (path:
-          builtins.match ".*/(options|system|hardware|nix|virt|profiles|roles)/.*" path == null)
+          builtins.match ".*/(options|system|hardware|nix|virt|profiles)/.*" path == null)
         )
           ./modules)
         # Declares options.flake.modules (the aspect registry). Lives in
