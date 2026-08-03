@@ -50,6 +50,14 @@ let
       modules = concatLists [
         (singleton {
           networking.hostName = args.hostname;
+
+          # MIGRATION ONLY (dendritic, Phase 0): pin the embedded git revision
+          # so toplevel store paths are comparable across commits. Without this,
+          # every commit changes system.nixos.revision -> nixos-version ->
+          # the entire toplevel closure, breaking the store-path equivalence
+          # gate. Remove in Phase 4.
+          system.nixos.revision = "dendritic-migration";
+
           nixpkgs = {
             hostPlatform = mkDefault args.system;
             flake.source = nixpkgs.outPath;
