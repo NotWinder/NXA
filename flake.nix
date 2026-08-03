@@ -108,6 +108,9 @@
           builtins.match ".*/(options|system|hardware|nix|virt|profiles|roles)/.*" path == null)
         )
           ./modules)
+        # Declares options.flake.modules (the aspect registry). Lives in
+        # modules/_lib so import-tree skips it; loaded here explicitly.
+        ./modules/_lib/registry.nix
         ./hosts
         ./lib
       ];
