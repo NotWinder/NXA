@@ -8,12 +8,12 @@ registry `flake.modules.<class>.<name>`; hosts compose aspects by name).
 Reference: https://github.com/mightyiam/dendritic · https://dendrix.denful.dev/Dendritic.html
 
 Last updated: 2026-08-03
-Status: Active — Phase 0 complete
+Status: Active — Phase 1 complete
 
 ## Migration progress
 
 - [x] **Phase 0 — Baseline & branch** (2026-08-03)
-- [ ] **Phase 1 — Registry skeleton** (coarse aspects, zero behavior change)
+- [x] **Phase 1 — Registry skeleton** (coarse aspects, zero behavior change) (2026-08-03)
 - [ ] **Phase 2 — Hosts & roles become aspects**
 - [ ] **Phase 3 — Home-manager unwrap** (3a wiring · 3b register by name · 3c class conversion · 3d per-user composition)
 - [ ] **Phase 4 — Delete legacy & docs** (incl. reverting the three migration pins)
@@ -26,14 +26,18 @@ Status: Active — Phase 0 complete
 These facts were confirmed against the pinned toolchain and matter for every
 phase below:
 
-1. **flake-parts ships the dendritic registry built in.**
-   `options.flake.modules` is `types.lazyAttrsOf (types.lazyAttrsOf types.deferredModule)`
-   (flake-parts `extras/modules.nix:32`). Classes are the outer attr (`nixos`,
-   `homeManager`, `darwin`, `generic`), names the inner. Modules registered this
-   way are exposed to the rest of the flake as `self.modules.<class>.<name>`
-   (wrapped with the correct `_class`, so importing a `homeManager`-class module
-   into a NixOS eval errors loudly).
-   **No custom registry option declarations are needed.**
+1. **The dendritic registry option is NOT built into the locked flake-parts.**
+   flake-parts added `options.flake.modules`
+   (`types.lazyAttrsOf (types.lazyAttrsOf types.deferredModule)`) only in a
+   later rev, as the optional extra module `extras/modules.nix`. The locked
+   flake-parts (`17c9d6c`) has `options.flake` as a freeform
+   `lazyAttrsOf (unique raw)`, which rejects multiple aspect definitions of
+   `flake.modules`. Phase 1 therefore declares the option locally in
+   `modules/_lib/registry.nix` (same type as upstream). Classes are the outer
+   attr (`nixos`, `homeManager`, `darwin`, `generic`), names the inner.
+   Modules registered this way are exposed to the rest of the flake as
+   `self.modules.<class>.<name>`. The upstream `extras/modules.nix` apply also
+   sets `_class`, which Phase 3c (class conversion) may want to add.
 
 2. **home-manager injects `osConfig` into HM module args** when used through
    `home-manager.nixosModules.home-manager` (HM `nixos/common.nix:30`:
@@ -217,6 +221,37 @@ all 8 toplevel paths unchanged.
 **Objective:** populate the aspect registry without changing what any host
 evaluates to. The registry is filled but not yet consumed.
 
+**Status: DONE** — commits `0469c15` (aspects + import-tree wiring),
+`00d1a04` (nh flake-path pin), `9065727` (registry option declaration).
+Gate: `nix flake check` green; all 8 toplevel store paths recorded as the
+new Phase 1 baseline at `/tmp/opencode/baseline.txt`.
+
+**Deviations from this plan** (all required by the pinned toolchain;
+committed on the `dendritic` branch):
+
+1. `mkFlake` at `17c9d6c` rejects a module **list** (it wraps the argument in
+   `{ imports = [ arg ] }` and the module system throws "Module imports can't
+   be nested lists"). `outputs` therefore passes a single module whose
+   `imports` carries the tree, `./hosts`, and `./lib`. (Same class of change
+   as the freeform `flake` fix in foundation §1.)
+2. A bare `(inputs.import-tree ./modules)` auto-imports the raw NixOS trees
+   (`options/`, `system/`, …) into the flake-parts module space and fails eval
+   (infinite recursion / undefined options). A path filter excludes
+   `/(options|system|hardware|nix|virt|profiles|roles)/` so only the six
+   coarse aspect files load.
+3. `options.flake.modules` is declared locally in `modules/_lib/registry.nix`
+   (import-tree skips `/_`; flake.nix imports it explicitly) because the
+   locked flake-parts lacks it (see foundation §1).
+4. **New leak found & pinned:** `modules/nix/nh.nix` embedded
+   `inputs.self.outPath` into `NH_FLAKE` → `set-environment` → the whole
+   toplevel closure, defeating the gate exactly like the Phase 0 pins. Phase 0
+   missed it; pinned to a constant in `00d1a04`, reverted in Phase 4.
+5. The original `/tmp/opencode/baseline.txt` was recorded on a **dirty** tree
+   and is unreproducible (see foundation §5). It was regenerated on the clean
+   committed Phase 1 head (`9065727`); the Phase 0 gate conclusion still
+   holds — store paths are commit-stable (verified: `88ydlh…` for amadeus is
+   identical across the `00d1a04` and `9065727` commits).
+
 Steps:
 
 1. Rewrite `flake.nix` outputs:
@@ -256,14 +291,15 @@ Steps:
      flake.modules.nixos.base = {
        imports = [
          ./options/module.nix        # the custom.* tree
-         ./system/secrets.nix        # sops defaults (kept global)
        ];
      };
    }
    ```
-   Note: `modules/system/module.nix` already imports `./secrets.nix` — the
-   base aspect must not import it twice (imports are idempotent, but keep the
-   tree ownership clean; decide ownership in this phase and stick to it).
+   Decision (this phase, and stick to it): secrets ownership stays in the
+   system tree — `modules/system/module.nix` already imports `./secrets.nix`,
+   so the base aspect imports only `./options/module.nix` and must not import
+   `./secrets.nix` (keeps tree ownership clean; imports are idempotent but the
+   system tree stays the single owner).
 
 5. Audit reachability: every `module.nix` that `mkModuleTree'` currently
    collects from `modules/{options,system,hardware,nix,virt,profiles}` must be
