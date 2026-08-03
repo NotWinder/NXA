@@ -16,7 +16,7 @@ Status: Active — Phase 1 complete
 - [x] **Phase 1 — Registry skeleton** (coarse aspects, zero behavior change) (2026-08-03)
 - [ ] **Phase 2 — Hosts & roles become aspects**
 - [ ] **Phase 3 — Home-manager unwrap** (3a wiring · 3b register by name · 3c class conversion · 3d per-user composition)
-- [ ] **Phase 4 — Delete legacy & docs** (incl. reverting the three migration pins)
+- [ ] **Phase 4 — Delete legacy & docs** (incl. reverting the four migration pins)
 - [ ] **Phase 5 — Optional polish**
 
 ---
@@ -62,25 +62,37 @@ phase below:
    negative for the equivalence gate. Rules (verified empirically during
    Phase 0):
    - Always compare store paths with a committed (or `git stash`ed) tree.
-   - Untracked files (e.g. this doc) do **not** dirty the flake
-     (`nix flake metadata` shows `dirty=null`).
+   - **Untracked files are silently EXCLUDED from the git flake source.** They
+     do not dirty the flake (`nix flake metadata` shows `dirty=null`) — but they
+     are also not part of the source copy, so a new `.nix` file has **no effect
+     until it is `git add`ed** (verified empirically: `modules/_lib/registry.nix`
+     was missing from the store source copy until staged; aspect files likewise).
+     Sanity-check new files with the store source copy or `nix eval .#modules`
+     before trusting a gate.
    - Sanity-check with `nix flake metadata --json | jq .dirtyRevision` before
      trusting a gate.
 
 6. **Even a clean tree changes every host's toplevel on every commit** unless
    the self-revision is pinned. Three migrations-only pins were added in
-   Phase 0 to make toplevel store paths **commit-stable** (validated with
-   no-op commits: 8/8 hosts unchanged). **All three must be reverted in
-   Phase 4:**
+   Phase 0 to make toplevel store paths **commit-stable**, and a **fourth**
+   (the `nh` flake-path leak, found in Phase 1) was added in `00d1a04`.
+   **All four must be reverted in Phase 4:**
 
    | Pin | Location | Why |
    |---|---|---|
    | `system.nixos.revision = "dendritic-migration"` | `lib/builders.nix` (base module) | per-commit `self.rev` |
    | `system.configurationRevision = "dendritic-migration"` | `modules/nix/system.nix` | feeds `nixos-version` → `system-path` → toplevel |
    | `environment.etc."nyx".source = <toFile ...>` (was `= self`) | `modules/nix/system.nix` | `self` is the per-commit flake source path, embedded in `/etc/nyx` |
+   | `programs.nh.flake = <toFile ...>` (was `= inputs.self.outPath`) | `modules/nix/nh.nix` | `inputs.self.outPath` → `NH_FLAKE` → `set-environment` → whole toplevel |
 
    Each is marked with a `MIGRATION ONLY` comment. Restoring the original
    values in Phase 4 is part of deleting the legacy machinery.
+
+   Note: the Phase 0 claim of "validated 8/8 across no-op commits" could not
+   have held at the time — the `nh.nix` leak (§1 fact 6, row 4) was already
+   present, so a no-op commit *would* have changed every toplevel. True
+   commit-stability was only achieved and verified after the `nh` pin landed
+   (`00d1a04`): amadeus `88ydlh…` is identical across `00d1a04` and `9065727`.
 
 ## 2. Current state (baseline inventory)
 
@@ -109,9 +121,13 @@ Home-manager churn, precisely sized:
 ## 3. Target state
 
 ```
-flake.nix          # mkFlake { inherit inputs; } [ (inputs.import-tree ./modules) ./hosts ./lib ]
+flake.nix          # mkFlake { inherit inputs; } { imports = [ (import-tree ./modules) ./hosts ./lib ]; }
+                   #   modules/_lib/registry.nix is loaded explicitly (import-tree skips /_);
+                   #   the import-tree call is path-filtered so the legacy trees stay out
+                   #   until they migrate (see Phase 1 deviations 2)
 modules/
-  _lib/            # helpers — not auto-imported (import-tree /_ convention)
+  _lib/            # helpers — not auto-imported (import-tree /_ convention);
+                   # registry.nix here declares options.flake.modules
   base.nix         # NixOS core aspect: custom.* tree + secrets + common defaults
   system.nix       # coarse aspect: imports ./system/module.nix
   hardware.nix     # coarse aspect: imports ./hardware/module.nix
@@ -170,9 +186,11 @@ byte-for-byte.
 
 **Status: DONE** — commits `2d3f66a`, `26271f9`, `421bf26`, `104dce1`,
 `cc543e4` on branch `dendritic`. Landed: lorian eval fix, `import-tree`
-input, three self-revision pins (commit-stable gate), baseline recorded at
-`/tmp/opencode/baseline.txt` (8/8 hosts), gate validated across no-op
-commits. Next: Phase 1.
+input, three self-revision pins (a fourth — the `nh` flake-path pin — was
+added in Phase 1, `00d1a04`), baseline recorded at `/tmp/opencode/baseline.txt`
+(8/8 hosts; **regenerated in Phase 1** — the original was recorded on a dirty
+tree and is unreproducible, see §1 fact 5), gate validated across no-op
+commits *after* the `nh` pin landed. Next: Phase 2.
 
 **Objective:** a safe, measured starting point.
 
@@ -207,7 +225,9 @@ Steps:
 6. **Pin the self-revision (see §1 fact 6):** the three migration-only pins
    must be in place before recording the baseline, otherwise every later
    commit invalidates the file. Add them, commit, then record the baseline.
-   Store paths are then commit-stable (validated 8/8 across no-op commits).
+   Store paths are then commit-stable (this 8/8 no-op validation was in fact
+   defeated by the `nh` leak and only held after the fourth pin landed in
+   `00d1a04` — see §1 fact 6 note).
 
 **Gate:** `nix flake check` green; baseline recorded; a no-op commit leaves
 all 8 toplevel paths unchanged.
@@ -222,8 +242,9 @@ all 8 toplevel paths unchanged.
 evaluates to. The registry is filled but not yet consumed.
 
 **Status: DONE** — commits `0469c15` (aspects + import-tree wiring),
-`00d1a04` (nh flake-path pin), `9065727` (registry option declaration).
-Gate: `nix flake check` green; all 8 toplevel store paths recorded as the
+`00d1a04` (nh flake-path pin), `9065727` (registry option declaration),
+`e9799a0` (this doc: Phase 1 status + deviations). Gate: `nix flake check`
+green; all 8 toplevel store paths recorded as the
 new Phase 1 baseline at `/tmp/opencode/baseline.txt`.
 
 **Deviations from this plan** (all required by the pinned toolchain;
@@ -333,6 +354,25 @@ done
 
 **Objective:** hosts and roles join the registry; `hosts/default.nix` becomes a
 data table; nothing a host evaluates changes.
+
+Phase 1 aftermath — impacts this phase's steps:
+
+- **The import-tree filter currently excludes `roles/`** (see Phase 1
+  deviation 2). When step 2 turns role files into flake-parts modules, the
+  filter regex in `flake.nix` must **drop `roles`** or they won't auto-load.
+- **Convert roles and switch `hosts/default.nix` to the registry in the same
+  commit.** Mid-conversion, `mkModulesFor` would still read the role files as
+  plain NixOS modules while they carry `flake.modules.*` payloads — silently
+  losing the roles' NixOS config.
+- **`modules/hosts/<name>.nix` needs no filter change** — the `hosts` tree is
+  not in the exclusion list, so those aspect files auto-load.
+- **`modules/roles/workstation/` is a directory.** Import-tree auto-loads
+  every `.nix` under it as a flake-parts module; step 2 needs a concrete
+  layout (e.g. the aspect lives in `modules/roles/workstation.nix` and the
+  directory is retired, or the directory files stay plain NixOS modules
+  imported by the aspect).
+- **Untracked new files won't take effect until `git add`ed** (§1 fact 5) —
+  stage new aspect files before running the gate.
 
 Steps:
 
@@ -643,11 +683,12 @@ inherited should now be gated per-user by the aspect composition, not by
 
 Steps:
 
-1. **Revert the three migration-only pins (see §1 fact 6):**
+1. **Revert the four migration-only pins (see §1 fact 6):**
    - `lib/builders.nix` — remove `system.nixos.revision = "dendritic-migration"`.
    - `modules/nix/system.nix` — restore
      `configurationRevision = self.shortRev or self.dirtyShortRev` and
      `environment.etc."nyx".source = self`.
+   - `modules/nix/nh.nix` — restore `programs.nh.flake = inputs.self.outPath`.
 2. `lib/modules.nix`: remove `mkModuleTree` (and `mkModuleTree'` /
    `importPathOrTree`) if nothing references them after Phase 2
    (`rg -n 'mkModuleTree|importPathOrTree|mkService' modules hosts lib home`).
@@ -723,6 +764,10 @@ Store-path equivalence script (Phases 1–3b). **Run on a committed tree only**
 set -euo pipefail
 nix flake metadata --json | jq -e '.dirtyRevision == null' >/dev/null \
   || { echo "worktree is dirty — commit or stash first"; exit 1; }
+# untracked files are excluded from the git flake source (§1 fact 5) — a gate
+# run against them would silently compare the OLD source
+[ -z "$(git ls-files --others --exclude-standard)" ] \
+  || { echo "untracked files are not in the flake source — git add/commit first"; exit 1; }
 for h in amadeus brau1589 cipher heu lorian magi salieri wired; do
   p=$(nix eval --raw .#nixosConfigurations.$h.config.system.build.toplevel.outPath)
   grep -F "$p" /tmp/opencode/baseline.txt >/dev/null \
@@ -744,6 +789,8 @@ Main stays deployable after every merged phase.
 | import-tree fork drift / load order assumptions | Pin `den/import-tree`; aspect wrappers use explicit `imports`, so load order is irrelevant |
 | 8 hosts × full rebuild wall-time | Eval gates + 3 full builds only; store-path equality needs only the path, not the full build, if a remote/substituter has it |
 | Hidden `inputs`/`self` uses in home beyond the 5 found | `rg` sweep at the start of 3c; wrap before building |
+| Hidden `self.outPath` leaks outside home (found: `nh.nix`, Phase 1) | `rg 'outPath|self\b' modules hosts lib` sweep before each gate; commit-stability test (no-op commit) re-verifies per phase |
+| New/untracked `.nix` files silently missing from the flake source (§1 fact 5) | Untracked-file check in the gate script; sanity-check via `nix eval .#modules` |
 | Store-path gate noise from a dirty worktree (`-dirty` revision propagates through the whole closure) | Committed/stashed tree before every gate; `jq .dirtyRevision` sanity check in the gate script |
 | Impermanence / persistence paths break on directory moves | Keep the `modules/home/` layout mirroring `home/cipher/` exactly through 3b |
 | `flake.modules` registry + `_class` wrapping changes error messages | Accept; add a note in AGENTS.md |
