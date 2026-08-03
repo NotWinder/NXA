@@ -98,7 +98,16 @@
   outputs = inputs @ { flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
+
       imports = [
+        # Auto-load the coarse aspect files at the top of `modules/` into the
+        # flake-parts module space (the `flake.modules.nixos.<name>` registry).
+        # The legacy NixOS module trees are excluded here: they are consumed by
+        # hosts via `mkModulesFor` until Phase 2+ wires them through the registry.
+        (((inputs.import-tree).filter (path:
+          builtins.match ".*/(options|system|hardware|nix|virt|profiles|roles)/.*" path == null)
+        )
+          ./modules)
         ./hosts
         ./lib
       ];

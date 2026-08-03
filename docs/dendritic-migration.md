@@ -8,7 +8,16 @@ registry `flake.modules.<class>.<name>`; hosts compose aspects by name).
 Reference: https://github.com/mightyiam/dendritic · https://dendrix.denful.dev/Dendritic.html
 
 Last updated: 2026-08-03
-Status: Proposed
+Status: Active — Phase 0 complete
+
+## Migration progress
+
+- [x] **Phase 0 — Baseline & branch** (2026-08-03)
+- [ ] **Phase 1 — Registry skeleton** (coarse aspects, zero behavior change)
+- [ ] **Phase 2 — Hosts & roles become aspects**
+- [ ] **Phase 3 — Home-manager unwrap** (3a wiring · 3b register by name · 3c class conversion · 3d per-user composition)
+- [ ] **Phase 4 — Delete legacy & docs** (incl. reverting the three migration pins)
+- [ ] **Phase 5 — Optional polish**
 
 ---
 
@@ -154,6 +163,12 @@ Each phase ends with a green gate. Phases 1–3b must preserve store paths
 byte-for-byte.
 
 ### Phase 0 — Baseline & branch
+
+**Status: DONE** — commits `2d3f66a`, `26271f9`, `421bf26`, `104dce1`,
+`cc543e4` on branch `dendritic`. Landed: lorian eval fix, `import-tree`
+input, three self-revision pins (commit-stable gate), baseline recorded at
+`/tmp/opencode/baseline.txt` (8/8 hosts), gate validated across no-op
+commits. Next: Phase 1.
 
 **Objective:** a safe, measured starting point.
 
