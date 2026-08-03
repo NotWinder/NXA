@@ -54,6 +54,21 @@ phase below:
    - Sanity-check with `nix flake metadata --json | jq .dirtyRevision` before
      trusting a gate.
 
+6. **Even a clean tree changes every host's toplevel on every commit** unless
+   the self-revision is pinned. Three migrations-only pins were added in
+   Phase 0 to make toplevel store paths **commit-stable** (validated with
+   no-op commits: 8/8 hosts unchanged). **All three must be reverted in
+   Phase 4:**
+
+   | Pin | Location | Why |
+   |---|---|---|
+   | `system.nixos.revision = "dendritic-migration"` | `lib/builders.nix` (base module) | per-commit `self.rev` |
+   | `system.configurationRevision = "dendritic-migration"` | `modules/nix/system.nix` | feeds `nixos-version` → `system-path` → toplevel |
+   | `environment.etc."nyx".source = <toFile ...>` (was `= self`) | `modules/nix/system.nix` | `self` is the per-commit flake source path, embedded in `/etc/nyx` |
+
+   Each is marked with a `MIGRATION ONLY` comment. Restoring the original
+   values in Phase 4 is part of deleting the legacy machinery.
+
 ## 2. Current state (baseline inventory)
 
 | Thing | Where | Size |
@@ -148,11 +163,15 @@ Steps:
    ```bash
    git switch -c dendritic-migration
    ```
-2. Record baseline store paths for all 8 hosts:
+2. Record baseline store paths for all 8 hosts. Use `nix eval --raw` on
+   `config.system.build.toplevel.outPath` — pure evaluation, no build, and
+   identical paths to a real build:
    ```bash
+   : > /tmp/opencode/baseline.txt
    for h in amadeus brau1589 cipher heu lorian magi salieri wired; do
-     nix build .#nixosConfigurations.$h.config.system.build.toplevel \
-       --print-out-paths >> /tmp/opencode/baseline.txt
+     printf '%s ' "$h"
+     nix eval --raw .#nixosConfigurations.$h.config.system.build.toplevel.outPath \
+       >> /tmp/opencode/baseline.txt
    done
    ```
    Keep this file out of git (it is not the repo's place).
@@ -164,12 +183,15 @@ Steps:
 5. **Pre-existing fix landed first:** lorian failed to evaluate on main
    (`secure-mount-options.nix` set `fileSystems."/boot".options` on a BIOS/ext4
    host with no `/boot` mount). Fixed by guarding on
-   `config.custom.system.boot.isUEFI` in commit
-   `2d3f66a` **before** recording the baseline, so the baseline
-   (`/tmp/opencode/baseline.txt`, clean tree, rev `2d3f66a`) covers all
-   8 hosts.
+   `config.custom.system.boot.isUEFI` in commit `2d3f66a` **before** recording
+   the baseline so it covers all 8 hosts.
+6. **Pin the self-revision (see §1 fact 6):** the three migration-only pins
+   must be in place before recording the baseline, otherwise every later
+   commit invalidates the file. Add them, commit, then record the baseline.
+   Store paths are then commit-stable (validated 8/8 across no-op commits).
 
-**Gate:** `nix flake check` green; baseline recorded.
+**Gate:** `nix flake check` green; baseline recorded; a no-op commit leaves
+all 8 toplevel paths unchanged.
 
 **Time:** 0.5–1 h.
 
@@ -570,14 +592,19 @@ inherited should now be gated per-user by the aspect composition, not by
 
 Steps:
 
-1. `lib/modules.nix`: remove `mkModuleTree` (and `mkModuleTree'` /
+1. **Revert the three migration-only pins (see §1 fact 6):**
+   - `lib/builders.nix` — remove `system.nixos.revision = "dendritic-migration"`.
+   - `modules/nix/system.nix` — restore
+     `configurationRevision = self.shortRev or self.dirtyShortRev` and
+     `environment.etc."nyx".source = self`.
+2. `lib/modules.nix`: remove `mkModuleTree` (and `mkModuleTree'` /
    `importPathOrTree`) if nothing references them after Phase 2
    (`rg -n 'mkModuleTree|importPathOrTree|mkService' modules hosts lib home`).
    Remove `mkService` (PLAN.md 2.3) while in here if not already done.
-2. Delete `home/` directory and the `homesPath` remnants in
+3. Delete `home/` directory and the `homesPath` remnants in
    `hosts/default.nix`.
-3. Slim `hosts/default.nix` to the data table (PLAN.md 4.2).
-4. Update docs:
+4. Slim `hosts/default.nix` to the data table (PLAN.md 4.2).
+5. Update docs:
    - `AGENTS.md` — architecture section (module discovery is now
      import-tree; `flake.modules.<class>.<name>`; hosts import by name;
      home-manager class; `custom.*` still the option namespace)
@@ -585,7 +612,7 @@ Steps:
      "Architecture" pointer to this file
    - `docs/adding-a-host.md` — rewrite for the data-table flow
    - `PLAN.md` — mark completed phases, keep open items
-5. Format: `nix run nixpkgs#nixpkgs-fmt -- .` and `just format-check`.
+6. Format: `nix run nixpkgs#nixpkgs-fmt -- .` and `just format-check`.
 
 **Gate:**
 
