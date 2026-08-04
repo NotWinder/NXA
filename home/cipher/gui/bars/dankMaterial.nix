@@ -7,10 +7,6 @@ let
   inherit (lib) mkIf;
 in
 {
-  options.custom.programs.dms = {
-    enable = lib.mkEnableOption "Enable DankMaterialShell";
-  };
-
   config = {
     hm = {
       imports = [ inputs.dms.homeModules.default ];

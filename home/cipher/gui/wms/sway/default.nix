@@ -1,14 +1,12 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
-in {
-  options.custom.programs.sway = {
-    enable = lib.mkEnableOption "sway window manager";
-  };
+in
+{
   imports = [
     ./config.nix
     ./tools/swaylock.nix

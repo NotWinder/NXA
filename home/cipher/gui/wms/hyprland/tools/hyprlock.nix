@@ -1,16 +1,14 @@
-{
-  inputs',
-  config,
-  lib,
-  ...
-}: let
+{ inputs'
+, config
+, lib
+, ...
+}:
+let
   inherit (lib) mkIf;
 
   winpaper = inputs'.winpaper.packages;
-in {
-  options.custom.programs.hyprlock = {
-    enable = lib.mkEnableOption "Hyprlock, screen locker for Hyprland";
-  };
+in
+{
   config.hm = mkIf config.custom.programs.hyprlock.enable {
     programs.hyprlock = {
       enable = true;

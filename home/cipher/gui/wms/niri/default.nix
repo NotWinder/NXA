@@ -13,10 +13,6 @@ let
   prg = env.programs;
 in
 {
-  options.custom.programs.niri = {
-    enable = lib.mkEnableOption "Enable Niri as a window manager";
-  };
-
   imports = [
     inputs.niri.nixosModules.niri
   ];

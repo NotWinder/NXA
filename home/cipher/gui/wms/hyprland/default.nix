@@ -11,9 +11,6 @@ let
   inherit (lib.strings) hasSuffix;
 in
 {
-  options.custom.programs.hyprland = {
-    enable = lib.mkEnableOption "Hyprland window manager";
-  };
   imports = filter (hasSuffix ".nix") (
     map toString (filter (p: p != ./default.nix) (listFilesRecursive ./config))
   );
