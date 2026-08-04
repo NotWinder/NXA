@@ -62,8 +62,11 @@
             roleValues
 
             # 4. Host-specific home-manager config, keyed by hostname
+            # Consumes the per-user home aspect from the registry. The
+            # aspect values replicate the old home/<host>/home.nix shims
+            # node-for-node (cipher = direct path, others = single-wrapper).
             (singleton {
-              imports = [ (homesPath + "/${hostname}/home.nix") ];
+              imports = [ (registry.home.${hostname}) ];
             })
 
             # 5. Extra modules (sops-nix, home-manager) — LAST, exactly as before
