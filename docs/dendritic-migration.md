@@ -7,14 +7,14 @@ registry `flake.modules.<class>.<name>`; hosts compose aspects by name).
 
 Reference: https://github.com/mightyiam/dendritic · https://dendrix.denful.dev/Dendritic.html
 
-Last updated: 2026-08-03
-Status: Active — Phase 1 complete
+Last updated: 2026-08-04
+Status: Active — Phase 2 complete
 
 ## Migration progress
 
 - [x] **Phase 0 — Baseline & branch** (2026-08-03)
 - [x] **Phase 1 — Registry skeleton** (coarse aspects, zero behavior change) (2026-08-03)
-- [ ] **Phase 2 — Hosts & roles become aspects**
+- [x] **Phase 2 — Hosts & roles become aspects** (2026-08-04)
 - [ ] **Phase 3 — Home-manager unwrap** (3a wiring · 3b register by name · 3c class conversion · 3d per-user composition)
 - [ ] **Phase 4 — Delete legacy & docs** (incl. reverting the four migration pins)
 - [ ] **Phase 5 — Optional polish**
@@ -355,123 +355,49 @@ done
 **Objective:** hosts and roles join the registry; `hosts/default.nix` becomes a
 data table; nothing a host evaluates changes.
 
-Phase 1 aftermath — impacts this phase's steps:
+**Status: DONE** — commits `f540c48` (doc reconcile), `0dc1211` (8 inert host
+aspects, Gate 1 green 8/8), `46cbe9a` (roles → aspects, workstation moved,
+filter dropped `roles`, data table rewrite), `db831bf` (restored exact module
+order for store-path preservation). Gate: `nix flake check` green; all 8
+toplevel store paths match the Phase 1 baseline.
 
-- **The import-tree filter currently excludes `roles/`** (see Phase 1
-  deviation 2). When step 2 turns role files into flake-parts modules, the
-  filter regex in `flake.nix` must **drop `roles`** or they won't auto-load.
-- **Convert roles and switch `hosts/default.nix` to the registry in the same
-  commit.** Mid-conversion, `mkModulesFor` would still read the role files as
-  plain NixOS modules while they carry `flake.modules.*` payloads — silently
-  losing the roles' NixOS config.
-- **`modules/hosts/<name>.nix` needs no filter change** — the `hosts` tree is
-  not in the exclusion list, so those aspect files auto-load.
-- **`modules/roles/workstation/` is a directory.** Import-tree auto-loads
-  every `.nix` under it as a flake-parts module; step 2 needs a concrete
-  layout (e.g. the aspect lives in `modules/roles/workstation.nix` and the
-  directory is retired, or the directory files stay plain NixOS modules
-  imported by the aspect).
-- **Untracked new files won't take effect until `git add`ed** (§1 fact 5) —
-  stage new aspect files before running the gate.
+**Deviations from this plan** (all required by the pinned toolchain or discovered
+during execution):
 
-Steps:
+1. **Registry type is strictly 2-level** (`lazyAttrsOf (lazyAttrsOf deferredModule)`),
+   so `flake.modules.nixos.roles.*` (3-level) is impossible. Roles register
+   under a dedicated class: `flake.modules.roles.{graphical,headless,server,workstation}`,
+   looked up as `registry.roles.${r}`; hosts as `registry.nixos.${n}` with
+   `registry = config.flake.modules`.
 
-1. Move each host's configuration into an aspect. For each `hosts/<name>/`:
-   ```nix
-   # modules/hosts/amadeus.nix
-   { ... }: {
-     flake.modules.nixos.amadeus = {
-       imports = [
-         ../../hosts/amadeus/host.nix
-         ../../hosts/amadeus/fs.nix
-         ../../hosts/amadeus/modules
-       ];
-     };
-   }
-   ```
-   The host files themselves (`host.nix`, `fs.nix`, `disko.nix`,
-   `modules/{device,profiles,system,usrEnv,style}.nix`) stay untouched — they
-   are plain NixOS modules and are valid aspect content as-is. They can be
-   relocated into `modules/hosts/<name>/` later at leisure; referencing them
-   in place keeps the diff minimal. Recommended: physically move them into
-   `modules/hosts/<name>/` during this phase so `hosts/` contains only
-   `default.nix` at the end.
+2. **Coarse aspects (`base`, `system`, `hardware`, `nix`, `virt`, `profiles`) must
+   NOT wrap the legacy trees as flake-parts aspects yet** — doing so changes the
+   module list shape (aspect wrapper with nested `imports` vs direct
+   `importPathOrTree`), which alters the BFS expansion order in NixOS
+   `evalModules` and breaks drvPath equality. The trees continue to use
+   `importPathOrTree` directly (preserving the exact module list shape with
+   duplicated child imports). Only hosts and roles consume the registry.
 
-2. Convert roles to aspects:
-   ```nix
-   # modules/roles/graphical.nix  (replaces modules/roles/graphical.nix as a
-   # flake-parts module AND as the registered aspect)
-   { lib, ... }: {
-     flake.modules.nixos.roles.graphical = { config, ... }: {
-       config.system.nixos.tags = ["graphical"];
-       config.custom.system = {
-         video.enable = lib.mkDefault true;
-         sound.enable = lib.mkDefault true;
-         bluetooth.enable = lib.mkDefault true;
-       };
-     };
-   }
-   ```
-   Same for `headless`, `server`, `workstation` (workstation currently only
-   sets a tag; see Phase 5 for PLAN.md 2.2).
+3. **Workstation legacy content moved to `modules/_lib/roles/workstation/system/`**
+   (self-contained, relative imports only) to keep the workstation role aspect
+   simple and the import-tree filter clean (`/_` is auto-skipped).
 
-3. Rewrite `hosts/default.nix` as a data table:
-   ```nix
-   # hosts/default.nix
-   { withSystem, config, inputs, ... }: {
-     flake.nixosConfigurations =
-       let
-         inherit (inputs.self) lib;
-         inherit (lib) mkNixosSystem;
-         hosts = {
-           amadeus = { roles = [ "graphical" "workstation" ]; };
-           brau1589 = { roles = [ "graphical" "workstation" ]; };
-           cipher = { roles = [ "graphical" "workstation" ]; };
-           heu = { roles = [ "graphical" "workstation" ]; };
-           lorian = { roles = [ "headless" "server" ]; };
-           magi = { roles = [ "graphical" "workstation" ]; };
-           salieri = { roles = [ "graphical" "workstation" ]; };
-           wired = { roles = [ "graphical" "workstation" ]; };
-         };
-         registry = config.flake.modules.nixos;
-         mkModulesFor = hostname: { roles, ... }: [
-           registry.base
-           (map (r: registry.roles.${r}) roles)
-           registry.${hostname}
-           (imports: { inherit imports; }) # placeholder, removed in Phase 3
-         ];
-       in
-       builtins.mapAttrs (hostname: cfg: mkNixosSystem {
-         inherit withSystem;
-         hostname = hostname;
-         system = "x86_64-linux";
-         modules = flatten (mkModulesFor hostname cfg);
-       }) hosts;
-   }
-   ```
-   Keep the `sops-nix` / `home-manager` `extraModules` wiring working by
-   folding them into the host aspects themselves:
-   ```nix
-   # modules/hosts/amadeus.nix
-   { inputs, ... }: {
-     flake.modules.nixos.amadeus = {
-       imports = [
-         inputs.sops-nix.nixosModules.sops
-         inputs.home-manager.nixosModules.home-manager
-         ...
-       ];
-     };
-   }
-   ```
-   or keep them in `hosts/default.nix` as an explicit `extraModules` list per
-   host. Either is fine; the former is more dendritic.
+4. **`import-tree` filter in `flake.nix` updated to exclude only
+   `options|system|hardware|nix|virt|profiles`** (roles removed; the six coarse
+   aspects are the only remaining auto-imported tree wrappers).
 
-4. `mkModulesFor`/`importPathOrTree`/`mkModuleTree'` become unused by hosts.
-   Leave them in `lib/` until Phase 4 (other trees may still use them).
+5. **Host aspects (`modules/hosts/*.nix`) fold in `sops-nix` and `home-manager`**
+   as imported modules, keeping the data table pure.
 
-**Gate:** identical to Phase 1 — all 8 store paths must equal the baseline.
-
-**Time:** 3–5 h.
+6. **Gate 2 initially FAILED** (all 8 store paths differed) due to the module
+   order change (the aspect-based trees reordered the BFS expansion). Root cause
+   identified: NixOS `listOf`-typed options (like `environment.systemPackages`)
+   concatenate in module-definition order; the new aspect wrapping changed the
+   effective order of package definitions, producing a different `system.path`
+   drv and cascading to `etc`, `system-units`, etc. Fixed by replicating the
+   EXACT pre-Phase-2 module list construction in `hosts/default.nix` (host.nix
+   first, then trees via `importPathOrTree`, then registry role values, then
+   home-user, then sops/hm last).
 
 ---
 
@@ -802,7 +728,7 @@ Main stays deployable after every merged phase.
 |---|---|
 | 0 — Baseline & branch | 0.5–1 h |
 | 1 — Registry skeleton | 2–4 h |
-| 2 — Hosts & roles as aspects | 3–5 h |
+| 2 — Hosts & roles as aspects | 3–5 h (actual: 4 h incl. debug) |
 | 3a — Wiring core | 1 h |
 | 3b — Home aspects by name (wrapped) | 2–3 h |
 | 3c — Class conversion / unwrap | 5–7 h |
