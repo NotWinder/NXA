@@ -8,7 +8,7 @@ Follow these exactly unless a change is justified and recorded in the git histor
 - **flake-parts entrypoint:** `flake.nix` auto-loads the aspect files at the top of `modules/` via `import-tree` (skipping `modules/_lib/` and the legacy NixOS trees `options|system|hardware|nix|virt|profiles`), and imports `./hosts`, `./lib`, and `./modules/_lib/registry.nix` as flake-parts sub-flakes.
 - **Aspect registry:** every module registers a named aspect under `flake.modules.<class>.<name>` (declared in `modules/_lib/registry.nix`). Classes in use:
   - `nixos` — coarse wrappers over the legacy trees: `base` (→ `options/`), `system`, `hardware`, `nix`, `virt`, `profiles`. Each wraps its tree's top-level `module.nix`, which transitively imports the whole tree.
-  - `roles` — role presets: `graphical`, `headless`, `server`, `workstation` (`modules/roles/*.nix`).
+  - `roles` — role presets: `graphical`, `headless`, `server` (`modules/roles/*.nix`; the former `workstation` role was folded into the workstation profile in phase 5).
   - `hosts` — per-host aspects under `modules/hosts/` (compose the host dir + sops-nix + home-manager).
   - `homeManager` — home-manager aspects: `base`, `cli`, `gui`, `misc`, `themes` + one per user under `modules/home/users/`.
 - **Hosts:** `hosts/default.nix` is a data table (`roles`, `home`, `system` per host); each host is assembled from the registry by `mkModulesFor` (nixos tree aspects + roles + sops-nix/home-manager + per-host home aspect selection), then wrapped by `lib.mkNixosSystem`. Host-specific files stay in `hosts/<name>/` (`host.nix` + `modules/` + filesystem config).
@@ -56,9 +56,10 @@ jq . <file>.json >/dev/null && yamllint -c .yamllint.yaml <file>.yaml || true
 
 ## Secrets safety
 
-- The repo contains `secrets.yaml` (SOPS-encrypted) and `.sops.yaml` (age key config).
+- The repo contains `secrets/secrets.yaml` (SOPS-encrypted) and `secrets/.sops.yaml` (age key config).
 - Agents must never print, transmit, or commit secrets.
 - Use the repo's existing SOPS workflow (age keys + sops-nix) — do not add raw secrets to commits.
+- **Sops conventions (phase 5):** the global `defaultSopsFile = ../../secrets/secrets.yaml` lives in `modules/system/secrets.nix` (system tree, so every host gets it); per-host secret entries (e.g. brau1589's `sops.secrets.vaultwarden_server_key`) live in the host's own `hosts/<name>/modules/system.nix`; consumers read paths via `config.sops.secrets.<name>.path` (see `modules/system/services/networking/wireguard.nix`, `modules/system/programs/ssh.nix`).
 
 ## Commits & PRs
 

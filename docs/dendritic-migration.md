@@ -8,7 +8,7 @@ registry `flake.modules.<class>.<name>`; hosts compose aspects by name).
 Reference: https://github.com/mightyiam/dendritic · https://dendrix.denful.dev/Dendritic.html
 
 Last updated: 2026-08-05
-Status: Active — Phase 4 complete
+Status: Complete
 
 ## Migration progress
 
@@ -17,7 +17,7 @@ Status: Active — Phase 4 complete
 - [x] **Phase 2 — Hosts & roles become aspects** (2026-08-04)
 - [x] **Phase 3 — Home-manager unwrap** (3a wiring ✓ with deviations · 3b register by name ✓ · 3c steps 1–7 ✓ · 3d per-user composition ✓) (2026-08-05)
 - [x] **Phase 4 — Delete legacy & docs** (incl. reverting the four migration pins) (2026-08-05)
-- [ ] **Phase 5 — Optional polish**
+- [x] **Phase 5 — Optional polish** (items 2–4 landed; item 1 skipped) (2026-08-05)
 
 ---
 
@@ -748,6 +748,27 @@ above:
    proven stable.
 
 **Time:** 2–4 h.
+
+**Landed (2026-08-05):** commits `7b10154` (item 3) and `c34c97e` (item 4) +
+the docs commit. Deviations:
+
+- **Item 1 skipped** — multi-class `ssh`/`git`/`sops`/`gaming` aspects need
+  hosts to opt into aspects, but the six module trees are loaded wholesale, so
+  registering them adds nothing until hosts select features by name. Left as
+  future work; the concrete split-outs (workstation role, per-WM home aspects)
+  were the actionable parts of polish.
+- **Item 2** was documentation-only, as planned; the sops convention is written
+  up in AGENTS.md. Correction vs. the item's text: the global
+  `defaultSopsFile` lives in `modules/system/secrets.nix`, not `_lib/home/base.nix`.
+- **Item 3** folded the workstation role into the workstation profile
+  (tag + firejail + tor gate now ride on `custom.profiles.workstation.enable`);
+  the roles class keeps only `graphical`/`headless`/`server`. Closes PLAN 2.2.
+- **Item 4** registered `hyprland`/`niri`/`sway` as named
+  `flake.modules.homeManager` aspects; implementations moved from
+  `_lib/home/cipher/gui/wms/` to `_lib/home/wms/`, gui composes them by name.
+
+Verification: all 8 hosts evaluate, `nix flake check` passes, per-WM gating is
+preserved (amadeus/brau1589 keep hyprland, lorian stays WM-less).
 
 ---
 

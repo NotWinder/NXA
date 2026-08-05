@@ -64,8 +64,9 @@ Status: Active (mostly superseded by the dendritic migration)
 ---
 
 ### 2.2 Drop the `workstation` role (overlap with `workstation` profile)
-**Status: OPEN** — the `workstation` role is still registered
-(`flake.modules.roles.workstation`, wiring the legacy `_lib/roles/workstation/system`) and used by the 7 graphical hosts.
+**Status: DONE** — role folded into the workstation profile (dendritic Phase 5):
+tag + firejail/tor security now ride on `custom.profiles.workstation.enable`;
+`roles` only keeps `graphical`, `headless`, `server`.
 
 **Problem:** `modules/roles/workstation/` only sets `system.nixos.tags = ["workstation"]`. The `workstation` profile (`modules/profiles/workstation.nix`) does all actual configuration. Two overlapping concepts for the same thing.
 
