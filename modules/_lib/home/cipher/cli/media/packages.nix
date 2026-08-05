@@ -1,19 +1,15 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{config, pkgs, lib, osConfig, ...}:
 let
   inherit (lib) mkIf;
 
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   env = custom.usrEnv;
   prg = env.programs;
   cfg = prg.media;
 in
 {
-  config.hm = mkIf cfg.addDefaultPackages {
+  config = mkIf cfg.addDefaultPackages {
     home.packages = with pkgs;
       [
         # tools that help with media operations/management

@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  config.hm = {
+  config = {
     xdg.configFile = {
       "wlogout/layout".text = ''
         {

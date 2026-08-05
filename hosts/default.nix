@@ -61,13 +61,9 @@
             # 3. Roles (registry values, producing same config)
             roleValues
 
-            # 4. Host-specific home-manager config, keyed by hostname
-            # Consumes the per-user home aspect from the registry. The
-            # aspect values replicate the old home/<host>/home.nix shims
-            # node-for-node (cipher = direct path, others = single-wrapper).
-            (singleton {
-              imports = [ (registry.home.${hostname}) ];
-            })
+            # 4. Reserved (home-manager wiring moved into ../home/module.nix,
+            #    Phase 3a: home-manager.users.<mainUser>.imports now composes
+            #    the named `flake.modules.homeManager` aspects)
 
             # 5. Extra modules (sops-nix, home-manager) — LAST, exactly as before
             args.extraModules
@@ -76,13 +72,21 @@
 
       hosts = {
         amadeus.roles = [ "graphical" "workstation" ];
+        amadeus.home = [ "amadeus" ];
         brau1589.roles = [ "graphical" "workstation" ];
+        brau1589.home = [ "brau1589" ];
         cipher.roles = [ "graphical" "workstation" ];
+        cipher.home = [ "cipher" ];
         heu.roles = [ "graphical" "workstation" ];
+        heu.home = [ "heu" ];
         lorian.roles = [ "headless" "server" ];
+        lorian.home = [ "lorian" ];
         magi.roles = [ "graphical" "workstation" ];
+        magi.home = [ "magi" ];
         salieri.roles = [ "graphical" "workstation" ];
+        salieri.home = [ "salieri" ];
         wired.roles = [ "graphical" "workstation" ];
+        wired.home = [ "wired" ];
       };
     in
     builtins.mapAttrs
@@ -91,7 +95,17 @@
           inherit withSystem;
           hostname = hostname;
           system = "x86_64-linux";
-          modules = mkModulesFor hostname { extraModules = [ sops-nix hm ]; roles = cfg.roles; };
+          modules = mkModulesFor hostname {
+            extraModules = [
+              sops-nix
+              hm
+              # Phase 3d: select this host's home-manager aspects by name.
+              # `home` names entries in the `flake.modules.homeManager`
+              # registry (per-user aspects under modules/home/users/).
+              { config.custom.usrEnv.home.aspects = cfg.home; }
+            ];
+            roles = cfg.roles;
+          };
         })
       hosts;
 }

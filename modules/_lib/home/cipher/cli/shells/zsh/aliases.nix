@@ -1,18 +1,14 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{config, pkgs, lib, osConfig, ...}:
 let
   inherit (lib.meta) getExe;#getExe';
   inherit (pkgs) eza bat ripgrep dust procs yt-dlp python3;
   inherit (lib) mkIf;
 
-  cfg = config.custom.system;
+  cfg = osConfig.custom.system;
   #dig = getExe' pkgs.dnsutils "dig";
 in
 {
-  config.hm = mkIf (cfg.defaultUserShell == pkgs.zsh) {
+  config = mkIf (cfg.defaultUserShell == pkgs.zsh) {
     programs.zsh.shellAliases = {
       # make sudo use aliases
       sudo = "sudo ";

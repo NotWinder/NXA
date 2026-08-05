@@ -1,5 +1,5 @@
 {
-  config.hm = {
+  config = {
     programs.bat = {
       enable = true;
       config = {

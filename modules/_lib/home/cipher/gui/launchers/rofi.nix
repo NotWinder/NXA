@@ -1,18 +1,14 @@
-{ config
-, lib
-, pkgs
-, ...
-}:
+{config, lib, pkgs, osConfig, ...}:
 let
   inherit (builtins) elem;
   inherit (lib) mkIf;
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   env = custom.usrEnv;
   prg = env.programs;
 in
 {
-  config.hm = mkIf (elem "rofi" prg.launchers && env.desktop != "none") {
+  config = mkIf (elem "rofi" prg.launchers && env.desktop != "none") {
     programs.rofi = {
       enable = true;
       package = pkgs.rofi.override {
@@ -37,8 +33,8 @@ in
 
       theme =
         let
-          inherit (config.custom.style.colorScheme) colors;
-          inherit (config.hm.lib.formats.rasi) mkLiteral;
+          inherit (osConfig.custom.style.colorScheme) colors;
+          inherit (config.lib.formats.rasi) mkLiteral;
         in
         {
           "*" = {

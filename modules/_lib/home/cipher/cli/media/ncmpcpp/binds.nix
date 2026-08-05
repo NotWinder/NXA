@@ -1,16 +1,13 @@
-{ config
-, lib
-, ...
-}:
+{config, lib, osConfig, ...}:
 let
   inherit (lib.modules) mkIf;
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   env = custom.usrEnv;
   prg = env.programs;
 in
 {
-  config.hm = mkIf prg.media.ncmpcpp.enable {
+  config = mkIf prg.media.ncmpcpp.enable {
     programs.ncmpcpp.bindings = [
       {
         key = "j";

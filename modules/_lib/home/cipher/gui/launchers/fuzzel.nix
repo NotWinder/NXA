@@ -1,5 +1,5 @@
 {
-  config.hm = {
+  config = {
     programs.fuzzel = {
       enable = true;
     };

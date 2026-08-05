@@ -1,6 +1,7 @@
 { config
 , lib
 , pkgs
+, osConfig
 , ...
 }:
 let
@@ -8,37 +9,35 @@ let
 
   cfg = config.services.noisetorch;
 
-  dev = config.custom.device;
+  dev = osConfig.custom.device;
 
   acceptedTypes = [ "desktop" "laptop" "lite" "hybrid" ];
 in
 {
-  options = {
-    services.noisetorch = {
-      enable = mkEnableOption "noisetorch service";
-      package = mkOption {
-        type = types.package;
-        default = pkgs.noisetorch;
-        defaultText = literalExpression "pkgs.noisetorch";
-        description = "Which package to use for noisetorch";
-      };
-      threshold = mkOption {
-        type = types.int;
-        default = -1;
-        description = "Voice activation threshold (default -1)";
-      };
-      device = mkOption {
-        type = types.str;
-        description = "Use the specified source/sink device ID";
-      };
-      deviceUnit = mkOption {
-        type = types.str;
-        description = "Systemd device unit which is providing the audio device";
-      };
+  options.services.noisetorch = {
+    enable = mkEnableOption "noisetorch service";
+    package = mkOption {
+      type = types.package;
+      default = pkgs.noisetorch;
+      defaultText = literalExpression "pkgs.noisetorch";
+      description = "Which package to use for noisetorch";
+    };
+    threshold = mkOption {
+      type = types.int;
+      default = -1;
+      description = "Voice activation threshold (default -1)";
+    };
+    device = mkOption {
+      type = types.str;
+      description = "Use the specified source/sink device ID";
+    };
+    deviceUnit = mkOption {
+      type = types.str;
+      description = "Systemd device unit which is providing the audio device";
     };
   };
 
-  config.hm = mkIf (cfg.enable && builtins.elem dev.type acceptedTypes) {
+  config = mkIf (cfg.enable && builtins.elem dev.type acceptedTypes) {
     home.packages = [ cfg.package ];
 
     systemd.user.services.noisetorch = {

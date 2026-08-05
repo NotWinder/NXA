@@ -1,12 +1,8 @@
-{ config
-, lib
-, pkgs
-, ...
-}:
+{config, lib, pkgs, osConfig, ...}:
 let
   inherit (lib) mkIf;
   inherit (lib.meta) getExe;
-  inherit (config) custom;
+  inherit (osConfig) custom;
   env = custom.usrEnv;
   prg = env.programs;
 
@@ -14,7 +10,7 @@ let
   browser = "${prg.default.browser}";
 in
 {
-  config.hm = mkIf config.custom.programs.hyprland.enable {
+  config = mkIf osConfig.custom.programs.hyprland.enable {
     wayland.windowManager.hyprland.settings = {
       "$MOD" = "SUPER";
       binds = {

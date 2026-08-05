@@ -1,23 +1,20 @@
-{ config
-, lib
-, ...
-}:
+{config, lib, osConfig, ...}:
 let
   inherit (lib.modules) mkIf;
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   env = custom.usrEnv;
   prg = env.programs;
 in
 {
-  config.hm = {
+  config = {
     programs.beets = mkIf prg.media.beets.enable {
       enable = true;
 
       settings = {
         ui.color = true;
-        directory = "${config.services.mpd.settings.music_directory}/library";
-        library = "${config.services.mpd.settings.music_directory}/musiclibrary.db";
+        directory = "${osConfig.services.mpd.settings.music_directory}/library";
+        library = "${osConfig.services.mpd.settings.music_directory}/musiclibrary.db";
 
         clutter = [
           "Thumbs.DB"
@@ -45,7 +42,7 @@ in
           bell = true;
           copy = false;
           detail = true;
-          log = "${config.custom.system.homePath}/Media/Music/beets/importer.log";
+          log = "${osConfig.custom.system.homePath}/Media/Music/beets/importer.log";
           move = false;
           timid = true;
           write = false;

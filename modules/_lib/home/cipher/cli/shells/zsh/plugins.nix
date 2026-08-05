@@ -1,15 +1,11 @@
-{ config
-, lib
-, pkgs
-, ...
-}:
+{config, lib, pkgs, osConfig, ...}:
 let
   inherit (lib) mkIf;
 
-  cfg = config.custom.system;
+  cfg = osConfig.custom.system;
 in
 {
-  config.hm = mkIf (cfg.defaultUserShell == pkgs.zsh) {
+  config = mkIf (cfg.defaultUserShell == pkgs.zsh) {
     programs.zsh.plugins = [
       {
         # Must be before plugins that wrap widgets

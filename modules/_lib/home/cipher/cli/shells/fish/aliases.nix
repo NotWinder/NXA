@@ -1,17 +1,13 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{config, pkgs, lib, osConfig, ...}:
 let
   inherit (lib) mkIf;
   inherit (lib.meta) getExe;
   inherit (pkgs) eza bat ripgrep dust procs yt-dlp python3;
 
-  cfg = config.custom.system;
+  cfg = osConfig.custom.system;
 in
 {
-  config.hm = mkIf (cfg.defaultUserShell == pkgs.fish) {
+  config = mkIf (cfg.defaultUserShell == pkgs.fish) {
     programs.fish.shellAliases = {
       # make sudo use aliases
       sudo = "sudo ";

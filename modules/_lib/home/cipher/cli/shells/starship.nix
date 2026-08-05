@@ -7,10 +7,10 @@ let
   inherit (lib.strings) concatStrings;
 in
 {
-  config.hm = {
+  config = {
     home = {
       sessionVariables = {
-        STARSHIP_CACHE = "${config.hm.xdg.cacheHome}/starship";
+        STARSHIP_CACHE = "${config.xdg.cacheHome}/starship";
       };
     };
 

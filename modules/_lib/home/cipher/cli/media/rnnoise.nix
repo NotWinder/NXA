@@ -1,15 +1,11 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{config, pkgs, lib, osConfig, ...}:
 let
   inherit (lib.modules) mkIf;
 
   format = pkgs.formats.json { };
 in
 {
-  config.hm = mkIf config.custom.usrEnv.programs.media.rnnoise.enable {
+  config = mkIf osConfig.custom.usrEnv.programs.media.rnnoise.enable {
     # Write a PipeWire userspace configuration based on werman's noise-supression-for-voice
     # for usage instructions, see:
     # <https://github.com/werman/noise-suppression-for-voice?tab=readme-ov-file#linux>

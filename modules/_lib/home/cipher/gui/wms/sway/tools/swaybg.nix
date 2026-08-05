@@ -1,17 +1,13 @@
-{ pkgs
-, lib
-, config
-, ...
-}:
+{pkgs, lib, config, osConfig, ...}:
 let
   inherit (builtins) elem;
   inherit (lib) mkIf getExe mkGraphicalService;
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   prg = custom.usrEnv.programs;
 in
 {
-  config.hm = mkIf (elem "swaybg" prg.wallpapers) {
+  config = mkIf (elem "swaybg" prg.wallpapers) {
     systemd.user.services = {
       swaybg = mkGraphicalService {
         Unit.Description = "Wallpaper chooser service";

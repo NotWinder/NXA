@@ -1,16 +1,12 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{config, pkgs, lib, osConfig, ...}:
 let
   inherit (lib) mkIf;
   inherit (lib.strings) fileContents;
 
-  cfg = config.custom.system;
+  cfg = osConfig.custom.system;
 in
 {
-  config.hm = mkIf (cfg.defaultUserShell == pkgs.zsh) {
+  config = mkIf (cfg.defaultUserShell == pkgs.zsh) {
     programs.zsh = {
       completionInit = ''
         # Load compinit

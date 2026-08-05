@@ -1,12 +1,9 @@
-{ config
-, lib
-, ...
-}:
+{config, lib, osConfig, ...}:
 let
   inherit (lib) mkIf;
 in
 {
-  config.hm = mkIf config.custom.programs.hyprland.enable {
+  config = mkIf osConfig.custom.programs.hyprland.enable {
     wayland.windowManager.hyprland.settings = {
       #windowrule = [
       #  # only allow shadows for floating windows

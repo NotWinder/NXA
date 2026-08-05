@@ -1,17 +1,14 @@
-{ config
-, lib
-, ...
-}:
+{config, lib, osConfig, ...}:
 let
   inherit (builtins) elem;
-  inherit (config) custom;
+  inherit (osConfig) custom;
   inherit (lib) mkIf;
 
   env = custom.usrEnv;
   prg = env.programs;
 in
 {
-  config.hm = mkIf (elem "waybar" prg.bar && env.desktop != "none") {
+  config = mkIf (elem "waybar" prg.bar && env.desktop != "none") {
     programs.waybar = {
       enable = true;
       settings = {

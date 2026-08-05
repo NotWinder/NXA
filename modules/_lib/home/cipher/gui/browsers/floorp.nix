@@ -1,16 +1,13 @@
-{ lib
-, config
-, ...
-}:
+{lib, config, osConfig, ...}:
 let
   inherit (lib) mkIf;
   inherit (builtins) elem;
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   prg = custom.usrEnv.programs;
 in
 {
-  config.hm = mkIf (elem "floorp" prg.browsers) {
+  config = mkIf (elem "floorp" prg.browsers) {
     programs.floorp = {
       enable = true;
     };

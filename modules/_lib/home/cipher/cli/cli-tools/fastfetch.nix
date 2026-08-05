@@ -2,7 +2,7 @@
 , lib
 , ...
 }: {
-  config.hm = {
+  config = {
     home = {
       packages = [ pkgs.fastfetch ];
     };

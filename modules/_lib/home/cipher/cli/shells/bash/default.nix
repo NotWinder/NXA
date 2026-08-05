@@ -1,16 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
-}:
+{config, lib, pkgs, osConfig, ...}:
 let
   # copy paste done right
   XDG_CONFIG_HOME = "$HOME/.config";
   inherit (lib) mkIf;
-  cfg = config.custom.system;
+  cfg = osConfig.custom.system;
 in
 {
-  config.hm = mkIf (cfg.defaultUserShell == pkgs.bash) {
+  config = mkIf (cfg.defaultUserShell == pkgs.bash) {
     programs.bash = {
       enable = true;
       enableVteIntegration = true;

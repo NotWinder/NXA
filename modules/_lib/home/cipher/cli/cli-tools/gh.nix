@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  config.hm = {
+  config = {
     home.packages = with pkgs; [
       gh
       gh-dash

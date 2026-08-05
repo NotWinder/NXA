@@ -1,16 +1,12 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{config, pkgs, lib, osConfig, ...}:
 let
   inherit (lib) mkIf;
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   prg = custom.usrEnv.programs;
 in
 {
-  config.hm = mkIf prg.gui.zathura.enable {
+  config = mkIf prg.gui.zathura.enable {
     xdg = {
       desktopEntries.zathura = {
         name = "zathura";

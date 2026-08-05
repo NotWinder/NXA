@@ -1,17 +1,13 @@
-{ lib
-, pkgs
-, config
-, ...
-}:
+{lib, pkgs, config, osConfig, ...}:
 let
   inherit (lib) mkIf concatStringsSep;
   inherit (builtins) elem;
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   prg = custom.usrEnv.programs;
 in
 {
-  config.hm = mkIf (elem "chromium" prg.browsers) {
+  config = mkIf (elem "chromium" prg.browsers) {
     programs.chromium = {
       enable = true;
       extensions = [

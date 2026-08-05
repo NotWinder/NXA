@@ -1,5 +1,5 @@
 {
-  config.hm = {
+  config = {
     programs.cava = {
       enable = true;
       settings = {

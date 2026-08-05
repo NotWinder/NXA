@@ -1,16 +1,13 @@
-{ config
-, lib
-, ...
-}:
+{config, lib, osConfig, ...}:
 let
   inherit (builtins) elem;
   inherit (lib) mkIf;
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   prg = custom.usrEnv.programs;
 in
 {
-  config.hm = mkIf (elem "alacritty" prg.terminals) {
+  config = mkIf (elem "alacritty" prg.terminals) {
     programs.alacritty = {
       enable = true;
       settings = {

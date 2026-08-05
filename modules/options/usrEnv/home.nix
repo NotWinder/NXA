@@ -7,7 +7,7 @@ in
   options.custom.usrEnv.home = {
     aspects = mkOption {
       type = listOf str;
-      default = [ "base" "cli" "gui" "themes" "gaming" "media" "misc" ];
+      default = [ "base" "cli" "gui" "themes" "misc" ];
       description = ''
         The list of home-manager aspects to compose for the main user.
 

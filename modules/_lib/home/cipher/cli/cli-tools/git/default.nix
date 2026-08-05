@@ -32,7 +32,7 @@ in
     ./ignore.nix
   ];
 
-  config.hm = {
+  config = {
     home.packages = with pkgs; [
       gist # manage github gists
       act # local github actions

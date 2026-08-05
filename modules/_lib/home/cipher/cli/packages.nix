@@ -2,16 +2,17 @@
 , lib
 , pkgs
 , #inputs',
-  ...
+  osConfig
+, ...
 }:
 let
   inherit (lib) mkIf;
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   prg = custom.usrEnv.programs;
 in
 {
-  config.hm = mkIf prg.cli.enable {
+  config = mkIf prg.cli.enable {
     home.packages = with pkgs; [
       duf # Disk Usage/Free Utility
       todo # Simple todo cli program written in rust

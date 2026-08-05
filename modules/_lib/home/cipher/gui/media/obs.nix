@@ -1,17 +1,13 @@
-{ lib
-, pkgs
-, config
-, ...
-}:
+{lib, pkgs, config, osConfig, ...}:
 let
   inherit (lib) mkIf;
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   prg = custom.usrEnv.programs;
   gui = prg.gui;
 in
 {
-  config.hm = mkIf gui.obs.enable {
+  config = mkIf gui.obs.enable {
     programs.obs-studio = {
       enable = true;
       plugins = with pkgs.obs-studio-plugins; [

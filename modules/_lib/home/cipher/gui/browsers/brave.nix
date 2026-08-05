@@ -1,17 +1,13 @@
-{ config
-, lib
-, pkgs
-, ...
-}:
+{config, lib, pkgs, osConfig, ...}:
 let
   inherit (lib) mkIf;
   inherit (builtins) elem;
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   prg = custom.usrEnv.programs;
 in
 {
-  config.hm = mkIf (elem "brave" prg.browsers) {
+  config = mkIf (elem "brave" prg.browsers) {
     home.packages = [
       pkgs.brave
     ];

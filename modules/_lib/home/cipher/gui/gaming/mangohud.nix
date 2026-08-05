@@ -1,15 +1,12 @@
-{ config
-, lib
-, ...
-}:
+{config, lib, osConfig, ...}:
 let
   inherit (lib.modules) mkIf;
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   prg = custom.usrEnv.programs;
 in
 {
-  config.hm = mkIf prg.gaming.mangohud.enable {
+  config = mkIf prg.gaming.mangohud.enable {
     programs.mangohud = {
       enable = true;
       settings = {

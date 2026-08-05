@@ -1,17 +1,14 @@
-{ config
-, lib
-, ...
-}:
+{config, lib, osConfig, ...}:
 let
   inherit (builtins) elem;
   inherit (lib) mkIf;
-  inherit (config) custom;
+  inherit (osConfig) custom;
   inherit (custom.style.colorScheme) colors;
 
   prg = custom.usrEnv.programs;
 in
 {
-  config.hm = mkIf (elem "kitty" prg.terminals) {
+  config = mkIf (elem "kitty" prg.terminals) {
     programs.kitty = {
       enable = true;
       settings = import ./settings.nix { inherit colors; };

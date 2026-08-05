@@ -1,26 +1,17 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{ config, pkgs, lib, osConfig, ... }:
 let
   inherit (lib.modules) mkIf;
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   env = custom.usrEnv;
   prg = env.programs;
 in
 {
   imports = [
-    ./gamemode.nix
-    ./gamescope.nix
     ./mangohud.nix
-    ./mangohud.nix
-    ./steam.nix
-    ./wine.nix
   ];
 
-  config.hm = mkIf prg.gaming.enable {
+  config = mkIf prg.gaming.enable {
     home.packages = with pkgs; [
       # runtime
       heroic # Native GOG, Epic, and Amazon Games Launcher for Linux, Windows and Mac

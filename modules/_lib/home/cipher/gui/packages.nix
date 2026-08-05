@@ -1,17 +1,13 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{config, pkgs, lib, osConfig, ...}:
 let
   inherit (lib.modules) mkIf;
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   sys = custom.system;
   prg = custom.usrEnv.programs;
 in
 {
-  config.hm = mkIf (prg.gui.enable && sys.video.enable) {
+  config = mkIf (prg.gui.enable && sys.video.enable) {
     home.packages = with pkgs; [
       anydesk # Desktop sharing application, providing remote support and online meetings
       feishin

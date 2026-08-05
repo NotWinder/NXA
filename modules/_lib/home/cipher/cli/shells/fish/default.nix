@@ -1,18 +1,14 @@
-{ pkgs
-, config
-, lib
-, ...
-}:
+{pkgs, config, lib, osConfig, ...}:
 let
   inherit (lib) mkIf;
 
-  cfg = config.custom.system;
+  cfg = osConfig.custom.system;
 in
 {
   imports = [
     ./aliases.nix
   ];
-  config.hm = mkIf (cfg.defaultUserShell == pkgs.fish) {
+  config = mkIf (cfg.defaultUserShell == pkgs.fish) {
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;

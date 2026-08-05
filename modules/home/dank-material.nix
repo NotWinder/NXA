@@ -1,24 +1,25 @@
-{ inputs
-, lib
-, config
-, ...
-}:
-let
-  inherit (lib) mkIf;
-in
-{
-  config = {
-    hm = {
+# Closure-captured home-manager aspect for DankMaterialShell (Phase 3c step 4).
+#
+# This module is loaded into the flake-parts module space (auto-imported under
+# `modules/home/`). Its `inputs` argument comes from flake-parts' top-level
+# specialArgs, and the deferredModule below closes over it — so no
+# `extraSpecialArgs` plumbing is needed in the home-manager+NixOS wiring.
+{ inputs, ... }: {
+  flake.modules.homeManager.dankMaterial = { config, lib, osConfig, ... }:
+    let
+      inherit (lib) mkIf;
+    in
+    {
       imports = [ inputs.dms.homeModules.default ];
 
-      programs.dank-material-shell = mkIf config.custom.programs.dms.enable {
+      programs.dank-material-shell = mkIf osConfig.custom.programs.dms.enable {
         enable = true;
         settings = {
           iconTheme = "Papirus-Dark";
         };
       };
 
-      programs.niri = mkIf (config.custom.programs.niri.enable && config.custom.programs.dms.enable) {
+      programs.niri = mkIf (osConfig.custom.programs.niri.enable && osConfig.custom.programs.dms.enable) {
         settings = {
           layer-rules = [
             {
@@ -27,7 +28,7 @@ in
             }
           ];
 
-          binds = with config.hm.lib.niri.actions; let
+          binds = with config.lib.niri.actions; let
             sh = spawn "sh" "-c";
           in
           {
@@ -41,7 +42,7 @@ in
         };
       };
 
-      wayland.windowManager.hyprland = mkIf (config.custom.programs.hyprland.enable && config.custom.programs.dms.enable) {
+      wayland.windowManager.hyprland = mkIf (osConfig.custom.programs.hyprland.enable && osConfig.custom.programs.dms.enable) {
         settings = {
           exec-once = [
             "dms run"
@@ -54,5 +55,4 @@ in
         };
       };
     };
-  };
 }

@@ -1,8 +1,4 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{config, pkgs, lib, osConfig, ...}:
 let
   inherit (lib) mkIf;
 in
@@ -12,7 +8,7 @@ in
     ./tools/swaylock.nix
     ./tools/swaybg.nix
   ];
-  config.hm = mkIf config.custom.programs.sway.enable {
+  config = mkIf osConfig.custom.programs.sway.enable {
     wayland.windowManager.sway = {
       enable = true;
       package = pkgs.swayfx;

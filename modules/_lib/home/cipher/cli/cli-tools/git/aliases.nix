@@ -1,5 +1,5 @@
 {
-  config.hm = {
+  config = {
     programs.git.settings.aliases = {
       br = "branch";
       c = "commit -m";

@@ -15,7 +15,7 @@ Status: Active — Phase 2 complete
 - [x] **Phase 0 — Baseline & branch** (2026-08-03)
 - [x] **Phase 1 — Registry skeleton** (coarse aspects, zero behavior change) (2026-08-03)
 - [x] **Phase 2 — Hosts & roles become aspects** (2026-08-04)
-- [ ] **Phase 3 — Home-manager unwrap** (3a wiring · 3b register by name · 3c class conversion · 3d per-user composition)
+- [ ] **Phase 3 — Home-manager unwrap** (3a wiring ✓ with deviations · 3b register by name ✓ · 3c steps 1–7 ✓ · 3d per-user composition ✓)
 - [ ] **Phase 4 — Delete legacy & docs** (incl. reverting the four migration pins)
 - [ ] **Phase 5 — Optional polish**
 
@@ -498,6 +498,38 @@ reorganization).
 
 #### 3c. Convert the class to `homeManager` (5–7 h)
 
+**Status: DONE** — steps 1–7 complete (2026-08-05). Steps analysed before this
+branch independently (options hygiene, `hm` unwrap, `config.custom` →
+`osConfig.custom`, `defaults` specialArg inlining, `_class` flip). The final two
+steps — #4 **closure capture** and #7 **alias/specialArgs deletion** — were the
+delta this branch finished:
+
+- Closure-captured aspects now live under `modules/home/` (one file per aspect,
+  `{ inputs | inputs' | self, ... }` closing over flake-parts specialArgs):
+  `dank-material.nix` (`inputs.dms`), `zen.nix` (`inputs.zen-browser`),
+  `foot.nix` (`inputs'.nyxexprs`), `randomize.nix` (`inputs'.winpaper`),
+  `hyprlock.nix` / `hyprpaper.nix` (`inputs'.hyprlock` / `inputs'.hyprpaper`),
+  `xdg.nix` (`self.lib.xdgTemplate`). The old `_lib/...` leaves they replaced
+  were deleted (`gui/bars/dankMaterial.nix`, `gui/browsers/zen.nix`,
+  `gui/terminals/foot/default.nix` [presets kept under `_lib`],
+  `gui/wallpaper/scripts/randomize.nix`, `gui/wms/hyprland/tools/{hyprlock,
+  hyprpaper}.nix`, `misc/xdg.nix` + `misc/`). The `gui`/`misc` aspects in
+  `modules/home.nix` now compose these closure aspects via `self` plus the
+  remaining tree.
+- `home/module.nix` no longer passes `inputs`/`inputs'`/`self'`/`specialArgs`/
+  `extraSpecialArgs`; `self` is retained solely for the
+  `self.modules.homeManager` registry look-up (still supplied by the NixOS-side
+  specialArgs in `lib/builders.nix`, which is out of scope for 3c). The
+  `mkAliasOptionModule [ "hm" ]` alias was already removed in an earlier phase;
+  lines 440–443 documenting its deletion are satisfied.
+- The orphaned `hyprlock`/`hyprpaper` modules (never imported by any tree,
+  gated by `options.custom.programs.hyprlock/hyprpaper.enable`) were converted
+  to closure aspects and composed into `gui` — behavior-neutral while the
+  options are disabled, keeps the code reachable.
+- Verified: all 8 hosts evaluate; `nix flake check` passes; cipher and lorian
+  toplevel drvPaths are byte-identical to the pre-migration anchors
+  (`qjz7dpyiyh7yg9j8dzc3gmrvixyk4pdn…` and `3sl319f9c8pwfir7kiz8kf25mwkzlhvk…`).
+
 This is the real unwrap. Mechanical, script-assisted, done in this order:
 
 1. **Options hygiene first (PLAN.md 2.1):** move ad-hoc option declarations
@@ -534,7 +566,7 @@ This is the real unwrap. Mechanical, script-assisted, done in this order:
    Watch for files that only *set* `custom.*` options (e.g. `wms` files) —
    those set nothing in the HM eval and become pure `osConfig` readers; any
    host-facing toggles keep being set in the NixOS host aspects.
-4. **`inputs` / `self` closure capture (3 + 2 files):** wrap the aspect
+4. **`inputs` / `self` closure capture (7 files):** wrap the aspect
    definition so the deferredModule closes over flake-parts args:
    ```nix
    # modules/home/dank-material.nix  (new aspect definition file)
@@ -548,10 +580,19 @@ This is the real unwrap. Mechanical, script-assisted, done in this order:
      };
    }
    ```
-   Same treatment for `zen.nix` (`inputs.zen-browser`) and
-   `niri/default.nix` (`inputs.niri`). Run a final sweep to catch stragglers:
+   ⚠️ **Staging gotcha:** flake store-source copies of a dirty worktree omit
+   untracked files, so the new aspect files under `modules/home/` silently
+   failed to register (options showed as missing) until `git add`'d. Stage the
+   new files before evaluating. See the risk table's hidden `inputs`/`self`
+   row for the repeat sweep gate.
+   The actual sweep of the cipher home tree found **seven** leaves, a wider
+   set than the plan's estimate (`dankMaterial`, `zen`, `foot`, `randomize`,
+   `hyprlock`, `hyprpaper`, `xdg`; `niri/default.nix` was already captured in
+   an earlier phase). Done under `modules/home/<name>.nix`, composed into
+   `gui`/`misc` via `self.modules.homeManager.<name>`, and the original
+   `_lib/` leaves deleted. Re-run the sweep to catch stragglers:
    ```bash
-   rg -l 'inputs\.[a-zA-Z]|\bself\b' modules/home
+   rg -l 'inputs(\.|\x27\x27|\x27\.)|\bself\b' modules/_lib/home/cipher
    ```
 5. **`defaults` specialArg (1 file):** `home/cipher/gui/wms/sway/config.nix`
    — inline the value of `config.custom.usrEnv.programs.default` via
@@ -581,6 +622,27 @@ removal); investigate anything behavioral.
 **Time:** 5–7 h.
 
 #### 3d. Per-user composition (1–2 h)
+
+**Status: DONE** (2026-08-05). Users stop inheriting cipher wholesale:
+
+- Per-user aspects live under `modules/home/users/<name>.nix` (one per host).
+  Each composes the shared `flake.modules.homeManager` aspects **by name**
+  (`base`, `cli`, `gui`, `themes`, `misc`) via `self` — the same name-based
+  mechanism hosts use. The seven `gui`-class hosts (amadeus, brau1589, cipher,
+  heu, magi, salieri, wired) compose the full set (they inherit cipher's config
+  today); `lorian` composes only `[ "base" "cli" ]` per the plan example.
+  Per-user deltas belong in these files, not behind `mkIf` in shared files.
+- `hosts/default.nix` (data table) gained a `home = [ <aspect-name> ]` field
+  per host; the host construction injects
+  `{ config.custom.usrEnv.home.aspects = cfg.home; }` as an extra module, so
+  hosts select aspects by name (never by file path).
+- The old registry entries in `modules/home.nix` that pointed every per-user
+  aspect at `./_lib/home/cipher/home.nix` were deleted, and that composer file
+  removed with them.
+- Note: the plan's example showed `amadeus = [ "base" "cli" "gui" "themes" ]`
+  (no `misc`); `misc` here only carries the `xdg` closure aspect (needed for
+  browser/file-manager mime associations), so the `gui`-class hosts keep it
+  until per-user deltas say otherwise.
 
 Address PLAN.md 4.1 — users stop inheriting cipher wholesale:
 

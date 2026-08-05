@@ -6,7 +6,7 @@ let
   inherit (lib) mkGraphicalService getExe;
 in
 {
-  config.hm = {
+  config = {
     systemd.user.services = {
       cliphist = mkGraphicalService {
         Unit.Description = "Clipboard history service";

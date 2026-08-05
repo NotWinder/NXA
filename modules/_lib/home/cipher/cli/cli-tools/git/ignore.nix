@@ -49,7 +49,7 @@ let
   ignore = lib.concatStringsSep "\n" [ general c nix node ide python ];
 in
 {
-  config.hm = {
+  config = {
     # construct the list of ignored files from a very large string containing
     # the list of ignored files, but in a plaintext format for my own convenience
     programs.git.ignores = map (v: "${toString v}") (builtins.split "\n" ignore);

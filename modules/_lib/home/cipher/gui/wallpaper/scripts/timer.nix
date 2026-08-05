@@ -1,12 +1,8 @@
-{ pkgs
-, lib
-, config
-, ...
-}:
+{pkgs, lib, config, osConfig, ...}:
 let
   inherit (lib) elem;
   inherit (lib) mkIf;
-  inherit (config) custom;
+  inherit (osConfig) custom;
   prg = custom.usrEnv.programs;
 
   wallpaper-timer =
@@ -22,7 +18,7 @@ let
     else "";
 in
 {
-  config.hm = mkIf (!elem "none" prg.wallpapers) {
+  config = mkIf (!elem "none" prg.wallpapers) {
     home.packages = [ wallpaper-timer ];
   };
 }

@@ -1,18 +1,14 @@
-{ config
-, lib
-, defaults
-, ...
-}:
+{config, lib, osConfig, ...}:
 let
   inherit (lib) mkIf;
 
   terminal =
-    if (defaults.terminal == "foot")
+    if (osConfig.custom.usrEnv.programs.default.terminal == "foot")
     then "foot"
-    else "${defaults.terminal}";
+    else "${osConfig.custom.usrEnv.programs.default.terminal}";
 in
 {
-  config.hm = mkIf config.custom.programs.sway.enable {
+  config = mkIf osConfig.custom.programs.sway.enable {
     wayland.windowManager.sway = {
       config = {
         assigns = {

@@ -1,5 +1,5 @@
 {
-  config.hm = {
+  config = {
     programs.htop = {
       enable = true;
       settings = {

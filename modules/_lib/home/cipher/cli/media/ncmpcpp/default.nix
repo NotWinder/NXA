@@ -1,11 +1,7 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{config, pkgs, lib, osConfig, ...}:
 let
   inherit (lib.modules) mkIf;
-  inherit (config) custom;
+  inherit (osConfig) custom;
 
   env = custom.usrEnv;
   prg = env.programs;
@@ -13,7 +9,7 @@ in
 {
   imports = [ ./binds.nix ./settings.nix ];
 
-  config.hm.programs.ncmpcpp = mkIf prg.media.ncmpcpp.enable {
+  config.programs.ncmpcpp = mkIf prg.media.ncmpcpp.enable {
     enable = true;
 
     # provide visualisier support for ncmpcpp
@@ -23,6 +19,6 @@ in
     package = pkgs.ncmpcpp.override { visualizerSupport = true; };
 
     # look for music tracks inside mpd's music directory
-    mpdMusicDir = config.services.mpd.settings.music_directory;
+    mpdMusicDir = osConfig.services.mpd.settings.music_directory;
   };
 }

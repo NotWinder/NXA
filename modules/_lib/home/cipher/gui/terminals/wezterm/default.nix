@@ -1,18 +1,14 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+{config, pkgs, lib, osConfig, ...}:
 let
   inherit (builtins) elem;
   inherit (lib) mkIf;
-  inherit (config) custom;
+  inherit (osConfig) custom;
   inherit (custom.style.colorScheme) colors;
 
   prg = custom.usrEnv.programs;
 in
 {
-  config.hm = mkIf (elem "wezterm" prg.terminals) {
+  config = mkIf (elem "wezterm" prg.terminals) {
     programs.wezterm = {
       enable = true;
       package = pkgs.wezterm;

@@ -1,12 +1,8 @@
-{ config
-, lib
-, pkgs
-, ...
-}:
+{config, lib, pkgs, osConfig, ...}:
 let
   inherit (lib) mkIf;
 
-  cfg = config.custom.system;
+  cfg = osConfig.custom.system;
 in
 {
   imports = [
@@ -14,10 +10,10 @@ in
     ./init.nix
     ./plugins.nix
   ];
-  config.hm = mkIf (cfg.defaultUserShell == pkgs.zsh) {
+  config = mkIf (cfg.defaultUserShell == pkgs.zsh) {
     programs.zsh = {
       enable = true;
-      dotDir = "${config.hm.xdg.configHome}/zsh";
+      dotDir = "${config.xdg.configHome}/zsh";
       enableCompletion = true; # we handle this ourself
       enableVteIntegration = true;
       autosuggestion.enable = true;
@@ -29,7 +25,7 @@ in
         share = true;
 
         # avoid cluttering $HOME with the histfile
-        path = "${config.hm.xdg.dataHome}/zsh/zsh_history";
+        path = "${config.xdg.dataHome}/zsh/zsh_history";
 
         # saves timestamps to the histfile
         extended = true;
