@@ -31,9 +31,6 @@
       # (preserves importPathOrTree behavior: returns [ workstation/module.nix ])
       workstation = modulePath + /_lib/roles/workstation/system;
 
-      # home-manager #
-      homesPath = ../home;
-
       # Aspect registry for hosts and roles only.
       # Trees (options, hardware, nix, system, virt, profiles) still use
       # importPathOrTree directly to preserve exact module list shape.
@@ -41,7 +38,7 @@
 
       # mkModulesFor generates a list of modules to be imported by any host.
       # This replicates the EXACT pre-Phase-2 module order to preserve drvPaths.
-      mkModulesFor = hostname: { moduleTrees ? [ options hardware nix system virt profiles homesPath ]
+      mkModulesFor = hostname: { moduleTrees ? [ options hardware nix system virt profiles ]
                                , roles ? [ ]
                                , extraModules ? [ ]
                                ,
@@ -55,15 +52,15 @@
             # 1. Host-specific module (host.nix) — FIRST, exactly as before
             (singleton ./${hostname}/host.nix)
 
-            # 2. Recursively import all module trees (options, hardware, nix, system, virt, profiles, homesPath)
+            # 2. Recursively import all module trees (options, hardware, nix, system, virt, profiles)
             (map importPathOrTree moduleTrees)
 
             # 3. Roles (registry values, producing same config)
             roleValues
 
-            # 4. Reserved (home-manager wiring moved into ../home/module.nix,
-            #    Phase 3a: home-manager.users.<mainUser>.imports now composes
-            #    the named `flake.modules.homeManager` aspects)
+            # 4. Reserved (home-manager wiring lives in modules/system/home-manager,
+            #    loaded via the system tree; home-manager.users.<mainUser>.imports
+            #    composes the named `flake.modules.homeManager` aspects)
 
             # 5. Extra modules (sops-nix, home-manager) — LAST, exactly as before
             args.extraModules
