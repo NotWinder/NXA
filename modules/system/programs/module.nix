@@ -13,6 +13,7 @@
     ./misc.nix
     ./nano.nix
     ./packages.nix
+    ./gaming
     ./thunar.nix
     ./xdg-ninja.nix
     ./zsh.nix

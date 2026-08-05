@@ -1,149 +1,72 @@
 { withSystem
 , inputs
+, config
 , ...
 }: {
   flake.nixosConfigurations =
     let
       inherit (inputs.self) lib;
-      inherit (lib) mkNixosSystem mkModuleTree' importPathOrTree;
-      inherit (lib.lists) concatLists flatten singleton;
+      inherit (lib) mkNixosSystem;
+      inherit (lib.lists) flatten singleton;
 
       ## flake inputs ##
       sops-nix = inputs.sops-nix.nixosModules.sops; # secret encryption via age
       hm = inputs.home-manager.nixosModules.home-manager; # home-manager nixos module
-      # Specify root path for the modules. The concept is similar to modulesPath
-      # that is found in nixpkgs, and is defined in case the modulePath changes
-      # depth (i.e modules becomes nixos/modules).
-      modulePath = ../modules;
 
-      # module paths
-      options = modulePath + /options;
-      hardware = modulePath + /hardware;
-      nix = modulePath + /nix;
-      system = modulePath + /system;
-      virt = modulePath + /virt;
-      profiles = modulePath + /profiles;
+      # Aspect registry: nixos trees (base = options), roles, homeManager aspects.
+      registry = config.flake.modules;
 
-      ## roles ##
-      # Roles either provide an additional set of defaults on top of the core module
-      # or override existing defaults for role-specific optimizations.
-      graphical = modulePath + /roles/graphical.nix;
-      headless = modulePath + /roles/headless.nix;
-      server = modulePath + /roles/server.nix;
-      workstation = modulePath + /roles/workstation;
+      # Module trees in legacy import order. Each aspect imports its tree's
+      # top-level module.nix, which transitively imports the full tree.
+      trees = [ "base" "hardware" "nix" "system" "virt" "profiles" ];
 
-      # home-manager #
-      homesPath = ../home;
+      hosts = {
+        amadeus = { roles = [ "graphical" ]; home = [ "amadeus" ]; features = [ ]; system = "x86_64-linux"; };
+        brau1589 = { roles = [ "graphical" ]; home = [ "brau1589" ]; features = [ "ssh" "gaming" ]; system = "x86_64-linux"; };
+        cipher = { roles = [ "graphical" ]; home = [ "cipher" ]; features = [ "ssh" "gaming" ]; system = "x86_64-linux"; };
+        heu = { roles = [ "graphical" ]; home = [ "heu" ]; features = [ ]; system = "x86_64-linux"; };
+        lorian = { roles = [ "headless" "server" ]; home = [ "lorian" ]; features = [ ]; system = "x86_64-linux"; };
+        magi = { roles = [ "graphical" ]; home = [ "magi" ]; features = [ ]; system = "x86_64-linux"; };
+        salieri = { roles = [ "graphical" ]; home = [ "salieri" ]; features = [ ]; system = "x86_64-linux"; };
+        wired = { roles = [ "graphical" ]; home = [ "wired" ]; features = [ "ssh" ]; system = "x86_64-linux"; };
+      };
 
-      # mkModulesFor generates a list of modules to be imported by any host with
-      # a given hostname. Do note that this needs to be called *in* the nixosSystem
-      # set, since it generates a *module list*, which is also expected by system
-      # builders.
-      mkModulesFor = hostname: { moduleTrees ? [ options hardware nix system virt profiles homesPath ]
-                               , roles ? [ ]
-                               , extraModules ? [ ]
-                               ,
-                               } @ args:
-        flatten (
-          concatLists [
-            # Derive host specific module path from the first argument of the
-            # function. Should be a string, obviously.
-            (singleton ./${hostname}/host.nix)
+      mkModulesFor = hostname: { roles, home, features, ... }:
+        flatten [
+          # 1. Host-specific module (host.nix) — FIRST
+          (singleton ./${hostname}/host.nix)
 
-            # Recursively import all module trees (i.e. directories with a `module.nix`)
-            # for given moduleTree directories, and in addition, roles.
-            (map importPathOrTree (concatLists [ moduleTrees roles ]))
+          # 2. Module trees via the nixos aspect registry, plus universal
+          #    nixos-only aspects (sops; opt-in features live in section 4)
+          (map (t: registry.nixos.${t}) trees)
+          registry.nixos.sops
 
-            # Host-specific home-manager config, keyed by hostname.
-            (singleton {
-              imports = [ (homesPath + "/${hostname}/home.nix") ];
-            })
+          # 3. Roles (aspects under flake.modules.nixos.*: graphical/headless/server)
+          (map (r: registry.nixos.${r}) roles)
 
-            # And append any additional lists that don't don't conform to the moduleTree
-            # API, but still need to be imported somewhat commonly.
-            args.extraModules
-          ]
-        );
+          # 4. Multi-class feature aspects. A feature may provide a nixos
+          #    and/or a homeManager side (`or { }` makes either optional);
+          #    the home side is appended to the HM aspect selection below.
+          (map (f: registry.nixos.${f} or { }) features)
+
+          # 5. Extra modules (sops-nix, home-manager) — LAST
+          sops-nix
+          hm
+
+          # 6. Select this host's home-manager aspects by name.
+          #    `home` names per-user entries in the `flake.modules.homeManager`
+          #    registry (modules/home/users/); `features` appends the feature
+          #    aspects of the same registry (e.g. ssh, gaming).
+          { config.custom.usrEnv.home.aspects = home ++ features; }
+        ];
     in
-    {
-      amadeus = mkNixosSystem {
-        inherit withSystem;
-        hostname = "amadeus";
-        system = "x86_64-linux";
-        modules = mkModulesFor "amadeus" {
-          roles = [ graphical workstation ];
-          extraModules = [ sops-nix hm ];
-        };
-      };
-
-      brau1589 = mkNixosSystem {
-        inherit withSystem;
-        hostname = "brau1589";
-        system = "x86_64-linux";
-        modules = mkModulesFor "brau1589" {
-          roles = [ graphical workstation ];
-          extraModules = [ sops-nix hm ];
-        };
-      };
-
-      cipher = mkNixosSystem {
-        inherit withSystem;
-        hostname = "cipher";
-        system = "x86_64-linux";
-        modules = mkModulesFor "cipher" {
-          roles = [ graphical workstation ];
-          extraModules = [ sops-nix hm ];
-        };
-      };
-
-      heu = mkNixosSystem {
-        inherit withSystem;
-        hostname = "heu";
-        system = "x86_64-linux";
-        modules = mkModulesFor "heu" {
-          roles = [ graphical workstation ];
-          extraModules = [ sops-nix hm ];
-        };
-      };
-
-      lorian = mkNixosSystem {
-        inherit withSystem;
-        hostname = "lorian";
-        system = "x86_64-linux";
-        modules = mkModulesFor "lorian" {
-          roles = [ headless server ];
-          extraModules = [ sops-nix hm ];
-        };
-      };
-
-      magi = mkNixosSystem {
-        inherit withSystem;
-        hostname = "magi";
-        system = "x86_64-linux";
-        modules = mkModulesFor "magi" {
-          roles = [ graphical workstation ];
-          extraModules = [ sops-nix hm ];
-        };
-      };
-
-      salieri = mkNixosSystem {
-        inherit withSystem;
-        hostname = "salieri";
-        system = "x86_64-linux";
-        modules = mkModulesFor "salieri" {
-          roles = [ graphical workstation ];
-          extraModules = [ sops-nix hm ];
-        };
-      };
-
-      wired = mkNixosSystem {
-        inherit withSystem;
-        hostname = "wired";
-        system = "x86_64-linux";
-        modules = mkModulesFor "wired" {
-          roles = [ graphical workstation ];
-          extraModules = [ sops-nix hm ];
-        };
-      };
-    };
+    builtins.mapAttrs
+      (hostname: cfg:
+        mkNixosSystem {
+          inherit withSystem;
+          hostname = hostname;
+          system = cfg.system;
+          modules = mkModulesFor hostname cfg;
+        })
+      hosts;
 }

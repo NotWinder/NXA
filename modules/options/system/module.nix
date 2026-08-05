@@ -79,8 +79,6 @@ in
       description = "The Default Shell for the User.";
     };
 
-    enableSshSecrets = mkEnableOption "Whether or not add the ssh options to the config(requires secrets)";
-
     sound = {
       enable = mkEnableOption "sound related programs and audio-dependent programs";
     };

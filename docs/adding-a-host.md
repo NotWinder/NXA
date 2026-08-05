@@ -1,6 +1,8 @@
 # Adding a New Host
 
-This guide walks through adding a new NixOS host to this flake.
+This guide walks through adding a new NixOS host to this flake. The flake uses
+the dendritic pattern: hosts are data-table entries in `hosts/default.nix`,
+composed from named aspects in the `flake.modules.<class>.<name>` registry.
 
 ## Step 1: Create the host directory
 
@@ -37,133 +39,65 @@ If using **manual filesystem config**, create `hosts/<hostname>/fs.nix` with you
 
 ## Step 4: Create module files under `hosts/<hostname>/modules/`
 
-At minimum, create a `default.nix` that imports these four files:
-
-```nix
-# hosts/<hostname>/modules/default.nix
-{
-  imports = [
-    ./device.nix
-    ./profiles.nix
-    ./system.nix
-    ./usrEnv.nix
-  ];
-}
-```
-
-### 4a. `device.nix` — Hardware description
-
-```nix
-{
-  config.custom.device = {
-    cpu.type = "intel";       # or "amd", "vm-intel", "vm-amd"
-    gpu.type = "intel";       # or "amd", "nvidia", "hybrid-nv", "hybrid-amd"
-    type = "desktop";         # or "server", "vm"
-    monitors = ["HDMI-A-1"];  # list of connected displays
-    hasBluetooth = true;
-    hasSound = true;
-  };
-}
-```
-
-### 4b. `profiles.nix` — Enable profiles
-
-```nix
-{
-  config.custom.profiles = {
-    workstation.enable = true;
-    gaming.enable = false;  # optional
-  };
-}
-```
-
-### 4c. `system.nix` — System-level options
-
-```nix
-{pkgs, ...}: let
-  mainUser = "winder";
-in {
-  config.custom.system = {
-    inherit mainUser;
-    users = [mainUser];
-    homePath = "/home/${mainUser}";
-    defaultUserShell = pkgs.fish;
-
-    boot = {
-      enableKernelTweaks = true;
-      isUEFI = true;
-      loadRecommendedModules = true;
-      loader = "grub";
-      secureBoot = false;
-      tmpOnTmpfs = false;
-    };
-
-    services = {
-      # enable services here, e.g.:
-      # sing-box.enable = true;
-    };
-
-    fs.enabledFilesystems = ["btrfs" "vfat" "ntfs" "exfat"];
-    bluetooth.enable = true;
-    printing.enable = false;
-    sound.enable = true;
-    video.enable = true;
-    virtualisation = { enable = true; qemu.enable = true; docker.enable = true; };
-  };
-}
-```
-
-### 4d. `usrEnv.nix` — User environment options
-
-```nix
-{
-  config.custom.usrEnv = {
-    useHomeManager = true;
-
-    programs = {
-      cli.enable = true;
-      gui.enable = true;   # set false for headless/servers
-
-      browsers = ["librewolf"];
-      terminals = ["alacritty" "ghostty"];
-      default = { terminal = "alacritty"; browser = "librewolf"; };
-      launchers = ["rofi" "tofi"];
-    };
-  };
-}
-```
-
-To enable a compositor, add:
-
-```nix
-config.custom.programs.hyprland.enable = true;  # or .niri, .sway
-```
+At minimum, create a `default.nix` that imports your host-specific option files
+(`device.nix`, `profiles.nix`, `system.nix`, `usrEnv.nix`). These set the
+`config.custom.*` options; see the existing hosts and `modules/options/` for the
+full option tree.
 
 ## Step 5: Register the host in `hosts/default.nix`
 
-Add an entry following the existing pattern:
+Add one row to the `hosts` data table:
 
 ```nix
-<hostname> = mkNixosSystem {
-  inherit withSystem;
-  hostname = "<hostname>";
+<hostname> = {
+  roles = [ "graphical" ];                   # or [ "headless" "server" ] for servers
+  home = [ "<hostname>" ];                   # per-user home-manager aspect (see step 6)
+  features = [ ];                            # opt-in multi-class aspects: "ssh", "gaming"
   system = "x86_64-linux";
-  modules = mkModulesFor "<hostname>" {
-    roles = [graphical workstation];  # or [headless server] for servers
-    extraModules = [sops-nix hm];
-  };
 };
 ```
 
-## Step 6: Set up secrets (optional)
+The host is assembled by `mkModulesFor` from the registry: nixos tree aspects
+(base/system/hardware/nix/virt/profiles) + role aspects + feature aspects
+(`registry.nixos.<name> or { }` for each entry in `features`) + sops-nix +
+home-manager
++ your per-host home aspects — so no `mkNixosSystem` block is needed here.
+Enable the `workstation` profile (browsers, terminals, media, firejail locking,
+etc.) via `custom.profiles.workstation.enable = true` in
+`hosts/<hostname>/modules/profiles.nix` if the host is a desktop.
+
+## Step 6: Add a per-user home-manager aspect
+
+Create `modules/home/users/<hostname>.nix`, composing the shared aspects by
+name (select on `Config` args — see existing users for the wiring):
+
+```nix
+{ self, ... }: {
+  flake.modules.homeManager.<hostname> = {
+    imports = [
+      self.modules.homeManager.base
+      self.modules.homeManager.cli
+      # add gui/themes/misc for graphical hosts
+    ];
+  };
+}
+```
+
+then select it via the `home = [ "<hostname>" ]` field in the host's data-table
+row. Shared aspects are defined in `modules/home.nix` under
+`flake.modules.homeManager` (`base`, `cli`, `gui`, `themes`, `misc`); per-user
+aspects live in `modules/home/users/`. Headless/servers typically only compose
+`base` and `cli`.
+
+## Step 7: Set up secrets (optional)
 
 If the host needs secrets:
 
 1. Add an age key for the host in `.sops.yaml`
 2. Regenerate `secrets.yaml` with the new key
-3. Add `enableSshSecrets = true;` in the host's `system.nix` if SSH keys are needed
+3. Add the host's secret settings in its `system.nix` if SSH keys etc. are needed
 
-## Step 7: Build and deploy
+## Step 8: Build and deploy
 
 ```bash
 # Build the system closure

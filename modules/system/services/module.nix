@@ -14,6 +14,7 @@
     ./lidarr.nix
     ./location.nix
     ./misc.nix
+    ./mpd.nix
     ./ntpd.nix
     ./printing.nix
     ./prowlarr.nix

@@ -17,7 +17,6 @@
         enabledFilesystems = [ "btrfs" "vfat" "ntfs" "exfat" ];
       };
 
-      enableSshSecrets = true;
 
       boot = {
         isUEFI = true;

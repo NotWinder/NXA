@@ -10,11 +10,11 @@
     ./services/module.nix
     ./users/module.nix
     ./security/module.nix
+    ./home-manager/module.nix
 
     ./btrfs-snapshots.nix
     ./secure-mount-options.nix
     ./impermanence.nix
-    ./secrets.nix
     ./switch.nix
   ];
 }

@@ -5,9 +5,12 @@ Follow these exactly unless a change is justified and recorded in the git histor
 
 ## Architecture
 
-- **flake-parts entrypoint:** `flake.nix` imports `./hosts` and `./lib` as flake-parts sub-flakes.
-- **Hosts:** `hosts/default.nix` defines all NixOS configurations (8 hosts: amadeus, brau1589, cipher, heu, lorian, magi, salieri, wired). Each host dir has a `host.nix` + `modules/` + filesystem config files.
-- **Custom library:** `lib/` extends `nixpkgs.lib` with custom functions exposed under `lib.extendedLib.*` (e.g. `lib.extendedLib.builders.mkNixosSystem`). Top-level aliases: `lib.mkNixosSystem`, `lib.mkModuleTree'`, `lib.importPathOrTree`, `lib.mkService`, etc.
+- **flake-parts entrypoint:** `flake.nix` auto-loads the aspect files at the top of `modules/` via `import-tree` (skipping `modules/_lib/` and the legacy NixOS trees `options|system|hardware|nix|virt|profiles`), and imports `./hosts`, `./lib`, and `./modules/_lib/registry.nix` as flake-parts sub-flakes.
+- **Aspect registry:** every module registers a named aspect under `flake.modules.<class>.<name>` (declared in `modules/_lib/registry.nix`; strictly two levels, class → name). The registry's `apply` tags every aspect with `_class`/`_file`, so evals reject cross-class aspects. Classes in use:
+  - `nixos` — everything evaluated in the NixOS eval: coarse wrappers over the legacy trees `base` (→ `options/`), `system`, `hardware`, `nix`, `virt`, `profiles` (each wraps its tree's top-level `module.nix`); roles as flat aspects `graphical`, `headless`, `server` (`modules/roles/*.nix`; the former `workstation` role was folded into the workstation profile in phase 5); universal `sops` (`modules/sops.nix`); per-host aspects under `modules/hosts/` (registered but not consumed — hosts compose `host.nix` by path from the data table); multi-class feature nixos sides.
+  - `homeManager` — home-manager aspects: `base`, `cli`, `gui`, `misc`, `themes`, `git`, per-WM (`hyprland`/`niri`/`sway`) + one per user under `modules/home/users/`. Multi-class features (`ssh`, `gaming`) register both a `nixos` and a `homeManager` aspect from one combined file at the top of `modules/` (e.g. `modules/ssh.nix`, `modules/gaming.nix`).
+- **Hosts:** `hosts/default.nix` is a data table (`roles`, `home`, `features`, `system` per host); each host is assembled from the registry by `mkModulesFor` (nixos tree aspects + role aspects + feature aspects (`registry.nixos.<name> or { }`, optional nixos side) + sops-nix/home-manager + per-host home aspect selection = `home ++ features`), then wrapped by `lib.mkNixosSystem`. Host-specific files stay in `hosts/<name>/` (`host.nix` + `modules/` + filesystem config).
+- **Custom library:** `lib/` extends `nixpkgs.lib` with custom functions exposed under `lib.extendedLib.*`. Top-level aliases: `lib.mkNixosSystem`, `lib.mkSystem`, `lib.mkService`, etc.
 - **Option namespace:** All custom options live under `config.custom.*` (declared in `modules/options/`). See README for the full tree.
 - **Module trees (`modules/`):**
   - `modules/options/` — declares the `config.custom.*` option tree (usrEnv, system, style, device, profiles, meta).
@@ -15,12 +18,13 @@ Follow these exactly unless a change is justified and recorded in the git histor
   - `modules/system/btrfs-snapshots.nix` — shared btrfs snapshot logic (auto-imported, conditional).
   - `modules/system/secure-mount-options.nix` — shared `/boot` security defaults (auto-imported).
   - `modules/system/disko-btrfs.nix` — shared disko btrfs partition layout.
+  - `modules/system/home-manager/module.nix` — the home-manager wiring: sets `home-manager.users.<mainUser>.imports` from the `homeManager` registry aspects selected in `custom.usrEnv.home.aspects`.
   - `modules/hardware/` — hardware-specific modules (CPU, GPU, sound, video, bluetooth).
-  - `modules/roles/` — role presets: `graphical`, `headless`, `server`, `workstation/`.
-  - `modules/profiles/` — profile composables (gaming, workstation).
+  - `modules/roles/` — role presets: `graphical`, `headless`, `server`.
+  - `modules/profiles/` — profile composables (firejail, tor, workstation).
   - `modules/virt/` — virtualization modules (docker, qemu, waydroid, distrobox).
-  - Module discovery uses `mkModuleTree'` (recursively collects `module.nix` files) and `importPathOrTree` (handles `.nix` files or directories, returning a list).
-- **Home-manager:** `home/module.nix` integrates HM per-user; user configs go in `home/<username>/home.nix`.
+  - Module discovery: aspect files at the top of `modules/` auto-load via `import-tree`; the legacy trees are excluded there and loaded through the `nixos` registry aspects (each wraps its tree's `module.nix`).
+- **Home-manager:** aspects live under `flake.modules.homeManager` (shared in `modules/home.nix` / `modules/_lib/home/`, per-user under `modules/home/users/`); the wiring in `modules/system/home-manager/module.nix` composes the host's selected aspects. No `extraSpecialArgs`/`specialArgs` are passed to home-manager.
 - **Secrets:** SOPS-managed (`.sops.yaml` with age keys per user/host; `secrets.yaml` encrypted). The `sops-nix` flake input is used at the host level.
 
 ## Build / Lint / Test
@@ -44,15 +48,16 @@ jq . <file>.json >/dev/null && yamllint -c .yamllint.yaml <file>.yaml || true
 - **All custom options** are under `config.custom.*` (declared in `modules/options/`, accessed as `config.custom.usrEnv`, `config.custom.system`, etc.).
 - **Roles** stack tags and defaults: graphical adds `system.nixos.tags = ["graphical"]`.
 - **stateVersion:** `system.stateVersion = "25.05"` for all hosts.
-- **Host modules** are assembled via `mkModulesFor` in `hosts/default.nix`, which auto-imports module trees + roles + extraModules (sops-nix, home-manager).
-- **ExtraModules pattern:** always pass `sops-nix` and `hm` as extraModules for graphical/workstation hosts.
+- **Host modules** are assembled by `mkModulesFor` in `hosts/default.nix`: nixos tree aspects (base/system/hardware/nix/virt/profiles) + roles + extra modules (sops-nix, home-manager).
+- **ExtraModules pattern:** always pass `sops-nix` and `hm` as extra modules for graphical/workstation hosts (done centrally in `mkModulesFor`).
 - **Adding a host:** see `docs/adding-a-host.md`.
 
 ## Secrets safety
 
-- The repo contains `secrets.yaml` (SOPS-encrypted) and `.sops.yaml` (age key config).
+- The repo contains `secrets/secrets.yaml` (SOPS-encrypted) and `secrets/.sops.yaml` (age key config).
 - Agents must never print, transmit, or commit secrets.
 - Use the repo's existing SOPS workflow (age keys + sops-nix) — do not add raw secrets to commits.
+- **Sops conventions (phase 5):** the global `defaultSopsFile = ../secrets/secrets.yaml` lives in `modules/sops.nix` (a universal `nixos.sops` aspect, composed for every host); per-host secret entries (e.g. brau1589's `sops.secrets.vaultwarden_server_key`) live in the host's own `hosts/<name>/modules/system.nix`; consumers read paths via `config.sops.secrets.<name>.path` (see `modules/system/services/networking/wireguard.nix`, `modules/system/programs/ssh.nix`).
 
 ## Commits & PRs
 

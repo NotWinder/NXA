@@ -50,6 +50,7 @@ let
       modules = concatLists [
         (singleton {
           networking.hostName = args.hostname;
+
           nixpkgs = {
             hostPlatform = mkDefault args.system;
             flake.source = nixpkgs.outPath;

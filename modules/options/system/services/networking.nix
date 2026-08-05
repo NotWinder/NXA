@@ -1,25 +1,28 @@
 { lib, ... }:
 let
-  inherit (lib) mkEnableOption mkService;
+  inherit (lib) mkEnableOption mkOption types;
 in
 {
   options.custom.system.services = {
     # networking
     networking = {
       wireguard.enable = mkEnableOption "Wireguard service";
-      headscale = mkService {
-        name = "Headscale";
-        type = "networking";
-        port = 8085;
-        /*
-        extraOptions = {
-          domain = mkOption {
-            type = str;
-            example = "headscale.example.com";
-            description = "The domain name to use for headscale";
+
+      headscale = {
+        enable = mkEnableOption "Headscale networking service";
+
+        settings = {
+          host = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = "The host Headscale will listen on";
+          };
+          port = mkOption {
+            type = types.int;
+            default = 8085;
+            description = "The port Headscale will listen on";
           };
         };
-        */
       };
     };
   };

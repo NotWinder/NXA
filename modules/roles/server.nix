@@ -1,3 +1,7 @@
-{
-  system.nixos.tags = ["server"];
+{ ... }: {
+  flake.modules.nixos.server = {
+    config = {
+      system.nixos.tags = [ "server" ];
+    };
+  };
 }

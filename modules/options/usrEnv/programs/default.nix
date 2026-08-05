@@ -7,6 +7,7 @@ in
   imports = [
     ./gaming.nix
     ./media.nix
+    ./wms.nix
   ];
 
   # default program options

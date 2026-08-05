@@ -9,6 +9,8 @@
 
     systems.url = "github:nix-systems/default";
 
+    import-tree.url = "github:denful/import-tree";
+
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     sops-nix = {
@@ -96,7 +98,22 @@
   outputs = inputs @ { flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
+
       imports = [
+        # Auto-load the aspect files at the top of `modules/` into the
+        # flake-parts module space (the `flake.modules.nixos.<name>` registry).
+        # The legacy NixOS module trees are excluded here: they are consumed by
+        # hosts via the registry's coarse aspects (base/system/hardware/nix/
+        # virt/profiles wrap these trees). Role and host aspect files at the
+        # top level of `modules/{roles,hosts}/` auto-load; `modules/_lib/` is
+        # skipped by import-tree's `/_` convention.
+        (((inputs.import-tree).filter (path:
+          builtins.match ".*/(options|system|hardware|nix|virt|profiles)/.*" path == null)
+        )
+          ./modules)
+        # Declares options.flake.modules (the aspect registry). Lives in
+        # modules/_lib so import-tree skips it; loaded here explicitly.
+        ./modules/_lib/registry.nix
         ./hosts
         ./lib
       ];

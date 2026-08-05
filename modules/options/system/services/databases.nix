@@ -1,39 +1,94 @@
 { lib, ... }:
 let
-  inherit (lib) mkService;
+  inherit (lib) mkEnableOption mkOption types;
 in
 {
   options.custom.system.services = {
     # database backends
     database = {
-      mysql = mkService {
-        name = "MySQL";
-        type = "database";
-        port = 3306;
+      mysql = {
+        enable = mkEnableOption "MySQL database service";
+
+        settings = {
+          host = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = "The host MySQL will listen on";
+          };
+          port = mkOption {
+            type = types.int;
+            default = 3306;
+            description = "The port MySQL will listen on";
+          };
+        };
       };
 
-      mongodb = mkService {
-        name = "MongoDB";
-        type = "database";
-        port = 27017;
+      mongodb = {
+        enable = mkEnableOption "MongoDB database service";
+
+        settings = {
+          host = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = "The host MongoDB will listen on";
+          };
+          port = mkOption {
+            type = types.int;
+            default = 27017;
+            description = "The port MongoDB will listen on";
+          };
+        };
       };
 
-      redis = mkService {
-        name = "Redis";
-        type = "database";
-        port = 6379;
+      redis = {
+        enable = mkEnableOption "Redis database service";
+
+        settings = {
+          host = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = "The host Redis will listen on";
+          };
+          port = mkOption {
+            type = types.int;
+            default = 6379;
+            description = "The port Redis will listen on";
+          };
+        };
       };
 
-      postgresql = mkService {
-        name = "PostgreSQL";
-        type = "database";
-        port = 5432;
+      postgresql = {
+        enable = mkEnableOption "PostgreSQL database service";
+
+        settings = {
+          host = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = "The host PostgreSQL will listen on";
+          };
+          port = mkOption {
+            type = types.int;
+            default = 5432;
+            description = "The port PostgreSQL will listen on";
+          };
+        };
       };
 
-      garage = mkService {
-        name = "Garage";
-        type = "S3 storage";
-        port = 5432;
+      garage = {
+        enable = mkEnableOption "Garage S3 storage service";
+
+        settings = {
+          host = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = "The host Garage will listen on";
+          };
+          port = mkOption {
+            type = types.int;
+            default = 5432;
+            description = "The port Garage will listen on";
+          };
+        };
       };
     };
   };

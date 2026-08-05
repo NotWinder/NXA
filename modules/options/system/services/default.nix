@@ -3,7 +3,7 @@
 , ...
 }:
 let
-  inherit (lib) mkService mkEnableOption mkPackageOption mkOption types;
+  inherit (lib) mkEnableOption mkOption mkPackageOption types;
 in
 {
   imports = [
@@ -13,11 +13,21 @@ in
 
   options.custom.system = {
     services = {
-      docker = mkEnableOption "Enable Docker";
+      nginx = {
+        enable = mkEnableOption "Nginx webserver service";
 
-      nginx = mkService {
-        name = "Nginx";
-        type = "webserver";
+        settings = {
+          host = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = "The host Nginx will listen on";
+          };
+          port = mkOption {
+            type = types.int;
+            default = 0;
+            description = "The port Nginx will listen on";
+          };
+        };
       };
 
       sing-box = {
@@ -37,53 +47,140 @@ in
         };
       };
 
-      vaultwarden = mkService {
-        name = "Vaultwarden";
-        type = "password manager";
-        port = 8222;
-        host = "127.0.0.1";
+      vaultwarden = {
+        enable = mkEnableOption "Vaultwarden password manager service";
+
+        settings = {
+          host = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = "The host Vaultwarden will listen on";
+          };
+          port = mkOption {
+            type = types.int;
+            default = 8222;
+            description = "The port Vaultwarden will listen on";
+          };
+        };
       };
 
-      jellyfin = mkService {
-        name = "Jellyfin";
-        type = "media";
-        port = 8096;
+      jellyfin = {
+        enable = mkEnableOption "Jellyfin media service";
+
+        settings = {
+          host = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = "The host Jellyfin will listen on";
+          };
+          port = mkOption {
+            type = types.int;
+            default = 8096;
+            description = "The port Jellyfin will listen on";
+          };
+        };
       };
 
-      searxng = mkService {
-        name = "Searxng";
-        type = "meta search engine";
-        port = 8888;
+      searxng = {
+        enable = mkEnableOption "Searxng meta search engine service";
+
+        settings = {
+          host = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = "The host Searxng will listen on";
+          };
+          port = mkOption {
+            type = types.int;
+            default = 8888;
+            description = "The port Searxng will listen on";
+          };
+        };
       };
 
-      sonarr = mkService {
-        name = "Sonarr";
-        type = "media";
-        port = 8989;
+      sonarr = {
+        enable = mkEnableOption "Sonarr media service";
+
+        settings = {
+          host = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = "The host Sonarr will listen on";
+          };
+          port = mkOption {
+            type = types.int;
+            default = 8989;
+            description = "The port Sonarr will listen on";
+          };
+        };
       };
 
-      radarr = mkService {
-        name = "Radarr";
-        type = "media";
-        port = 7878;
+      radarr = {
+        enable = mkEnableOption "Radarr media service";
+
+        settings = {
+          host = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = "The host Radarr will listen on";
+          };
+          port = mkOption {
+            type = types.int;
+            default = 7878;
+            description = "The port Radarr will listen on";
+          };
+        };
       };
 
-      prowlarr = mkService {
-        name = "Prowlarr";
-        type = "media";
-        port = 9696;
+      prowlarr = {
+        enable = mkEnableOption "Prowlarr media service";
+
+        settings = {
+          host = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = "The host Prowlarr will listen on";
+          };
+          port = mkOption {
+            type = types.int;
+            default = 9696;
+            description = "The port Prowlarr will listen on";
+          };
+        };
       };
 
-      lidarr = mkService {
-        name = "Lidarr";
-        type = "media";
-        port = 8686;
+      lidarr = {
+        enable = mkEnableOption "Lidarr media service";
+
+        settings = {
+          host = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = "The host Lidarr will listen on";
+          };
+          port = mkOption {
+            type = types.int;
+            default = 8686;
+            description = "The port Lidarr will listen on";
+          };
+        };
       };
 
-      slskd = mkService {
-        name = "Slskd";
-        type = "media";
-        port = 5030;
+      slskd = {
+        enable = mkEnableOption "Slskd media service";
+
+        settings = {
+          host = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = "The host Slskd will listen on";
+          };
+          port = mkOption {
+            type = types.int;
+            default = 5030;
+            description = "The port Slskd will listen on";
+          };
+        };
       };
     };
   };
