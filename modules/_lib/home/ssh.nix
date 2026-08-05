@@ -1,15 +1,12 @@
 { config
-, lib
 , osConfig
 , ...
 }:
 let
-  inherit (lib) mkIf;
-
   sys = osConfig.custom.system;
 in
 {
-  config = mkIf sys.enableSshSecrets {
+  config = {
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;

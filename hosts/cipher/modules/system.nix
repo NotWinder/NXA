@@ -14,7 +14,6 @@
       zfs.enable = true;
     };
 
-    enableSshSecrets = true;
 
     boot = {
       isUEFI = true;

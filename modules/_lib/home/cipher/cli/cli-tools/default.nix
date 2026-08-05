@@ -8,7 +8,6 @@
     ./gh.nix
     ./htop.nix
     ./pay-respects.nix
-    ./ssh.nix
     ./zoxide.nix
   ];
 }
