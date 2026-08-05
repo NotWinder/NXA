@@ -3,7 +3,6 @@
     ./bars
     ./browsers
     ./documents
-    ./gaming
     ./launchers
     ./media
     ./terminals

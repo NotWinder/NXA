@@ -1,7 +1,5 @@
 {
   imports = [
-    ./git
-
     ./bat.nix
     ./btop.nix
     ./fastfetch.nix

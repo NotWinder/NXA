@@ -19,7 +19,17 @@
     };
 
     cli = {
-      imports = [ ./_lib/home/cipher/cli ];
+      imports = [
+        ./_lib/home/cipher/cli
+        self.modules.homeManager.git
+      ];
+    };
+
+    # Universal git config (Phase 5 item 1): moved out of the per-user cli
+    # tree into its own named aspect, composed by the cli aspect above so
+    # every host gets it.
+    git = {
+      imports = [ ./_lib/home/git ];
     };
 
     gui = {

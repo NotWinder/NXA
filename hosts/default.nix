@@ -22,8 +22,8 @@
 
       hosts = {
         amadeus = { roles = [ "graphical" ]; home = [ "amadeus" ]; features = [ ]; system = "x86_64-linux"; };
-        brau1589 = { roles = [ "graphical" ]; home = [ "brau1589" ]; features = [ "ssh" ]; system = "x86_64-linux"; };
-        cipher = { roles = [ "graphical" ]; home = [ "cipher" ]; features = [ "ssh" ]; system = "x86_64-linux"; };
+        brau1589 = { roles = [ "graphical" ]; home = [ "brau1589" ]; features = [ "ssh" "gaming" ]; system = "x86_64-linux"; };
+        cipher = { roles = [ "graphical" ]; home = [ "cipher" ]; features = [ "ssh" "gaming" ]; system = "x86_64-linux"; };
         heu = { roles = [ "graphical" ]; home = [ "heu" ]; features = [ ]; system = "x86_64-linux"; };
         lorian = { roles = [ "headless" "server" ]; home = [ "lorian" ]; features = [ ]; system = "x86_64-linux"; };
         magi = { roles = [ "graphical" ]; home = [ "magi" ]; features = [ ]; system = "x86_64-linux"; };

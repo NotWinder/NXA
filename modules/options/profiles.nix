@@ -12,11 +12,5 @@ in
       daily usage, mainly for working, studying or programming.
     '';
 
-    gaming.enable = mkEnableOption ''
-      the Gaming profile
-
-      This profile contains basic platforms and utilities that can be
-      used for gaming, such as but not limited to Steam and Lutris.
-    '';
   };
 }
