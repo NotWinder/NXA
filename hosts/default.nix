@@ -21,14 +21,14 @@
       trees = [ "base" "hardware" "nix" "system" "virt" "profiles" ];
 
       hosts = {
-        amadeus = { roles = [ "graphical" "workstation" ]; home = [ "amadeus" ]; system = "x86_64-linux"; };
-        brau1589 = { roles = [ "graphical" "workstation" ]; home = [ "brau1589" ]; system = "x86_64-linux"; };
-        cipher = { roles = [ "graphical" "workstation" ]; home = [ "cipher" ]; system = "x86_64-linux"; };
-        heu = { roles = [ "graphical" "workstation" ]; home = [ "heu" ]; system = "x86_64-linux"; };
+        amadeus = { roles = [ "graphical" ]; home = [ "amadeus" ]; system = "x86_64-linux"; };
+        brau1589 = { roles = [ "graphical" ]; home = [ "brau1589" ]; system = "x86_64-linux"; };
+        cipher = { roles = [ "graphical" ]; home = [ "cipher" ]; system = "x86_64-linux"; };
+        heu = { roles = [ "graphical" ]; home = [ "heu" ]; system = "x86_64-linux"; };
         lorian = { roles = [ "headless" "server" ]; home = [ "lorian" ]; system = "x86_64-linux"; };
-        magi = { roles = [ "graphical" "workstation" ]; home = [ "magi" ]; system = "x86_64-linux"; };
-        salieri = { roles = [ "graphical" "workstation" ]; home = [ "salieri" ]; system = "x86_64-linux"; };
-        wired = { roles = [ "graphical" "workstation" ]; home = [ "wired" ]; system = "x86_64-linux"; };
+        magi = { roles = [ "graphical" ]; home = [ "magi" ]; system = "x86_64-linux"; };
+        salieri = { roles = [ "graphical" ]; home = [ "salieri" ]; system = "x86_64-linux"; };
+        wired = { roles = [ "graphical" ]; home = [ "wired" ]; system = "x86_64-linux"; };
       };
 
       mkModulesFor = hostname: { roles, home, ... }:

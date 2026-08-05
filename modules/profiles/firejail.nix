@@ -1,12 +1,13 @@
-{ lib
+{ config
+, lib
 , pkgs
 , ...
 }:
 let
-  inherit (lib) getExe;
+  inherit (lib) getExe mkIf;
 in
 {
-  programs.firejail =
+  programs.firejail = mkIf config.custom.profiles.workstation.enable (
     let
       profiles = "${pkgs.firejail}/etc/firejail";
     in
@@ -28,5 +29,6 @@ in
           profile = "${profiles}/zathura.profile";
         };
       };
-    };
+    }
+  );
 }

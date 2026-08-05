@@ -1,6 +1,6 @@
 { config
-, pkgs
 , lib
+, pkgs
 , ...
 }:
 let
@@ -9,7 +9,7 @@ let
   sys = config.custom.system;
 in
 {
-  config = mkIf sys.security.tor.enable {
+  config = mkIf (config.custom.profiles.workstation.enable && sys.security.tor.enable) {
     services = {
       tor = {
         enable = true;
