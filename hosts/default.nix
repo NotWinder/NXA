@@ -41,8 +41,8 @@
           (map (t: registry.nixos.${t}) trees)
           registry.nixos.sops
 
-          # 3. Roles (aspects under flake.modules.roles.*)
-          (map (r: registry.roles.${r}) roles)
+          # 3. Roles (aspects under flake.modules.nixos.*: graphical/headless/server)
+          (map (r: registry.nixos.${r}) roles)
 
           # 4. Multi-class feature aspects. A feature may provide a nixos
           #    and/or a homeManager side (`or { }` makes either optional);

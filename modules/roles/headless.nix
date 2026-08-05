@@ -1,5 +1,5 @@
 { lib, ... }: {
-  flake.modules.roles.headless = {
+  flake.modules.nixos.headless = {
     config = {
       system.nixos.tags = [ "headless" ];
 

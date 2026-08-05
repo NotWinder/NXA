@@ -1,5 +1,5 @@
 { lib, ... }: {
-  flake.modules.roles.graphical = {
+  flake.modules.nixos.graphical = {
     config = {
       system.nixos.tags = [ "graphical" ];
 
