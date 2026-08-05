@@ -12,27 +12,10 @@ in
 {
   config = mkIf (elem dev.gpu.type [ "nvidia" "hybrid-nv" ]) {
     nixpkgs.config.allowUnfree = true;
-    #services.xserver.videoDrivers = ["nvidia"];
     services.xserver.videoDrivers = [ "nvidia" "amdgpu" ];
 
-    #services.xserver.videoDrivers = ["amdgpu"];
-
     environment = {
-      variables = {
-        #WLR_DRM_DEVICES = "/dev/dri/card1:/dev/dri/card2";
-
-        # Force NVIDIA for Vulkan - Use ONLY ONE of these methods
-        #VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/nvidia_icd.i686.json";
-        #DRI_PRIME = "1";
-        # Hide Mesa software drivers
-        #DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1 = "1";
-
-        #XWAYLAND_NO_GLAMOR = "1";
-      };
-      sessionVariables = {
-        # For DXVK/Proton to prefer NVIDIA
-        #DXVK_FILTER_DEVICE_NAME = "NVIDIA";
-      };
+      variables = { };
       systemPackages = with pkgs; [
         nvtopPackages.full
         libgbm

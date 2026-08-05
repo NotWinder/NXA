@@ -31,7 +31,11 @@ Status: Active (mostly superseded by the dendritic migration)
 ---
 
 ### 1.2 Gate global boot assumptions
-**Status: OPEN** — `modules/system/boot/module.nix` still sets TPM blacklist and `zfs.zfs_arc_max` unconditionally.
+**Status: DONE** — `zfs.zfs_arc_max` moved into `modules/system/fs/zfs/default.nix`
+(active only when `custom.system.fs.zfs.enable` is set); the TPM module blacklist
+(`tpm`/`tpm_tis`/`tpm_crb`) is gated on `!custom.device.hasTPM`, mirroring
+`hardware/tpm.nix`. `serial8250` stays unconditional. No behavior change on any
+host (only cipher uses ZFS; hasTPM defaults false).
 
 **Problem:** `modules/system/boot/module.nix` unconditionally blacklists TPM modules and sets `zfs.zfs_arc_max`, even on non-TPM / non-ZFS systems.
 
@@ -81,9 +85,11 @@ tag + firejail/tor security now ride on `custom.profiles.workstation.enable`;
 ---
 
 ### 2.3 Kill `mkService`
-**Status: OPEN** — `mkService` is still exported and consumed by
-`modules/options/system/services/*.nix` (networking, databases, services). The
-dendritic Phase 4 retained it on purpose.
+**Status: DONE** — all 15 call sites in `modules/options/system/services/*.nix`
+(default.nix ×9, databases.nix ×5, networking.nix ×1) inlined as explicit
+`mkEnableOption` + `settings.host`/`settings.port` blocks (option paths and
+defaults preserved, verified by eval probes); `lib/modules.nix` deleted and
+the `extendedLib.modules` entry removed from `lib/default.nix`.
 
 **Problem:** The author self-describes `mkService` as "a horrendous abstraction" in `lib/modules.nix:58`. It only provides `host` + `port` options, forcing every consumer to supplement via `extraOptions`. The `sing-box` service already does it right with explicit options.
 
@@ -128,16 +134,16 @@ Phase 4).
 ---
 
 ### 3.3 Clean up commented-out / dead code
-**Status: PARTIAL** — remaining candidates below.
+**Status: DONE** — resolutions below.
 
 **Candidates:**
-- `modules/system/boot/module.nix` — commented `./analasis.nix` import
-- `modules/hardware/gpu/nvidia/default.nix` — many commented environment variables
-- `modules/system/display/wayland/environment.nix` — commented session variables
-- `modules/system/impermanence.nix` — commented SSH host key paths, `home.persistence`
-- `modules/options/system/services/default.nix` — `docker` option here vs `virtualisation.docker` in `virtualisation.nix`
-- `modules/roles/server.nix` — single line file, possibly unnecessary
-- `modules/hardware/redistributable.nix` — check if still needed
+- `modules/system/boot/module.nix` — commented `./analasis.nix` import: **already gone** (stale candidate)
+- `modules/hardware/gpu/nvidia/default.nix` — commented environment variables: **removed** (commented `videoDrivers`/env-var blocks)
+- `modules/system/display/wayland/environment.nix` — commented session variables: **removed** (kept the hybrid-graphics rationale comments)
+- `modules/system/impermanence.nix` — commented SSH host key paths + `home.persistence`: **removed**
+- `modules/options/system/services/default.nix` — `docker` option vs `virtualisation.docker`: **removed** — the `services.docker` option had zero consumers (hosts only ever set `virtualisation.docker`; podman.nix already gates on it)
+- `modules/roles/server.nix` — single line file, possibly unnecessary: **kept** — it is the flat `nixos.server` aspect, consumed by lorian's `roles` (candidate predates the phase-5 roles reclass)
+- `modules/hardware/redistributable.nix` — check if still needed: **kept** — nixpkgs now defaults `hardware.enableRedistributableFirmware` to `false`; the `mkDefault true` is load-bearing for GPU/boot firmware
 
 ---
 
