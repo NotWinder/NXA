@@ -15,7 +15,6 @@
     ./btrfs-snapshots.nix
     ./secure-mount-options.nix
     ./impermanence.nix
-    ./secrets.nix
     ./switch.nix
   ];
 }

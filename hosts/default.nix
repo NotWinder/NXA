@@ -36,8 +36,10 @@
           # 1. Host-specific module (host.nix) — FIRST
           (singleton ./${hostname}/host.nix)
 
-          # 2. Module trees via the nixos aspect registry
+          # 2. Module trees via the nixos aspect registry, plus universal
+          #    nixos-only aspects (sops; opt-in features live in section 4)
           (map (t: registry.nixos.${t}) trees)
+          registry.nixos.sops
 
           # 3. Roles (aspects under flake.modules.roles.*)
           (map (r: registry.roles.${r}) roles)
