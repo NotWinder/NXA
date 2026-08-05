@@ -6,11 +6,9 @@ Follow these exactly unless a change is justified and recorded in the git histor
 ## Architecture
 
 - **flake-parts entrypoint:** `flake.nix` auto-loads the aspect files at the top of `modules/` via `import-tree` (skipping `modules/_lib/` and the legacy NixOS trees `options|system|hardware|nix|virt|profiles`), and imports `./hosts`, `./lib`, and `./modules/_lib/registry.nix` as flake-parts sub-flakes.
-- **Aspect registry:** every module registers a named aspect under `flake.modules.<class>.<name>` (declared in `modules/_lib/registry.nix`). Classes in use:
-  - `nixos` — coarse wrappers over the legacy trees: `base` (→ `options/`), `system`, `hardware`, `nix`, `virt`, `profiles`. Each wraps its tree's top-level `module.nix`, which transitively imports the whole tree.
-  - `roles` — role presets: `graphical`, `headless`, `server` (`modules/roles/*.nix`; the former `workstation` role was folded into the workstation profile in phase 5).
-  - `hosts` — per-host aspects under `modules/hosts/` (compose the host dir + sops-nix + home-manager).
-  - `homeManager` — home-manager aspects: `base`, `cli`, `gui`, `misc`, `themes`, `git` + one per user under `modules/home/users/`. Multi-class features (`ssh`, `gaming`) register both a `nixos` and a `homeManager` aspect from one combined file at the top of `modules/` (e.g. `modules/ssh.nix`, `modules/gaming.nix`).
+- **Aspect registry:** every module registers a named aspect under `flake.modules.<class>.<name>` (declared in `modules/_lib/registry.nix`; strictly two levels, class → name). The registry's `apply` tags every aspect with `_class`/`_file`, so evals reject cross-class aspects. Classes in use:
+  - `nixos` — everything evaluated in the NixOS eval: coarse wrappers over the legacy trees `base` (→ `options/`), `system`, `hardware`, `nix`, `virt`, `profiles` (each wraps its tree's top-level `module.nix`); roles as flat aspects `graphical`, `headless`, `server` (`modules/roles/*.nix`; the former `workstation` role was folded into the workstation profile in phase 5); universal `sops` (`modules/sops.nix`); per-host aspects under `modules/hosts/` (registered but not consumed — hosts compose `host.nix` by path from the data table); multi-class feature nixos sides.
+  - `homeManager` — home-manager aspects: `base`, `cli`, `gui`, `misc`, `themes`, `git`, per-WM (`hyprland`/`niri`/`sway`) + one per user under `modules/home/users/`. Multi-class features (`ssh`, `gaming`) register both a `nixos` and a `homeManager` aspect from one combined file at the top of `modules/` (e.g. `modules/ssh.nix`, `modules/gaming.nix`).
 - **Hosts:** `hosts/default.nix` is a data table (`roles`, `home`, `features`, `system` per host); each host is assembled from the registry by `mkModulesFor` (nixos tree aspects + role aspects + feature aspects (`registry.nixos.<name> or { }`, optional nixos side) + sops-nix/home-manager + per-host home aspect selection = `home ++ features`), then wrapped by `lib.mkNixosSystem`. Host-specific files stay in `hosts/<name>/` (`host.nix` + `modules/` + filesystem config).
 - **Custom library:** `lib/` extends `nixpkgs.lib` with custom functions exposed under `lib.extendedLib.*`. Top-level aliases: `lib.mkNixosSystem`, `lib.mkSystem`, `lib.mkService`, etc.
 - **Option namespace:** All custom options live under `config.custom.*` (declared in `modules/options/`). See README for the full tree.
@@ -59,7 +57,7 @@ jq . <file>.json >/dev/null && yamllint -c .yamllint.yaml <file>.yaml || true
 - The repo contains `secrets/secrets.yaml` (SOPS-encrypted) and `secrets/.sops.yaml` (age key config).
 - Agents must never print, transmit, or commit secrets.
 - Use the repo's existing SOPS workflow (age keys + sops-nix) — do not add raw secrets to commits.
-- **Sops conventions (phase 5):** the global `defaultSopsFile = ../../secrets/secrets.yaml` lives in `modules/system/secrets.nix` (system tree, so every host gets it); per-host secret entries (e.g. brau1589's `sops.secrets.vaultwarden_server_key`) live in the host's own `hosts/<name>/modules/system.nix`; consumers read paths via `config.sops.secrets.<name>.path` (see `modules/system/services/networking/wireguard.nix`, `modules/system/programs/ssh.nix`).
+- **Sops conventions (phase 5):** the global `defaultSopsFile = ../secrets/secrets.yaml` lives in `modules/sops.nix` (a universal `nixos.sops` aspect, composed for every host); per-host secret entries (e.g. brau1589's `sops.secrets.vaultwarden_server_key`) live in the host's own `hosts/<name>/modules/system.nix`; consumers read paths via `config.sops.secrets.<name>.path` (see `modules/system/services/networking/wireguard.nix`, `modules/system/programs/ssh.nix`).
 
 ## Commits & PRs
 

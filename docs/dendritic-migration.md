@@ -36,8 +36,11 @@ phase below:
    `modules/_lib/registry.nix` (same type as upstream). Classes are the outer
    attr (`nixos`, `homeManager`, `darwin`, `generic`), names the inner.
    Modules registered this way are exposed to the rest of the flake as
-   `self.modules.<class>.<name>`. The upstream `extras/modules.nix` apply also
-   sets `_class`, which Phase 3c (class conversion) may want to add.
+   `self.modules.<class>.<name>`. The registry's `apply` (ported from the
+   upstream `extras/modules.nix`) tags every aspect with `_class` and `_file`,
+   so the NixOS eval (class `"nixos"`) and home-manager's user eval (class
+   `"homeManager"`) reject cross-class aspects; roles and hosts therefore
+   register flat under `nixos`.
 
 2. **home-manager injects `osConfig` into HM module args** when used through
    `home-manager.nixosModules.home-manager` (HM `nixos/common.nix:30`:
@@ -120,60 +123,70 @@ Home-manager churn, precisely sized:
 
 ## 3. Target state
 
+**Landed (as of 2026-08-05, all phases complete; this section is the realized
+architecture, replacing the aspirational target).**
+
 ```
-flake.nix          # mkFlake { inherit inputs; } { imports = [ (import-tree ./modules) ./hosts ./lib ]; }
-                   #   modules/_lib/registry.nix is loaded explicitly (import-tree skips /_);
-                   #   the import-tree call is path-filtered so the legacy trees stay out
-                   #   until they migrate (see Phase 1 deviations 2)
+flake.nix           # mkFlake { inherit inputs; } { imports = [ (import-tree ./modules) ./hosts ./lib ./modules/_lib/registry.nix ]; }
+                    #   registry.nix is loaded explicitly (import-tree skips /_); the
+                    #   import-tree call is path-filtered so the legacy trees stay out
 modules/
-  _lib/            # helpers — not auto-imported (import-tree /_ convention);
-                   # registry.nix here declares options.flake.modules
-  base.nix         # NixOS core aspect: custom.* tree + secrets + common defaults
-  system.nix       # coarse aspect: imports ./system/module.nix
-  hardware.nix     # coarse aspect: imports ./hardware/module.nix
-  nix.nix          # coarse aspect: imports ./nix/module.nix
-  virt.nix         # coarse aspect: imports ./virt/module.nix
-  profiles.nix     # coarse aspect: imports ./profiles/module.nix
+  _lib/             # helpers — not auto-imported (import-tree /_ convention);
+                    # registry.nix declares options.flake.modules (with the _class
+                    # apply from flake-parts extras/modules.nix)
+  base.nix          # flake.modules.nixos.base -> options/ (coarse aspect)
+  system.nix        # flake.modules.nixos.system -> system/
+  hardware.nix      # flake.modules.nixos.hardware -> hardware/
+  nix.nix           # flake.modules.nixos.nix -> nix/
+  virt.nix          # flake.modules.nixos.virt -> virt/
+  profiles.nix      # flake.modules.nixos.profiles -> profiles/
+  sops.nix          # flake.modules.nixos.sops — universal, no home side
+  ssh.nix           # multi-class feature: nixos.ssh + homeManager.ssh
+  gaming.nix        # multi-class feature: nixos.gaming + homeManager.gaming
   roles/
-    graphical.nix  # flake.modules.nixos.roles.graphical
-    headless.nix
+    graphical.nix   # flake.modules.nixos.graphical (flat nixos aspects — the
+    headless.nix    #   registry is strictly two levels, so roles are not nested)
     server.nix
-    workstation.nix
   hosts/
-    amadeus.nix    # flake.modules.nixos.amadeus (host.nix + modules/* + fs.nix)
-    brau1589.nix
-    cipher.nix
-    heu.nix
-    lorian.nix
-    magi.nix
-    salieri.nix
-    wired.nix
-  home/
-    base.nix       # homeManager core aspect (today's sharedModules + shell basics)
-    cli.nix        # shared user aspects (split out of home/cipher/)
-    gui.nix
-    themes.nix
-    gaming.nix
-    media.nix
-    misc.nix
-    cipher.nix     # per-user aspects composing the shared ones
-    amadeus.nix
-    ...
-hosts/default.nix  # thin data table: host → roles + home aspects, ~40 lines
-lib/               # unchanged (mkNixosSystem stays)
-home/              # retired — content moved to modules/home/
+    amadeus.nix     # flake.modules.nixos.amadeus — registered but NOT consumed
+    ...             #   (hosts compost host.nix by path from the data table)
+  home.nix          # homeManager shared registrations: base, cli, gui, git,
+                    #   misc, themes, hyprland/niri/sway (+ features in ssh.nix/gaming.nix)
+  home/users/       # per-user homeManager aspects: amadeus.nix ... wired.nix
+  _lib/home/        # shared HM implementations: base.nix, cli/, gui/, themes/,
+                    #   wms/, git/, ssh.nix, gaming/
+hosts/default.nix   # data table: { roles, home, features, system } per host;
+                    #   mkModulesFor composes host.nix + nixos tree aspects +
+                    #   nixos.sops + roles + feature nixos sides + sops-nix/hm +
+                    #   home aspects (home ++ features)
+lib/                # mkNixosSystem (mkService also kept); no tree helpers
+home/               # retired (Phase 4)
 ```
 
 Rules of the end state:
 
-- Every `.nix` file under `modules/` is a flake-parts module (auto-imported).
-- NixOS-class modules live under `flake.modules.nixos.<name>`; home-manager
-  modules under `flake.modules.homeManager.<name>`.
-- Hosts select aspects **by name**, never by file path.
-- `flake.nix` and `hosts/default.nix` contain no host-specific configuration.
-- No `specialArgs` / `extraSpecialArgs` anywhere (one documented exception in
-  Phase 3a wiring: `self` remains an arg to the NixOS eval — already the case in
-  `lib/builders.nix`).
+- Every `.nix` file under `modules/` is a flake-parts module (auto-imported);
+  the legacy trees (`options|system|hardware|nix|virt|profiles`) are excluded
+  from the auto-load and reach hosts through the coarse `nixos` aspects.
+- The registry is strictly two levels: `flake.modules.<class>.<name>`. `nixos`
+  holds everything evaluated in the NixOS eval (trees, roles, features,
+  per-host); `homeManager` holds the home-manager aspects; `generic` spawns
+  (none in use). Common `name`s may overlap across classes — that is the
+  per-host `features` mechanism (`ssh`, `gaming`).
+- Aspects are tagged `_class` + `_file` (registry apply); importing an aspect
+  into an eval of a different class errors clearly.
+- Hosts select aspects **by name**, never by file path; `flake.nix` and
+  `hosts/default.nix` contain no host-specific configuration.
+- No `specialArgs` / `extraSpecialArgs` passed to home-manager; closure
+  capture happens inside the aspect definitions via flake-parts args
+  (`inputs`, `inputs'`, `self`). `self` remains an arg to the NixOS eval
+  (`lib/builders.nix`).
+- Multi-class features live in single files at the top of `modules/` that
+  register both `flake.modules.nixos.<name>` and
+  `flake.modules.homeManager.<name>`; an opt-in `features` field on a host
+  composes the nixos side and appends the name to the home aspect selection
+  (`or { }` makes either class optional). Universal aspects (`sops`, `git`)
+  are composed unconditionally instead of being features.
 
 ---
 
@@ -750,7 +763,8 @@ above:
 **Time:** 2–4 h.
 
 **Landed (2026-08-05):** commits `7b10154` (item 3), `c34c97e` (item 4),
-`3878637`/`d3056d0`/`f7f1aae` (item 1) + the docs commit. Deviations:
+`3878637`/`d3056d0`/`f7f1aae` (item 1), `874a68e` (sops universal aspect),
+`385bba7` (`_class` tagging) + the docs commit. Deviations:
 
 - **Item 1 landed (commits `3878637`, `d3056d0`, `f7f1aae`)** — hosts gained
   a `features` list in the data table (`hosts/default.nix`); for each feature,
@@ -762,14 +776,21 @@ above:
   `custom.system.enableSshSecrets` and `custom.profiles.gaming.enable` options
   were removed (the selection replaces them). `git` was registered as a
   `homeManager.git` aspect only (universal, composed by the cli aspect) — its
-  NixOS side stays in the tree. The remaining candidates from the item (`sops`)
-  stay in the system tree; no behavior change on any host.
+  NixOS side stays in the tree. `sops` was registered as a universal
+  `nixos.sops` aspect (`874a68e`): it is global infrastructure with no
+  home-manager side, so it is composed unconditionally in `mkModulesFor`
+  rather than behind a `features` entry. The registry gained the `_class`/`_file`
+  apply from upstream flake-parts (`385bba7`), and roles were flattened into
+  the `nixos` class (`flake.modules.nixos.graphical/headless/server`) because
+  the registry is strictly two levels. No behavior change on any host.
 - **Item 2** was documentation-only, as planned; the sops convention is written
   up in AGENTS.md. Correction vs. the item's text: the global
-  `defaultSopsFile` lives in `modules/system/secrets.nix`, not `_lib/home/base.nix`.
+  `defaultSopsFile` lives in `modules/sops.nix` (moved out of the system tree),
+  not `_lib/home/base.nix`.
 - **Item 3** folded the workstation role into the workstation profile
   (tag + firejail + tor gate now ride on `custom.profiles.workstation.enable`);
-  the roles class keeps only `graphical`/`headless`/`server`. Closes PLAN 2.2.
+  the roles class keeps only `graphical`/`headless`/`server` (flat `nixos`
+  aspects). Closes PLAN 2.2.
 - **Item 4** registered `hyprland`/`niri`/`sway` as named
   `flake.modules.homeManager` aspects; implementations moved from
   `_lib/home/cipher/gui/wms/` to `_lib/home/wms/`, gui composes them by name.
