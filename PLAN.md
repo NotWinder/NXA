@@ -1,13 +1,20 @@
 # NXA Architecture Improvement Plan
 
-Last updated: 2026-07-22
-Status: Active
+> Historical improvement plan (2026-07-22). The dendritic migration is tracked
+> in [docs/dendritic-migration.md](docs/dendritic-migration.md), which has
+> superseded most of this file. Status markers below reflect what the migration
+> has landed.
+
+Last updated: 2026-08-05
+Status: Active (mostly superseded by the dendritic migration)
 
 ---
 
 ## Phase 1 — Eliminate Host Boilerplate (high impact)
 
 ### 1.1 Push remaining defaults into option modules
+**Status: DONE** — defaults (`printing.enable`, filesystems, etc.) now live as
+`mkDefault` in `modules/options/system/module.nix`.
 
 **Problem:** Every host's `system.nix` still repeats near-identical values:
 - `fs.enabledFilesystems = [ "btrfs" "vfat" "ntfs" "exfat" ]` — 7 of 8 hosts identical
@@ -24,6 +31,7 @@ Status: Active
 ---
 
 ### 1.2 Gate global boot assumptions
+**Status: OPEN** — `modules/system/boot/module.nix` still sets TPM blacklist and `zfs.zfs_arc_max` unconditionally.
 
 **Problem:** `modules/system/boot/module.nix` unconditionally blacklists TPM modules and sets `zfs.zfs_arc_max`, even on non-TPM / non-ZFS systems.
 
@@ -39,6 +47,7 @@ Status: Active
 ## Phase 2 — Options & Namespace Corrections
 
 ### 2.1 Move WM option declarations into the options tree
+**Status: DONE** — WM (hyprland/niri/sway) options declare under `modules/options/usrEnv/` (relocated in dendritic Phase 3b).
 
 **Problem:** `home/cipher/gui/wms/hyprland/default.nix` declares `options.custom.programs.hyprland` ad-hoc outside `modules/options/`. This means only hosts importing the cipher home-manager module can reference it. niri/sway options don't exist as options at all.
 
@@ -55,6 +64,8 @@ Status: Active
 ---
 
 ### 2.2 Drop the `workstation` role (overlap with `workstation` profile)
+**Status: OPEN** — the `workstation` role is still registered
+(`flake.modules.roles.workstation`, wiring the legacy `_lib/roles/workstation/system`) and used by the 7 graphical hosts.
 
 **Problem:** `modules/roles/workstation/` only sets `system.nixos.tags = ["workstation"]`. The `workstation` profile (`modules/profiles/workstation.nix`) does all actual configuration. Two overlapping concepts for the same thing.
 
@@ -69,6 +80,9 @@ Status: Active
 ---
 
 ### 2.3 Kill `mkService`
+**Status: OPEN** — `mkService` is still exported and consumed by
+`modules/options/system/services/*.nix` (networking, databases, services). The
+dendritic Phase 4 retained it on purpose.
 
 **Problem:** The author self-describes `mkService` as "a horrendous abstraction" in `lib/modules.nix:58`. It only provides `host` + `port` options, forcing every consumer to supplement via `extraOptions`. The `sing-box` service already does it right with explicit options.
 
@@ -83,6 +97,9 @@ Status: Active
 ## Phase 3 — Module & Import Cleanup
 
 ### 3.1 Explicit top-level imports vs auto-discovery
+**Status: DONE** — `mkModuleTree'`/`importPathOrTree` removed (dendritic Phase 4);
+hosts load the six module trees through the `flake.modules.nixos.*` registry
+aspects, whose top-level `module.nix` files import their subtrees explicitly.
 
 **Problem:** `mkModuleTree'` silently collects every `module.nix` in the tree. A rename, move, or accidental creation of a `module.nix` silently changes behaviour. There's no explicit dependency graph.
 
@@ -96,6 +113,9 @@ Status: Active
 ---
 
 ### 3.2 Clean up stale docs
+**Status: DONE** — AGENTS.md architecture, README.md, and
+`docs/adding-a-host.md` rewritten for the aspect/data-table flow (dendritic
+Phase 4).
 
 **Problem:** `docs/adding-a-host.md` still documents the old boilerplate patterns (setting `mainUser`, `users`, `homePath`, `sound.enable`, `video.enable`, etc. in every host `system.nix`).
 
@@ -107,6 +127,7 @@ Status: Active
 ---
 
 ### 3.3 Clean up commented-out / dead code
+**Status: PARTIAL** — remaining candidates below.
 
 **Candidates:**
 - `modules/system/boot/module.nix` — commented `./analasis.nix` import
@@ -122,6 +143,9 @@ Status: Active
 ## Phase 4 — Architecture (Optional / Discuss)
 
 ### 4.1 Decouple home-manager user configs from cipher
+**Status: DONE** — per-user `homeManager` aspects under `modules/home/users/`
+compose shared aspects by name instead of wrapping cipher (dendritic Phases
+3b–3d).
 
 **Problem:** Every `home/<user>/home.nix` is a thin wrapper importing `../cipher/home.nix`. Per-user differences must be hacked into shared files with `mkIf`.
 
@@ -130,6 +154,8 @@ Status: Active
 ---
 
 ### 4.2 Data-driven host definitions
+**Status: DONE** — `hosts/default.nix` is now a data table (`roles`, `home`,
+`system` per host; dendritic Phase 4). Reduced from ~150 lines to ~50.
 
 **Problem:** `hosts/default.nix` has 8 near-identical `mkNixosSystem` blocks.
 

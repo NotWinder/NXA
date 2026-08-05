@@ -31,13 +31,26 @@ nix flake check
 nix run nixpkgs#nixpkgs-fmt -- <file.nix>
 ```
 
+## Architecture
+
+The flake is built on the [dendritic pattern](https://dendrix.denful.dev/Dendritic.html):
+every file under `modules/` is a flake-parts module that registers a named
+aspect in the `flake.modules.<class>.<name>` registry (`nixos` tree wrappers,
+`roles`, `hosts`, `homeManager` aspects). `hosts/default.nix` is a data table
+(roles, home aspects, system per host) whose entries are assembled from the
+registry by `lib.mkNixosSystem`.
+
+For the full migration history, rationale, and remaining work see
+[docs/dendritic-migration.md](docs/dendritic-migration.md). Custom options live
+under `config.custom.*`, declared in `modules/options/`.
+
 ## Adding a new host
 
 See [docs/adding-a-host.md](docs/adding-a-host.md).
 
 ## Secrets
 
-SOPS-managed via age keys. See `secrets/.sops.yaml` for key configuration.
+SOPS-managed via age keys. See `.sops.yaml` for key configuration.
 
 ## Configuration namespace
 

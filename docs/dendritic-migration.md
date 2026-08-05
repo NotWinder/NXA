@@ -7,16 +7,16 @@ registry `flake.modules.<class>.<name>`; hosts compose aspects by name).
 
 Reference: https://github.com/mightyiam/dendritic · https://dendrix.denful.dev/Dendritic.html
 
-Last updated: 2026-08-04
-Status: Active — Phase 2 complete
+Last updated: 2026-08-05
+Status: Active — Phase 4 complete
 
 ## Migration progress
 
 - [x] **Phase 0 — Baseline & branch** (2026-08-03)
 - [x] **Phase 1 — Registry skeleton** (coarse aspects, zero behavior change) (2026-08-03)
 - [x] **Phase 2 — Hosts & roles become aspects** (2026-08-04)
-- [ ] **Phase 3 — Home-manager unwrap** (3a wiring ✓ with deviations · 3b register by name ✓ · 3c steps 1–7 ✓ · 3d per-user composition ✓)
-- [ ] **Phase 4 — Delete legacy & docs** (incl. reverting the four migration pins)
+- [x] **Phase 3 — Home-manager unwrap** (3a wiring ✓ with deviations · 3b register by name ✓ · 3c steps 1–7 ✓ · 3d per-user composition ✓) (2026-08-05)
+- [x] **Phase 4 — Delete legacy & docs** (incl. reverting the four migration pins) (2026-08-05)
 - [ ] **Phase 5 — Optional polish**
 
 ---
@@ -705,6 +705,26 @@ just build-all
 ```
 
 **Time:** 2–3 h.
+
+**Landed (2026-08-05):** commits `6eecdc0` (pin reverts), `bfe1745` (HM wiring
+relocated to `modules/system/home-manager/module.nix`, `home/` deleted),
+`3d862c1` (hosts slimmed to the data table via registry aspects, tree helpers
+removed from `lib/modules.nix`), and the docs commit. Deviations from the steps
+above:
+
+- `mkService` was **kept** (step 2's "while in here" is conditional): the
+  options tree's service modules still consume it; inlining is tracked as
+  PLAN.md 2.3.
+- Step 3's relocation target: `home/module.nix` moved into the `system` tree as
+  `modules/system/home-manager/module.nix` (the doc left the destination open)
+  and is imported from `modules/system/module.nix` so the `system` aspect
+  reaches it.
+- Tree order preserved as `base hardware nix system virt profiles` (legacy
+  `options hardware nix system virt profiles`); nested tree `module.nix` files
+  are now loaded via parent imports instead of top-level collection
+  (equivalence verified for all 22 `module.nix` files).
+- Toplevel store-path equivalence ended with the pin reverts by design; the
+  Phase 4 gate is eval + `nix flake check` + `just build-all`.
 
 ---
 
