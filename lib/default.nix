@@ -21,7 +21,7 @@ let
 
       inherit (self.extendedLib.builders) mkSystem mkNixosSystem;
       inherit (self.extendedLib.hardware) isx86Linux primaryMonitor;
-      inherit (self.extendedLib.modules) mkService mkModuleTree mkModuleTree' importPathOrTree;
+      inherit (self.extendedLib.modules) mkService;
       inherit (self.extendedLib.systemd) hardenService mkGraphicalService mkHyprlandService;
       inherit (self.extendedLib.themes) serializeTheme compileSCSS;
     };
