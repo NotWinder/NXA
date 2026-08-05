@@ -30,8 +30,26 @@
         self.modules.homeManager.randomize
         self.modules.homeManager.hyprlock
         self.modules.homeManager.hyprpaper
+        self.modules.homeManager.hyprland
+        self.modules.homeManager.niri
+        self.modules.homeManager.sway
         ./_lib/home/cipher/gui
       ];
+    };
+
+    # Per-WM aspects (Phase 5 item 4): one named aspect per window manager,
+    # each internally gated on `osConfig.custom.programs.<wm>.enable`. They
+    # live outside the gui tree and are composed by name above.
+    hyprland = {
+      imports = [ ./_lib/home/wms/hyprland ];
+    };
+
+    niri = {
+      imports = [ ./_lib/home/wms/niri ];
+    };
+
+    sway = {
+      imports = [ ./_lib/home/wms/sway ];
     };
 
     misc = {

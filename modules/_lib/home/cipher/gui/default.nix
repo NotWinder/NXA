@@ -8,7 +8,6 @@
     ./media
     ./terminals
     ./wallpaper
-    ./wms
 
     ./packages.nix
     ./wlogout.nix
