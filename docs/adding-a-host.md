@@ -52,12 +52,15 @@ Add one row to the `hosts` data table:
 <hostname> = {
   roles = [ "graphical" ];                   # or [ "headless" "server" ] for servers
   home = [ "<hostname>" ];                   # per-user home-manager aspect (see step 6)
+  features = [ ];                            # opt-in multi-class aspects: "ssh", "gaming"
   system = "x86_64-linux";
 };
 ```
 
 The host is assembled by `mkModulesFor` from the registry: nixos tree aspects
-(base/system/hardware/nix/virt/profiles) + role aspects + sops-nix + home-manager
+(base/system/hardware/nix/virt/profiles) + role aspects + feature aspects
+(`registry.nixos.<name> or { }` for each entry in `features`) + sops-nix +
+home-manager
 + your per-host home aspects — so no `mkNixosSystem` block is needed here.
 Enable the `workstation` profile (browsers, terminals, media, firejail locking,
 etc.) via `custom.profiles.workstation.enable = true` in

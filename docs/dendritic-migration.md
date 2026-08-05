@@ -17,7 +17,7 @@ Status: Complete
 - [x] **Phase 2 — Hosts & roles become aspects** (2026-08-04)
 - [x] **Phase 3 — Home-manager unwrap** (3a wiring ✓ with deviations · 3b register by name ✓ · 3c steps 1–7 ✓ · 3d per-user composition ✓) (2026-08-05)
 - [x] **Phase 4 — Delete legacy & docs** (incl. reverting the four migration pins) (2026-08-05)
-- [x] **Phase 5 — Optional polish** (items 2–4 landed; item 1 skipped) (2026-08-05)
+- [x] **Phase 5 — Optional polish** (items 1–4 landed) (2026-08-05)
 
 ---
 
@@ -749,14 +749,21 @@ above:
 
 **Time:** 2–4 h.
 
-**Landed (2026-08-05):** commits `7b10154` (item 3) and `c34c97e` (item 4) +
-the docs commit. Deviations:
+**Landed (2026-08-05):** commits `7b10154` (item 3), `c34c97e` (item 4),
+`3878637`/`d3056d0`/`f7f1aae` (item 1) + the docs commit. Deviations:
 
-- **Item 1 skipped** — multi-class `ssh`/`git`/`sops`/`gaming` aspects need
-  hosts to opt into aspects, but the six module trees are loaded wholesale, so
-  registering them adds nothing until hosts select features by name. Left as
-  future work; the concrete split-outs (workstation role, per-WM home aspects)
-  were the actionable parts of polish.
+- **Item 1 landed (commits `3878637`, `d3056d0`, `f7f1aae`)** — hosts gained
+  a `features` list in the data table (`hosts/default.nix`); for each feature,
+  `mkModulesFor` composes `registry.nixos.<name> or { }` and appends the name to
+  the home-manager aspect selection (`or { }` makes either class optional).
+  `ssh` and `gaming` are now **multi-class aspects** in single combined files
+  (`modules/ssh.nix`, `modules/gaming.nix`) registering both
+  `flake.modules.nixos.<name>` and `flake.modules.homeManager.<name>`; the
+  `custom.system.enableSshSecrets` and `custom.profiles.gaming.enable` options
+  were removed (the selection replaces them). `git` was registered as a
+  `homeManager.git` aspect only (universal, composed by the cli aspect) — its
+  NixOS side stays in the tree. The remaining candidates from the item (`sops`)
+  stay in the system tree; no behavior change on any host.
 - **Item 2** was documentation-only, as planned; the sops convention is written
   up in AGENTS.md. Correction vs. the item's text: the global
   `defaultSopsFile` lives in `modules/system/secrets.nix`, not `_lib/home/base.nix`.
@@ -783,7 +790,7 @@ preserved (amadeus/brau1589 keep hyprland, lorian stays WM-less).
 | 3c | cipher toplevel + HM generation clean; `dry-activate` shows no drift |
 | 3d | 8 hosts eval; cipher + lorian build |
 | 4 | `nix flake check`; cipher/lorian/brau1589 builds; `just build-all` |
-| 5 | check green |
+| 5 | check green; feature matrix (ssh/gaming only on wired/cipher/brau1589; git on all hosts) |
 
 Store-path equivalence script (Phases 1–3b). **Run on a committed tree only**
 (see §1 fact 5 — a dirty worktree silently invalidates every comparison):

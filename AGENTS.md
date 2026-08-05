@@ -10,8 +10,8 @@ Follow these exactly unless a change is justified and recorded in the git histor
   - `nixos` — coarse wrappers over the legacy trees: `base` (→ `options/`), `system`, `hardware`, `nix`, `virt`, `profiles`. Each wraps its tree's top-level `module.nix`, which transitively imports the whole tree.
   - `roles` — role presets: `graphical`, `headless`, `server` (`modules/roles/*.nix`; the former `workstation` role was folded into the workstation profile in phase 5).
   - `hosts` — per-host aspects under `modules/hosts/` (compose the host dir + sops-nix + home-manager).
-  - `homeManager` — home-manager aspects: `base`, `cli`, `gui`, `misc`, `themes` + one per user under `modules/home/users/`.
-- **Hosts:** `hosts/default.nix` is a data table (`roles`, `home`, `system` per host); each host is assembled from the registry by `mkModulesFor` (nixos tree aspects + roles + sops-nix/home-manager + per-host home aspect selection), then wrapped by `lib.mkNixosSystem`. Host-specific files stay in `hosts/<name>/` (`host.nix` + `modules/` + filesystem config).
+  - `homeManager` — home-manager aspects: `base`, `cli`, `gui`, `misc`, `themes`, `git` + one per user under `modules/home/users/`. Multi-class features (`ssh`, `gaming`) register both a `nixos` and a `homeManager` aspect from one combined file at the top of `modules/` (e.g. `modules/ssh.nix`, `modules/gaming.nix`).
+- **Hosts:** `hosts/default.nix` is a data table (`roles`, `home`, `features`, `system` per host); each host is assembled from the registry by `mkModulesFor` (nixos tree aspects + role aspects + feature aspects (`registry.nixos.<name> or { }`, optional nixos side) + sops-nix/home-manager + per-host home aspect selection = `home ++ features`), then wrapped by `lib.mkNixosSystem`. Host-specific files stay in `hosts/<name>/` (`host.nix` + `modules/` + filesystem config).
 - **Custom library:** `lib/` extends `nixpkgs.lib` with custom functions exposed under `lib.extendedLib.*`. Top-level aliases: `lib.mkNixosSystem`, `lib.mkSystem`, `lib.mkService`, etc.
 - **Option namespace:** All custom options live under `config.custom.*` (declared in `modules/options/`). See README for the full tree.
 - **Module trees (`modules/`):**
@@ -22,8 +22,8 @@ Follow these exactly unless a change is justified and recorded in the git histor
   - `modules/system/disko-btrfs.nix` — shared disko btrfs partition layout.
   - `modules/system/home-manager/module.nix` — the home-manager wiring: sets `home-manager.users.<mainUser>.imports` from the `homeManager` registry aspects selected in `custom.usrEnv.home.aspects`.
   - `modules/hardware/` — hardware-specific modules (CPU, GPU, sound, video, bluetooth).
-  - `modules/roles/` — role presets: `graphical`, `headless`, `server`, `workstation`.
-  - `modules/profiles/` — profile composables (gaming, workstation).
+  - `modules/roles/` — role presets: `graphical`, `headless`, `server`.
+  - `modules/profiles/` — profile composables (firejail, tor, workstation).
   - `modules/virt/` — virtualization modules (docker, qemu, waydroid, distrobox).
   - Module discovery: aspect files at the top of `modules/` auto-load via `import-tree`; the legacy trees are excluded there and loaded through the `nixos` registry aspects (each wraps its tree's `module.nix`).
 - **Home-manager:** aspects live under `flake.modules.homeManager` (shared in `modules/home.nix` / `modules/_lib/home/`, per-user under `modules/home/users/`); the wiring in `modules/system/home-manager/module.nix` composes the host's selected aspects. No `extraSpecialArgs`/`specialArgs` are passed to home-manager.

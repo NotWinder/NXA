@@ -156,7 +156,9 @@ compose shared aspects by name instead of wrapping cipher (dendritic Phases
 
 ### 4.2 Data-driven host definitions
 **Status: DONE** — `hosts/default.nix` is now a data table (`roles`, `home`,
-`system` per host; dendritic Phase 4). Reduced from ~150 lines to ~50.
+`features`, `system` per host; dendritic Phases 4–5). Reduced from ~150 lines
+to ~50. `features` opt into multi-class aspects (`ssh`, `gaming`), which
+register both a `nixos` and a `homeManager` aspect (dendritic Phase 5 item 1).
 
 **Problem:** `hosts/default.nix` has 8 near-identical `mkNixosSystem` blocks.
 
