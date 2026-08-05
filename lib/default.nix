@@ -12,7 +12,6 @@ let
       extendedLib = {
         builders = import ./builders.nix libArgs;
         hardware = import ./hardware.nix libArgs;
-        modules = import ./modules.nix libArgs;
         systemd = import ./systemd.nix libArgs;
         themes = import ./themes.nix libArgs;
       };
@@ -21,7 +20,6 @@ let
 
       inherit (self.extendedLib.builders) mkSystem mkNixosSystem;
       inherit (self.extendedLib.hardware) isx86Linux primaryMonitor;
-      inherit (self.extendedLib.modules) mkService;
       inherit (self.extendedLib.systemd) hardenService mkGraphicalService mkHyprlandService;
       inherit (self.extendedLib.themes) serializeTheme compileSCSS;
     };
