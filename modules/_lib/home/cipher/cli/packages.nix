@@ -34,6 +34,7 @@ in
 
       # CLI
       wl-clipboard # Command-line copy/paste utilities for Wayland
+      claude-code # Agentic coding tool that lives in the terminal
     ];
   };
 }
