@@ -2,6 +2,7 @@
   environment.systemPackages = with pkgs; [
     ansible
     cachix
+    colmena
     opencode
     opencode-desktop
     tmux
