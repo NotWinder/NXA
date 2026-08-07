@@ -7,13 +7,24 @@ NixOS flake configuration managing 8 hosts, inspired by [NotAShelf's nyx](https:
 | Host | Type | CPU | GPU | Role | Notes |
 |------|------|-----|-----|------|-------|
 | amadeus | desktop | Intel | Nvidia | graphical + workstation | |
-| brau1589 | desktop | AMD | Nvidia | graphical + workstation | ZFS, gaming |
+| brau1589 | desktop | AMD | Nvidia | graphical + workstation | ZFS, gaming, [specs](#brau1589-specs) |
 | cipher | desktop | Intel | — | graphical + workstation | gaming, arr-stack |
 | heu | desktop | AMD | Intel | graphical + workstation | |
-| lorian | server | Intel | — | headless + server | ext4, no GUI |
 | magi | desktop | Intel | AMD | graphical + workstation | |
 | salieri | desktop | AMD | AMD | graphical + workstation | |
 | wired | desktop | Intel | Intel | graphical + workstation | btrfs |
+
+### brau1589 specs
+
+ASUS ROG Strix G513IE (G513IE_G513IE):
+
+| Component | Spec |
+|-----------|------|
+| CPU | AMD Ryzen 7 4800H (Zen 2, 8 cores / 16 threads) + Vega (Renoir) iGPU |
+| GPU | NVIDIA GeForce RTX 3050 Ti Mobile 4 GB (hybrid with the iGPU) |
+| RAM | 32 GB DDR4 (30.7 GiB visible, ~1–2 GB reserved by the iGPU) |
+| Storage | 2× Intel SSDPEKNU512GZ 512 GB NVMe |
+| Display | 15.6" 1920×1080 @ 144 Hz (BOE LM156LF-2F01) + HDMI-A-1 |
 
 ## Quick reference
 
