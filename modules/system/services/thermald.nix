@@ -1,8 +1,8 @@
-{
+{ lib, ... }: {
   # monitor and control temparature
   services.thermald.enable = false;
   # Consider using auto-cpufreq instead
-  services.auto-cpufreq.enable = true;
+  services.auto-cpufreq.enable = lib.mkDefault true;
   services.auto-cpufreq.settings = {
     battery = {
       governor = "powersave";

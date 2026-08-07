@@ -37,6 +37,13 @@
       };
     };
 
+    # Power profiles (performance / balanced / power-saver) via
+    # power-profiles-daemon, mapped onto the ROG platform profiles
+    # (quiet / balanced / performance). Replaces auto-cpufreq's governor
+    # handling on this host.
+    services.power-profiles-daemon.enable = true;
+    services.auto-cpufreq.enable = false;
+
     security.pki.certificates = [
       (builtins.readFile ../certs/ca.pem)
     ];
