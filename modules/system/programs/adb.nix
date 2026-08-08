@@ -10,7 +10,11 @@ let
   prg = custom.usrEnv.programs;
 in
 {
-  config = mkIf (prg.cli.enable) {
+  config = mkIf prg.cli.adb.enable {
+    environment.systemPackages = [
+      pkgs.android-tools
+    ];
+
     services.udev = {
       packages = [
         pkgs.android-tools

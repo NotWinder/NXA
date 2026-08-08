@@ -17,6 +17,7 @@
     custom.usrEnv.programs = {
       browsers = [ "librewolf" "zen-beta" ];
       default.browser = "zen-beta";
+      cli.adb.enable = true;
       gui.obs.enable = true;
     };
   };
