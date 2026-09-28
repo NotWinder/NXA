@@ -1,10 +1,11 @@
-{
-  config,
-  osConfig,
-  ...
-}: let
+{ config
+, osConfig
+, ...
+}:
+let
   sys = osConfig.custom.system;
-in {
+in
+{
   config = {
     programs.ssh = {
       enable = true;
@@ -19,12 +20,10 @@ in {
         comp-traefik1 = {
           hostname = "10.10.1.58";
           user = "traefik";
-          proxyJump = "comp-proxmox";
         };
         comp-traefik2 = {
           hostname = "10.10.1.59";
           user = "traefik";
-          proxyJump = "comp-proxmox";
         };
         comp-starhub-old = {
           hostname = "87.248.153.68";
@@ -35,7 +34,6 @@ in {
           hostname = "127.0.0.1";
           user = "root";
           port = 2222;
-          proxyJump = "comp-starhub-old";
         };
         comp-ghahreman = {
           hostname = "78.157.40.195";
@@ -45,77 +43,62 @@ in {
         comp-monitoring-elk1 = {
           hostname = "10.10.1.62";
           user = "elk";
-          proxyJump = "comp-proxmox";
         };
         comp-proxy = {
           hostname = "10.10.1.69";
           user = "portal";
-          proxyJump = "comp-proxmox";
         };
         comp-ci-shared-1 = {
           hostname = "10.10.1.220";
           user = "ci";
-          proxyJump = "comp-proxmox";
         };
         comp-ci-shared-2 = {
           hostname = "10.10.1.221";
           user = "ci";
-          proxyJump = "comp-proxmox";
         };
         comp-ci-build-1 = {
           hostname = "10.10.1.222";
           user = "ci";
-          proxyJump = "comp-proxmox";
         };
         comp-ci-deploy-1 = {
           hostname = "10.10.1.223";
           user = "ci";
-          proxyJump = "comp-proxmox";
         };
         comp-ai = {
           hostname = "10.10.1.35";
           user = "bert_service";
-          proxyJump = "comp-proxmox";
         };
         comp-avid = {
           hostname = "10.10.1.116";
           user = "avid";
-          proxyJump = "comp-proxmox";
         };
         comp-clickhouse = {
           hostname = "10.10.1.29";
           user = "clickhouse";
-          proxyJump = "comp-proxmox";
         };
         comp-n8n = {
           hostname = "10.10.1.55";
           user = "n8n";
-          proxyJump = "comp-proxmox";
         };
         comp-dns01 = {
           hostname = "10.10.1.60";
           user = "dns";
-          proxyJump = "comp-proxmox";
         };
         comp-dns02 = {
           hostname = "10.10.1.54";
           user = "dns";
-          proxyJump = "comp-proxmox";
         };
         comp-ganje = {
           hostname = "10.10.1.28";
           user = "ganje";
-          proxyJump = "comp-proxmox";
         };
         comp-ganje-crawler = {
           hostname = "10.10.1.33";
           user = "root";
-          proxyJump = "comp-proxmox";
         };
         comp-ganje-db = {
           hostname = "10.10.1.31";
           user = "root";
-          proxyJump = "comp-proxmox";
         };
         comp-germany = {
           hostname = "65.109.179.188";
@@ -128,28 +111,23 @@ in {
         comp-tools = {
           hostname = "10.10.1.43";
           user = "root";
-          proxyJump = "comp-proxmox";
         };
         comp-nexus-01 = {
           hostname = "10.10.1.71";
           user = "root";
-          proxyJump = "comp-proxmox";
         };
         comp-mohammad = {
           hostname = "10.10.1.57";
           user = "mohammad";
           port = 2256;
-          proxyJump = "comp-proxmox";
         };
         comp-monitor = {
           hostname = "10.10.1.27";
           user = "monitor";
-          proxyJump = "comp-proxmox";
         };
         comp-nixos = {
           hostname = "10.10.1.44";
           user = "nixos";
-          proxyJump = "comp-proxmox";
         };
         comp-park = {
           hostname = "178.131.105.131";
@@ -157,28 +135,24 @@ in {
           port = 2248;
         };
         comp-proxmox = {
-          hostname = "85.133.224.202";
+          hostname = "100.64.0.1"; # tailnet
           user = "root";
         };
         comp-scrapyd-cluster-108 = {
           hostname = "10.10.1.34";
           user = "root";
-          proxyJump = "comp-proxmox";
         };
         comp-scrapyd-cluster-109 = {
           hostname = "10.10.1.36";
           user = "root";
-          proxyJump = "comp-proxmox";
         };
         comp-starbot = {
           hostname = "10.10.1.39";
           user = "starbot";
-          proxyJump = "comp-proxmox";
         };
         comp-starhub = {
           hostname = "10.10.1.63";
           user = "starhub";
-          proxyJump = "comp-proxmox";
         };
         comp-starhub-prod = {
           hostname = "45.156.185.29";
@@ -188,38 +162,31 @@ in {
         comp-starbot-db = {
           hostname = "10.10.1.42";
           user = "root";
-          proxyJump = "comp-proxmox";
         };
         comp-test = {
           hostname = "10.10.1.41";
           user = "test";
-          proxyJump = "comp-proxmox";
         };
         comp-waf = {
           hostname = "10.10.1.4";
           user = "waf";
-          proxyJump = "comp-proxmox";
         };
         comp-waf-manage = {
           hostname = "10.10.1.8";
           user = "root";
           port = 2256;
-          proxyJump = "comp-proxmox";
         };
         comp-yektanet = {
           hostname = "10.10.1.40";
           user = "root";
-          proxyJump = "comp-proxmox";
         };
         comp-zaris-manage = {
           hostname = "10.10.1.37";
           user = "zaris";
-          proxyJump = "comp-proxmox";
         };
         comp-jarvis = {
           hostname = "10.10.1.52";
           user = "root";
-          proxyJump = "comp-proxmox";
         };
         comp-tata = {
           hostname = "87.248.131.130";
@@ -241,47 +208,38 @@ in {
         comp-k8s-cp-01 = {
           hostname = "10.10.1.100";
           user = "cp-01";
-          proxyJump = "comp-proxmox";
         };
         comp-k8s-cp-02 = {
           hostname = "10.10.1.101";
           user = "cp-02";
-          proxyJump = "comp-proxmox";
         };
         comp-k8s-cp-03 = {
           hostname = "10.10.1.102";
           user = "cp-03";
-          proxyJump = "comp-proxmox";
         };
         comp-k8s-worker-01 = {
           hostname = "10.10.1.103";
           user = "worker-01";
-          proxyJump = "comp-proxmox";
         };
         comp-k8s-worker-02 = {
           hostname = "10.10.1.104";
           user = "worker-02";
-          proxyJump = "comp-proxmox";
         };
         comp-k8s-worker-03 = {
           hostname = "10.10.1.105";
           user = "worker-03";
-          proxyJump = "comp-proxmox";
         };
         comp-digiarka = {
           hostname = "10.10.1.65";
           user = "digiarka";
-          proxyJump = "comp-proxmox";
         };
         comp-tax = {
           hostname = "10.10.1.66";
           user = "tax";
-          proxyJump = "comp-proxmox";
         };
         comp-monitoring-graphana = {
           hostname = "10.10.1.67";
           user = "graphana";
-          proxyJump = "comp-proxmox";
         };
       };
     };
