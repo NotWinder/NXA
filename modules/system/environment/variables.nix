@@ -1,4 +1,5 @@
-{lib, ...}: let
+{ lib, ... }:
+let
   inherit (lib.strings) concatStringsSep;
 
   pagerArgs = [
@@ -8,7 +9,8 @@
     "--no-vbell"
     " --wordwrap" # Wrap lines at spaces.
   ];
-in {
+in
+{
   # Variables that I want to set globally on all systems
   environment.variables = {
     SSH_AUTH_SOCK = "/run/user/\${UID}/keyring/ssh";
@@ -25,9 +27,9 @@ in {
     LESS = concatStringsSep " " pagerArgs;
     SYSTEMD_LESS = concatStringsSep " " (pagerArgs
       ++ [
-        "--quit-if-one-screen"
-        "--chop-long-lines"
-        "--no-init" # Keep content after quit.
-      ]);
+      "--quit-if-one-screen"
+      "--chop-long-lines"
+      "--no-init" # Keep content after quit.
+    ]);
   };
 }

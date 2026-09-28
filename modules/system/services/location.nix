@@ -1,4 +1,4 @@
-{config, ...}: {
+{ config, ... }: {
   location.provider = "geoclue2";
 
   services.geoclue2 = {

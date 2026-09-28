@@ -1,10 +1,11 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   inherit (lib.modules) mkIf;
-in {
+in
+{
   # https://nixpk.gs/pr-tracker.html?pr=316558
   programs.ccache = {
     enable = false;
@@ -19,7 +20,7 @@ in {
     config.programs.ccache.cacheDir
   ];
 
-  nixpkgs.overlays = mkIf (config.programs.ccache.enable && config.programs.ccache.packageNames == []) [
+  nixpkgs.overlays = mkIf (config.programs.ccache.enable && config.programs.ccache.packageNames == [ ]) [
     (_: super: {
       ccacheWrapper = super.ccacheWrapper.override {
         extraConfig = ''

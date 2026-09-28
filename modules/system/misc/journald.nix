@@ -13,9 +13,9 @@ in
   # journals get big really fasti and on desktops they are not audited often
   # on servers, however, they are important for both security and stability
   # thus, persisting them as is remains a good idea
-  services.journald.extraConfig = mkIf (dev.type != "server") ''
-    SystemMaxUse=100M
-    RuntimeMaxUse=50M
-    SystemMaxFileSize=50M
-  '';
+  services.journald.settings.Journal = mkIf (dev.type != "server") {
+    SystemMaxUse = "100M";
+    RuntimeMaxUse = "50M";
+    SystemMaxFileSize = "50M";
+  };
 }

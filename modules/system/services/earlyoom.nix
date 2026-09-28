@@ -1,10 +1,11 @@
-{
-  pkgs,
-  lib,
-  ...
-}: let
+{ pkgs
+, lib
+, ...
+}:
+let
   inherit (lib.strings) concatStringsSep;
-in {
+in
+{
   # Avoid the Linux kernel locking itself when we're putting too much
   # strain on the memory. This helps avoid having to shut down
   # forcefully when we OOM - which is preferable since we also disable SysRq.
@@ -16,42 +17,44 @@ in {
     reportInterval = 0;
     freeSwapThreshold = 2;
     freeMemThreshold = 4;
-    extraArgs = let
-      # applications that we would like to avoid killing
-      # when system is under high memory pressure
-      appsToAvoid = concatStringsSep "|" [
-        "Hyprland" # avoid killing the graphical session
-        "foot" # terminal, might have unsaved files
-        "cryptsetup" # avoid killing the disk encryption manager
-        "dbus-.*" # avoid killing the dbus daemon & the dbus broker
-        "Xwayland" # avoid killing the X11 server
-        "gpg-agent" # avoid killing the gpg agent
-        "systemd" # avoid killing systemd
-        "systemd-.*" # avoid killing systemd microservices
-        "ssh-agent" # avoid killing the ssh agent
-      ];
+    extraArgs =
+      let
+        # applications that we would like to avoid killing
+        # when system is under high memory pressure
+        appsToAvoid = concatStringsSep "|" [
+          "Hyprland" # avoid killing the graphical session
+          "foot" # terminal, might have unsaved files
+          "cryptsetup" # avoid killing the disk encryption manager
+          "dbus-.*" # avoid killing the dbus daemon & the dbus broker
+          "Xwayland" # avoid killing the X11 server
+          "gpg-agent" # avoid killing the gpg agent
+          "systemd" # avoid killing systemd
+          "systemd-.*" # avoid killing systemd microservices
+          "ssh-agent" # avoid killing the ssh agent
+        ];
 
-      # apps that we would like killed first
-      # those are likely the ones draining most memory
-      appsToPrefer = concatStringsSep "|" [
-        # browsers
-        "Web Content"
-        "Isolated Web Co"
-        "chromium.*"
-        # electron applications
-        "electron" # I wish we could kill electron permanently
-        ".*.exe"
-        "java.*"
-        # added 2024-05-12: PipeWire locked down my system as it failed to acquire RT privileges
-        "pipewire(.*)" # catch pipewire and pipewire-pulse
+        # apps that we would like killed first
+        # those are likely the ones draining most memory
+        appsToPrefer = concatStringsSep "|" [
+          # browsers
+          "Web Content"
+          "Isolated Web Co"
+          "chromium.*"
+          # electron applications
+          "electron" # I wish we could kill electron permanently
+          ".*.exe"
+          "java.*"
+          # added 2024-05-12: PipeWire locked down my system as it failed to acquire RT privileges
+          "pipewire(.*)" # catch pipewire and pipewire-pulse
+        ];
+      in
+      [
+        "-g" # kill all processes within a process group
+        "--avoid"
+        "'^(${appsToAvoid})$'" # things we want to not kill
+        "--prefer"
+        "'^(${appsToPrefer})$'" # things we want to kill as soon as possible
       ];
-    in [
-      "-g" # kill all processes within a process group
-      "--avoid"
-      "'^(${appsToAvoid})$'" # things we want to not kill
-      "--prefer"
-      "'^(${appsToPrefer})$'" # things we want to kill as soon as possible
-    ];
 
     # we should ideally write the logs into a designated log file; or even better, to the journal
     # for now we can hope this echo sends the log to somewhere we can observe later
@@ -95,6 +98,6 @@ in {
     RestrictAddressFamilies = "AF_UNIX";
 
     SystemCallArchitectures = "native";
-    SystemCallFilter = ["@system-service" "~@resources @privileged"];
+    SystemCallFilter = [ "@system-service" "~@resources @privileged" ];
   };
 }

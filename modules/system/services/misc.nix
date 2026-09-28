@@ -1,4 +1,4 @@
-{config, ...}: {
+{ config, ... }: {
   config = {
     services = {
       # enable GVfs, a userspace virtual filesystem.
@@ -15,7 +15,7 @@
             };
 
             udisks2 = {
-              modules = ["*"];
+              modules = [ "*" ];
               modules_load_preference = "ondemand";
             };
           };

@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   config = {
     #systemd.services.supergfxd.path = [pkgs.pciutils];
 

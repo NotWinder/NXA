@@ -1,19 +1,20 @@
-{lib, ...}: let
+{ lib, ... }:
+let
   inherit (lib.options) mkOptionDefault;
   inherit (lib.attrsets) mapAttrs recursiveUpdate;
 
   # make a service that is a part of the graphical session target
   mkGraphicalService = recursiveUpdate {
-    Unit.PartOf = ["graphical-session.target"];
-    Unit.After = ["graphical-session.target"];
-    Install.WantedBy = ["graphical-session.target"];
+    Unit.PartOf = [ "graphical-session.target" ];
+    Unit.After = [ "graphical-session.target" ];
+    Install.WantedBy = [ "graphical-session.target" ];
   };
 
   # make a service that is a part of the hyprland session target
   mkHyprlandService = recursiveUpdate {
-    Unit.PartOf = ["graphical-session.target"];
-    Unit.After = ["graphical-session.target"];
-    Install.WantedBy = ["hyprland-session.target"];
+    Unit.PartOf = [ "graphical-session.target" ];
+    Unit.After = [ "graphical-session.target" ];
+    Install.WantedBy = [ "hyprland-session.target" ];
   };
 
   hardenService = attrs:
@@ -38,7 +39,7 @@
       ProtectProc = "invisible";
       ProtectSystem = "strict";
       RemoveIPC = true;
-      RestrictAddressFamilies = ["AF_UNIX" "AF_INET" "AF_INET6"];
+      RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" ];
       RestrictNamespaces = true;
       RestrictRealtime = true;
       RestrictSUIDSGID = true;
@@ -50,6 +51,7 @@
         "~@clock @cpu-emulation @debug @module @mount @obsolete @privileged @raw-io @reboot @swap"
       ];
     });
-in {
+in
+{
   inherit hardenService mkGraphicalService mkHyprlandService;
 }

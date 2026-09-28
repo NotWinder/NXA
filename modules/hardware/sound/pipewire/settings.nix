@@ -1,10 +1,12 @@
-{lib, ...}: let
+{ lib, ... }:
+let
   inherit (lib.attrsets) mapAttrs;
   inherit (lib.modules) mkBefore mkOptionDefault;
   inherit (lib.lists) singleton;
 
   mapOptionDefault = mapAttrs (_: mkOptionDefault);
-in {
+in
+{
   services.pipewire.extraConfig = {
     pipewire = {
       # Make PipeWire more verbose by default
@@ -49,12 +51,12 @@ in {
           {
             cmd = "load-module";
             args = "module-always-sink";
-            flags = [];
+            flags = [ ];
           }
         ];
 
         "pulse.properties" = {
-          "server.address" = mkBefore ["unix:native"];
+          "server.address" = mkBefore [ "unix:native" ];
         };
 
         "pulse.rules" = mkBefore [
@@ -62,22 +64,22 @@ in {
             # skype does not want to use devices that don't have an S16 sample format.
             # we force the S16 format on the device to work around that
             matches = [
-              {"application.process.binary" = "teams";}
-              {"application.process.binary" = "teams-insiders";}
-              {"application.process.binary" = "skypeforlinux";}
+              { "application.process.binary" = "teams"; }
+              { "application.process.binary" = "teams-insiders"; }
+              { "application.process.binary" = "skypeforlinux"; }
             ];
 
-            actions.quirks = ["force-s16-info"];
+            actions.quirks = [ "force-s16-info" ];
           }
           {
             # firefox marks the capture streams as don't move and then they
             # can't be moved with pavucontrol or other tools.
-            matches = singleton {"application.process.binary" = "firefox";};
-            actions.quirks = ["remove-capture-dont-move"];
+            matches = singleton { "application.process.binary" = "firefox"; };
+            actions.quirks = [ "remove-capture-dont-move" ];
           }
           {
             # speech dispatcher asks for too small latency and then underruns.
-            matches = singleton {"application.name" = "~speech-dispatcher*";};
+            matches = singleton { "application.name" = "~speech-dispatcher*"; };
             actions = {
               update-props = {
                 "pulse.min.req" = "1024/48000"; # 21ms

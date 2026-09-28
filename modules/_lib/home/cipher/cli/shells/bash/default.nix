@@ -1,4 +1,4 @@
-{config, lib, pkgs, osConfig, ...}:
+{ config, lib, pkgs, osConfig, ... }:
 let
   # copy paste done right
   XDG_CONFIG_HOME = "$HOME/.config";

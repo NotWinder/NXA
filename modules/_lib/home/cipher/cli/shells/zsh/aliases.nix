@@ -1,4 +1,4 @@
-{config, pkgs, lib, osConfig, ...}:
+{ config, pkgs, lib, osConfig, ... }:
 let
   inherit (lib.meta) getExe;#getExe';
   inherit (pkgs) eza bat ripgrep dust procs yt-dlp python3;

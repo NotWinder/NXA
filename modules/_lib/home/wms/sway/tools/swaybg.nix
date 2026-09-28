@@ -1,4 +1,4 @@
-{pkgs, lib, config, osConfig, ...}:
+{ pkgs, lib, config, osConfig, ... }:
 let
   inherit (builtins) elem;
   inherit (lib) mkIf getExe mkGraphicalService;

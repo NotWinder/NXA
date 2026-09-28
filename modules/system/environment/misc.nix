@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   environment = {
     # Disable the stub ELF loader added in 24.05 that serves no purpose other than
     # to throw a warning when you try to run a program that requires dynamic loading.
@@ -11,7 +11,7 @@
     # I don't like this, but it's a necessary evil.
     wordlist = {
       enable = true;
-      lists.WORDLIST = ["${pkgs.scowl}/share/dict/words.txt"];
+      lists.WORDLIST = [ "${pkgs.scowl}/share/dict/words.txt" ];
     };
   };
 }

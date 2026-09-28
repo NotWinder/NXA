@@ -175,7 +175,7 @@ in
         # of a collection of processes."
         # See:
         # <https://en.wikipedia.org/wiki/Cgroups>
-        use-cgroups = pkgs.stdenv.isLinux; # only supported on Linux
+        use-cgroups = pkgs.stdenv.hostPlatform.isLinux; # only supported on Linux
 
         # for direnv GC roots
         keep-derivations = true;

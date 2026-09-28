@@ -1,10 +1,11 @@
-{
-  config,
-  osConfig,
-  ...
-}: let
+{ config
+, osConfig
+, ...
+}:
+let
   sys = osConfig.custom.system;
-in {
+in
+{
   config = {
     programs.ssh = {
       enable = true;
@@ -133,6 +134,11 @@ in {
         comp-nexus-01 = {
           hostname = "10.10.1.71";
           user = "root";
+          proxyJump = "comp-proxmox";
+        };
+        comp-vault-01 = {
+          hostname = "10.10.1.72";
+          user = "vault-admin";
           proxyJump = "comp-proxmox";
         };
         comp-mohammad = {

@@ -1,4 +1,4 @@
-{config, ...}: {
+{ config, ... }: {
   # WirePlumber is a modular session / policy manager for PipeWire
   imports = [
     ./devices.nix

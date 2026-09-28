@@ -3,7 +3,8 @@ let
     if builtins.getEnv "DISKO_DEVICE" != ""
     then builtins.getEnv "DISKO_DEVICE"
     else "/dev/sda";
-in {
+in
+{
   disko.devices.disk.main = {
     type = "disk";
     device = diskDevice;
@@ -20,33 +21,33 @@ in {
             type = "filesystem";
             format = "vfat";
             mountpoint = "/boot";
-            mountOptions = ["umask=0077"];
+            mountOptions = [ "umask=0077" ];
           };
         };
         root = {
           size = "100%";
           content = {
             type = "btrfs";
-            extraArgs = ["-f"];
+            extraArgs = [ "-f" ];
             subvolumes = {
               "/root" = {
-                mountOptions = ["compress=zstd" "noatime"];
+                mountOptions = [ "compress=zstd" "noatime" ];
                 mountpoint = "/";
               };
               "/home" = {
-                mountOptions = ["compress=zstd" "relatime"];
+                mountOptions = [ "compress=zstd" "relatime" ];
                 mountpoint = "/home";
               };
               "/nix" = {
-                mountOptions = ["compress=zstd" "noatime"];
+                mountOptions = [ "compress=zstd" "noatime" ];
                 mountpoint = "/nix";
               };
               "/snapshots" = {
-                mountOptions = ["compress=zstd" "noatime"];
+                mountOptions = [ "compress=zstd" "noatime" ];
                 mountpoint = "/snapshots";
               };
               "/swap" = {
-                mountOptions = ["noatime"];
+                mountOptions = [ "noatime" ];
                 mountpoint = "/swap";
               };
             };
