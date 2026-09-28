@@ -38,8 +38,8 @@ in
       enable = true;
       usePortal = true;
       theme = {
-        name = "Tokyonight-Dark";
-        package = pkgs.tokyonight-gtk-theme;
+        name = "adw-gtk3-dark";
+        package = pkgs.adw-gtk3;
       };
       iconTheme = {
         name = "Papirus-Dark";
