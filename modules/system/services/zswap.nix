@@ -1,6 +1,6 @@
 {
   # compress memory and store in RAM before swapping to disk
-  boot.kernelParams = ["zswap.enabled=1"];
+  boot.kernelParams = [ "zswap.enabled=1" ];
 
   # use lz4 and z3fold for zswap
   boot.kernelModules = [
@@ -11,8 +11,8 @@
   systemd.services.config-zswap = {
     description = "";
 
-    after = ["systemd-modules-load.service"];
-    wantedBy = ["multi-user.target"];
+    after = [ "systemd-modules-load.service" ];
+    wantedBy = [ "multi-user.target" ];
 
     serviceConfig.Type = "oneshot";
 

@@ -2,7 +2,7 @@
   systemd.services.brand-crawler = {
     description = "Brand crawler (scrape + download trademark PDFs)";
     wants = [ "network-online.target" ];
-    after = [ "network-online.target" "docker.service" "brand-crawler-stack.service" ];
+    after = [ "network-online.target" "docker.service" ];
     serviceConfig = {
       Type = "oneshot";
       WorkingDirectory = "/opt/brand-crawler";
@@ -19,6 +19,8 @@
   };
 
   systemd.services.brand-crawler-stack = {
+    # Disabled: production operator moved to comp-jarvis; brau1589 is dev/verification only.
+    enable = false;
     description = "Brand crawler always-on services (operator API + bot)";
     wants = [ "network-online.target" ];
     after = [ "network-online.target" "docker.service" ];
@@ -31,7 +33,7 @@
       StandardOutput = "journal";
       StandardError = "journal";
     };
-    wantedBy = [ "multi-user.target" ];
+    wantedBy = [ ];
   };
 
   systemd.paths.brand-crawler-manual = {

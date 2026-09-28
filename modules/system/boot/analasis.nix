@@ -1,11 +1,11 @@
 # boot-monitor.nix
 # Add to your configuration.nix with: imports = [ ./boot-monitor.nix ];
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{ config
+, lib
+, pkgs
+, ...
+}:
+let
   # The main monitoring script
   bootMonitorScript = pkgs.writeShellScriptBin "boot-monitor" ''
     set -euo pipefail
@@ -232,7 +232,8 @@
     echo "Full log: $LATEST_LOG"
     echo ""
   '';
-in {
+in
+{
   # Module configuration
   options = {
     services.bootMonitor = {
@@ -281,8 +282,8 @@ in {
     # Boot monitoring service
     systemd.services.boot-performance-monitor = {
       description = "Boot Performance Monitor";
-      wantedBy = ["multi-user.target"];
-      after = ["network.target"];
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
 
       serviceConfig = {
         Type = "oneshot";
@@ -296,8 +297,8 @@ in {
     # Resume monitoring service
     systemd.services.resume-performance-monitor = lib.mkIf config.services.bootMonitor.enableResumeMonitor {
       description = "Resume from Suspend Performance Monitor";
-      after = ["suspend.target" "hibernate.target" "hybrid-sleep.target"];
-      wantedBy = ["suspend.target" "hibernate.target" "hybrid-sleep.target"];
+      after = [ "suspend.target" "hibernate.target" "hybrid-sleep.target" ];
+      wantedBy = [ "suspend.target" "hibernate.target" "hybrid-sleep.target" ];
 
       serviceConfig = {
         Type = "oneshot";
@@ -317,7 +318,7 @@ in {
 
     systemd.timers.boot-monitor-cleanup = {
       description = "Cleanup old boot monitor logs timer";
-      wantedBy = ["timers.target"];
+      wantedBy = [ "timers.target" ];
       timerConfig = {
         OnBootSec = "5min";
         OnUnitActiveSec = "1d";

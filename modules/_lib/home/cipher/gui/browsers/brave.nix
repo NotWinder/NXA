@@ -1,4 +1,4 @@
-{config, lib, pkgs, osConfig, ...}:
+{ config, lib, pkgs, osConfig, ... }:
 let
   inherit (lib) mkIf;
   inherit (builtins) elem;

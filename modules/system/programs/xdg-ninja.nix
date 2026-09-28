@@ -1,9 +1,11 @@
-{lib, ...}: let
+{ lib, ... }:
+let
   template = import lib.xdgTemplate "nixos";
-in {
+in
+{
   environment = {
     variables = template.glEnv;
     sessionVariables = template.sysEnv;
-    etc = {inherit (template) pythonrc npmrc;};
+    etc = { inherit (template) pythonrc npmrc; };
   };
 }

@@ -1,4 +1,4 @@
-{config, pkgs, lib, osConfig, ...}:
+{ config, pkgs, lib, osConfig, ... }:
 let
   inherit (lib) mkIf;
   inherit (lib.meta) getExe;

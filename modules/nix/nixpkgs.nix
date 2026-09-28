@@ -20,7 +20,7 @@
 
       # Default to none, add more as necessary. This is usually where
       # electron packages go when they reach EOL.
-      permittedInsecurePackages = [];
+      permittedInsecurePackages = [ ];
 
       # Nixpkgs sets internal package aliases to ease migration from other
       # distributions easier, or for convenience's sake. Even though the manual
@@ -39,7 +39,7 @@
       # about packages without maintainers but it seems to me
       # like there are more packages without maintainers than
       # with maintainers, so it's disabled for the time being.
-      showDerivationWarnings = [];
+      showDerivationWarnings = [ ];
     };
   };
 }

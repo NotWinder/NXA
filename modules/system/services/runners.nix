@@ -1,13 +1,12 @@
-{
-  pkgs,
-  lib,
-  ...
+{ pkgs
+, lib
+, ...
 }: {
   config = {
-    environment.systemPackages = [pkgs.appimage-run];
+    environment.systemPackages = [ pkgs.appimage-run ];
 
     # run appimages with appimage-run
-    boot.binfmt.registrations = lib.genAttrs ["appimage" "AppImage"] (_: {
+    boot.binfmt.registrations = lib.genAttrs [ "appimage" "AppImage" ] (_: {
       wrapInterpreterInShell = false;
       interpreter = "${pkgs.appimage-run}/bin/appimage-run";
       recognitionType = "magic";

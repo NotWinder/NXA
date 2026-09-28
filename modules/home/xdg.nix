@@ -57,7 +57,7 @@
           };
 
           userDirs = {
-            enable = pkgs.stdenv.isLinux;
+            enable = pkgs.stdenv.hostPlatform.isLinux;
             createDirectories = true;
             setSessionVariables = true;
 

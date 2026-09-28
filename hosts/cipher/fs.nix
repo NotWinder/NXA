@@ -1,7 +1,7 @@
 {
   config = {
     boot.zfs = {
-      extraPools = ["wpool"];
+      extraPools = [ "wpool" ];
     };
     fileSystems = {
       "/boot" = {
@@ -12,19 +12,19 @@
       "/" = {
         device = "/dev/disk/by-uuid/f2ff3005-0933-4fb5-96d9-78951f808f5b";
         fsType = "btrfs";
-        options = ["subvol=root" "compress=zstd" "noatime"];
+        options = [ "subvol=root" "compress=zstd" "noatime" ];
       };
 
       "/nix" = {
         device = "/dev/disk/by-uuid/f2ff3005-0933-4fb5-96d9-78951f808f5b";
         fsType = "btrfs";
-        options = ["subvol=nix" "compress=zstd" "noatime"];
+        options = [ "subvol=nix" "compress=zstd" "noatime" ];
       };
 
       "/home" = {
         device = "/dev/disk/by-uuid/f2ff3005-0933-4fb5-96d9-78951f808f5b";
         fsType = "btrfs";
-        options = ["subvol=home" "compress=zstd"];
+        options = [ "subvol=home" "compress=zstd" ];
       };
 
     };

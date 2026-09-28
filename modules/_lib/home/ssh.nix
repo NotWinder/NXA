@@ -116,6 +116,11 @@ in
           hostname = "10.10.1.71";
           user = "root";
         };
+        comp-vault-01 = {
+          hostname = "10.10.1.72";
+          user = "vault-admin";
+          proxyJump = "comp-proxmox";
+        };
         comp-mohammad = {
           hostname = "10.10.1.57";
           user = "mohammad";

@@ -5,6 +5,9 @@
     colmena
     opencode
     opencode-desktop
+    claude-code
+    graphify
+    codex
     tmux
 
     # opencode MCP servers
