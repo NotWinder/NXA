@@ -1,16 +1,16 @@
-{ inputs, ... }:
 {
-  flake.modules.homeManager.dankMaterial = { config, lib, osConfig, pkgs, ... }:
+  # DankMaterialShell compositor integration. The shell itself (packages and
+  # the dms user service) comes from the NixOS side in
+  # modules/system/display/wayland/dms.nix; this aspect only adds binds and
+  # layer rules, and is inert unless custom.programs.dms.enable is set.
+  flake.modules.homeManager.dankMaterial = { config, lib, osConfig, ... }:
     let
-      inherit (lib) mkIf;
+      inherit (lib) mkIf mkForce;
+
+      dms = osConfig.custom.programs.dms.enable;
     in
     {
-      home.packages = [
-        inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default
-        pkgs.quickshell
-      ];
-
-      programs.niri = mkIf (osConfig.custom.programs.niri.enable && osConfig.custom.programs.dms.enable) {
+      programs.niri = mkIf (osConfig.custom.programs.niri.enable && dms) {
         settings = {
           layer-rules = [
             {
@@ -24,7 +24,9 @@
           in
           {
             "Mod+D".action = sh "dms ipc call spotlight toggle";
-            "Ctrl+L".action = sh "dms ipc call lock lock";
+            # Replaces the swaylock bind from the niri aspect; Ctrl+L is left
+            # to terminals and browsers.
+            "Super+Alt+L".action = mkForce (sh "dms ipc call lock lock");
             "Mod+Escape" = {
               allow-when-locked = true;
               action = sh "dms ipc call powermenu toggle";
@@ -33,12 +35,14 @@
         };
       };
 
-      wayland.windowManager.hyprland = mkIf (osConfig.custom.programs.hyprland.enable && osConfig.custom.programs.dms.enable) {
+      wayland.windowManager.hyprland = mkIf (osConfig.custom.programs.hyprland.enable && dms) {
         settings = {
-          exec-once = [ "dms run" ];
+          # Hyprland's systemd integration is off here, so graphical-session.target
+          # may never activate; start the dms unit explicitly.
+          exec-once = [ "systemctl --user start dms.service" ];
           bind = [
             "$MOD, D, exec, dms ipc call spotlight toggle"
-            "Ctrl, L, exec, dms ipc call lock lock"
+            "$MOD ALT, L, exec, dms ipc call lock lock"
             "$MOD, Escape, exec, dms ipc call powermenu toggle"
           ];
         };

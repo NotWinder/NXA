@@ -23,6 +23,9 @@ in
         # when system is under high memory pressure
         appsToAvoid = concatStringsSep "|" [
           "Hyprland" # avoid killing the graphical session
+          "niri" # same, for niri sessions
+          "gamescope" # the game's compositor
+          "steam" # killing the client takes every running game with it
           "foot" # terminal, might have unsaved files
           "cryptsetup" # avoid killing the disk encryption manager
           "dbus-.*" # avoid killing the dbus daemon & the dbus broker
@@ -42,10 +45,7 @@ in
           "chromium.*"
           # electron applications
           "electron" # I wish we could kill electron permanently
-          ".*.exe"
           "java.*"
-          # added 2024-05-12: PipeWire locked down my system as it failed to acquire RT privileges
-          "pipewire(.*)" # catch pipewire and pipewire-pulse
         ];
       in
       [

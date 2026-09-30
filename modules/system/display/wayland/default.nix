@@ -1,5 +1,6 @@
 {
   imports = [
+    ./dms.nix
     ./environment.nix
     ./hyprland.nix
     ./niri.nix

@@ -1,5 +1,4 @@
 { config
-, pkgs
 , lib
 , ...
 }:
@@ -13,8 +12,10 @@ in
   config = mkIf prg.gaming.gamescope.enable {
     programs.gamescope = {
       enable = true;
-      capSysNice = true;
-      package = pkgs.gamescope;
+      # capSysNice wraps gamescope with CAP_SYS_NICE, which breaks launching
+      # it from inside Steam's sandbox (`gamescope -- %command%`). gamemode
+      # already renices games.
+      capSysNice = false;
     };
   };
 }
