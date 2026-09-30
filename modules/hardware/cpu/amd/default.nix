@@ -10,7 +10,7 @@ let
   dev = config.custom.device;
 
   kver = config.boot.kernelPackages.kernel.version;
-  inherit (dev.cpu.amd) pstate zenpower;
+  inherit (dev.cpu.amd) pstate;
 in
 {
   config = mkIf (builtins.elem dev.cpu.type [ "amd" "vm-amd" ]) {
@@ -30,11 +30,8 @@ in
       (mkIf (isx86Linux pkgs) {
         kernelModules = [
           "amd-pstate" # load pstate module in case the device has a newer gpu
-          "zenpower" # zenpower is for reading cpu info, i.e voltage
           "msr" # x86 CPU MSR access device
         ];
-
-        extraModulePackages = [ config.boot.kernelPackages.zenpower ];
       })
 
       (mkIf (pstate.enable && (versionAtLeast kver "5.17") && (versionOlder kver "6.1")) {
