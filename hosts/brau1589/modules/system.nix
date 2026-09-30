@@ -50,6 +50,15 @@
     services.power-profiles-daemon.enable = true;
     services.auto-cpufreq.enable = false;
 
+    # amd_pstate's EPP under power-saver roughly doubles app launch time
+    # (measured: Zen 5.0s -> 2.4s, Ghostty 2.0s -> 0.8s going power-saver ->
+    # performance). Switch to balanced on AC so plugged-in launches are fast
+    # for free, and drop back to power-saver on battery.
+    services.udev.extraRules = ''
+      SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced"
+      SUBSYSTEM=="power_supply", ATTR{online}=="0", RUN+="${pkgs.power-profiles-daemon}/bin/powerprofilesctl set power-saver"
+    '';
+
     # PRIME offload stays (HDMI-A-1 is wired to the Renoir iGPU, so the
     # dGPU can sleep while docked). Games opt into the RTX 3050 Ti with
     # `nvidia-offload %command%` in their launch options. Dynamic Boost
