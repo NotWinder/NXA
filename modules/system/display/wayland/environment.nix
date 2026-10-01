@@ -27,8 +27,12 @@ let
   #   instead (e.g. via niri config `env` blocks or desktop file overrides).
   hybridVars = {
     WLR_DRM_DEVICES = drmDevices;
-    LIBVA_DRIVER_NAME = if isNvidiaHybrid then "nvidia" else "radeonsi";
-    VDPAU_DRIVER = if isNvidiaHybrid then "nvidia" else "radeonsi";
+    # Default to the iGPU's VA-API/VDPAU backend so ordinary app launches
+    # (e.g. browsers probing hw video decode at startup) don't wake the
+    # dGPU. Get NVDEC explicitly per-command with
+    # `LIBVA_DRIVER_NAME=nvidia VDPAU_DRIVER=nvidia nvidia-offload <cmd>`.
+    LIBVA_DRIVER_NAME = "radeonsi";
+    VDPAU_DRIVER = "radeonsi";
     MANGOHUD_DLSYM = "1";
     MANGOHUD_CONFIG = "position=top-left";
   };
