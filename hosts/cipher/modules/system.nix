@@ -9,28 +9,8 @@
       sonarr.enable = true;
     };
 
-    fs = {
-      enabledFilesystems = [ "btrfs" "vfat" "ntfs" "exfat" ];
-      zfs.enable = true;
-    };
+    fs.zfs.enable = true;
 
-
-    boot = {
-      isUEFI = true;
-      loader = "grub";
-      plymouth.enable = false;
-      secureBoot = false;
-      tmpOnTmpfs = false;
-    };
-
-    virtualisation = {
-      enable = true;
-      qemu.enable = true;
-    };
-
-    security = {
-      tor.enable = true;
-      fixWebcam = false;
-    };
+    virtualisation.docker.enable = false;
   };
 }

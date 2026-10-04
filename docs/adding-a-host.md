@@ -40,9 +40,19 @@ If using **manual filesystem config**, create `hosts/<hostname>/fs.nix` with you
 ## Step 4: Create module files under `hosts/<hostname>/modules/`
 
 At minimum, create a `default.nix` that imports your host-specific option files
-(`device.nix`, `profiles.nix`, `system.nix`, `usrEnv.nix`). These set the
-`config.custom.*` options; see the existing hosts and `modules/options/` for the
-full option tree.
+(`device.nix`, `profiles.nix`, `usrEnv.nix`, and `system.nix` if needed). These
+set the `config.custom.*` options; see the existing hosts and `modules/options/`
+for the full option tree.
+
+Common values are already defaults, so only set what differs:
+
+- every host: UEFI grub boot, `/tmp` on disk, and btrfs/vfat/ntfs/exfat support
+  (`modules/options/system/module.nix`);
+- `graphical` role: virtualisation (qemu + docker) and Tor
+  (`modules/roles/graphical.nix`).
+
+A graphical desktop that matches these (e.g. `amadeus`) needs no `system.nix`
+at all.
 
 ## Step 5: Register the host in `hosts/default.nix`
 
