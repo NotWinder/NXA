@@ -18,11 +18,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    #caelestia-shell = {
-    #  url = "github:caelestia-dots/shell";
-    #  inputs.nixpkgs.follows = "nixpkgs";
-    #};
-
     dms = {
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -55,8 +50,6 @@
 
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    hyprpicker.url = "github:hyprwm/hyprpicker";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -97,7 +90,7 @@
 
   outputs = inputs @ { flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
+      systems = import inputs.systems;
 
       imports = [
         # Auto-load the aspect files at the top of `modules/` into the
