@@ -4,6 +4,7 @@ let
   XDG_CONFIG_HOME = "$HOME/.config";
   inherit (lib) mkIf;
   cfg = osConfig.custom.system;
+  aliases = import ../aliases.nix { inherit pkgs lib; };
 in
 {
   config = mkIf (cfg.defaultUserShell == pkgs.bash) {
@@ -12,7 +13,7 @@ in
       enableVteIntegration = true;
       historyControl = [ "erasedups" "ignoredups" "ignorespace" ];
       historyFile = "${XDG_CONFIG_HOME}/bash/bash-history";
-      shellAliases = import ./config/alias.nix;
+      shellAliases = aliases.common // aliases.posix;
       sessionVariables = import ./config/variables.nix;
       initExtra = import ./config/extra.nix;
       logoutExtra = import ./config/logout.nix;
