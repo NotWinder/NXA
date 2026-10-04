@@ -30,23 +30,26 @@ Follow these exactly unless a change is justified and recorded in the git histor
 ## Build / Lint / Test
 
 ```bash
-nix build .#                                       # build all default outputs
+nix flake check                                     # build every host (checks.<system>.<host>)
+nix flake check --no-build                          # evaluate every host without building
 nix flake show [--json | jq '.']                    # discover all outputs
 nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel  # build single host
-nix flake check                                     # run all checks
+nix develop                                         # shell with nixpkgs-fmt, shellcheck, shfmt, just, jq, yamllint, sops
 ```
 
 Formatting (run before committing):
 ```bash
-find . -name '*.nix' -print0 | xargs -0 nixpkgs-fmt
+nix fmt                                             # nixpkgs-fmt over the tree; `nix fmt -- --check .` to check only
 shellcheck **/*.sh || true && shfmt -w **/*.sh || true
 jq . <file>.json >/dev/null && yamllint -c .yamllint.yaml <file>.yaml || true
 ```
 
+Flake tooling outputs (formatter, dev shell, per-host checks) live in `modules/dev.nix`.
+
 ## Key conventions
 
 - **All custom options** are under `config.custom.*` (declared in `modules/options/`, accessed as `config.custom.usrEnv`, `config.custom.system`, etc.).
-- **Roles** stack tags and defaults: graphical adds `system.nixos.tags = ["graphical"]`.
+- **Roles** stack tags and defaults: graphical adds `system.nixos.tags = ["graphical"]` plus `mkDefault` desktop settings (video/sound/bluetooth, virtualisation, Tor). Universal host defaults (UEFI grub, filesystems) are `mkDefault` in `modules/options/system/module.nix`; host files set only what differs.
 - **stateVersion:** `system.stateVersion = "25.05"` for all hosts.
 - **Host modules** are assembled by `mkModulesFor` in `hosts/default.nix`: nixos tree aspects (base/system/hardware/nix/virt/profiles) + roles + extra modules (sops-nix, home-manager).
 - **ExtraModules pattern:** always pass `sops-nix` and `hm` as extra modules for graphical/workstation hosts (done centrally in `mkModulesFor`).
@@ -63,18 +66,18 @@ jq . <file>.json >/dev/null && yamllint -c .yamllint.yaml <file>.yaml || true
 
 - One-line imperative summary + body explaining why, not just what.
 - Do not force-push main branches. Prefer a branch + PR for rebases.
-- No pre-commit hooks or CI are currently configured in this repo.
+- CI (`.github/workflows/check.yml`): formatting + `nix flake check --no-build` on every push/PR; per-host builds on pushes to `main` and manual runs. No pre-commit hooks are configured.
 
 ## Tooling
 
-- If formatting tools aren't installed locally: `nix run nixpkgs#nixpkgs-fmt -- <file>`
+- If formatting tools aren't installed locally: `nix fmt` or `nix develop`
 - The `.gitignore` only ignores `result`, `result-*`, `.direnv/`, and `*.hm.old`.
 
 ## Before committing
 
-- Run `nixpkgs-fmt` on changed `.nix` files.
+- Run `nix fmt` (nixpkgs-fmt) on changed `.nix` files.
 - Run `shfmt`/`shellcheck` on changed shell scripts.
 - Ensure no secrets are staged.
-- Run `nix build .#` or `nix flake check` if the change touches build logic.
+- Run `nix flake check --no-build` (or `nix flake check` to also build) if the change touches build logic.
 
 If blocked or ambiguous: pick the least-surprising option (minimal change that keeps the build green) and note the choice in the commit message.
