@@ -31,7 +31,7 @@ Follow these exactly unless a change is justified and recorded in the git histor
 
 ```bash
 nix flake check                                     # build every host (checks.<system>.<host>)
-nix flake check --no-build                          # evaluate every host without building
+just check-eval                                     # evaluate every host without building (see justfile; not `nix flake check --no-build`, whose read-only store breaks on a fresh machine)
 nix flake show [--json | jq '.']                    # discover all outputs
 nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel  # build single host
 nix develop                                         # shell with nixpkgs-fmt, shellcheck, shfmt, just, jq, yamllint, sops
@@ -66,7 +66,7 @@ Flake tooling outputs (formatter, dev shell, per-host checks) live in `modules/d
 
 - One-line imperative summary + body explaining why, not just what.
 - Do not force-push main branches. Prefer a branch + PR for rebases.
-- CI (`.github/workflows/check.yml`): formatting + `nix flake check --no-build` on every push/PR; per-host builds on pushes to `main` and manual runs. No pre-commit hooks are configured.
+- CI (`.github/workflows/check.yml`): formatting + host evaluation (`just check-eval`) on every push/PR; per-host builds on pushes to `main` and manual runs. No pre-commit hooks are configured.
 
 ## Tooling
 
@@ -78,6 +78,6 @@ Flake tooling outputs (formatter, dev shell, per-host checks) live in `modules/d
 - Run `nix fmt` (nixpkgs-fmt) on changed `.nix` files.
 - Run `shfmt`/`shellcheck` on changed shell scripts.
 - Ensure no secrets are staged.
-- Run `nix flake check --no-build` (or `nix flake check` to also build) if the change touches build logic.
+- Run `just check-eval` (or `nix flake check` to also build) if the change touches build logic. Don't read package contents at eval time (`readFile`/`pathExists` on a package, i.e. IFD): CI disallows it.
 
 If blocked or ambiguous: pick the least-surprising option (minimal change that keeps the build green) and note the choice in the commit message.

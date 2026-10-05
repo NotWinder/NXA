@@ -28,12 +28,18 @@ jobs:
       - name: Check nix formatting
         run: nix fmt -- --check .
 
-      # Evaluates every host, the dev shell and the formatter without
-      # building; the build job below does the (slow) builds. IFD is
-      # disallowed so an eval-time read of a package (which --no-build can't
-      # realise) fails here every time, not only when the cache is cold.
-      - name: Evaluate flake
-        run: nix flake check --no-build --option allow-import-from-derivation false
+      # Instantiates every host (plus the dev shell and formatter) without
+      # building them; the build job below does the slow builds. Not
+      # `nix flake check --no-build`: that evaluates with a read-only store,
+      # so flake inputs that read their own source (e.g. hyprland) fail on a
+      # fresh runner. IFD is disallowed so an eval-time read of a package
+      # fails here every time, not only when the cache is cold. Same as
+      # `just check-eval`.
+      - name: Evaluate hosts
+        run: |
+          nix eval --json --option allow-import-from-derivation false .#checks.x86_64-linux --apply 'builtins.mapAttrs (_: c: c.drvPath)'
+          nix eval --raw --option allow-import-from-derivation false .#devShells.x86_64-linux.default.drvPath
+          nix eval --raw --option allow-import-from-derivation false .#formatter.x86_64-linux.drvPath
 
       - name: List hosts
         id: hosts

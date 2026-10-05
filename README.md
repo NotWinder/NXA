@@ -33,7 +33,7 @@ ASUS ROG Strix G513IE (G513IE_G513IE):
 nix flake check
 
 # Evaluate every host without building (fast)
-nix flake check --no-build
+just check-eval
 
 # Build single host
 nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel
