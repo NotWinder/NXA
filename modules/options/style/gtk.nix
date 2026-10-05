@@ -4,7 +4,7 @@
 , ...
 }:
 let
-  inherit (builtins) pathExists;
+  inherit (lib.lists) optional;
   inherit (lib.options) mkOption mkEnableOption;
   inherit (lib.types) str package int;
 
@@ -68,23 +68,20 @@ in
     };
   };
 
-  config = {
-    assertions = [
-      (
-        let
-          themePath = cfg.theme.package + /share/themes + "/${cfg.theme.name}";
-        in
-        {
-          assertion = cfg.enable -> pathExists themePath;
-          message = ''
-            ${toString themePath} set by the GTK module does not exist!
-
-            To suppress this message, make sure that
-            `config.custom.style.gtk.theme.package` contains
-            the path `${cfg.theme.name}`
-          '';
-        }
-      )
-    ];
-  };
+  # Checked when the system is built rather than via an eval-time
+  # `pathExists` on the package (IFD), which breaks `nix flake check
+  # --no-build` on a fresh store.
+  config.system.checks = optional cfg.enable (
+    let
+      themePath = "${cfg.theme.package}/share/themes/${cfg.theme.name}";
+    in
+    pkgs.runCommandLocal "gtk-theme-check" { } ''
+      if [ ! -e ${themePath} ]; then
+        echo "${themePath} set by the GTK module does not exist!" >&2
+        echo "Make sure that config.custom.style.gtk.theme.package contains the path ${cfg.theme.name}" >&2
+        exit 1
+      fi
+      touch $out
+    ''
+  );
 }

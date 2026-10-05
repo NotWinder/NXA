@@ -29,9 +29,11 @@ jobs:
         run: nix fmt -- --check .
 
       # Evaluates every host, the dev shell and the formatter without
-      # building; the build job below does the (slow) builds.
+      # building; the build job below does the (slow) builds. IFD is
+      # disallowed so an eval-time read of a package (which --no-build can't
+      # realise) fails here every time, not only when the cache is cold.
       - name: Evaluate flake
-        run: nix flake check --no-build
+        run: nix flake check --no-build --option allow-import-from-derivation false
 
       - name: List hosts
         id: hosts
