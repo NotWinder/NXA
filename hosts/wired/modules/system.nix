@@ -3,29 +3,5 @@
     services = {
       sing-box.enable = true;
     };
-
-    fs = {
-      enabledFilesystems = [ "btrfs" "vfat" "ntfs" "exfat" ];
-    };
-
-
-    boot = {
-      isUEFI = true;
-      loader = "grub";
-      plymouth.enable = false;
-      secureBoot = false;
-      tmpOnTmpfs = false;
-    };
-
-    virtualisation = {
-      enable = true;
-      qemu.enable = true;
-      docker.enable = true;
-    };
-
-    security = {
-      tor.enable = true;
-      fixWebcam = false;
-    };
   };
 }

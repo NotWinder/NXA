@@ -29,18 +29,25 @@ ASUS ROG Strix G513IE (G513IE_G513IE):
 ## Quick reference
 
 ```bash
-# Build all
-nix build .#
+# Build every host (each host is a flake check)
+nix flake check
+
+# Evaluate every host without building (fast)
+just check-eval
 
 # Build single host
 nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel
 
-# Check evaluation
-nix flake check
+# Format (check only: nix fmt -- --check .)
+nix fmt
 
-# Format
-nix run nixpkgs#nixpkgs-fmt -- <file.nix>
+# Shell with the formatting/lint tools (nixpkgs-fmt, shellcheck, shfmt, just, ...)
+nix develop
 ```
+
+CI (`.github/workflows/check.yml`) checks formatting and evaluates every host
+on each push and pull request, and builds every host on pushes to `main` (or
+when run manually).
 
 ## Architecture
 

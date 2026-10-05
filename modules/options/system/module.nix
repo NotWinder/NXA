@@ -40,7 +40,18 @@ in
       ];
     }
     {
-      custom.system.printing.enable = mkDefault false;
+      custom.system = {
+        printing.enable = mkDefault false;
+
+        # Every host boots the same way and mounts the same filesystems;
+        # hosts only set what differs (e.g. lorian's legacy-BIOS grub).
+        fs.enabledFilesystems = mkDefault [ "btrfs" "vfat" "ntfs" "exfat" ];
+        boot = {
+          isUEFI = mkDefault true;
+          loader = mkDefault "grub";
+          tmpOnTmpfs = mkDefault false;
+        };
+      };
     }
   ];
 

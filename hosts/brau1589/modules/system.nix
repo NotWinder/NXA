@@ -16,31 +16,9 @@
         isClient = true;
       };
 
-      fs = {
-        enabledFilesystems = [ "btrfs" "vfat" "ntfs" "exfat" ];
-      };
-
-
-      boot = {
-        # Newer amdgpu/NVIDIA-open fixes and NTSYNC for Proton; this host has
-        # no ZFS, so it is not held back by out-of-tree ZFS support.
-        kernel = pkgs.linuxPackages_latest;
-        isUEFI = true;
-        loader = "grub";
-        plymouth.enable = false;
-        secureBoot = false;
-        tmpOnTmpfs = false;
-      };
-
-      virtualisation = {
-        enable = true;
-        qemu.enable = true;
-        docker.enable = true;
-      };
-
-      security = {
-        tor.enable = true;
-      };
+      # Newer amdgpu/NVIDIA-open fixes and NTSYNC for Proton; this host has
+      # no ZFS, so it is not held back by out-of-tree ZFS support.
+      boot.kernel = pkgs.linuxPackages_latest;
     };
 
     # Power profiles (performance / balanced / power-saver) via

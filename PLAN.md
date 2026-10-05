@@ -13,8 +13,11 @@ Status: Active (mostly superseded by the dendritic migration)
 ## Phase 1 — Eliminate Host Boilerplate (high impact)
 
 ### 1.1 Push remaining defaults into option modules
-**Status: DONE** — defaults (`printing.enable`, filesystems, etc.) now live as
-`mkDefault` in `modules/options/system/module.nix`.
+**Status: DONE** — universal defaults (`printing.enable`, filesystems, UEFI grub,
+`tmpOnTmpfs`) live as `mkDefault` in `modules/options/system/module.nix`;
+desktop defaults (virtualisation + Tor) in the `graphical` role. Only
+`printing.enable` had actually landed until 2026-10; the rest followed then,
+removing `system.nix` from amadeus/heu/magi/salieri entirely.
 
 **Problem:** Every host's `system.nix` still repeats near-identical values:
 - `fs.enabledFilesystems = [ "btrfs" "vfat" "ntfs" "exfat" ]` — 7 of 8 hosts identical
