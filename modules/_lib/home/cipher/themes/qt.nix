@@ -52,7 +52,6 @@ in
             # as intended after the following PR:
             # <https://github.com/nix-community/home-manager/pull/5156>
             libsForQt5.qtstyleplugins
-            kdePackages.qt6gtk2
           ])
 
           (mkIf cfg.useKvantum [

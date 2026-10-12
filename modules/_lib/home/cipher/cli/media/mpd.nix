@@ -18,15 +18,16 @@ in
     services = {
       playerctld.enable = true;
       mpris-proxy.enable = true;
-      mpd-mpris.enable = true;
 
       # MPRIS 2 support to mpd
       mpdris2 = {
         enable = true;
-        notifications = true;
-        multimediaKeys = true;
-        mpd = {
-          musicDirectory = "/mnt/media/music";
+        settings = {
+          Bling = {
+            notify = true;
+            mmkeys = true;
+          };
+          Library.music_dir = "/mnt/media/music";
         };
       };
 

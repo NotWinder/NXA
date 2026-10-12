@@ -39,9 +39,8 @@
 
     # PRIME offload stays (HDMI-A-1 is wired to the Renoir iGPU, so the
     # dGPU can sleep while docked). Games opt into the RTX 3050 Ti with
-    # `nvidia-offload %command%` in their launch options. Dynamic Boost
-    # lets nvidia-powerd shift power from the CPU to the dGPU under load.
-    hardware.nvidia.dynamicBoost.enable = true;
+    # `nvidia-offload %command%` in their launch options. Dynamic Boost is
+    # off: nvidia-powerd fails here ("Allocate Root client failed 0x6a").
 
     security.pki.certificates = [
       (builtins.readFile ../certs/ca.pem)
