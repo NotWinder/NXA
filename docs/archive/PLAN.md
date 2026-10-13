@@ -1,7 +1,7 @@
 # NXA Architecture Improvement Plan
 
 > Historical improvement plan (2026-07-22). The dendritic migration is tracked
-> in [docs/dendritic-migration.md](docs/dendritic-migration.md), which has
+> in [docs/dendritic-migration.md](../dendritic-migration.md), which has
 > superseded most of this file. Status markers below reflect what the migration
 > has landed.
 
