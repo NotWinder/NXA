@@ -67,6 +67,8 @@ in
           border.enable = false;
 
           shadow = {
+            enable = false;
+
             softness = 30;
 
             spread = 5;
