@@ -13,8 +13,6 @@ let
 in
 {
   imports = [
-    ./transcend # module that merges trees outside central nixpkgs with our system's
-
     ./documentation.nix # nixos documentation
     ./nh.nix
     ./nixpkgs.nix # global nixpkgs configuration.nix
