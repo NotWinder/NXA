@@ -24,7 +24,7 @@ in
       default = pkgs.writeShellApplication {
         name = "set-system-brightness";
         runtimeInputs = with pkgs; [ brightnessctl ];
-        text = "brightnessctl set ${cfg.value}";
+        text = "brightnessctl set ${toString cfg.value}%";
       };
     };
 

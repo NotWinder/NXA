@@ -94,16 +94,13 @@ in
         should be enabled and configured
       '';
 
-      pack = mkOption {
-        type = types.enum [ 1 2 3 4 ];
-        default = 3;
-        description = "The pack number for the theme to be selected from.";
-      };
-
       theme = mkOption {
         type = types.str;
         default = "hud_3";
-        description = "The theme name from the selected theme pack";
+        description = ''
+          The adi1090x theme to use (see `pkgs.adi1090x-plymouth-themes`
+          for the available names).
+        '';
       };
     };
 

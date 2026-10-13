@@ -14,19 +14,18 @@ in
     systemd.services."system-brightnessd" = {
       description = "Automatic backlight management with systemd";
 
-      # TODO: maybe this needs to be a part of graphical-session.target?
-      # I am not very sure how wantedBy and partOf really work
+      # A system service: graphical-session.target only exists in user
+      # managers, so it can't be tied to the session (a `partOf` on it was a
+      # no-op and has been dropped).
       wantedBy = [ "default.target" ];
-      partOf = [ "graphical-session.target" ];
+      after = [ cfg.service.target ];
 
-      # TODO: this needs to be hardened
-      # not that a backlight service is a security risk, but it's a good habit
-      # to keep our systemd services as secure as possible
+      # Not sandboxed: the usual hardening (ProtectKernelTunables, ...) makes
+      # /sys read-only, and this service has to write the backlight there.
       serviceConfig = {
-        Type = "${cfg.serviceType}";
+        Type = cfg.service.type;
         ExecStart = "${lib.getExe cfg.package}";
-        Restart = "never";
-        RestartSec = "5s";
+        Restart = "no";
       };
     };
   };

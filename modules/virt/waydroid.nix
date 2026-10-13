@@ -27,9 +27,10 @@ in
       waydroid-ui
     ];
 
-    virtualisation = {
-      lxd.enable = sys.waydroid.enable; # TODO: make this also acceept sys.lxd.enable
-      waydroid.enable = sys.waydroid.enable;
-    };
+    # Waydroid runs on LXC, which the NixOS waydroid module sets up itself.
+    # (This used to read the nonexistent `custom.system.waydroid` and enable
+    # `virtualisation.lxd`, which nixpkgs has removed, so it failed to
+    # evaluate whenever waydroid was enabled.)
+    virtualisation.waydroid.enable = true;
   };
 }
