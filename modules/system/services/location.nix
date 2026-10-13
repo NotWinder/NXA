@@ -5,7 +5,8 @@
     # enable geoclue2 only if location.provider is geoclue2
     enable = config.location.provider == "geoclue2";
 
-    # TODO: make gammastep fall back to local if geoclue2 is disabled
+    # If a host switches location.provider to "manual", geoclue2 turns off and
+    # gammastep needs location.latitude/longitude set instead.
     appConfig.gammastep = {
       isAllowed = true;
       isSystem = false;

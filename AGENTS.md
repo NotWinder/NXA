@@ -44,7 +44,7 @@ shellcheck **/*.sh || true && shfmt -w **/*.sh || true
 jq . <file>.json >/dev/null && yamllint -c .yamllint.yaml <file>.yaml || true
 ```
 
-Flake tooling outputs (formatter, dev shell, per-host checks) live in `modules/dev.nix`.
+Flake tooling outputs (formatter, dev shell, per-host checks) live in `modules/dev.nix`; the colmena deployment hive (`colmenaHive`, one node per host, reusing each host's modules) in `modules/deploy.nix`. Deploy with `colmena apply --on <host>` or `just deploy <host>`.
 
 ## Key conventions
 

@@ -5,11 +5,7 @@
 { self, ... }: {
   flake.modules.homeManager.magi = {
     imports = [
-      self.modules.homeManager.base
-      self.modules.homeManager.cli
-      self.modules.homeManager.gui
-      self.modules.homeManager.themes
-      self.modules.homeManager.misc
+      self.modules.homeManager.desktop
     ];
   };
 }

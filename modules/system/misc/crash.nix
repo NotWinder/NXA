@@ -1,7 +1,7 @@
 {
   systemd = {
-    # TODO: those tend to include sensitie information, maybe we want to disable this?
-    # it could be an override in the security module
+    # Kernel logs in pstore can contain sensitive information; kept on because
+    # they're the only record of a panic. A hardened host can drop these rules.
     tmpfiles.rules = [
       # Enables storing of the kernel log (including stack trace) into pstore upon a panic or crash.
       "w /sys/module/kernel/parameters/crash_kexec_post_notifiers - - - - Y"

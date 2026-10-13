@@ -43,6 +43,10 @@ nix fmt
 
 # Shell with the formatting/lint tools (nixpkgs-fmt, shellcheck, shfmt, just, ...)
 nix develop
+
+# Deploy with colmena (every host is a node, reached by its hostname)
+colmena apply --on <hostname>    # or: just deploy <hostname>
+colmena apply-local --sudo       # on the host itself
 ```
 
 CI (`.github/workflows/check.yml`) checks formatting and evaluates every host

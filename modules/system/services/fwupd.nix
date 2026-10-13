@@ -4,10 +4,8 @@
     enable = true;
     daemonSettings.EspLocation = config.boot.loader.efi.efiSysMountPoint;
 
-    # newer hardware may have their firmware in testing
-    # e.g. Framework devices don't have their firmware in stable yet
-    # TODO: make a system-level option that sets this value for hosts
-    # that have testing firmware
-    # extraRemotes = [ "lvfs-testing" ];
+    # Newer hardware may only have firmware in LVFS testing (e.g. Framework
+    # devices). Such a host can opt in from its own config with
+    # `services.fwupd.extraRemotes = [ "lvfs-testing" ];`.
   };
 }

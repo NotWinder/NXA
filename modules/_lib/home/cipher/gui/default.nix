@@ -1,6 +1,5 @@
 {
   imports = [
-    ./bars
     ./browsers
     ./documents
     ./launchers

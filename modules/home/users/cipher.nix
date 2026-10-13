@@ -5,11 +5,7 @@
 { self, ... }: {
   flake.modules.homeManager.cipher = {
     imports = [
-      self.modules.homeManager.base
-      self.modules.homeManager.cli
-      self.modules.homeManager.gui
-      self.modules.homeManager.themes
-      self.modules.homeManager.misc
+      self.modules.homeManager.desktop
     ];
   };
 }

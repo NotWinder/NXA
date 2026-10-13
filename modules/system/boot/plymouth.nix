@@ -1,5 +1,4 @@
-{ self'
-, config
+{ config
 , pkgs
 , lib
 , ...
@@ -15,26 +14,22 @@ in
     # configure plymouth theme
     # <https://github.com/adi1090x/plymouth-themes>
     boot.plymouth =
-      let
-        pack = cfg.pack;
-        theme = cfg.theme;
-      in
       {
         enable = true;
       }
       // lib.optionalAttrs cfg.withThemes {
-        themePackages = [ (self'.packages.plymouth-themes.override { inherit pack theme; }) ];
+        themePackages = [ (pkgs.adi1090x-plymouth-themes.override { selected_themes = [ cfg.theme ]; }) ];
 
-        inherit theme;
+        inherit (cfg) theme;
       };
 
     # make plymouth work with sleep
     powerManagement = {
       powerDownCommands = ''
-        ${plymouth} --show-splash
+        ${plymouth}/bin/plymouth --show-splash
       '';
       resumeCommands = ''
-        ${plymouth} --quit
+        ${plymouth}/bin/plymouth --quit
       '';
     };
   };
