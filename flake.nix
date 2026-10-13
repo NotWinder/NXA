@@ -56,6 +56,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Deployment (modules/deploy.nix). Pinned to the minor version of the
+    # `colmena` CLI in nixpkgs: the colmenaHive schema must match it.
+    colmena = {
+      url = "github:zhaofengli/colmena/v0.5.0";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        stable.follows = "nixpkgs";
+      };
+    };
+
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";

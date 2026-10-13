@@ -115,6 +115,10 @@ nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel
 
 # Deploy (on the target machine)
 sudo nixos-rebuild switch --flake .#<hostname>
+
+# ...or with colmena: every host in the data table is a node automatically
+colmena apply --on <hostname>    # remotely, over SSH to <hostname>
+colmena apply-local --sudo       # on the host itself
 ```
 
 For disko-based installs (first-time setup):
