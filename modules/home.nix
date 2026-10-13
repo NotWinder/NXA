@@ -18,6 +18,19 @@
       imports = [ ./_lib/home/base.nix ];
     };
 
+    # The full graphical setup every desktop user composes; per-user aspects
+    # import this and add only their own deltas (headless users take
+    # base + cli instead).
+    desktop = {
+      imports = [
+        self.modules.homeManager.base
+        self.modules.homeManager.cli
+        self.modules.homeManager.gui
+        self.modules.homeManager.themes
+        self.modules.homeManager.misc
+      ];
+    };
+
     cli = {
       imports = [
         ./_lib/home/cipher/cli
