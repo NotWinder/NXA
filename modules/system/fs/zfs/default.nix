@@ -12,6 +12,11 @@ in
   config = mkIf (cfg.fs.zfs.enable) {
     boot = {
       kernelPackages = pkgs.linuxPackages;
+
+      # The 26.11 default, set explicitly to silence the transition warning.
+      # Only affects importing a ZFS root pool in the initrd; no host has one
+      # (cipher's root is btrfs, ZFS holds the extraPools data pool).
+      zfs.forceImportRoot = false;
       supportedFilesystems = [ "zfs" ];
       initrd.supportedFilesystems = [ "zfs" ];
 
