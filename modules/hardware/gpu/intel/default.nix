@@ -35,7 +35,7 @@ in
         #vaapiVdpau
         intel-media-driver
         libvdpau-va-gl
-        # intel-compute-runtime # FIXME does not build due to unsupported system
+        # no intel-compute-runtime here: it isn't available for i686
       ];
     };
 

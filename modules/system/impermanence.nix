@@ -59,13 +59,12 @@ in
           "/var/cache/tailscale"
           "/var/lib/tailscale"
         ]
-        ++ [ config.programs.ccache.cacheDir ];
+        ++ [ config.programs.ccache.cacheDir ]
+        ++ lib.optional config.custom.system.virtualisation.docker.enable config.custom.system.virtualisation.docker.dataRoot;
 
       files = [
         # important state
         "/etc/machine-id"
-        # other
-        # TODO: optionalstring for /var/lib/${lxd, docker}
       ];
 
       # builtins.concatMap (key: [key.path (key.path + ".pub")]) config.services.openssh.hostKeys

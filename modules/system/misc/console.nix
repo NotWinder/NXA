@@ -18,11 +18,9 @@ in
       packages = attrValues { inherit (pkgs) terminus_font powerline-fonts; };
     };
 
-  # FIXME: kmscon, in my testing, is working as advertised and a performance difference
-  # is observable. However, enabling kmscon seems to *completely* ignore silent boot
-  # parameters. Not sure if this is a potential conflict with earlySetup (probably not)
-  # or kmscon not respecting the kernel parameters (more likely). Either way, I will
-  # revisit this in the future.
+  # kmscon is disabled on purpose: it works and is faster, but it ignores the
+  # silent boot kernel parameters (likely kmscon itself rather than
+  # earlySetup).
   services.kmscon = {
     enable = false;
     config.hwaccel = true;

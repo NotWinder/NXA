@@ -23,8 +23,8 @@ in
       '';
     };
     # the type of cpu your system has - vm and regular cpus currently do not differ
-    # as I do not work with vms, but they have been added for forward-compatibility
-    # TODO: make this a list - apparently more than one cpu on a device is still doable
+    # as I do not work with vms, but they have been added for forward-compatibility.
+    # A single value: devices with CPUs from more than one vendor aren't modelled.
     cpu = {
       type = mkOption {
         type = nullOr (enum [ "pi" "intel" "vm-intel" "amd" "vm-amd" ]);
