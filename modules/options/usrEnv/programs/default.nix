@@ -12,14 +12,6 @@ in
 
   # default program options
   options.custom.usrEnv.programs = {
-    bar = mkOption {
-      type = listOf (enum [ "none" "waybar" ]);
-      default = [ "none" ];
-      description = ''
-        The List of Bars/Shells to be Installed.
-      '';
-    };
-
     browsers = mkOption {
       type = listOf (enum [ "none" "brave" "chromium" "floorp" "librewolf" "zen-beta" ]);
       default = [ "none" ];
