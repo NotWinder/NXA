@@ -48,7 +48,10 @@ in
     in
     {
       # Lix, the higher performance Nix fork.
-      package = pkgs.lix;
+      # ponytail: nixpkgs passes -Dmimalloc to lix 2.95.4, which lacks that meson option; drop once nixpkgs fixes it.
+      package = pkgs.lix.overrideAttrs (o: {
+        mesonFlags = lib.filter (f: !lib.hasPrefix "-Dmimalloc" f) o.mesonFlags;
+      });
 
       # Pin the registry to avoid downloading and evaluating
       # a new nixpkgs version on each command causing a re-eval.
