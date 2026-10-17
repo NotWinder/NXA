@@ -57,8 +57,17 @@
 
     # PRIME offload stays (HDMI-A-1 is wired to the Renoir iGPU, so the
     # dGPU can sleep while docked). Games opt into the RTX 3050 Ti with
-    # `nvidia-offload %command%` in their launch options. Dynamic Boost is
-    # off: nvidia-powerd fails here ("Allocate Root client failed 0x6a").
+    # `nvidia-offload %command%` in their launch options. Dynamic Boost lifts
+    # the dGPU from 60W to 75W under load (measured ~1720 -> ~1890 MHz).
+    # nvidia-powerd works once the driver is up but can fail at boot ("Allocate
+    # Root client failed 0x6a"), and the nixpkgs unit has no ordering, so retry.
+    # The "DC power limits table is not supported" errors are the SBIOS
+    # disabling Dynamic Boost on battery, which is expected.
+    hardware.nvidia.dynamicBoost.enable = true;
+    systemd.services.nvidia-powerd.serviceConfig = {
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
 
     security.pki.certificates = [
       (builtins.readFile ../certs/ca.pem)
