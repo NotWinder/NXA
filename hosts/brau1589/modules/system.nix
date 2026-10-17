@@ -1,4 +1,5 @@
-{ lib
+{ config
+, lib
 , pkgs
 , ...
 }: {
@@ -32,9 +33,26 @@
     # (measured: Zen 5.0s -> 2.4s, Ghostty 2.0s -> 0.8s going power-saver ->
     # performance). Switch to balanced on AC so plugged-in launches are fast
     # for free, and drop back to power-saver on battery.
+    # Run as a unit ordered after the daemon (at boot the udev event fires
+    # before it is up, so a direct powerprofilesctl call fails) and match only
+    # Mains: the USB-C UCSI supply reports online=0 whenever no PD charger is
+    # attached, which used to force power-saver while on the barrel adapter.
+    systemd.services.ppd-ac-sync = {
+      description = "Match power profile to AC state";
+      wants = [ "power-profiles-daemon.service" ];
+      after = [ "power-profiles-daemon.service" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig.Type = "oneshot";
+      script = ''
+        if grep -qx 1 /sys/class/power_supply/ADP0/online; then
+          ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced
+        else
+          ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set power-saver
+        fi
+      '';
+    };
     services.udev.extraRules = ''
-      SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced"
-      SUBSYSTEM=="power_supply", ATTR{online}=="0", RUN+="${pkgs.power-profiles-daemon}/bin/powerprofilesctl set power-saver"
+      SUBSYSTEM=="power_supply", ATTR{type}=="Mains", RUN+="${config.systemd.package}/bin/systemctl start --no-block ppd-ac-sync.service"
     '';
 
     # PRIME offload stays (HDMI-A-1 is wired to the Renoir iGPU, so the
