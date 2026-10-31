@@ -4,7 +4,7 @@
   services.logind = {
     settings.Login = {
       HandleLidSwitchExternalPower = "lock";
-      HandleLidSwitch = "suspend-then-hibernate";
+      HandleLidSwitch = "lock";
       HandlePowerKey = "suspend-then-hibernate";
       HibernateDelaySec = 3600;
     };

@@ -23,7 +23,7 @@ in
         "${config.xdg.dataHome}/themes/${cfg.gtk.theme.name}".source = "${cfg.gtk.theme.package}/share/themes/${cfg.gtk.theme.name}";
       };
 
-      sessionVariables = {
+      sessionVariables = lib.optionalAttrs (!osConfig.custom.programs.dms.enable) {
         # Set GTK_THEME variable to the name of the theme package
         # in our theming module.
         GTK_THEME = cfg.gtk.theme.name;

@@ -21,6 +21,10 @@ in
           RestartSec = "1";
         };
         wantedBy = [ "multi-user.target" ];
+        # Restarting seatd drops the compositor's libseat connection and niri
+        # panics, sending you back to greetd. Apply the new seatd on reboot.
+        restartIfChanged = false;
+        stopIfChanged = false;
       };
     };
   };

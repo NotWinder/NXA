@@ -1,11 +1,10 @@
-{ config
-, osConfig
-, ...
-}:
-let
-  sys = osConfig.custom.system;
-in
 {
+  config,
+  osConfig,
+  ...
+}: let
+  sys = osConfig.custom.system;
+in {
   config = {
     programs.ssh = {
       enable = true;
@@ -30,10 +29,9 @@ in
           user = "root";
           port = 9011;
         };
-        comp-proxmox-fallback = {
-          hostname = "127.0.0.1";
+        comp-pve = {
+          hostname = "195.211.44.77";
           user = "root";
-          port = 2222;
         };
         comp-ghahreman = {
           hostname = "78.157.40.195";

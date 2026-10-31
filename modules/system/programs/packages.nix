@@ -1,4 +1,14 @@
 { pkgs, ... }: {
+  # khal's sphinx man builder produces no output on current nixpkgs, which
+  # fails the build ("failed to produce output path for output 'man'").
+  nixpkgs.overlays = [
+    (_: prev: {
+      khal = prev.khal.overrideAttrs (o: {
+        postFixup = (o.postFixup or "") + "mkdir -p $man";
+      });
+    })
+  ];
+
   environment.systemPackages = with pkgs; [
     ansible
     cachix

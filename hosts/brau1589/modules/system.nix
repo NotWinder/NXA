@@ -41,7 +41,9 @@
       description = "Match power profile to AC state";
       wants = [ "power-profiles-daemon.service" ];
       after = [ "power-profiles-daemon.service" ];
-      wantedBy = [ "multi-user.target" ];
+      # graphical.target, not multi-user.target: ppd is ordered after
+      # multi-user.target, so that would be an ordering cycle.
+      wantedBy = [ "graphical.target" ];
       serviceConfig.Type = "oneshot";
       script = ''
         if grep -qx 1 /sys/class/power_supply/ADP0/online; then
