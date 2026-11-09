@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, inputs', ... }: {
   # khal's sphinx man builder produces no output on current nixpkgs, which
   # fails the build ("failed to produce output path for output 'man'").
   nixpkgs.overlays = [
@@ -16,6 +16,7 @@
     opencode
     opencode-desktop
     claude-code
+    inputs'.claude-desktop-nix.packages.default
     graphify
     codex
     tmux

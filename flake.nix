@@ -90,6 +90,11 @@
       };
     };
 
+    claude-desktop-nix = {
+      url = "github:tomsch/claude-desktop-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     winpaper = {
       url = "github:notwinder/winpaper";
       inputs = {
