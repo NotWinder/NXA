@@ -18,7 +18,6 @@
     claude-code
     inputs'.claude-desktop-nix.packages.default
     graphify
-    codex
     tmux
 
     # opencode MCP servers
