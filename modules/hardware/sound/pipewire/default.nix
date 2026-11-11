@@ -21,6 +21,7 @@ in
 
   config = mkIf (sys.sound.enable && dev.hasSound) {
     environment.systemPackages = with pkgs; [
+      config.services.pipewire.package.jack # pw-jack wrapper for JACK applications
       qpwgraph # Qt graph manager for PipeWire, similar to QjackCtl
     ];
     # Enable PipeWire sound server and additional emulation layers
@@ -38,7 +39,6 @@ in
       # I choose to keep them. On a minimal system, they can (and probably should)
       # be omitted
       pulse.enable = true; # PulseAudio server emulation
-      jack.enable = true; # JACK audio emulation
       alsa = {
         enable = true; # ALSA support
         support32Bit = isx86Linux pkgs; # if we're on x86 linux, we can support 32 bit
