@@ -11,6 +11,10 @@ in
       enable = mkEnableOption "the nftables firewall";
     };
 
+    netbird = {
+      enable = mkEnableOption "NetBird zero-config mesh VPN";
+    };
+
     tailscale = {
       enable = mkEnableOption "Tailscale zero-config VPN";
 
