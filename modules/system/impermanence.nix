@@ -58,6 +58,7 @@ in
           "/var/lib/systemd/coredump"
           "/var/cache/tailscale"
           "/var/lib/tailscale"
+          "/var/lib/netbird"
         ]
         ++ [ config.programs.ccache.cacheDir ]
         ++ lib.optional config.custom.system.virtualisation.docker.enable config.custom.system.virtualisation.docker.dataRoot;

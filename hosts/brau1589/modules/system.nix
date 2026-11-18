@@ -17,6 +17,8 @@
         isClient = true;
       };
 
+      networking.netbird.enable = true;
+
       # Newer amdgpu/NVIDIA-open fixes and NTSYNC for Proton; this host has
       # no ZFS, so it is not held back by out-of-tree ZFS support.
       boot.kernel = pkgs.linuxPackages_latest;

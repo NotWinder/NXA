@@ -18,8 +18,8 @@
     claude-code
     inputs'.claude-desktop-nix.packages.default
     graphify
-    codex
     tmux
+    vpnc
 
     # opencode MCP servers
     mcp-server-filesystem

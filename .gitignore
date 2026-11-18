@@ -1,5 +1,6 @@
 result
 result-*
 .direnv/
+.claude/
 *.hm.old
 hosts/*/certs/*.key

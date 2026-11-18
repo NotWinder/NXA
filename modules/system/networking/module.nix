@@ -6,6 +6,7 @@
 
   imports = [
     ./ssh.nix
+    ./netbird.nix
     ./tailscale.nix
   ];
 
@@ -47,6 +48,5 @@
     networkmanagerapplet
     networkmanager-openvpn
     openvpn
-    vpnc
   ];
 }

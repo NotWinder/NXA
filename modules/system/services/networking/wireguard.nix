@@ -17,7 +17,8 @@ in
         {
           publicKey = "f9LTz7d+DNijFKU8SMCGUWXiGnQ2T/GsSNTi8SRfXSE=";
           endpoint = "85.133.224.202:51820";
-          allowedIPs = [ "10.10.0.0/24" "10.10.1.0/24" ];
+          # 10.10.1.0/24 is NOT routed here: it is the new fleet LAN (via tailscale/netbird); this peer is the OLD pve.
+          allowedIPs = [ "10.10.0.0/24" ];
           persistentKeepalive = 25;
         }
       ];
