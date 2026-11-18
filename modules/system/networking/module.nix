@@ -48,6 +48,5 @@
     networkmanagerapplet
     networkmanager-openvpn
     openvpn
-    vpnc
   ];
 }
