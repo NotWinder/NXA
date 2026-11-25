@@ -101,6 +101,11 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+
+    deepseek-harness = {
+      url = "github:Moraxyc/deepseek-harness.nix/1c070a9dbd930671ca0fa6a2a285d3b6cda6a15b";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ { flake-parts, ... }:
