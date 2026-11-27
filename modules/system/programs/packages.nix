@@ -16,7 +16,9 @@
     opencode
     opencode-desktop
     claude-code
+    codex
     inputs'.claude-desktop-nix.packages.default
+    chatgpt
     graphify
     tmux
     vpnc
